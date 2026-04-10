@@ -5,5 +5,5 @@ import org.kane.domain.DTO.entityDTO.TagDTO;
 import java.util.List;
 
 public interface CustomTagRepository {
-    public List<TagDTO> findAllByPriorityDesc();
+    public List<TagDTO> findAllTags();
 }

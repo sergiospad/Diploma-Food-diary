@@ -1,4 +1,4 @@
-package org.kane.exceptions;
+package org.kane.exceptions.not_found;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

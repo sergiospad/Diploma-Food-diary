@@ -51,6 +51,9 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-restclient-test'
     testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
 
+    implementation "org.hibernate.search:hibernate-search-mapper-orm:${versions.hibernate_search}"
+    implementation "org.hibernate.search:hibernate-search-backend-lucene:${versions.hibernate_search}"
+
     compileOnly "io.jsonwebtoken:jjwt-api:${versions.jsonwebtoken}"
     runtimeOnly "io.jsonwebtoken:jjwt-impl:${versions.jsonwebtoken}"
     runtimeOnly "io.jsonwebtoken:jjwt-jackson:${versions.jsonwebtoken}"

@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.kane.database.entity.Recipe;
-import org.kane.database.enum_types.Priority;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,10 +22,6 @@ public class Tag {
 
     @Column (unique = true)
     private String name;
-
-    @Column
-    @Enumerated(EnumType.ORDINAL)
-    private Priority priority;
 
     @ManyToMany(mappedBy = "tags")
     @Builder.Default

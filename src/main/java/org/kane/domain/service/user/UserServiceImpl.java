@@ -3,8 +3,10 @@ package org.kane.domain.service.user;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.kane.database.entity.User;
-import org.kane.database.enum_types.Role;
+import org.kane.database.entity.recipe_recource.ImageModel;
+import org.kane.database.enum_types.ImageType;
 import org.kane.database.repository.user.UserRepository;
+import org.kane.domain.DTO.entityDTO.user.ChangeRoleDTO;
 import org.kane.domain.DTO.entityDTO.user.UserEditDTO;
 import org.kane.domain.DTO.entityDTO.user.UserProfileDTO;
 import org.kane.domain.DTO.request.SignupRequest;
@@ -12,7 +14,8 @@ import org.kane.domain.DTO.request.UpdatePasswordRequest;
 import org.kane.domain.mappers.SignupMapper;
 import org.kane.domain.mappers.UserEditMapper;
 import org.kane.exceptions.UserExistsException;
-import org.kane.exceptions.UserNotFoundException;
+import org.kane.exceptions.not_found.UserNotFoundException;
+import org.kane.util.ImageUploadService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,10 +35,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public User createUser(SignupRequest userIn) {
 
-        return Optional.of(userIn)
+        var user = Optional.of(userIn)
                 .map(signupMapper::map)
-                .map(userRepository::save)
                 .orElseThrow(()-> new UserExistsException("Ошибка при создании пользователя"));
+        ImageModel im = ImageModel.builder()
+                .imageType(ImageType.USER)
+                .url(ImageUploadService.DEFAULT_USER_AVATAR_PATH)
+                .build();
+        user.setAvatar(im);
+        return userRepository.save(user);
     }
 
     @Transactional
@@ -60,6 +68,14 @@ public class UserServiceImpl implements UserService {
        user.setPassword(bCryptPasswordEncoder.encode(updatePasswordRequest.getNewPassword()));
        userRepository.save(user);
        return true;
+    }
+
+    @Override
+    public void changeRole(ChangeRoleDTO changeRoleDTO) {
+        var user = userRepository.findById(changeRoleDTO.getUserId())
+                .orElseThrow(()->new UserNotFoundException("Пользователь не найден"));
+        user.setRole(changeRoleDTO.getRole());
+        userRepository.save(user);
     }
 
     @Override

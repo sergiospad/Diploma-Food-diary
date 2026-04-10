@@ -8,5 +8,6 @@ import java.security.Principal;
 public interface CustomUserRepository {
 
     User getCurrentUser(Principal principal);
+    Long getCurrentUserId(Principal principal);
     UserProfileDTO getCurrentUserProfile(Principal principal);
 }

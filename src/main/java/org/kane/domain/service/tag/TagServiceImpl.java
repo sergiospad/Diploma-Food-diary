@@ -16,6 +16,6 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public List<TagDTO> findAllTags(){
-        return tagRepository.findAllByPriorityDesc();
+        return tagRepository.findAll();
     }
 }

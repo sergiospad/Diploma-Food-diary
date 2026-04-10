@@ -5,7 +5,7 @@ import org.jspecify.annotations.NonNull;
 import org.kane.database.entity.User;
 import org.kane.database.enum_types.Role;
 import org.kane.database.repository.user.UserRepository;
-import org.kane.exceptions.UserNotFoundException;
+import org.kane.exceptions.not_found.UserNotFoundException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;

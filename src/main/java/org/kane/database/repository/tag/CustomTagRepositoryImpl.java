@@ -15,13 +15,11 @@ import static org.kane.database.entity.recipe_recource.QTag.tag;
 public class CustomTagRepositoryImpl implements CustomTagRepository {
     private final JPAQueryFactory queryFactory;
 
-    public List<TagDTO> findAllByPriorityDesc(){
+    public List<TagDTO> findAllTags(){
         return queryFactory.select(Projections.constructor(TagDTO.class,
                     tag.id,
-                    tag.name,
-                    tag.priority))
+                    tag.name))
                 .from(tag)
-                .orderBy(tag.priority.desc())
                 .fetch();
     }
 }

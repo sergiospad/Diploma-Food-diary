@@ -1,7 +1,8 @@
-package org.kane.domain.mappers;
+package org.kane.domain.mappers.product;
 
 import org.kane.database.entity.Product;
 import org.kane.domain.DTO.entityDTO.product.ProductCreateDTO;
+import org.kane.domain.mappers.Mapper;
 import org.springframework.stereotype.Component;
 
 @Component

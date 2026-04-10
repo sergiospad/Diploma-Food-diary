@@ -6,8 +6,11 @@ import org.kane.database.repository.category.CategoryRepository;
 import org.kane.database.repository.product.ProductRepository;
 import org.kane.database.repository.user.UserRepository;
 import org.kane.domain.DTO.entityDTO.product.ProductCreateDTO;
-import org.kane.domain.mappers.ProductCreateMapper;
-import org.kane.exceptions.CategoryNotFoundException;
+import org.kane.domain.DTO.entityDTO.product.ProductEditDTO;
+import org.kane.domain.mappers.product.ProductCreateMapper;
+import org.kane.domain.mappers.product.ProductEditMapper;
+import org.kane.exceptions.not_found.CategoryNotFoundException;
+import org.kane.exceptions.not_found.NoSuchProductException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +25,7 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final ProductCreateMapper productCreateMapper;
     private final CategoryRepository categoryRepository;
+    private final ProductEditMapper productEditMapper;
 
     @Override
     public Long createProduct(Principal principal, ProductCreateDTO productCreateDTO) {
@@ -34,4 +38,19 @@ public class ProductServiceImpl implements ProductService {
         product = productRepository.save(product);
         return product.getId();
     }
+
+    @Override
+    public void updateProduct(ProductEditDTO productEditDTO) {
+        var product = productRepository.findById(productEditDTO.getId())
+                .map(pr -> productEditMapper.copyMap(productEditDTO, pr))
+                .orElseThrow(() -> new NoSuchProductException("Product not found"));
+
+        var category = categoryRepository.findById(productEditDTO.getCategoryId())
+                .orElseThrow(() -> new CategoryNotFoundException("Category not found"));
+        product.setCategory(category);
+
+        productRepository.save(product);
+    }
+
+
 }

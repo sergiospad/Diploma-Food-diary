@@ -5,7 +5,6 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.kane.database.entity.User;
 import org.kane.domain.DTO.entityDTO.user.UserProfileDTO;
-import org.kane.exceptions.UserNotFoundException;
 import org.springframework.stereotype.Repository;
 
 import java.security.Principal;
@@ -20,6 +19,15 @@ public class UserRepositoryImpl implements CustomUserRepository {
     public User getCurrentUser(Principal principal) {
         String username = principal.getName();
         return queryFactory.select(user)
+                .from(user)
+                .where(user.username.eq(username))
+                .fetchOne();
+    }
+
+    @Override
+    public Long getCurrentUserId(Principal principal) {
+        String username = principal.getName();
+        return queryFactory.select(Projections.constructor(Long.class, user.id))
                 .from(user)
                 .where(user.username.eq(username))
                 .fetchOne();

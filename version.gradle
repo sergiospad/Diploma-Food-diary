@@ -1,6 +1,7 @@
 ext{
     versions = [
             'querydsl': '5.1.0',
-            'jsonwebtoken':'0.13.0'
+            'jsonwebtoken':'0.13.0',
+            'hibernate_search': '8.3.0.Final'
     ]
 }

@@ -3,6 +3,7 @@ package org.kane.domain.service.user;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.kane.database.entity.User;
+import org.kane.domain.DTO.entityDTO.user.ChangeRoleDTO;
 import org.kane.domain.DTO.entityDTO.user.UserEditDTO;
 import org.kane.domain.DTO.entityDTO.user.UserProfileDTO;
 import org.kane.domain.DTO.request.SignupRequest;
@@ -18,5 +19,6 @@ public interface UserService {
     UserProfileDTO getUserProfile(Principal principal);
     boolean updateCurrentUser(Principal principal, UserEditDTO userEditDTO);
     boolean updatePassword(Principal principal, UpdatePasswordRequest updatePasswordRequest);
+    void changeRole(ChangeRoleDTO changeRoleDTO);
 
 }
