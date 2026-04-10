@@ -15,7 +15,7 @@ public class Product extends NutritionalInfo{
     @Column
     private String description;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "category_id")
-    private Category categories;
+    private Category category;
 }

@@ -5,7 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.kane.database.entity.Product;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -24,4 +26,12 @@ public class Category {
     @OneToMany
     @JoinColumn(name = "category_id")
     private List<Coefficient> coefficients;
+
+    @OneToMany(
+            cascade = CascadeType.REFRESH,
+            fetch = FetchType.LAZY,
+            mappedBy = "category"
+    )
+    @Builder.Default
+    private List<Product> products = new ArrayList<>();
 }

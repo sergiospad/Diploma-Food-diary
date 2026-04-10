@@ -23,9 +23,9 @@ public class CookingStage {
     @Column
     private Short stageNumber;
 
-    @Column(name = "image_URL")
-    @Convert(converter = PathConverter.class)
-    private Path imageURL;
+    @OneToOne
+    @JoinColumn(name = "image_id")
+    private ImageModel image;
 
     @Column
     private String description;

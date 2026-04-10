@@ -1,19 +1,27 @@
 --liquibase formatted sql
 
 --changeset kane:1
-CREATE TABLE IF NOT EXISTS users(
+CREATE TABLE IF NOT EXISTS image_model(
     id BIGSERIAL PRIMARY KEY,
-    username VARCHAR(60) NOT NULL,
-    password VARCHAR(255) NOT NULL,
-    email VARCHAR(30) NOT NULL ,
-    height_sm SMALLINT,
-    birthdate DATE,
-    avatar_URL VARCHAR(255),
-    role VARCHAR(10) NOT NULL,
-    created_at TIMESTAMP DEFAULT NOW()
+    url VARCHAR(255) NOT NULL,
+    image_type VARCHAR(15) NOT NULL
 );
 
 --changeset kane:2
+CREATE TABLE IF NOT EXISTS users(
+    id BIGSERIAL PRIMARY KEY,
+    username VARCHAR(60) NOT NULL,
+    password VARCHAR(72) NOT NULL,
+    email VARCHAR(30) NOT NULL ,
+    height_sm SMALLINT,
+    birthdate DATE,
+    gender VARCHAR(3),
+    role VARCHAR(10) NOT NULL,
+    created_at TIMESTAMP DEFAULT NOW(),
+    avatar_ID BIGINT REFERENCES image_model
+);
+
+--changeset kane:3
 CREATE TABLE IF NOT EXISTS weight_record(
     id BIGSERIAL PRIMARY KEY,
     measured_weight_kg NUMERIC(5, 2) NOT NULL,
@@ -21,7 +29,7 @@ CREATE TABLE IF NOT EXISTS weight_record(
     user_id BIGINT REFERENCES users ON DELETE CASCADE NOT NULL
 );
 
---changeset kane:3
+--changeset kane:4
 CREATE TABLE IF NOT EXISTS task(
     id BIGSERIAL PRIMARY KEY,
     beginning_date DATE NOT NULL,
@@ -33,10 +41,12 @@ CREATE TABLE IF NOT EXISTS task(
     user_ID BIGINT REFERENCES users ON DELETE CASCADE NOT NULL
 );
 
---changeset kane:4
+
+
+--changeset kane:5
 CREATE TABLE IF NOT EXISTS nutritional_info(
     id BIGSERIAL PRIMARY KEY,
-    name TEXT NOT NULL,
+    name VARCHAR(60) NOT NULL UNIQUE,
     calories_per_100g NUMERIC(5,1) NOT NULL ,
     protein_per_100g NUMERIC(5, 2) NOT NULL,
     fat_per_100g NUMERIC(5, 2) NOT NULL,
@@ -46,15 +56,17 @@ CREATE TABLE IF NOT EXISTS nutritional_info(
     author_ID BIGINT REFERENCES users NOT NULL
 );
 
---changeset kane:5
+--changeset kane:6
 CREATE TABLE IF NOT EXISTS recipe(
     id BIGSERIAL PRIMARY KEY,
     summary TEXT NOT NULL,
-    illustration_URL VARCHAR(255) NOT NULL ,
-    created_at TIMESTAMP DEFAULT NOW()
+    created_at TIMESTAMP DEFAULT NOW(),
+    illustration_ID BIGINT REFERENCES image_model,
+    FOREIGN KEY (id) references nutritional_info(id),
+    cooking_time SMALLINT NOT NULL
 ) INHERITS (nutritional_info);
 
---changeset kane:6
+--changeset kane:7
 CREATE TABLE IF NOT EXISTS favourite_recipe(
     id BIGSERIAL PRIMARY KEY,
     user_ID BIGINT REFERENCES users ON DELETE CASCADE NOT NULL ,
@@ -62,14 +74,14 @@ CREATE TABLE IF NOT EXISTS favourite_recipe(
     UNIQUE (user_ID, recipe_ID)
 );
 
---changeset kane:7
+--changeset kane:8
 CREATE TABLE IF NOT EXISTS tag(
     id BIGSERIAL PRIMARY KEY,
     name VARCHAR(30) NOT NULL ,
-    priority VARCHAR(10) DEFAULT 'LOW'
+    priority SMALLINT DEFAULT 2
 );
 
---changeset kane:8
+--changeset kane:9
 CREATE TABLE IF NOT EXISTS  tag_recipes(
     id BIGSERIAL PRIMARY KEY,
     recipe_ID BIGINT REFERENCES recipe ON DELETE CASCADE NOT NULL ,
@@ -77,35 +89,36 @@ CREATE TABLE IF NOT EXISTS  tag_recipes(
     UNIQUE (recipe_ID, tag_ID)
 );
 
---changeset kane:9
+--changeset kane:10
 CREATE TABLE IF NOT EXISTS cooking_stage(
     id BIGSERIAL PRIMARY KEY,
     stage_number SMALLINT NOT NULL ,
-    image_URL VARCHAR(255) ,
     description TEXT NOT NULL,
-    recipe_ID BIGINT REFERENCES recipe ON DELETE CASCADE NOT NULL
+    recipe_ID BIGINT REFERENCES recipe ON DELETE CASCADE NOT NULL,
+    image_ID BIGINT REFERENCES image_model
 );
 
---changeset kane:10
+--changeset kane:11
 CREATE TABLE IF NOT EXISTS category(
     id BIGSERIAL PRIMARY KEY,
     name VARCHAR(30) NOT NULL
 );
 
---changeset kane:11
+--changeset kane:12
 CREATE TABLE IF NOT EXISTS product(
     id BIGSERIAL PRIMARY KEY,
     description TEXT NOT NULL ,
-    category_ID BIGINT REFERENCES category NOT NULL
+    category_ID BIGINT REFERENCES category NOT NULL,
+    FOREIGN KEY (id) REFERENCES nutritional_info(id)
 ) INHERITS (nutritional_info);
 
---changeset kane:12
+--changeset kane:13
 CREATE TABLE IF NOT EXISTS measure_unit(
     id BIGSERIAL PRIMARY KEY,
     name VARCHAR(15) NOT NULL
 );
 
---changeset kane:13
+--changeset kane:14
 CREATE TABLE IF NOT EXISTS coefficient(
     id BIGSERIAL PRIMARY KEY,
     conversion_factor NUMERIC(8, 4) NOT NULL ,
@@ -114,7 +127,7 @@ CREATE TABLE IF NOT EXISTS coefficient(
     UNIQUE (category_ID, measure_unit_ID)
 );
 
---changeset kane:14
+--changeset kane:15
 CREATE TABLE IF NOT EXISTS ingredient(
     id BIGSERIAL PRIMARY KEY,
     weight_g NUMERIC(5,1) NOT NULL ,
@@ -123,14 +136,14 @@ CREATE TABLE IF NOT EXISTS ingredient(
     product_ID BIGINT REFERENCES product NOT NULL
 );
 
---changeset kane:15
+--changeset kane:16
 CREATE TABLE IF NOT EXISTS daily_diary_record(
     id BIGSERIAL PRIMARY KEY,
     record_date DATE DEFAULT now(),
     user_ID BIGINT REFERENCES users ON DELETE CASCADE NOT NULL
 );
 
---changeset kane:16
+--changeset kane:17
 CREATE TABLE IF NOT EXISTS meal(
     id BIGSERIAL PRIMARY KEY,
     mealtime TIME NOT NULL ,
@@ -138,7 +151,7 @@ CREATE TABLE IF NOT EXISTS meal(
     diary_record_ID BIGINT REFERENCES daily_diary_record ON DELETE CASCADE NOT NULL
 );
 
---changeset kane:17
+--changeset kane:18
 CREATE TABLE IF NOT EXISTS meal_item(
     id BIGSERIAL PRIMARY KEY,
     weight_g NUMERIC(5,1) NOT NULL,
@@ -146,7 +159,7 @@ CREATE TABLE IF NOT EXISTS meal_item(
     nutrition_ID BIGINT REFERENCES nutritional_info NOT NULL
 );
 
---changeset kane:18
+--changeset kane:19
 CREATE TABLE IF NOT EXISTS sports_activity(
     id BIGSERIAL PRIMARY KEY,
     name VARCHAR(15) NOT NULL ,
@@ -154,12 +167,14 @@ CREATE TABLE IF NOT EXISTS sports_activity(
     diary_record_ID BIGINT REFERENCES daily_diary_record ON DELETE CASCADE NOT NULL
 );
 
---changeset kane:19
+--changeset kane:20
 CREATE TABLE IF NOT EXISTS comment(
     id BIGSERIAL PRIMARY KEY,
-    image_URL VARCHAR(255),
+    image_ID BIGINT REFERENCES image_model,
     message TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT now(),
-    commentator_ID BIGINT REFERENCES users ON DELETE CASCADE ,
+    commentator_ID BIGINT REFERENCES users ON DELETE CASCADE NOT NULL ,
     recipe_ID BIGINT REFERENCES recipe ON DELETE CASCADE
 );
+
+

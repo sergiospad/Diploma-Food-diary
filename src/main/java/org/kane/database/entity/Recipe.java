@@ -2,12 +2,10 @@ package org.kane.database.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.kane.database.converter.PathConverter;
-import org.kane.database.entity.recipe_recource.Comment;
-import org.kane.database.entity.recipe_recource.CookingStage;
-import org.kane.database.entity.recipe_recource.Ingredient;
-import org.kane.database.entity.recipe_recource.Tag;
+import org.kane.database.entity.recipe_recource.*;
 
 import java.nio.file.Path;
 import java.time.LocalDateTime;
@@ -25,9 +23,9 @@ public class Recipe extends NutritionalInfo {
     @Column
     private String summary;
 
-    @Column(name = "illustration_URL")
-    @Convert(converter = PathConverter.class)
-    private Path illustrationURL;
+    @OneToOne
+    @JoinColumn(name = "illustration_id")
+    private ImageModel illustration;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "UTC")
     @Column(updatable = false)
@@ -47,6 +45,7 @@ public class Recipe extends NutritionalInfo {
             inverseJoinColumns = @JoinColumn(name = "tag_ID")
     )
     @Builder.Default
+    @Size(max = 15)
     private List<Tag> tags = new ArrayList<>();
 
     @OneToMany(
@@ -55,6 +54,7 @@ public class Recipe extends NutritionalInfo {
             mappedBy = "recipe"
     )
     @Builder.Default
+    @Size(max = 15)
     private List<CookingStage>  cookingStages = new ArrayList<>();
 
     @OneToMany(
@@ -63,7 +63,11 @@ public class Recipe extends NutritionalInfo {
             mappedBy = "recipe"
     )
     @Builder.Default
+    @Size(max = 20)
     private List<Ingredient> ingredients = new ArrayList<>();
+
+    @Column
+    private Short cookingTime;
 
     public void addComment(Comment comment) {
         this.comments.add(comment);

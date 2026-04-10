@@ -25,7 +25,7 @@ public class Tag {
     private String name;
 
     @Column
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     private Priority priority;
 
     @ManyToMany(mappedBy = "tags")

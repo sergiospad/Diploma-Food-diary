@@ -16,7 +16,7 @@ spring:
       show_sql: true
       format_sql: true
       hbm2ddl:
-        auto: create
+        auto: none
       default_batch_fetch_size: 50
       open-in-view: false
       servlet.multipart:
@@ -27,5 +27,8 @@ spring:
     name: diploma-food-diary
 
 app:
+  image:
+    user:
+      default: 307ce493-b254-4b2d-8ba4-d12c080d6651.png
   security:
     secret: 752cGOgRHqyr8ZyGFSQnxnruMuuj8oRaEvh2ne3QyAD

@@ -1,5 +1,6 @@
 ext{
     versions = [
             'querydsl': '5.1.0',
+            'jsonwebtoken':'0.13.0'
     ]
 }
