@@ -77,4 +77,16 @@ public class Recipe extends NutritionalInfo {
         this.tags.add(tag);
     }
 
+    public void removeTag(Tag tag) {
+        this.tags.remove(tag);
+    }
+
+    public void addCookingStage(CookingStage cookingStage) {
+        this.cookingStages.add(cookingStage);
+    }
+
+    public void addIngredient(Ingredient ingredient) {
+        this.ingredients.add(ingredient);
+    }
+
 }

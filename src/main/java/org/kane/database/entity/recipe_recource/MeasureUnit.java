@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.kane.database.enum_types.MeasureType;
 
 @Entity
 @Data
@@ -18,6 +17,5 @@ public class MeasureUnit {
     private Long id;
 
     @Column(updatable = false)
-    @Enumerated(EnumType.STRING)
-    private MeasureType name;
+    private String name;
 }

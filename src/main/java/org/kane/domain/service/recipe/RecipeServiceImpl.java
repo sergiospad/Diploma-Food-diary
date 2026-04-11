@@ -3,11 +3,21 @@ package org.kane.domain.service.recipe;
 import com.querydsl.core.BooleanBuilder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.kane.database.entity.Recipe;
+import org.kane.database.repository.cooking_stage.CookingStageRepository;
+import org.kane.database.repository.image_model.ImageModelRepository;
 import org.kane.database.repository.recipe.RecipeRepository;
+import org.kane.database.repository.tag.TagRepository;
 import org.kane.database.repository.user.UserRepository;
-import org.kane.domain.DTO.entityDTO.recipe.RecipePreviewDTO;
+import org.kane.domain.DTO.entityDTO.recipe.*;
 import org.kane.domain.DTO.request.RecipePreviewRequest;
-import org.kane.domain.mappers.RecipePreviewMapper;
+import org.kane.domain.mappers.recipe.CreateRecipeMapper;
+import org.kane.domain.mappers.recipe.RecipeEditMapper;
+import org.kane.domain.mappers.recipe.RecipePreviewMapper;
+import org.kane.domain.service.cooking_stage.CookingStageService;
+import org.kane.domain.service.ingredient.IngredientService;
+import org.kane.exceptions.not_found.RecipeNotFoundException;
+import org.kane.exceptions.not_found.TagNotFoundException;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +34,13 @@ import static org.kane.database.entity.QRecipe.recipe;
 public class RecipeServiceImpl implements RecipeService {
     private final RecipeRepository recipeRepository;
     private final UserRepository userRepository;
-    private final RecipePreviewMapper recipePreviewMapper;
+    private final CreateRecipeMapper createRecipeMapper;
+    private final ImageModelRepository imageModelRepository;
+    private final TagRepository tagRepository;
+    private final IngredientService ingredientService;
+    private final CookingStageService cookingStageService;
+    private final RecipeEditMapper recipeEditMapper;
+
     @Override
     public List<RecipePreviewDTO> findPreviews(Principal principal, RecipePreviewRequest request, Pageable pageable) {
         BooleanBuilder predicate = new BooleanBuilder();
@@ -39,5 +55,59 @@ public class RecipeServiceImpl implements RecipeService {
         }
         return recipeRepository.findAllPreviewDTO(predicate, pageable).getContent();
     }
+
+    @Override
+    public List<RecipeSummarySearchDTO> searchBySummary(String searchItem) {
+        return recipeRepository.findSummaryDTOByItem(searchItem);
+    }
+
+    @Override
+    public List<RecipeTitleSearchDTO> searchByTitle(String searchItem) {
+        return recipeRepository.findTitleDTOByItem(searchItem);
+    }
+
+    @Override
+    @Transactional
+    public Recipe createRecipe(RecipeCreateDTO recipeCreateDTO) {
+        Recipe recipe = createRecipeMapper.map(recipeCreateDTO);
+        recipe.setIllustration(imageModelRepository.findById(recipeCreateDTO.getIllustrationID()).orElse(null));
+        recipeCreateDTO.getTags()
+                .forEach(tag -> tagRepository
+                        .findById(tag)
+                        .ifPresent(recipe::addTag));
+        recipeCreateDTO.getIngredients().stream()
+                .map(ingredientService::createIngredient)
+                .forEach(recipe::addIngredient);
+        recipeCreateDTO.getStages().stream()
+                .map(cookingStageService::createCookingStage)
+                .forEach(recipe::addCookingStage);
+        //TODO заменить Recipe на ShowDTO
+        return recipeRepository.save(recipe);
+    }
+
+    @Override
+    public Recipe updateRecipe(RecipeEditDTO recipeEditDTO) {
+        var recipe = recipeRepository.findById(recipeEditDTO.getId())
+                .map(r-> recipeEditMapper.copyMap(recipeEditDTO, r))
+                .orElseThrow(()->new RecipeNotFoundException("recipe not found"));
+        if( recipeEditDTO.getAddTags()!=null)
+            recipeEditDTO.getAddTags()
+                    .forEach(t-> tagRepository.findById(t)
+                            .ifPresent(recipe::addTag));
+        if(recipeEditDTO.getRemoveTags()!=null)
+            recipeEditDTO.getRemoveTags()
+                    .forEach(t-> tagRepository.findById(t)
+                            .ifPresent(recipe::removeTag));
+        if(recipeEditDTO.getEditedIngredients()!=null)
+            recipeEditDTO.getEditedIngredients()
+                    .forEach(ingredientService::updateIngredient);
+        if(recipeEditDTO.getEditedStages()!=null)
+            recipeEditDTO.getEditedStages()
+                    .forEach(cookingStageService::editCookingStage);
+        return recipeRepository.save(recipe);
+
+        //TODO заменить Recipe на ShowDTO
+    }
+
 
 }

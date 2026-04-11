@@ -1,16 +1,15 @@
-package org.kane.domain.mappers;
+package org.kane.domain.mappers.recipe;
 
-import lombok.NonNull;
-import org.kane.database.entity.NutritionalInfo;
 import org.kane.database.entity.Recipe;
 import org.kane.database.entity.recipe_recource.ImageModel;
 import org.kane.domain.DTO.entityDTO.recipe.RecipePreviewDTO;
+import org.kane.domain.mappers.Mapper;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
 @Component
-public class RecipePreviewMapper implements Mapper<Recipe, RecipePreviewDTO>{
+public class RecipePreviewMapper implements Mapper<Recipe, RecipePreviewDTO> {
     @Override
     public RecipePreviewDTO map(Recipe from) {
         Long imageId = Optional.ofNullable(from.getIllustration())

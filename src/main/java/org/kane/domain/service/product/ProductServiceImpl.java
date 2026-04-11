@@ -5,8 +5,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.kane.database.repository.category.CategoryRepository;
 import org.kane.database.repository.product.ProductRepository;
 import org.kane.database.repository.user.UserRepository;
+import org.kane.domain.DTO.entityDTO.measure_unit.MeasureUnitDTO;
 import org.kane.domain.DTO.entityDTO.product.ProductCreateDTO;
 import org.kane.domain.DTO.entityDTO.product.ProductEditDTO;
+import org.kane.domain.DTO.entityDTO.product.ProductSearchDTO;
 import org.kane.domain.mappers.product.ProductCreateMapper;
 import org.kane.domain.mappers.product.ProductEditMapper;
 import org.kane.exceptions.not_found.CategoryNotFoundException;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -52,5 +55,23 @@ public class ProductServiceImpl implements ProductService {
         productRepository.save(product);
     }
 
+    @Override
+    public List<ProductSearchDTO> searchProduct(String searchItem) {
+        return productRepository.findSearchDTO(searchItem);
+    }
 
+    @Override
+    public List<MeasureUnitDTO> getAllMeasureUnitsDTOByProductId(Long productId) {
+        return productRepository.findMeasureUnitDTOByProductId(productId);
+    }
+
+    @Override
+    public List<Long> addTagToRecipe(Long recipeId, Long tagId) {
+        return List.of();
+    }
+
+    @Override
+    public List<Long> removeTagFromRecipe(Long recipeId, Long tagId) {
+        return List.of();
+    }
 }

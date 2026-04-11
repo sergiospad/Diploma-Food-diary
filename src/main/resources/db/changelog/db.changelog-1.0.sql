@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS recipe(
     created_at TIMESTAMP DEFAULT NOW(),
     illustration_ID BIGINT REFERENCES image_model,
     FOREIGN KEY (id) references nutritional_info(id),
-    cooking_time SMALLINT NOT NULL
+    cooking_time SMALLINT
 ) INHERITS (nutritional_info);
 
 --changeset kane:7
