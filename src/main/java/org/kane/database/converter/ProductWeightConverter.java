@@ -8,7 +8,7 @@ import org.kane.database.entity.physical_quantity.ProductWeight;
 public class ProductWeightConverter implements AttributeConverter<ProductWeight, Double> {
     @Override
     public Double convertToDatabaseColumn(ProductWeight attribute) {
-        return attribute.value();
+        return attribute.getValue();
     }
 
     @Override

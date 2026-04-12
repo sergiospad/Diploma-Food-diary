@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface CustomTagRepository {
     public List<TagDTO> findAllTags();
+
+    List<TagDTO> findAllTagsOfRecipe(Long recipeID);
 }

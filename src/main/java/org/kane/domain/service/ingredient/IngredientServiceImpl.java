@@ -1,7 +1,6 @@
 package org.kane.domain.service.ingredient;
 
 import lombok.RequiredArgsConstructor;
-import org.kane.database.entity.Recipe;
 import org.kane.database.entity.physical_quantity.ProductWeight;
 import org.kane.database.entity.recipe_recource.Ingredient;
 import org.kane.database.entity.recipe_recource.MeasureUnit;
@@ -9,13 +8,14 @@ import org.kane.database.repository.coefficient.CoefficientRepository;
 import org.kane.database.repository.ingredient.IngredientRepository;
 import org.kane.database.repository.measure_unit.MeasureUnitRepository;
 import org.kane.database.repository.product.ProductRepository;
-import org.kane.domain.DTO.entityDTO.ingredient.IngredientCreateDTO;
-import org.kane.domain.DTO.entityDTO.ingredient.IngredientEditDTO;
+import org.kane.domain.DTO.entityDTO.ingredient.*;
 import org.kane.exceptions.not_found.IngredientNotFoundException;
 import org.kane.exceptions.not_found.MeasureUnitNotFound;
 import org.kane.exceptions.not_found.NoSuchProductException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -32,7 +32,7 @@ public class IngredientServiceImpl implements IngredientService{
         var product = productRepository.findById(ingredientCreateDTO.getProductID())
                 .orElseThrow(()-> new NoSuchProductException("product not found"));
         var coeff = coefficientRepository.getCoefficientByProductID(ingredientCreateDTO.getProductID(), ingredientCreateDTO.getMeasureUnitID());
-        ProductWeight pw = new ProductWeight(ingredientCreateDTO.getAmount()/coeff);
+        ProductWeight pw = new ProductWeight(ingredientCreateDTO.getAmount()).divide(coeff);
         MeasureUnit mu = measureUnitRepository.findById(ingredientCreateDTO.getMeasureUnitID())
                 .orElseThrow(()->new MeasureUnitNotFound("measure unit not found"));
         return Ingredient.builder()
@@ -51,7 +51,7 @@ public class IngredientServiceImpl implements IngredientService{
                     .orElseThrow(()->new MeasureUnitNotFound("measure unit not found"));
             ing.setSpecMeasureUnit(mu);
             recalculateWeight(ingredient, ing);
-        } else if(Math.abs(ingredient.getAmount()-ing.getWeight().value())>0.0001){
+        } else if(Math.abs(ingredient.getAmount()-ing.getWeight().getValue())>0.0001){
             recalculateWeight(ingredient, ing);
         }
         if(!ing.getProduct().getId().equals(ingredient.getProductID())){
@@ -64,7 +64,7 @@ public class IngredientServiceImpl implements IngredientService{
 
     private void recalculateWeight(IngredientEditDTO ingredient, Ingredient ing) {
         var coeff = coefficientRepository.getCoefficientByProductID(ingredient.getProductID(), ingredient.getMeasureUnitID());
-        ProductWeight pw = new ProductWeight(ingredient.getAmount()/coeff);
+        ProductWeight pw = ProductWeight.calculateWeight(ingredient.getAmount(), coeff);
         ing.setWeight(pw);
     }
 
@@ -72,5 +72,28 @@ public class IngredientServiceImpl implements IngredientService{
         ingredientRepository.deleteById(id);
     }
 
+    @Override
+    public List<IngredientShowDTO> getShowIngredients(Long recipeID){
+        return ingredientRepository.findPreShowDTO(recipeID).stream()
+                .map(this::preShowToShowMap)
+                .toList();
+    }
+
+    private IngredientShowDTO preShowToShowMap(IngredientPreShowProjection ingredientPreShowDTO){
+        var coeff = coefficientRepository.getCoefficientByProductID(ingredientPreShowDTO.getProductID(), ingredientPreShowDTO.getMeasureUnitID());
+        var mes = measureUnitRepository.findAllByIngredientID(ingredientPreShowDTO.getId());
+        return IngredientShowDTO.builder()
+                .id(ingredientPreShowDTO.getId())
+                .productName(productRepository.findNameById(ingredientPreShowDTO.getProductID()))
+                .amount(ingredientPreShowDTO.getAmount().calculateAmount(coeff))
+                .units(mes)
+                .build();
+    }
+    @Override
+    public IngredientShowDTO toggleMeasureUnit(IngredientChangeDTO ingredientChangeDTO){
+        var preShow = ingredientRepository.findPreShowDTOById(ingredientChangeDTO.getIngredientID());
+        preShow.setMeasureUnitID(ingredientChangeDTO.getMeasureID());
+        return preShowToShowMap(preShow);
+    }
 
 }

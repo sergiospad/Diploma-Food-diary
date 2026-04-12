@@ -6,11 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.kane.database.converter.PathConverter;
 import org.kane.database.entity.Recipe;
 import org.kane.database.entity.User;
 
-import java.nio.file.Path;
 import java.time.LocalDateTime;
 
 @Entity
@@ -23,9 +21,9 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="image_URL")
-    @Convert(converter = PathConverter.class)
-    private Path imageURL;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "image_id")
+    private ImageModel image;
 
     @Column
     private String message;

@@ -40,5 +40,14 @@ public class CustomProductRepositoryImpl implements CustomProductRepository {
                 .fetch();
     }
 
+    @Override
+    public String findNameById(Long id) {
+        return new JPAQuery<String>(em).select(Projections.constructor(String.class,
+                    product.name))
+                .from(product)
+                .where(product.id.eq(id))
+                .fetchOne();
+    }
+
 
 }

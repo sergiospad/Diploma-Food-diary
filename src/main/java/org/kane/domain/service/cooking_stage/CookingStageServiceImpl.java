@@ -6,9 +6,11 @@ import org.kane.database.repository.cooking_stage.CookingStageRepository;
 import org.kane.database.repository.image_model.ImageModelRepository;
 import org.kane.domain.DTO.entityDTO.cooking_stage.CookingStageCreateDTO;
 import org.kane.domain.DTO.entityDTO.cooking_stage.CookingStageEditDescDTO;
+import org.kane.domain.DTO.entityDTO.cooking_stage.CookingStageShowDTO;
 import org.kane.exceptions.not_found.CookingStageNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -33,5 +35,10 @@ public class CookingStageServiceImpl implements CookingStageService {
                 .orElseThrow(() -> new CookingStageNotFoundException("cooking stage not found"));
         cs.setDescription(cookingStageEditDescDTO.getDescription());
         cookingStageRepository.save(cs);
+    }
+
+    @Override
+    public List<CookingStageShowDTO> getAllShowDTOByRecipeID(Long recipeID){
+        return cookingStageRepository.findAllShowDTOByRecipeID(recipeID);
     }
 }
