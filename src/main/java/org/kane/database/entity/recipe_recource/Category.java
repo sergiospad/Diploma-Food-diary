@@ -34,4 +34,5 @@ public class Category {
     )
     @Builder.Default
     private List<Product> products = new ArrayList<>();
+
 }

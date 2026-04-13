@@ -1,6 +1,7 @@
 package org.kane.domain.service.measure_unit;
 
 import lombok.RequiredArgsConstructor;
+import org.kane.database.entity.recipe_recource.MeasureUnit;
 import org.kane.database.repository.measure_unit.MeasureUnitRepository;
 import org.kane.domain.DTO.entityDTO.measure_unit.MeasureUnitDTO;
 import org.springframework.stereotype.Service;
@@ -21,5 +22,26 @@ public class MeasureUnitServiceImpl implements MeasureUnitService {
         units.addFirst(specUnit);
         return units;
     }
+
+    @Override
+    public MeasureUnitDTO createMeasureUnit(String name){
+        var unit = MeasureUnit.builder().name(name).build();
+        unit =  measureUnitRepository.save(unit);
+        return MeasureUnitDTO.builder()
+                .id(unit.getId())
+                .name(unit.getName())
+                .build();
+    }
+
+    @Override
+    public List<MeasureUnitDTO> getAllUnits(){
+        return measureUnitRepository.findAllDistinct();
+    }
+
+    @Override
+    public List<MeasureUnitDTO> getFreeUnitsByCategoryID(Long categoryID){
+        return measureUnitRepository.findFreeMeasureUnits(categoryID);
+    }
+
 
 }

@@ -1,7 +1,9 @@
 package org.kane.domain.DTO.entityDTO;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.apache.lucene.search.Weight;
 import org.kane.database.entity.physical_quantity.ProductWeight;
 import org.kane.database.entity.physical_quantity.nutrients.Calories;
@@ -13,6 +15,7 @@ import org.kane.domain.DTO.entityDTO.ingredient.IngredientEnergyDTO;
 
 @Data
 @Builder
+@AllArgsConstructor
 public class EnergyValueShowDTO {
     private CaloricityType caloricityType;
     private ProductWeight productWeight;

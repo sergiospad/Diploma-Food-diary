@@ -31,6 +31,7 @@ public class CustomMeasureUnitRepositoryImpl implements CustomMeasureUnitReposit
                 .join(category.coefficients, coefficient)
                 .join(coefficient.measureUnit, measureUnit)
                 .where(ingredient.id.eq(ingredientID))
+                .distinct()
                 .fetch();
     }
 
@@ -43,5 +44,30 @@ public class CustomMeasureUnitRepositoryImpl implements CustomMeasureUnitReposit
                 .join(ingredient.specMeasureUnit, measureUnit)
                 .where(ingredient.id.eq(ingredientID))
                 .fetchOne();
+    }
+
+    @Override
+    public List<MeasureUnitDTO> findAllDistinct() {
+        return queryFactory.select(Projections.constructor(MeasureUnitDTO.class,
+                        measureUnit.id,
+                        measureUnit.name))
+                .from(measureUnit)
+                .distinct()
+                .fetch();
+    }
+
+    @Override
+    public List<MeasureUnitDTO> findFreeMeasureUnits(Long categoryID){
+        var linkedUnits = queryFactory.select(coefficient.measureUnit.id)
+                .from(category)
+                .join(category.coefficients, coefficient)
+                .where(category.id.eq(categoryID))
+                .distinct()
+                .fetch();
+        return queryFactory.select(Projections.constructor(MeasureUnitDTO.class,
+                measureUnit.id,
+                measureUnit.name)).from(measureUnit)
+                .where(measureUnit.id.notIn(linkedUnits))
+                .fetch();
     }
 }

@@ -6,4 +6,10 @@ import java.util.List;
 
 public interface MeasureUnitService {
     List<MeasureUnitDTO> findAllByIngredientID(Long productID);
+
+    MeasureUnitDTO createMeasureUnit(String name);
+
+    List<MeasureUnitDTO> getAllUnits();
+
+    List<MeasureUnitDTO> getFreeUnitsByCategoryID(Long categoryID);
 }

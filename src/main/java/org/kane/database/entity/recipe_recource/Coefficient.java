@@ -23,4 +23,7 @@ public class Coefficient {
     @JoinColumn(name = "measure_unit_id")
     private MeasureUnit measureUnit;
 
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
 }

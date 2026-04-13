@@ -93,6 +93,7 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
+    @Transactional
     public RecipeShowDTO updateRecipe(RecipeEditDTO recipeEditDTO) {
         var recipe = recipeRepository.findById(recipeEditDTO.getId())
                 .map(r-> recipeEditMapper.copyMap(recipeEditDTO, r))
