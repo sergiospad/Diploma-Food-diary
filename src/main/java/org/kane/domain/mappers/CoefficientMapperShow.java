@@ -1,7 +1,7 @@
 package org.kane.domain.mappers;
 
 import org.kane.database.entity.recipe_recource.Coefficient;
-import org.kane.domain.DTO.entityDTO.coefficient.CoefficientShowDTO;
+import org.kane.domain.DTO.entityDTO.recipe_recource.coefficient.CoefficientShowDTO;
 import org.springframework.stereotype.Component;
 
 @Component

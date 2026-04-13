@@ -1,10 +1,9 @@
 package org.kane.database.repository.product;
 
-import org.kane.domain.DTO.entityDTO.measure_unit.MeasureUnitDTO;
+import org.kane.domain.DTO.entityDTO.recipe_recource.measure_unit.MeasureUnitDTO;
 import org.kane.domain.DTO.entityDTO.product.ProductSearchDTO;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface CustomProductRepository {
     List<ProductSearchDTO> findSearchDTO(String searchItem);

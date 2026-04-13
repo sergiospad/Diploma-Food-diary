@@ -5,7 +5,7 @@ import com.querydsl.jpa.impl.JPAQuery;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.search.mapper.orm.Search;
-import org.kane.domain.DTO.entityDTO.measure_unit.MeasureUnitDTO;
+import org.kane.domain.DTO.entityDTO.recipe_recource.measure_unit.MeasureUnitDTO;
 import org.kane.domain.DTO.entityDTO.product.ProductSearchDTO;
 import org.springframework.stereotype.Repository;
 

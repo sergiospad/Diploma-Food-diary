@@ -3,9 +3,9 @@ package org.kane.domain.DTO.entityDTO.recipe;
 import lombok.Builder;
 import lombok.Data;
 import org.kane.domain.DTO.entityDTO.EnergyValueShowDTO;
-import org.kane.domain.DTO.entityDTO.TagDTO;
-import org.kane.domain.DTO.entityDTO.cooking_stage.CookingStageShowDTO;
-import org.kane.domain.DTO.entityDTO.ingredient.IngredientShowDTO;
+import org.kane.domain.DTO.entityDTO.recipe_recource.TagDTO;
+import org.kane.domain.DTO.entityDTO.recipe_recource.cooking_stage.CookingStageShowDTO;
+import org.kane.domain.DTO.entityDTO.recipe_recource.ingredient.IngredientShowDTO;
 
 import java.util.List;
 

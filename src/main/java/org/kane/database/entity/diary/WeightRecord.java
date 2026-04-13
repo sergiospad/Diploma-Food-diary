@@ -6,6 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.kane.database.converter.HumanWeightConverter;
+import org.kane.database.entity.User;
+import org.kane.database.entity.physical_quantity.HumanWeight;
 
 import java.time.LocalDate;
 
@@ -20,9 +23,14 @@ public class WeightRecord {
     private Long id;
 
     @Column(name = "measured_weight_kg")
-    private Double measuredWeight;
+    @Convert(converter = HumanWeightConverter.class)
+    private HumanWeight measuredWeight;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "UTC")
     @Column(name ="date_of_measurement")
     private LocalDate dateOfMeasurement;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 }

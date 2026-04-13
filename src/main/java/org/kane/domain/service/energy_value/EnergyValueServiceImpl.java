@@ -2,7 +2,7 @@ package org.kane.domain.service.energy_value;
 
 import lombok.RequiredArgsConstructor;
 import org.kane.database.enum_types.CaloricityType;
-import org.kane.database.repository.ingredient.IngredientRepository;
+import org.kane.database.repository.recipe_recource.ingredient.IngredientRepository;
 import org.kane.domain.DTO.entityDTO.EnergyValueShowDTO;
 import org.kane.domain.DTO.request.EnergyValueRequest;
 import org.springframework.stereotype.Service;

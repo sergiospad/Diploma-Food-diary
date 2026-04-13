@@ -2,10 +2,10 @@ package org.kane.domain.service.product;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.kane.database.repository.category.CategoryRepository;
+import org.kane.database.repository.recipe_recource.category.CategoryRepository;
 import org.kane.database.repository.product.ProductRepository;
 import org.kane.database.repository.user.UserRepository;
-import org.kane.domain.DTO.entityDTO.measure_unit.MeasureUnitDTO;
+import org.kane.domain.DTO.entityDTO.recipe_recource.measure_unit.MeasureUnitDTO;
 import org.kane.domain.DTO.entityDTO.product.ProductCreateDTO;
 import org.kane.domain.DTO.entityDTO.product.ProductEditDTO;
 import org.kane.domain.DTO.entityDTO.product.ProductSearchDTO;

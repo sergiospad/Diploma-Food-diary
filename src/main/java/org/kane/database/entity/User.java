@@ -68,9 +68,9 @@ public class User {
 
     @OneToMany(
             cascade = CascadeType.REFRESH,
-            fetch = FetchType.LAZY
+            fetch = FetchType.LAZY,
+            mappedBy = "user"
     )
-    @JoinColumn(name = "user_id")
     @Builder.Default
     private List<WeightRecord> records = new ArrayList<>();
 
@@ -93,17 +93,17 @@ public class User {
 
     @OneToMany(
             cascade = CascadeType.REFRESH,
-            fetch = FetchType.LAZY
+            fetch = FetchType.LAZY,
+            mappedBy = "user"
     )
-    @JoinColumn(name = "user_id")
     @Builder.Default
     private List<DiaryRecord> diaryRecords = new ArrayList<>();
 
     @OneToMany(
             cascade = CascadeType.REFRESH,
-            fetch = FetchType.LAZY
+            fetch = FetchType.LAZY,
+            mappedBy = "author"
     )
-    @JoinColumn(name = "author_id")
     @Builder.Default
     private List<NutritionalInfo> authorBy = new ArrayList<>();
 

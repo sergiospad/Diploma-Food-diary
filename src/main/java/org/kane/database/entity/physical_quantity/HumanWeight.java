@@ -1,4 +1,6 @@
 package org.kane.database.entity.physical_quantity;
 
-public record HumanWeight(double value) {
+import com.fasterxml.jackson.annotation.JsonValue;
+
+public record HumanWeight(@JsonValue double value) {
 }
