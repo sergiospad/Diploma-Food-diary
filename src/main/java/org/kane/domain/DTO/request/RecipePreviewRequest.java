@@ -2,7 +2,7 @@ package org.kane.domain.DTO.request;
 
 import lombok.Builder;
 import lombok.Data;
-import org.kane.domain.DTO.enum_types.SortTypeRecipe;
+import org.kane.database.enum_types.SortTypeRecipe;
 
 @Data
 @Builder

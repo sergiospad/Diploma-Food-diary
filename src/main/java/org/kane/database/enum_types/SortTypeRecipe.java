@@ -1,4 +1,4 @@
-package org.kane.domain.DTO.enum_types;
+package org.kane.database.enum_types;
 
 public enum SortTypeRecipe {
     NEWER,

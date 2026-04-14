@@ -76,9 +76,9 @@ public class User {
 
     @OneToMany(
             cascade = CascadeType.REFRESH,
-            fetch = FetchType.LAZY
+            fetch = FetchType.LAZY,
+            mappedBy = "user"
     )
-    @JoinColumn(name = "user_id")
     @Builder.Default
     @Size(max = 10)
     private List<Task> tasks = new ArrayList<>();

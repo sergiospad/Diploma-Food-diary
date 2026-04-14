@@ -7,6 +7,7 @@ import com.querydsl.core.types.dsl.NumberTemplate;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.kane.database.entity.diary.WeightRecord;
 import org.kane.database.entity.physical_quantity.HumanWeight;
 import org.kane.domain.DTO.entityDTO.weight_record.WeightRecordShowDTO;
 import org.kane.domain.DTO.entityDTO.weight_record.for_chart.WeightChartDataProjection;
@@ -106,7 +107,7 @@ public class CustomWeightRecordRepositoryImpl implements CustomWeightRecordRepos
 
                     return dto;
                 })
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
@@ -134,5 +135,15 @@ public class CustomWeightRecordRepositoryImpl implements CustomWeightRecordRepos
                 .fetchOne();
         if(count == null) return false;
         return count > 0;
+    }
+
+    @Override
+    public WeightRecord getLastMeasurement(Long userId){
+        return queryFactory.select(weightRecord)
+                .from(user)
+                .join(user.records, weightRecord)
+                .where(user.id.eq(userId))
+                .orderBy(weightRecord.dateOfMeasurement.desc())
+                .fetchFirst();
     }
 }

@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.kane.database.converter.nutrients_converter.CaloriesConverter;
 import org.kane.database.converter.HumanWeightConverter;
+import org.kane.database.entity.User;
 import org.kane.database.entity.physical_quantity.nutrients.Calories;
 import org.kane.database.entity.physical_quantity.HumanWeight;
 import org.kane.database.enum_types.TaskStatus;
@@ -48,5 +49,13 @@ public class Task {
     @Column(name="target_weight_kg")
     @Convert(converter = HumanWeightConverter.class)
     private HumanWeight targetWeight;
+
+    @OneToOne
+    @JoinColumn(name="start_weight_ID")
+    private WeightRecord startWeightRecord;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
 }

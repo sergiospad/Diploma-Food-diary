@@ -38,7 +38,8 @@ CREATE TABLE IF NOT EXISTS task(
     target VARCHAR(10) NOT NULL ,
     status VARCHAR(10) NOT NULL ,
     target_weight_kg NUMERIC(5,2) NOT NULL ,
-    user_ID BIGINT REFERENCES users ON DELETE CASCADE NOT NULL
+    user_ID BIGINT REFERENCES users ON DELETE CASCADE NOT NULL,
+    start_weight_ID BIGINT REFERENCES weight_record NOT NULL
 );
 
 

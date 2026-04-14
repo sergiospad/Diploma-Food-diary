@@ -1,5 +1,6 @@
 package org.kane.database.repository.weight_record;
 
+import org.kane.database.entity.diary.WeightRecord;
 import org.kane.domain.DTO.entityDTO.weight_record.WeightRecordShowDTO;
 import org.kane.domain.DTO.entityDTO.weight_record.for_chart.WeightChartDataProjection;
 import org.kane.domain.DTO.entityDTO.weight_record.for_chart.WeightPointDTO;
@@ -23,4 +24,6 @@ public interface CustomWeightRecordRepository {
     WeightChartDataProjection getDataProjection(Long userId, LocalDate startDate, LocalDate endDate);
 
     boolean hasAnyData(Long userId, LocalDate startDate, LocalDate endDate);
+
+    WeightRecord getLastMeasurement(Long userId);
 }
