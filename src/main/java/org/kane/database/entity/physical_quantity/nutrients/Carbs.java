@@ -1,17 +1,15 @@
 package org.kane.database.entity.physical_quantity.nutrients;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 public class Carbs extends BaseNutrient{
     public Carbs(Double value) {
         super(value);
     }
 
-    @Override
-    public Carbs add(BaseNutrient baseNutrient) {
-        return new Carbs(this.value+ baseNutrient.value);
+    @JsonCreator
+    public static Carbs fromValue(Double value) {
+        return new Carbs(value);
     }
 
-    @Override
-    public Carbs divide(Double coefficient) {
-        return new Carbs(this.value/coefficient);
-    }
 }

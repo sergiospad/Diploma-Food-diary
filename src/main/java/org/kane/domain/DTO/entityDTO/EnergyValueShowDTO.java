@@ -31,33 +31,42 @@ public class EnergyValueShowDTO {
     }
 
     public EnergyValueShowDTO merge(IngredientEnergyDTO dto){
-        return EnergyValueShowDTO.builder()
-                .caloricityType(caloricityType)
-                .productWeight(this.productWeight.add(dto.getProductWeight()))
-                .calories(this.calories.add(dto.getCalories()))
-                .protein(this.protein.add(dto.getProtein()))
-                .fat(this.fat.add(dto.getFat()))
-                .carbs(this.carbs.add(dto.getCarbs()))
-                .build();
+        var copy = copy();
+        copy.productWeight = this.productWeight.add(dto.getProductWeight());
+        copy.calories.add(dto.getCalories());
+        copy.protein.add(dto.getProtein());
+        copy.fat.add(dto.getFat());
+        copy.carbs.add(dto.getCarbs());
+        return copy;
     }
     public EnergyValueShowDTO merge(EnergyValueShowDTO dto){
-        return EnergyValueShowDTO.builder()
-                .caloricityType(caloricityType)
-                .productWeight(this.productWeight.add(dto.getProductWeight()))
-                .calories(this.calories.add(dto.getCalories()))
-                .protein(this.protein.add(dto.getProtein()))
-                .fat(this.fat.add(dto.getFat()))
-                .carbs(this.carbs.add(dto.getCarbs()))
-                .build();
+        var copy = copy();
+        copy.productWeight = this.productWeight.add(dto.getProductWeight());
+        copy.calories.add(dto.getCalories());
+        copy.protein.add(dto.getProtein());
+        copy.fat.add(dto.getFat());
+        copy.carbs.add(dto.getCarbs());
+        return copy;
     }
 
     public EnergyValueShowDTO divide(Double coefficient){
+        var copy = copy();
+        copy.productWeight = this.productWeight.divide(coefficient);
+        copy.calories.divide(coefficient);
+        copy.protein.divide(coefficient);
+        copy.fat.divide(coefficient);
+        copy.carbs.divide(coefficient);
+        return copy;
+    }
+
+    public EnergyValueShowDTO copy(){
         return EnergyValueShowDTO.builder()
-                .productWeight(productWeight.divide(coefficient))
-                .calories(calories.divide(coefficient))
-                .protein(protein.divide(coefficient))
-                .fat(fat.divide(coefficient))
-                .carbs(carbs.divide(coefficient))
+                .caloricityType(caloricityType)
+                .productWeight(new ProductWeight(productWeight.getValue()))
+                .calories(new Calories(calories.toValue()))
+                .protein(new Protein(protein.toValue()))
+                .fat(new Fat(fat.toValue()))
+                .carbs(new Carbs(carbs.toValue()))
                 .build();
     }
 }

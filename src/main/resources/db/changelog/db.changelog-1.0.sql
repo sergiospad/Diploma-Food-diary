@@ -141,7 +141,8 @@ CREATE TABLE IF NOT EXISTS ingredient(
 CREATE TABLE IF NOT EXISTS daily_diary_record(
     id BIGSERIAL PRIMARY KEY,
     record_date DATE DEFAULT now(),
-    user_ID BIGINT REFERENCES users ON DELETE CASCADE NOT NULL
+    user_ID BIGINT REFERENCES users ON DELETE CASCADE NOT NULL,
+    auto_calculation BOOLEAN DEFAULT FALSE
 );
 
 --changeset kane:17
@@ -165,7 +166,7 @@ CREATE TABLE IF NOT EXISTS sports_activity(
     id BIGSERIAL PRIMARY KEY,
     name VARCHAR(15) NOT NULL ,
     burned_calories NUMERIC(5, 1) NOT NULL ,
-    diary_record_ID BIGINT REFERENCES daily_diary_record ON DELETE CASCADE NOT NULL
+    diary_record_ID BIGINT REFERENCES daily_diary_record ON DELETE CASCADE NOT NULL,
 );
 
 --changeset kane:20

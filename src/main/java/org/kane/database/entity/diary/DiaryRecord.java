@@ -30,10 +30,20 @@ public class DiaryRecord {
     @JoinColumn(name="user_id")
     private User user;
 
+    @Column(name= "auto_calculation")
+    private Boolean autoCalculation;
+
     @OneToMany(
             cascade = CascadeType.REFRESH,
             fetch = FetchType.LAZY,
             mappedBy = "dailyRecord"
     )
     private List<Meal> meals;
+
+    @OneToMany(
+            cascade = CascadeType.REFRESH,
+            fetch = FetchType.LAZY,
+            mappedBy = "diaryRecord"
+    )
+    List<SportsActivity> activities;
 }

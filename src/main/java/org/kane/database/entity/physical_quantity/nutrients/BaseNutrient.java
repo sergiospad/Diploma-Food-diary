@@ -1,12 +1,27 @@
 package org.kane.database.entity.physical_quantity.nutrients;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public abstract class BaseNutrient {
-    public final Double value;
+    public Double value;
 
-    public abstract BaseNutrient add(BaseNutrient baseNutrient);
+    public void add(BaseNutrient baseNutrient){
+        this.value = this.value+ baseNutrient.value;
+    };
 
-    public abstract BaseNutrient divide(Double coefficient);
+    public void divide(Double coefficient) {
+        this.value = this.value / coefficient;
+    }
+
+    public void multiply(Double coefficient) {
+        this.value = this.value * coefficient;
+    }
+
+    @JsonValue
+    public Double toValue() {
+        return this.value;
+    }
+
 }
