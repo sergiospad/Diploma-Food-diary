@@ -31,7 +31,7 @@ public class UserRepositoryImpl implements CustomUserRepository {
     @Override
     public Long getCurrentUserId(Principal principal) {
         String username = principal.getName();
-        return queryFactory.select(Projections.constructor(Long.class, user.id))
+        return queryFactory.select(user.id)
                 .from(user)
                 .where(user.username.eq(username))
                 .fetchOne();
@@ -52,7 +52,7 @@ public class UserRepositoryImpl implements CustomUserRepository {
     @Override
     public BMRInfoProjection getBMRInfo(Long userID){
         NumberExpression<Short> yearsDiff = Expressions.numberTemplate(Short.class,
-                "DATE_PART('year', AGE({0}))", weightRecord.dateOfMeasurement);
+                "DATE_PART('year', AGE({0}))", user.birthdate);
         return queryFactory.select(Projections.constructor(BMRInfoProjection.class,
                     weightRecord.measuredWeight,
                     user.gender,
@@ -62,7 +62,7 @@ public class UserRepositoryImpl implements CustomUserRepository {
                 .join(user.records, weightRecord)
                 .where(user.id.eq(userID))
                 .orderBy(weightRecord.dateOfMeasurement.desc())
-                .fetchOne();
+                .fetchFirst();
     }
 
 

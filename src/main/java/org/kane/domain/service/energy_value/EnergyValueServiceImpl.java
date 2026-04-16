@@ -4,10 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.kane.database.entity.physical_quantity.nutrients.Calories;
 import org.kane.database.enum_types.CaloricityType;
 import org.kane.database.enum_types.Gender;
-import org.kane.database.repository.meal_item.MealItemRepository;
+import org.kane.database.repository.diary.meal_item.MealItemRepository;
 import org.kane.database.repository.recipe_recource.ingredient.IngredientRepository;
 import org.kane.database.repository.user.UserRepository;
-import org.kane.domain.DTO.entityDTO.EnergyValueShowDTO;
+import org.kane.domain.DTO.entityDTO.nutritional_info.EnergyValueShowDTO;
 import org.kane.domain.DTO.request.EnergyValueRequest;
 import org.springframework.stereotype.Service;
 

@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS image_model(
 CREATE TABLE IF NOT EXISTS users(
     id BIGSERIAL PRIMARY KEY,
     username VARCHAR(60) NOT NULL,
-    password VARCHAR(72) NOT NULL,
+    password VARCHAR(255) NOT NULL,
     email VARCHAR(30) NOT NULL ,
     height_sm SMALLINT,
     birthdate DATE,
@@ -150,7 +150,8 @@ CREATE TABLE IF NOT EXISTS meal(
     id BIGSERIAL PRIMARY KEY,
     mealtime TIME NOT NULL ,
     type VARCHAR(30) NOT NULL,
-    diary_record_ID BIGINT REFERENCES daily_diary_record ON DELETE CASCADE NOT NULL
+    diary_record_ID BIGINT REFERENCES daily_diary_record ON DELETE CASCADE NOT NULL,
+    UNIQUE (mealtime, diary_record_id)
 );
 
 --changeset kane:18
@@ -166,7 +167,7 @@ CREATE TABLE IF NOT EXISTS sports_activity(
     id BIGSERIAL PRIMARY KEY,
     name VARCHAR(15) NOT NULL ,
     burned_calories NUMERIC(5, 1) NOT NULL ,
-    diary_record_ID BIGINT REFERENCES daily_diary_record ON DELETE CASCADE NOT NULL,
+    diary_record_ID BIGINT REFERENCES daily_diary_record ON DELETE CASCADE NOT NULL
 );
 
 --changeset kane:20

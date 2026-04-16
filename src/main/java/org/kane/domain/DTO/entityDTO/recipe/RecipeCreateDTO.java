@@ -1,8 +1,8 @@
 package org.kane.domain.DTO.entityDTO.recipe;
 
 import lombok.Data;
-import org.kane.domain.DTO.entityDTO.recipe_recource.cooking_stage.CookingStageCreateDTO;
-import org.kane.domain.DTO.entityDTO.recipe_recource.ingredient.IngredientCreateDTO;
+import org.kane.domain.DTO.entityDTO.diary.recipe_recource.cooking_stage.CookingStageCreateDTO;
+import org.kane.domain.DTO.entityDTO.diary.recipe_recource.ingredient.IngredientCreateDTO;
 
 import java.util.List;
 

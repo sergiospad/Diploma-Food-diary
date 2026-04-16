@@ -5,7 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.kane.database.repository.recipe_recource.category.CategoryRepository;
 import org.kane.database.repository.product.ProductRepository;
 import org.kane.database.repository.user.UserRepository;
-import org.kane.domain.DTO.entityDTO.recipe_recource.measure_unit.MeasureUnitDTO;
+import org.kane.domain.DTO.entityDTO.diary.recipe_recource.measure_unit.MeasureUnitDTO;
+import org.kane.domain.DTO.entityDTO.nutritional_info.NutritionShowProjection;
 import org.kane.domain.DTO.entityDTO.product.ProductCreateDTO;
 import org.kane.domain.DTO.entityDTO.product.ProductEditDTO;
 import org.kane.domain.DTO.entityDTO.product.ProductSearchDTO;
@@ -73,5 +74,14 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Long> removeTagFromRecipe(Long recipeId, Long tagId) {
         return List.of();
+    }
+
+    @Override
+    public List<ProductSearchDTO> searchForSuitableNutritions(String keyItem){
+        return productRepository.getNutritionsSearch(keyItem);
+    }
+
+    public NutritionShowProjection getNutritionShowProjection(Long id){
+        return productRepository.getNutritionsShowProjection(id);
     }
 }

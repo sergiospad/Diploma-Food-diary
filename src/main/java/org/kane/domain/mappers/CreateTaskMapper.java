@@ -2,8 +2,7 @@ package org.kane.domain.mappers;
 
 import org.kane.database.entity.diary.Task;
 import org.kane.database.enum_types.TaskStatus;
-import org.kane.database.enum_types.TaskTarget;
-import org.kane.domain.DTO.entityDTO.task.TaskCreateDTO;
+import org.kane.domain.DTO.entityDTO.diary.task.TaskCreateDTO;
 import org.springframework.stereotype.Component;
 
 @Component

@@ -2,7 +2,7 @@ package org.kane.domain.mappers;
 
 import org.kane.database.entity.recipe_recource.Comment;
 import org.kane.database.entity.recipe_recource.ImageModel;
-import org.kane.domain.DTO.entityDTO.recipe_recource.comment.CommentShowDTO;
+import org.kane.domain.DTO.entityDTO.diary.recipe_recource.comment.CommentShowDTO;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;

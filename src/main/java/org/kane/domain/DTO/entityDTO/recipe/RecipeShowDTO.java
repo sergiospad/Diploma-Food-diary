@@ -2,10 +2,10 @@ package org.kane.domain.DTO.entityDTO.recipe;
 
 import lombok.Builder;
 import lombok.Data;
-import org.kane.domain.DTO.entityDTO.EnergyValueShowDTO;
-import org.kane.domain.DTO.entityDTO.recipe_recource.TagDTO;
-import org.kane.domain.DTO.entityDTO.recipe_recource.cooking_stage.CookingStageShowDTO;
-import org.kane.domain.DTO.entityDTO.recipe_recource.ingredient.IngredientShowDTO;
+import org.kane.domain.DTO.entityDTO.nutritional_info.EnergyValueShowDTO;
+import org.kane.domain.DTO.entityDTO.diary.recipe_recource.TagDTO;
+import org.kane.domain.DTO.entityDTO.diary.recipe_recource.cooking_stage.CookingStageShowDTO;
+import org.kane.domain.DTO.entityDTO.diary.recipe_recource.ingredient.IngredientShowDTO;
 
 import java.util.List;
 

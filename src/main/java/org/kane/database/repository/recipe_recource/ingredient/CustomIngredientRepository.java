@@ -1,7 +1,7 @@
 package org.kane.database.repository.recipe_recource.ingredient;
 
-import org.kane.domain.DTO.entityDTO.recipe_recource.ingredient.IngredientEnergyDTO;
-import org.kane.domain.DTO.entityDTO.recipe_recource.ingredient.IngredientPreShowProjection;
+import org.kane.domain.DTO.entityDTO.diary.recipe_recource.ingredient.IngredientEnergyDTO;
+import org.kane.domain.DTO.entityDTO.diary.recipe_recource.ingredient.IngredientPreShowProjection;
 
 import java.util.List;
 

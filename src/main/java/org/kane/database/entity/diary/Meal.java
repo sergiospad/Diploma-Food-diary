@@ -23,7 +23,7 @@ public class Meal {
     private Long id;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm", timezone = "UTC")
-    @Column(updatable = false)
+    @Column
     private LocalTime mealTime;
 
     @Column
@@ -31,12 +31,17 @@ public class Meal {
     private MealType type;
 
     @OneToMany(
-            cascade = CascadeType.REFRESH,
+            cascade = { CascadeType.PERSIST, CascadeType.REFRESH },
             fetch = FetchType.LAZY,
             mappedBy = "meal"
     )
     @Builder.Default
     private List<MealItem> mealItems = new ArrayList<>();
+
+    public void addMealItem(MealItem mealItem) {
+        mealItems.add(mealItem);
+        mealItem.setMeal(this);
+    }
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "diary_record_id")

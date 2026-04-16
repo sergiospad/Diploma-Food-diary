@@ -1,7 +1,7 @@
 package org.kane.domain.mappers.weight_chart;
 
-import org.kane.domain.DTO.entityDTO.weight_record.for_chart.WeightChartDataDTO;
-import org.kane.domain.DTO.entityDTO.weight_record.for_chart.WeightChartDataProjection;
+import org.kane.domain.DTO.entityDTO.diary.weight_record.for_chart.WeightChartDataDTO;
+import org.kane.domain.DTO.entityDTO.diary.weight_record.for_chart.WeightChartDataProjection;
 import org.kane.domain.mappers.Mapper;
 import org.springframework.stereotype.Component;
 

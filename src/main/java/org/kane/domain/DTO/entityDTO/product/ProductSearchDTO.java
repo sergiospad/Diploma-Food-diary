@@ -8,6 +8,10 @@ import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Projection
 @ProjectionConstructor
 @AllArgsConstructor
 public class ProductSearchDTO {
-    Long id;
-    String name;
+    private Long id;
+    private String name;
+
+    public static  ProductSearchDTO toProjection(Long id, String name) {
+        return new ProductSearchDTO(id, name);
+    }
 }
