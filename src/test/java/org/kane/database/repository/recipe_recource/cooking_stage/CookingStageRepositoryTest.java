@@ -6,6 +6,7 @@ import org.kane.database.entity.Recipe;
 import org.kane.database.entity.recipe_recource.CookingStage;
 import org.kane.database.entity.recipe_recource.ImageModel;
 import org.kane.database.repository.recipe_recource.coefficient.CoefficientRepository;
+import org.kane.exceptions.not_found.CookingStageNotFoundException;
 import org.kane.integration.IntegrationTestBase;
 import org.kane.integration.SavedEntities;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,54 +34,68 @@ import static org.junit.jupiter.api.Assertions.*;
 })
 class CookingStageRepositoryTest extends IntegrationTestBase {
 
-        @Autowired
-        private CookingStageRepository coefficientRepository;
+    @Autowired
+    private CookingStageRepository coefficientRepository;
 
-        @Autowired
-        private SavedEntities savedEntities;
+    @Autowired
+    private SavedEntities savedEntities;
 
-        private Recipe savedRecipe;
-        private List<CookingStage> savedCookingStages;
-        private List<ImageModel> savedImageModels;
+    private Recipe savedRecipe;
+    private List<CookingStage> savedCookingStages;
+    private List<ImageModel> savedImageModels;
+
     @Autowired
     private CookingStageRepository cookingStageRepository;
 
-        @BeforeEach
-        void setUp() {
-                savedRecipe = savedEntities.getRecipe();
-                savedCookingStages = savedEntities.getCookingStages();
-                savedImageModels = List.of(
-                        ImageModel.builder()
-                                .id(1L)
-                                .url(Path.of("/images/avatars/default.jpg"))
-                                .build(),
-                        ImageModel.builder()
-                                .id(2L)
-                                .url(Path.of("/images/recipes/pasta.jpg"))
-                                .build(),
-                        ImageModel.builder()
-                                .id(3L)
-                                .url(Path.of("/images/recipes/salad.jpg"))
-                                .build()
-                );
-                List.of(0,1,2).forEach(i -> {
-                        savedCookingStages.get(i).addRecipe(savedRecipe);
-                        savedCookingStages.get(i).setImage(savedImageModels.get(i));
-                });
-        }
-        @Test
-        void findAllShowDTOByRecipeID(){
-                var cookingStages = cookingStageRepository.findAllShowDTOByRecipeID(savedRecipe.getId());
-                assertThat(cookingStages).isNotEmpty();
-                assertThat(cookingStages.size()).isEqualTo(3);
-                List.of(0,1,2).forEach(i -> {
-                    var cookingStage = cookingStages.get(i);
-                    var savedCookingStage = savedCookingStages.get(i);
-                    assertThat(cookingStage.getId()).isEqualTo(savedCookingStage.getId());
-                    assertThat(cookingStage.getStageNumber()).isEqualTo(savedCookingStage.getStageNumber());
-                    assertThat(cookingStage.getDescription()).isEqualTo(savedCookingStage.getDescription());
-                    assertThat(cookingStage.getImageId()).isEqualTo(savedCookingStage.getImage().getId());
-                });
-        }
+    @BeforeEach
+    void setUp() {
+        savedRecipe = savedEntities.getRecipe();
+        savedCookingStages = savedEntities.getCookingStages();
+        savedImageModels = List.of(
+                ImageModel.builder()
+                        .id(1L)
+                        .url(Path.of("/images/avatars/default.jpg"))
+                        .build(),
+                ImageModel.builder()
+                        .id(2L)
+                        .url(Path.of("/images/recipes/pasta.jpg"))
+                        .build(),
+                ImageModel.builder()
+                        .id(3L)
+                        .url(Path.of("/images/recipes/salad.jpg"))
+                        .build()
+        );
+        List.of(0, 1, 2).forEach(i -> {
+            savedCookingStages.get(i).addRecipe(savedRecipe);
+            savedCookingStages.get(i).setImage(savedImageModels.get(i));
+        });
+    }
+
+    @Test
+    void findAllShowDTOByRecipeID() {
+        var cookingStages = cookingStageRepository.findAllShowDTOByRecipeID(savedRecipe.getId());
+        assertThat(cookingStages).isNotEmpty().hasSize(savedCookingStages.size());
+        List.of(0, 1, 2).forEach(i -> {
+            var cookingStage = cookingStages.get(i);
+            var savedCookingStage = savedCookingStages.get(i);
+            assertThat(cookingStage.getId()).isEqualTo(savedCookingStage.getId());
+            assertThat(cookingStage.getStageNumber()).isEqualTo(savedCookingStage.getStageNumber());
+            assertThat(cookingStage.getDescription()).isEqualTo(savedCookingStage.getDescription());
+            assertThat(cookingStage.getImageId()).isEqualTo(savedCookingStage.getImage().getId());
+        });
+    }
+
+    @Test
+    void findByRecipeID() {
+        var savedStage = savedCookingStages.getFirst();
+        var stage = cookingStageRepository.findById(savedStage.getId())
+                .orElseThrow(()->new CookingStageNotFoundException("Cooking stage not found"));
+        assertThat(stage).isNotNull();
+        assertThat(stage.getId()).isEqualTo(savedStage.getId());
+        assertThat(stage.getStageNumber()).isEqualTo(savedStage.getStageNumber());
+        assertThat(stage.getDescription()).isEqualTo(savedStage.getDescription());
+        assertThat(stage.getImage().getId()).isEqualTo(savedStage.getImage().getId());
+
+    }
 
 }
