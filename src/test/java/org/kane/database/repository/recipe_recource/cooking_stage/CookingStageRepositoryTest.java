@@ -35,9 +35,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class CookingStageRepositoryTest extends IntegrationTestBase {
 
     @Autowired
-    private CookingStageRepository coefficientRepository;
-
-    @Autowired
     private SavedEntities savedEntities;
 
     private Recipe savedRecipe;

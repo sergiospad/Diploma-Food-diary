@@ -38,6 +38,7 @@ public class CustomCommentRepositoryImpl implements CustomCommentRepository {
                 .join(recipe.author, user)
                 .where(recipe.id.eq(recipeID))
                 .orderBy(comment.createdAt.desc())
+                .distinct()
                 .fetch();
     }
 }
