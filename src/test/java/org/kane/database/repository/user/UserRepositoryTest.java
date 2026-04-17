@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SqlGroup({
         @Sql(
-                scripts = "classpath:sql/user/cleanup-user-repository-test.sql",
+                scripts = "classpath:sql/cleanup-repository-test.sql",
                 config = @SqlConfig(transactionMode = SqlConfig.TransactionMode.ISOLATED)
         ),
         @Sql(

@@ -78,7 +78,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductSearchDTO> searchForSuitableNutritions(String keyItem){
-        return productRepository.getNutritionsSearch(keyItem);
+        return productRepository.findSearchDTO(keyItem);
     }
 
     public NutritionShowProjection getNutritionShowProjection(Long id){

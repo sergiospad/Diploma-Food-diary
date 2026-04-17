@@ -16,6 +16,8 @@ import java.util.List;
 
 import static org.kane.database.entity.QNutritionalInfo.nutritionalInfo;
 import static org.kane.database.entity.QProduct.product;
+import static org.kane.database.entity.recipe_recource.QCategory.category;
+import static org.kane.database.entity.recipe_recource.QCoefficient.coefficient;
 import static org.kane.database.entity.recipe_recource.QMeasureUnit.measureUnit;
 
 @Repository
@@ -42,35 +44,23 @@ public class CustomProductRepositoryImpl implements CustomProductRepository {
                 .select(Projections.constructor(MeasureUnitDTO.class,
                             measureUnit.id,
                             measureUnit.name))
-                .from(product.category.coefficients.any().measureUnit)
+                .from(product)
+                .join(product.category, category)
+                .join(category.coefficients, coefficient)
+                .join(coefficient.measureUnit, measureUnit)
                 .where(product.id.eq(productId))
                 .fetch();
     }
 
     @Override
     public String findNameById(Long id) {
-        return new JPAQuery<String>(em).select(Projections.constructor(String.class,
-                    product.name))
+        return new JPAQuery<String>(em).select(product.name)
                 .from(product)
                 .where(product.id.eq(id))
+                .distinct()
                 .fetchOne();
     }
 
-    @Override
-    public List<ProductSearchDTO> getNutritionsSearch(String searchItem){
-        return Search.session(em)
-                .search(NutritionalInfo.class)
-                .where(f->f.match()
-                        .field("name")
-                        .matching(searchItem)
-                        .fuzzy(2))
-                .fetchHits(5)
-                .stream()
-                .map(nutrition -> ProductSearchDTO.toProjection(
-                        nutrition.getId(),
-                        nutrition.getName()))
-                .toList();
-    }
 
     @Override
     public NutritionShowProjection getNutritionsShowProjection(Long id) {
@@ -84,6 +74,7 @@ public class CustomProductRepositoryImpl implements CustomProductRepository {
                     nutritionalInfo
                 )).from(nutritionalInfo)
                 .where(nutritionalInfo.id.eq(id))
+                .distinct()
                 .fetchOne();
     }
 }

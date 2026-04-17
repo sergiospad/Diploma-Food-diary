@@ -21,7 +21,9 @@ public class CustomCoefficientRepositoryImpl implements CustomCoefficientReposit
     @Override
     public Double getCoefficientByProductID(Long productID, Long measureUnitID) {
         return queryFactory.select(Projections.constructor(Double.class, coefficient.conversionFactor))
-                .from(product.category.coefficients.any())
+                .from(product)
+                .join(product.category,category)
+                .join(category.coefficients, coefficient)
                 .where(product.id.eq(productID))
                 .where(coefficient.measureUnit.id.eq(measureUnitID))
                 .fetchOne();

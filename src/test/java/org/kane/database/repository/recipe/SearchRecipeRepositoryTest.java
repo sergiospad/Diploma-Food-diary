@@ -22,7 +22,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SqlGroup({
         @Sql(
-                scripts = "classpath:sql/recipe/cleanup-recipe-repository-test.sql",
+                scripts = "classpath:sql/cleanup-repository-test.sql",
                 config = @SqlConfig(transactionMode = SqlConfig.TransactionMode.ISOLATED)
         ),
         @Sql(

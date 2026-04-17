@@ -18,13 +18,24 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.SqlConfig;
+import org.springframework.test.context.jdbc.SqlGroup;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.kane.database.entity.QRecipe.recipe;
 
 
-@Sql(scripts = "classpath:sql/recipe/data-recipe-repository-test.sql")
+@SqlGroup({
+        @Sql(
+                scripts = "classpath:sql/cleanup-repository-test.sql",
+                config = @SqlConfig(transactionMode = SqlConfig.TransactionMode.ISOLATED)
+        ),
+        @Sql(
+                scripts = "classpath:sql/recipe/data-recipe-repository-test.sql",
+                config = @SqlConfig(transactionMode = SqlConfig.TransactionMode.ISOLATED)
+        )
+})
 class RecipeRepositoryTest extends IntegrationTestBase{
     @Autowired
     private RecipeRepository recipeRepository;

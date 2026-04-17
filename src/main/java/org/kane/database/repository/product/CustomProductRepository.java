@@ -11,7 +11,5 @@ public interface CustomProductRepository {
     List<MeasureUnitDTO> findMeasureUnitDTOByProductId(Long productId);
     String findNameById(Long id);
 
-    List<ProductSearchDTO> getNutritionsSearch(String searchItem);
-
     NutritionShowProjection getNutritionsShowProjection(Long id);
 }

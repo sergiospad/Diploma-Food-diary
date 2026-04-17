@@ -11,5 +11,5 @@ public interface CategoryRepository extends JpaRepository<Category, Long>, Custo
     @Override
     @NonNull
     Optional<Category> findById(Long id);
-    Optional<CategoryNameDTO> findCategoryById(Long id);
+
 }

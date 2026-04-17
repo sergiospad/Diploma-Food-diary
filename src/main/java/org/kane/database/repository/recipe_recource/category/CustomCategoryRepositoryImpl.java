@@ -7,12 +7,13 @@ import org.kane.domain.DTO.entityDTO.diary.recipe_recource.category.CategoryName
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.kane.database.entity.recipe_recource.QCategory.category;
 
 @Repository
 @RequiredArgsConstructor
-public class CategoryRepositoryImpl implements CustomCategoryRepository {
+public class CustomCategoryRepositoryImpl implements CustomCategoryRepository {
     private final JPAQueryFactory queryFactory;
     @Override
     public List<CategoryNameDTO> findAllCategories() {
@@ -22,5 +23,16 @@ public class CategoryRepositoryImpl implements CustomCategoryRepository {
                 .from(category)
                 .orderBy(category.products.size().desc())
                 .fetch();
+    }
+
+    @Override
+    public Optional<CategoryNameDTO> findCategoryById(Long id) {
+        var result= queryFactory.select(Projections.constructor(CategoryNameDTO.class,
+                    category.id,
+                    category.name))
+                .from(category)
+                .where(category.id.eq(id))
+                .fetchOne();
+        return Optional.ofNullable(result);
     }
 }
