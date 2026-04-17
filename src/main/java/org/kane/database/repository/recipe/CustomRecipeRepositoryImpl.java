@@ -5,6 +5,8 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQuery;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.search.mapper.orm.Search;
+import org.kane.database.entity.Recipe;
 import org.kane.domain.DTO.entityDTO.recipe.RecipePreShowProjection;
 import org.kane.domain.DTO.entityDTO.recipe.RecipePreviewDTO;
 import org.kane.domain.DTO.entityDTO.recipe.RecipeSummarySearchDTO;
@@ -37,6 +39,7 @@ public class CustomRecipeRepositoryImpl implements CustomRecipeRepository {
                     recipe.illustration.id.as("imageID")))
                 .from(recipe)
                 .where(predicate)
+                .distinct()
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -46,43 +49,47 @@ public class CustomRecipeRepositoryImpl implements CustomRecipeRepository {
 
     @Override
     public List<RecipeSummarySearchDTO> findSummaryDTOByItem(String searchItem) {
-        return new JPAQuery<RecipeSummarySearchDTO>(em)
-                .select(Projections.constructor(RecipeSummarySearchDTO.class,
-                        recipe.id,
-                        recipe.name,
-                        recipe.summary
-                ))
-                .from(recipe)
-                .where(recipe.summary.containsIgnoreCase(searchItem))
-                .limit(5)
-                .distinct()
-                .fetch();
+        return Search.session(em).search(Recipe.class)
+                .where(f->f.match()
+                        .field("summary")
+                        .matching(searchItem)
+                        .fuzzy(2))
+                .fetchHits(5)
+                .stream()
+                .map(recipe -> new RecipeSummarySearchDTO(
+                        recipe.getId(),
+                        recipe.getName(),
+                        recipe.getSummary()))
+                .toList();
     }
+
 
     @Override
     public List<RecipeTitleSearchDTO> findTitleDTOByItem(String searchItem) {
-        return new JPAQuery<RecipeTitleSearchDTO>(em)
-                .select(Projections.constructor(RecipeTitleSearchDTO.class,
-                        recipe.id,
-                        recipe.name
-                ))
-                .from(recipe)
-                .where(recipe.name.containsIgnoreCase(searchItem))
-                .groupBy(recipe.id, recipe.name)
-                .fetch();
+        return Search.session(em).search(Recipe.class)
+                .where(f->f.match()
+                        .field("name")
+                        .matching(searchItem)
+                        .fuzzy(2)
+                ).fetchHits(5)
+                .stream().map(
+                        rec-> new RecipeTitleSearchDTO(
+                                rec.getId(),
+                                rec.getName()))
+                .toList();
     }
+
 
     @Override
     public RecipePreShowProjection getRecipePreShowProjByID(Long recipeID){
         return new JPAQuery<RecipePreShowProjection>(em).select(Projections.constructor(RecipePreShowProjection.class,
                     recipe.id,
-                    user.username,
+                    user.username.as("authorName"),
                     user.avatar.id.as("avatarID"),
                     recipe.cookingTime,
                     recipe.name,
-                    recipe.summary,
-                    recipe.illustration.id.as("illustrationID")
-                ))
+                    recipe.summary.as("summary"),
+                    recipe.illustration.id.as("illustrationID")))
                 .from(recipe)
                 .join(recipe.author, user)
                 .where(recipe.id.eq(recipeID))

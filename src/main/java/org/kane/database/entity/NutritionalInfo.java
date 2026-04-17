@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
 import org.kane.database.converter.nutrients_converter.CaloriesConverter;
 import org.kane.database.converter.nutrients_converter.CarbsConverter;
 import org.kane.database.converter.nutrients_converter.FatConverter;
@@ -29,6 +30,7 @@ public abstract class NutritionalInfo {
     protected User author;
 
     @Column
+    @FullTextField
     protected String name;
 
     @Column(name = "calories_per_100g")

@@ -11,6 +11,8 @@ import org.kane.integration.SavedEntities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.test.context.jdbc.SqlConfig;
+import org.springframework.test.context.jdbc.SqlGroup;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -20,7 +22,16 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
-@Sql({"classpath:sql/data-user-repository-test.sql"})
+@SqlGroup({
+        @Sql(
+                scripts = "classpath:sql/user/cleanup-user-repository-test.sql",
+                config = @SqlConfig(transactionMode = SqlConfig.TransactionMode.ISOLATED)
+        ),
+        @Sql(
+                scripts = "classpath:sql/user/data-user-repository-test.sql",
+                config = @SqlConfig(transactionMode = SqlConfig.TransactionMode.ISOLATED)
+        )
+})
 class UserRepositoryTest extends IntegrationTestBase {
 
     @Autowired

@@ -6,6 +6,8 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.kane.database.converter.PathConverter;
 import org.kane.database.entity.recipe_recource.*;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
 
 import java.nio.file.Path;
 import java.time.LocalDateTime;
@@ -19,8 +21,10 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @DiscriminatorValue("RECIPE")
+@Indexed
 public class Recipe extends NutritionalInfo {
     @Column
+    @FullTextField
     private String summary;
 
     @OneToOne

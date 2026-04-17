@@ -1,35 +1,30 @@
 package org.kane.database.repository.recipe;
 
-import com.querydsl.core.types.Projections;
-import com.querydsl.jpa.impl.JPAQuery;
+import com.querydsl.core.BooleanBuilder;
 import jakarta.persistence.EntityManager;
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
+import org.hibernate.search.mapper.orm.Search;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.kane.database.entity.Recipe;
 import org.kane.database.entity.User;
-import org.kane.database.entity.physical_quantity.nutrients.Calories;
-import org.kane.database.entity.physical_quantity.nutrients.Carbs;
-import org.kane.database.entity.physical_quantity.nutrients.Fat;
-import org.kane.database.entity.physical_quantity.nutrients.Protein;
 import org.kane.database.entity.recipe_recource.ImageModel;
 import org.kane.database.repository.user.UserRepository;
-import org.kane.domain.DTO.entityDTO.recipe.RecipePreShowProjection;
+import org.kane.domain.DTO.entityDTO.recipe.RecipePreviewDTO;
 import org.kane.exceptions.not_found.RecipeNotFoundException;
 import org.kane.integration.IntegrationTestBase;
 import org.kane.integration.SavedEntities;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.jdbc.Sql;
-
-import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.kane.database.entity.QRecipe.recipe;
-import static org.kane.database.entity.QUser.user;
 
-@Sql({"classpath:sql/data-recipe-repository-test.sql"})
+
+@Sql(scripts = "classpath:sql/recipe/data-recipe-repository-test.sql")
 class RecipeRepositoryTest extends IntegrationTestBase{
     @Autowired
     private RecipeRepository recipeRepository;
@@ -42,6 +37,8 @@ class RecipeRepositoryTest extends IntegrationTestBase{
     private User savedUser;
     private ImageModel savedIllustrationImage;
     private ImageModel userAvatar;
+    @Autowired
+    private UserRepository userRepository;
 
     @BeforeEach
     void beforeEach(){
@@ -52,6 +49,14 @@ class RecipeRepositoryTest extends IntegrationTestBase{
         savedRecipe.setIllustration(savedIllustrationImage);
         userAvatar = savedEntities.getAvatar();
         savedUser.setAvatar(userAvatar);
+        try {
+            Search.session(em)
+                    .massIndexer()
+                    .startAndWait();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new RuntimeException("Failed to initialize Hibernate Search index for tests", e);
+        }
     }
     @Test
     void findById() {
@@ -73,24 +78,6 @@ class RecipeRepositoryTest extends IntegrationTestBase{
         assertThat(recipe.getCookingTime()).isEqualTo(savedRecipe.getCookingTime());
     }
 
-//    @Test
-//    void findAllPreviewDTO() {
-//        var recipe =  recipeRepository.findAllPreviewDTO()
-//    }
-//
-    @Test
-    void findSummaryDTOByItem() {
-        var recipes = recipeRepository.findSummaryDTOByItem("салат");
-        System.out.println(recipes);
-        assertThat(recipes).isNotEmpty();
-        assertThat(recipes.size()).isEqualTo(2);
-
-    }
-//
-//    @Test
-//    void findTitleDTOByItem() {
-//    }
-
     @Test
     void getRecipePreShowProjByID() {
         var proj = recipeRepository.getRecipePreShowProjByID(4L);
@@ -103,5 +90,74 @@ class RecipeRepositoryTest extends IntegrationTestBase{
         assertThat(proj.getName()).isEqualTo(savedRecipe.getName());
         assertThat(proj.getSummary()).isEqualTo(savedRecipe.getSummary());
         assertThat(proj.getIllustrationID()).isEqualTo(savedIllustrationImage.getId());
+    }
+
+    @Test
+    void findAllPreviewDTO(){
+        BooleanBuilder predicate = new BooleanBuilder();
+        Pageable pageable = PageRequest.of(0, 10);
+
+        Page<RecipePreviewDTO> result = recipeRepository.findAllPreviewDTO(predicate, pageable);
+
+        assertNotNull(result);
+        assertEquals(4L, result.getTotalElements());
+        assertEquals(4, result.getContent().size());
+        assertNotNull(result.getContent().getFirst().getId());
+        assertNotNull(result.getContent().getFirst().getName());
+        assertNotNull(result.getContent().getFirst().getSummary());
+        assertEquals(pageable, result.getPageable());
+    }
+
+    @Test
+    void findAllPreviewDTO1(){
+        BooleanBuilder predicate = new BooleanBuilder();
+        predicate.and(recipe.isPrivate.isFalse());
+        Pageable pageable = PageRequest.of(0, 10);
+        Page<RecipePreviewDTO> result = recipeRepository.findAllPreviewDTO(predicate, pageable);
+        assertNotNull(result);
+        assertEquals(3L, result.getTotalElements());
+    }
+
+    @Test
+    void findAllPreviewDTO2(){
+        BooleanBuilder predicate = new BooleanBuilder();
+        predicate.and(recipe.isPrivate.isFalse());
+        predicate.and(recipe.tags.any().id.in(1L, 5L, 3L));
+        Pageable pageable = PageRequest.of(0, 10);
+        Page<RecipePreviewDTO> result = recipeRepository.findAllPreviewDTO(predicate, pageable);
+        assertNotNull(result);
+        assertEquals(2L, result.getTotalElements());
+    }
+
+    @Test
+    void findAllPreviewDTO3(){
+        BooleanBuilder predicate = new BooleanBuilder();
+        predicate.and(recipe.author.id.eq(1L));
+        Pageable pageable = PageRequest.of(0, 10);
+        Page<RecipePreviewDTO> result = recipeRepository.findAllPreviewDTO(predicate, pageable);
+        assertNotNull(result);
+        assertEquals(2L, result.getTotalElements());
+    }
+
+    @Test
+    void findAllPreviewDTO4(){
+        BooleanBuilder predicate = new BooleanBuilder();
+        predicate.and(recipe.author.id.eq(1L));
+        predicate.and(recipe.isPrivate.isFalse());
+        Pageable pageable = PageRequest.of(0, 10);
+        Page<RecipePreviewDTO> result = recipeRepository.findAllPreviewDTO(predicate, pageable);
+        assertNotNull(result);
+        assertEquals(1L, result.getTotalElements());
+    }
+
+    @Test
+    void findAllPreviewDTO5(){
+        var user = userRepository.findById(1L).orElseThrow();
+        BooleanBuilder predicate = new BooleanBuilder();
+        predicate.and(recipe.in(user.getFavouriteRecipes()));
+        Pageable pageable = PageRequest.of(0, 10);
+        Page<RecipePreviewDTO> result = recipeRepository.findAllPreviewDTO(predicate, pageable);
+        assertNotNull(result);
+        assertThat(result.getTotalElements()).isEqualTo(2L);
     }
 }
