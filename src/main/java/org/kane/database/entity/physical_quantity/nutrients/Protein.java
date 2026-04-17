@@ -1,8 +1,9 @@
 package org.kane.database.entity.physical_quantity.nutrients;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
+import lombok.EqualsAndHashCode;
 
+@EqualsAndHashCode(callSuper=true)
 public class Protein extends BaseNutrient {
     public Protein(Double value) {
         super(value);

@@ -79,6 +79,7 @@ public class CustomRecipeRepositoryImpl implements CustomRecipeRepository {
                 .from(recipe)
                 .join(recipe.author, user)
                 .where(recipe.id.eq(recipeID))
+                .distinct()
                 .fetchOne();
     }
 }
