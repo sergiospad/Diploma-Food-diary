@@ -5,7 +5,6 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQuery;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.search.mapper.orm.Search;
 import org.kane.domain.DTO.entityDTO.recipe.RecipePreShowProjection;
 import org.kane.domain.DTO.entityDTO.recipe.RecipePreviewDTO;
 import org.kane.domain.DTO.entityDTO.recipe.RecipeSummarySearchDTO;
@@ -47,22 +46,30 @@ public class CustomRecipeRepositoryImpl implements CustomRecipeRepository {
 
     @Override
     public List<RecipeSummarySearchDTO> findSummaryDTOByItem(String searchItem) {
-        return Search.session(em).search(RecipeSummarySearchDTO.class)
-                .where(f->f.match()
-                        .field("summary")
-                        .matching(searchItem)
-                        .fuzzy(2))
-                .fetchHits(5);
+        return new JPAQuery<RecipeSummarySearchDTO>(em)
+                .select(Projections.constructor(RecipeSummarySearchDTO.class,
+                        recipe.id,
+                        recipe.name,
+                        recipe.summary
+                ))
+                .from(recipe)
+                .where(recipe.summary.containsIgnoreCase(searchItem))
+                .limit(5)
+                .distinct()
+                .fetch();
     }
 
     @Override
     public List<RecipeTitleSearchDTO> findTitleDTOByItem(String searchItem) {
-        return Search.session(em).search(RecipeTitleSearchDTO.class)
-                .where(f->f.match()
-                        .field("name")
-                        .matching(searchItem)
-                        .fuzzy(2)
-                ).fetchHits(5);
+        return new JPAQuery<RecipeTitleSearchDTO>(em)
+                .select(Projections.constructor(RecipeTitleSearchDTO.class,
+                        recipe.id,
+                        recipe.name
+                ))
+                .from(recipe)
+                .where(recipe.name.containsIgnoreCase(searchItem))
+                .groupBy(recipe.id, recipe.name)
+                .fetch();
     }
 
     @Override

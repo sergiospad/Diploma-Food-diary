@@ -75,11 +75,17 @@ class RecipeRepositoryTest extends IntegrationTestBase{
 
 //    @Test
 //    void findAllPreviewDTO() {
+//        var recipe =  recipeRepository.findAllPreviewDTO()
 //    }
 //
-//    @Test
-//    void findSummaryDTOByItem() {
-//    }
+    @Test
+    void findSummaryDTOByItem() {
+        var recipes = recipeRepository.findSummaryDTOByItem("салат");
+        System.out.println(recipes);
+        assertThat(recipes).isNotEmpty();
+        assertThat(recipes.size()).isEqualTo(2);
+
+    }
 //
 //    @Test
 //    void findTitleDTOByItem() {
