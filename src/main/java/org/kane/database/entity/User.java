@@ -47,7 +47,7 @@ public class User {
     @Column(name ="birthdate")
     private LocalDate birthdate;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "avatar_id")
     private ImageModel avatar;
 

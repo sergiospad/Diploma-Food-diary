@@ -20,9 +20,8 @@ public class CustomTaskRepositoryImpl implements CustomTaskRepository {
     @Override
     public Task getLastTask(Long userID) {
         return queryFactory.select(task)
-                .from(user)
-                .join(user.tasks, task)
-                .where(user.id.eq(userID))
+                .from(task)
+                .where(task.user.id.eq(userID))
                 .orderBy(task.beginningDate.desc())
                 .fetchFirst();
     }
@@ -38,7 +37,7 @@ public class CustomTaskRepositoryImpl implements CustomTaskRepository {
                     task.status))
                 .from(user)
                 .join(user.tasks, task)
-                .where(user.id.eq(userID))
+                .where(task.user.id.eq(userID))
                 .orderBy(task.beginningDate.desc())
                 .fetch();
     }
