@@ -3,6 +3,8 @@ package org.kane.integration;
 import org.kane.database.entity.Product;
 import org.kane.database.entity.Recipe;
 import org.kane.database.entity.User;
+import org.kane.database.entity.diary.DiaryRecord;
+import org.kane.database.entity.physical_quantity.ProductWeight;
 import org.kane.database.entity.physical_quantity.nutrients.Calories;
 import org.kane.database.entity.physical_quantity.nutrients.Carbs;
 import org.kane.database.entity.physical_quantity.nutrients.Fat;
@@ -120,5 +122,19 @@ public class SavedEntities {
                         .description("Добавьте лапшу и варите ещё 10 минут")
                         .build()
         );
+    }
+    public Ingredient getIngredient(){
+        return Ingredient.builder()
+                .id(1L)
+                .weight(new ProductWeight(200.0))
+                .build();
+    }
+
+    public DiaryRecord getDiaryRecord(){
+        return DiaryRecord.builder()
+                .id(1L)
+                .recordDate(LocalDate.of(2024, 1, 15))
+                .autoCalculation(true)
+                .build();
     }
 }

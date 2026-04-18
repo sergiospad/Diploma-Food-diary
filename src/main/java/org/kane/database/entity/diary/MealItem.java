@@ -19,7 +19,7 @@ public class MealItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+    @Column(name = "weight_g")
     @Convert(converter = ProductWeightConverter.class)
     private ProductWeight productWeight;
 

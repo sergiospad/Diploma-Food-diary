@@ -23,7 +23,7 @@ public class Meal {
     private Long id;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm", timezone = "UTC")
-    @Column
+    @Column(name = "mealtime")
     private LocalTime mealTime;
 
     @Column

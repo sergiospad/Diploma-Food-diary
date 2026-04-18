@@ -1,7 +1,6 @@
 package org.kane.domain.DTO.entityDTO.diary.meal_item;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 import org.kane.database.entity.physical_quantity.ProductWeight;
 import org.kane.database.entity.physical_quantity.nutrients.Calories;
 import org.kane.database.entity.physical_quantity.nutrients.Carbs;
@@ -11,6 +10,8 @@ import org.kane.domain.DTO.entityDTO.diary.meal.NutritionalInfoDTO;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class MealItemShowDTO extends NutritionalInfoDTO {
     Long id;
     String name;

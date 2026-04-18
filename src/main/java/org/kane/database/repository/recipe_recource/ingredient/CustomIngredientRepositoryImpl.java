@@ -27,6 +27,7 @@ public class CustomIngredientRepositoryImpl implements CustomIngredientRepositor
                     ingredient.specMeasureUnit.id))
                 .from(ingredient)
                 .where(ingredient.recipe.id.eq(recipeID))
+                .distinct()
                 .fetch();
     }
 
@@ -54,6 +55,7 @@ public class CustomIngredientRepositoryImpl implements CustomIngredientRepositor
                 .from(recipe)
                 .join(recipe.ingredients, ingredient)
                 .where(recipe.id.eq(recipeID))
+                .distinct()
                 .fetch();
     }
 
