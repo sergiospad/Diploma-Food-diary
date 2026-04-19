@@ -11,7 +11,6 @@ import org.kane.domain.DTO.entityDTO.diary.weight_record.WeightRecordShowDTO;
 import org.kane.domain.DTO.entityDTO.diary.weight_record.for_chart.WeightChartDataDTO;
 import org.kane.domain.DTO.entityDTO.diary.weight_record.for_chart.WeightPointDTO;
 import org.kane.domain.DTO.request.WeightChartRequest;
-import org.kane.domain.mappers.weight_chart.WeightChartMapper;
 import org.kane.domain.mappers.weight_chart.WeightChartRequestMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +25,6 @@ public class WeightRecordServiceImpl implements WeightRecordService {
 
     private final WeightRecordRepository weightRecordRepository;
     private final UserRepository userRepository;
-    private final WeightChartMapper weightChartMapper;
     private final WeightChartRequestMapper weightChartRequestMapper;
 
     @Override
@@ -71,8 +69,7 @@ public class WeightRecordServiceImpl implements WeightRecordService {
             case MONTH -> weightRecordRepository.getWeightByMonth(user.getId(), weightChartRequest.getStartDate(), weightChartRequest.getEndDate());
             case YEAR -> weightRecordRepository.getWeightByYear(user.getId(), weightChartRequest.getStartDate(), weightChartRequest.getEndDate());
         };
-        var proj = weightRecordRepository.getDataProjection(user.getId(), weightChartRequest.getStartDate(), weightChartRequest.getEndDate());
-        var dataChart = weightChartMapper.map(proj);
+        var dataChart = findMinMaxWeight(list);
         dataChart = weightChartRequestMapper.copyMap(weightChartRequest, dataChart);
         dataChart.setWeightList(list);
         var change = new HumanWeight(list.getFirst().getWeight().value() - list.getLast().getWeight().value());
@@ -80,4 +77,21 @@ public class WeightRecordServiceImpl implements WeightRecordService {
         return dataChart;
     }
 
+    private WeightChartDataDTO findMinMaxWeight(List<WeightPointDTO> list) {
+        var minWeight = list.stream()
+                .map(w -> w.getWeight().value())
+                .min(Double::compareTo)
+                .orElse(0.0);
+        var maxWeight = list.stream()
+                .map(w -> w.getWeight().value())
+                .max(Double::compareTo)
+                .orElse(0.0);
+        double avgWeight = list.stream().map(w -> w.getWeight().value()).reduce(Double::sum).orElse(0.0);
+        avgWeight = avgWeight / list.size();
+        return WeightChartDataDTO.builder()
+                .maxWeight(new HumanWeight(maxWeight))
+                .minWeight(new HumanWeight(minWeight))
+                .avgWeight(new HumanWeight(avgWeight))
+                .build();
+    }
 }

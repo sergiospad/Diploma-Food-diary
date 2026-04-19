@@ -3,7 +3,6 @@ package org.kane.domain.DTO.entityDTO.nutritional_info;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.kane.database.entity.NutritionalInfo;
-import org.kane.database.entity.Product;
 import org.kane.database.entity.physical_quantity.nutrients.Calories;
 import org.kane.database.entity.physical_quantity.nutrients.Carbs;
 import org.kane.database.entity.physical_quantity.nutrients.Fat;
@@ -22,6 +21,22 @@ public class NutritionShowProjection {
     private Carbs carbs;
 
     public NutritionShowProjection(Long ID,
+                                   NutritionType type,
+                                   String name,
+                                   Calories calories,
+                                   Protein protein,
+                                   Fat fat,
+                                   Carbs carbs) {
+        this.ID = ID;
+        this.type = type;
+        this.name = name;
+        this.calories = calories;
+        this.protein = protein;
+        this.carbs = carbs;
+        this.fat = fat;
+    }
+
+    public NutritionShowProjection(Long ID,
                                    String name,
                                    Calories calories,
                                    Protein protein,
@@ -34,7 +49,7 @@ public class NutritionShowProjection {
         this.protein = protein;
         this.carbs = carbs;
         this.fat = fat;
-        this.type = nutrition instanceof Product ? NutritionType.PRODUCT : NutritionType.RECIPE;
+        this.type = nutrition instanceof org.kane.database.entity.Product ? NutritionType.PRODUCT : NutritionType.RECIPE;
 
     }
 }

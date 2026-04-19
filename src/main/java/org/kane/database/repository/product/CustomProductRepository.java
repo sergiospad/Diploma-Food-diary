@@ -12,4 +12,5 @@ public interface CustomProductRepository {
     String findNameById(Long id);
 
     NutritionShowProjection getNutritionsShowProjection(Long id);
+    Boolean existsByName(String name);
 }

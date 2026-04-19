@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.kane.database.entity.diary.WeightRecord;
 import org.kane.database.entity.physical_quantity.HumanWeight;
 import org.kane.domain.DTO.entityDTO.diary.weight_record.WeightRecordShowDTO;
-import org.kane.domain.DTO.entityDTO.diary.weight_record.for_chart.WeightChartDataProjection;
 import org.kane.domain.DTO.entityDTO.diary.weight_record.for_chart.WeightPointDTO;
 import org.springframework.stereotype.Repository;
 
@@ -107,22 +106,6 @@ public class CustomWeightRecordRepositoryImpl implements CustomWeightRecordRepos
                     return dto;
                 })
                 .toList();
-    }
-
-    @Override
-    public WeightChartDataProjection getDataProjection(Long userId, LocalDate startDate, LocalDate endDate){
-        NumberTemplate<Double> avgWeight = Expressions.numberTemplate(Double.class,
-                "AVG({0})", weightRecord.measuredWeight);
-        NumberTemplate<Double> minWeight = Expressions.numberTemplate(Double.class,
-                "MIN({0})", weightRecord.measuredWeight);
-        NumberTemplate<Double> maxWeight = Expressions.numberTemplate(Double.class,
-                "MAX({0})", weightRecord.measuredWeight);
-        return queryFactory.select(Projections.constructor(WeightChartDataProjection.class,
-                minWeight, maxWeight, avgWeight
-                )).from(user)
-                .join(user.records, weightRecord)
-                .where(user.id.eq(userId).and(weightRecord.dateOfMeasurement.between(startDate, endDate)))
-                .fetchOne();
     }
 
     @Override

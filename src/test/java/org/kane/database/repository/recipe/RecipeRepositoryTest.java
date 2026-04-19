@@ -60,14 +60,6 @@ class RecipeRepositoryTest extends IntegrationTestBase{
         savedRecipe.setIllustration(savedIllustrationImage);
         userAvatar = savedEntities.getAvatar();
         savedUser.setAvatar(userAvatar);
-        try {
-            Search.session(em)
-                    .massIndexer()
-                    .startAndWait();
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            throw new RuntimeException("Failed to initialize Hibernate Search index for tests", e);
-        }
     }
     @Test
     void findById() {

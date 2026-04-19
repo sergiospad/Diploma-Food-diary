@@ -2,6 +2,7 @@ package org.kane.database.repository.product;
 
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQuery;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.search.mapper.orm.Search;
@@ -24,6 +25,7 @@ import static org.kane.database.entity.recipe_recource.QMeasureUnit.measureUnit;
 @RequiredArgsConstructor
 public class CustomProductRepositoryImpl implements CustomProductRepository {
     private final EntityManager em;
+    private final JPAQueryFactory queryFactory;
 
     @Override
     public List<ProductSearchDTO> findSearchDTO(String searchItem) {
@@ -64,7 +66,7 @@ public class CustomProductRepositoryImpl implements CustomProductRepository {
 
     @Override
     public NutritionShowProjection getNutritionsShowProjection(Long id) {
-        return new JPAQuery<NutritionShowProjection>(em).select(Projections.constructor(NutritionShowProjection.class,
+        return queryFactory.select(Projections.constructor(NutritionShowProjection.class,
                     nutritionalInfo.id,
                     nutritionalInfo.name,
                     nutritionalInfo.calories,
@@ -76,5 +78,14 @@ public class CustomProductRepositoryImpl implements CustomProductRepository {
                 .where(nutritionalInfo.id.eq(id))
                 .distinct()
                 .fetchOne();
+    }
+
+    @Override
+    public Boolean existsByName(String name) {
+        return queryFactory
+                .selectOne()
+                .from(nutritionalInfo)
+                .where(nutritionalInfo.name.eq(name))
+                .fetchFirst() != null;
     }
 }
