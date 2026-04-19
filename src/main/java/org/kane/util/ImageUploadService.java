@@ -1,7 +1,6 @@
 package org.kane.util;
 
 import lombok.SneakyThrows;
-import org.springframework.beans.factory.annotation.Value;
 import lombok.experimental.UtilityClass;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,16 +16,6 @@ public class ImageUploadService {
 
     private static final Path BUCKET = Path.of("images");
 
-    @Value("${app.image.user.default}")
-    private String DEFAULT_AVATAR;
-
-    public static final Path DEFAULT_USER_AVATAR_PATH;
-    static {
-        DEFAULT_USER_AVATAR_PATH = BUCKET
-                .resolve(ImagePrefix.USER.toString())
-                .resolve(DEFAULT_AVATAR);
-    }
-
     public enum ImagePrefix{
         USER, COMMENT, RECIPE, STAGES;
 
@@ -35,6 +24,12 @@ public class ImageUploadService {
             return super.toString().toLowerCase();
         }
     }
+
+    private static final String DEFAULT_USER_AVATAR_FILE = "307ce493-b254-4b2d-8ba4-d12c080d6651.png";
+
+    public static final Path DEFAULT_USER_AVATAR_PATH = BUCKET
+            .resolve(ImagePrefix.USER.toString())
+            .resolve(DEFAULT_USER_AVATAR_FILE);
 
     @SneakyThrows
     public static Optional<byte[]> get(Path imagePath){

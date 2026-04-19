@@ -17,7 +17,7 @@ import java.security.Principal;
 public interface UserService {
     User createUser(SignupRequest userIn);
     UserProfileDTO getUserProfile(Principal principal);
-    boolean updateCurrentUser(Principal principal, UserEditDTO userEditDTO);
+    boolean updateUser(UserEditDTO userEditDTO);
     boolean updatePassword(Principal principal, UpdatePasswordRequest updatePasswordRequest);
     void changeRole(ChangeRoleDTO changeRoleDTO);
 

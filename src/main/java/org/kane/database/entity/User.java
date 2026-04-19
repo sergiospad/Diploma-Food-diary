@@ -47,7 +47,10 @@ public class User {
     @Column(name ="birthdate")
     private LocalDate birthdate;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.PERSIST
+    )
     @JoinColumn(name = "avatar_id")
     private ImageModel avatar;
 

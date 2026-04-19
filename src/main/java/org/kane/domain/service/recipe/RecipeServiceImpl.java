@@ -116,7 +116,6 @@ public class RecipeServiceImpl implements RecipeService {
         if(recipeEditDTO.getEditedStages()!=null)
             recipeEditDTO.getEditedStages()
                     .forEach(cookingStageService::editCookingStage);
-        recipe = recipeRepository.save(recipe);
         return fromPreShowToShow(recipeRepository.getRecipePreShowProjByID(recipe.getId()));
     }
 

@@ -32,6 +32,8 @@ public class UserServiceImpl implements UserService {
     private final UserEditMapper userEditMapper;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final SignupMapper signupMapper;
+
+    @Transactional
     @Override
     public User createUser(SignupRequest userIn) {
 
@@ -48,10 +50,12 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public boolean updateCurrentUser(Principal principal, UserEditDTO userEditDTO) {
+    public boolean updateUser(UserEditDTO userEditDTO) {
+        var user = userRepository.findById(userEditDTO.getId())
+                .orElseThrow(()->new UserNotFoundException("user not found"));
         try {
             Optional.of(userEditDTO)
-                    .map(userEditMapper::map)
+                    .map(userEditDTO1 -> userEditMapper.copyMap(userEditDTO1, user))
                     .map(userRepository::save);
         } catch (Exception e) {
             return false;
@@ -59,6 +63,7 @@ public class UserServiceImpl implements UserService {
         return true;
     }
 
+    @Transactional
     @Override
     public boolean updatePassword(Principal principal, UpdatePasswordRequest updatePasswordRequest) {
         var user = userRepository.getCurrentUser(principal);
@@ -70,6 +75,7 @@ public class UserServiceImpl implements UserService {
        return true;
     }
 
+    @Transactional
     @Override
     public void changeRole(ChangeRoleDTO changeRoleDTO) {
         var user = userRepository.findById(changeRoleDTO.getUserId())

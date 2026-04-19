@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 import org.kane.database.entity.User;
 import org.kane.database.entity.physical_quantity.HumanWeight;
 import org.kane.database.entity.recipe_recource.ImageModel;
+import org.kane.database.enum_types.Gender;
+import org.kane.database.enum_types.Role;
 import org.kane.exceptions.not_found.UserNotFoundException;
 import org.kane.integration.IntegrationTestBase;
 import org.kane.integration.SavedEntities;
@@ -72,7 +74,6 @@ class UserRepositoryTest extends IntegrationTestBase {
     @Test
     void getBMRInfo(){
         var proj = userRepository.getBMRInfo(1L);
-        //TODO заменить humanweight
         assertThat(proj.getWeight()).isEqualTo(new HumanWeight(83.00));
         assertThat(proj.getGender()).isEqualTo(savedUser.getGender());
         assertThat(proj.getHeight()).isEqualTo(savedUser.getHeight());
@@ -112,5 +113,15 @@ class UserRepositoryTest extends IntegrationTestBase {
         assertFalse(userRepository.existsByEmail("test"));
     }
 
+    @Test
+    void save(){
+        var user = userRepository.findById(1L).orElseThrow(()->new UserNotFoundException("User not found"));
+        user.setPassword("123");
+        var su = userRepository.save(user);
+        assertThat(su.getId()).isEqualTo(user.getId());
+        assertThat(su.getUsername()).isEqualTo(user.getUsername());
+        assertThat(su.getPassword()).isEqualTo(user.getPassword());
+
+    }
 
 }
