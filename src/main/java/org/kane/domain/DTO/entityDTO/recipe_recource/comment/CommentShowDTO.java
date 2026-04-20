@@ -1,4 +1,4 @@
-package org.kane.domain.DTO.entityDTO.diary.recipe_recource.comment;
+package org.kane.domain.DTO.entityDTO.recipe_recource.comment;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

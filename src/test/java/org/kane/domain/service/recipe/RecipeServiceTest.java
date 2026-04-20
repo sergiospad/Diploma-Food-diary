@@ -1,11 +1,9 @@
 package org.kane.domain.service.recipe;
 
 import org.junit.jupiter.api.Test;
-import org.kane.database.entity.Recipe;
-import org.kane.database.entity.physical_quantity.ProductWeight;
 import org.kane.database.repository.recipe.RecipeRepository;
-import org.kane.domain.DTO.entityDTO.diary.recipe_recource.cooking_stage.CookingStageEditDescDTO;
-import org.kane.domain.DTO.entityDTO.diary.recipe_recource.ingredient.IngredientEditDTO;
+import org.kane.domain.DTO.entityDTO.recipe_recource.cooking_stage.CookingStageEditDescDTO;
+import org.kane.domain.DTO.entityDTO.recipe_recource.ingredient.IngredientEditDTO;
 import org.kane.domain.DTO.entityDTO.recipe.RecipeEditDTO;
 import org.kane.integration.IntegrationTestServiceBase;
 import org.springframework.beans.factory.annotation.Autowired;

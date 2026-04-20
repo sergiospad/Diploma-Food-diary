@@ -11,9 +11,8 @@ import org.kane.database.entity.physical_quantity.nutrients.Fat;
 import org.kane.database.entity.physical_quantity.nutrients.Protein;
 import org.kane.database.entity.recipe_recource.Ingredient;
 import org.kane.database.entity.recipe_recource.MeasureUnit;
-import org.kane.database.entity.recipe_recource.QIngredient;
-import org.kane.domain.DTO.entityDTO.diary.recipe_recource.ingredient.IngredientEnergyDTO;
-import org.kane.domain.DTO.entityDTO.diary.recipe_recource.ingredient.IngredientPreShowProjection;
+import org.kane.domain.DTO.entityDTO.recipe_recource.ingredient.IngredientEnergyDTO;
+import org.kane.domain.DTO.entityDTO.recipe_recource.ingredient.IngredientPreShowProjection;
 import org.kane.exceptions.not_found.IngredientNotFoundException;
 import org.kane.integration.IntegrationTestBase;
 import org.kane.integration.SavedEntities;
@@ -23,7 +22,6 @@ import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.jdbc.SqlGroup;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SqlGroup({
         @Sql(

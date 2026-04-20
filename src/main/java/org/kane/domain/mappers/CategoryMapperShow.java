@@ -1,7 +1,7 @@
 package org.kane.domain.mappers;
 
-import org.kane.domain.DTO.entityDTO.diary.recipe_recource.category.CategoryNameDTO;
-import org.kane.domain.DTO.entityDTO.diary.recipe_recource.category.CategoryShowDTO;
+import org.kane.domain.DTO.entityDTO.recipe_recource.category.CategoryNameDTO;
+import org.kane.domain.DTO.entityDTO.recipe_recource.category.CategoryShowDTO;
 import org.springframework.stereotype.Component;
 
 @Component

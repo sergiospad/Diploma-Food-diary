@@ -1,10 +1,9 @@
-package org.kane.domain.DTO.entityDTO.diary.recipe_recource.measure_unit;
+package org.kane.domain.DTO.entityDTO.recipe_recource.measure_unit;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.kane.database.entity.recipe_recource.MeasureUnit;
 
 @Data
 @AllArgsConstructor

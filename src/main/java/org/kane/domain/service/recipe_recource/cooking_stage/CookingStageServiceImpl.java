@@ -6,15 +6,14 @@ import org.kane.database.entity.recipe_recource.CookingStage;
 import org.kane.database.repository.recipe.RecipeRepository;
 import org.kane.database.repository.recipe_recource.cooking_stage.CookingStageRepository;
 import org.kane.database.repository.recipe_recource.image_model.ImageModelRepository;
-import org.kane.domain.DTO.entityDTO.diary.recipe_recource.cooking_stage.CookingStageCreateDTO;
-import org.kane.domain.DTO.entityDTO.diary.recipe_recource.cooking_stage.CookingStageEditDescDTO;
-import org.kane.domain.DTO.entityDTO.diary.recipe_recource.cooking_stage.CookingStageShowDTO;
+import org.kane.domain.DTO.entityDTO.recipe_recource.cooking_stage.CookingStageCreateDTO;
+import org.kane.domain.DTO.entityDTO.recipe_recource.cooking_stage.CookingStageEditDescDTO;
+import org.kane.domain.DTO.entityDTO.recipe_recource.cooking_stage.CookingStageShowDTO;
 import org.kane.exceptions.not_found.CookingStageNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor

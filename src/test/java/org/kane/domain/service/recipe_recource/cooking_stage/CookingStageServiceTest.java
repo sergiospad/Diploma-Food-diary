@@ -3,9 +3,9 @@ package org.kane.domain.service.recipe_recource.cooking_stage;
 import org.junit.jupiter.api.Test;
 import org.kane.database.repository.recipe.RecipeRepository;
 import org.kane.database.repository.recipe_recource.cooking_stage.CookingStageRepository;
-import org.kane.domain.DTO.entityDTO.diary.recipe_recource.cooking_stage.CookingStageCreateDTO;
-import org.kane.domain.DTO.entityDTO.diary.recipe_recource.cooking_stage.CookingStageEditDescDTO;
-import org.kane.domain.DTO.entityDTO.diary.recipe_recource.cooking_stage.CookingStageShowDTO;
+import org.kane.domain.DTO.entityDTO.recipe_recource.cooking_stage.CookingStageCreateDTO;
+import org.kane.domain.DTO.entityDTO.recipe_recource.cooking_stage.CookingStageEditDescDTO;
+import org.kane.domain.DTO.entityDTO.recipe_recource.cooking_stage.CookingStageShowDTO;
 import org.kane.integration.IntegrationTestServiceBase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
@@ -13,7 +13,6 @@ import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.jdbc.SqlGroup;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SqlGroup({
         @Sql(

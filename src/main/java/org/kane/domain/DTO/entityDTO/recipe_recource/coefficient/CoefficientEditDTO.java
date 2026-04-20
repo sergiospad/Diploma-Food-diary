@@ -1,4 +1,4 @@
-package org.kane.domain.DTO.entityDTO.diary.recipe_recource.coefficient;
+package org.kane.domain.DTO.entityDTO.recipe_recource.coefficient;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

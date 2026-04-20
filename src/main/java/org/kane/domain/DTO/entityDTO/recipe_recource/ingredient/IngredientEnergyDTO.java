@@ -1,4 +1,4 @@
-package org.kane.domain.DTO.entityDTO.diary.recipe_recource.ingredient;
+package org.kane.domain.DTO.entityDTO.recipe_recource.ingredient;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

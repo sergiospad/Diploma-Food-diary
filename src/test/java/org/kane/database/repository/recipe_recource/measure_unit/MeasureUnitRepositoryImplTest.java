@@ -4,7 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.kane.database.entity.recipe_recource.Ingredient;
 import org.kane.database.entity.recipe_recource.MeasureUnit;
-import org.kane.domain.DTO.entityDTO.diary.recipe_recource.measure_unit.MeasureUnitDTO;
+import org.kane.domain.DTO.entityDTO.recipe_recource.measure_unit.MeasureUnitDTO;
 import org.kane.exceptions.not_found.MeasureUnitNotFound;
 import org.kane.integration.IntegrationTestBase;
 import org.kane.integration.SavedEntities;
@@ -14,7 +14,6 @@ import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.jdbc.SqlGroup;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SqlGroup({
         @Sql(

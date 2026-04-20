@@ -9,7 +9,7 @@ import org.kane.database.entity.physical_quantity.nutrients.Carbs;
 import org.kane.database.entity.physical_quantity.nutrients.Fat;
 import org.kane.database.entity.physical_quantity.nutrients.Protein;
 import org.kane.database.enum_types.CaloricityType;
-import org.kane.domain.DTO.entityDTO.diary.recipe_recource.ingredient.IngredientEnergyDTO;
+import org.kane.domain.DTO.entityDTO.recipe_recource.ingredient.IngredientEnergyDTO;
 
 @Data
 @Builder

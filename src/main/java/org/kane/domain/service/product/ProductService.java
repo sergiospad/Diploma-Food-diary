@@ -1,6 +1,6 @@
 package org.kane.domain.service.product;
 
-import org.kane.domain.DTO.entityDTO.diary.recipe_recource.measure_unit.MeasureUnitDTO;
+import org.kane.domain.DTO.entityDTO.recipe_recource.measure_unit.MeasureUnitDTO;
 import org.kane.domain.DTO.entityDTO.product.ProductCreateDTO;
 import org.kane.domain.DTO.entityDTO.product.ProductEditDTO;
 import org.kane.domain.DTO.entityDTO.product.ProductSearchDTO;

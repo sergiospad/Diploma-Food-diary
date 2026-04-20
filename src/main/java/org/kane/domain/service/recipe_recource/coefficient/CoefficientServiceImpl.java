@@ -1,13 +1,14 @@
 package org.kane.domain.service.recipe_recource.coefficient;
 
 import lombok.RequiredArgsConstructor;
+import org.kane.database.entity.recipe_recource.Category;
 import org.kane.database.entity.recipe_recource.Coefficient;
 import org.kane.database.repository.recipe_recource.category.CategoryRepository;
 import org.kane.database.repository.recipe_recource.coefficient.CoefficientRepository;
 import org.kane.database.repository.recipe_recource.measure_unit.MeasureUnitRepository;
-import org.kane.domain.DTO.entityDTO.diary.recipe_recource.coefficient.CoefficientCreateDTO;
-import org.kane.domain.DTO.entityDTO.diary.recipe_recource.coefficient.CoefficientEditDTO;
-import org.kane.domain.DTO.entityDTO.diary.recipe_recource.coefficient.CoefficientShowDTO;
+import org.kane.domain.DTO.entityDTO.recipe_recource.coefficient.CoefficientCreateDTO;
+import org.kane.domain.DTO.entityDTO.recipe_recource.coefficient.CoefficientEditDTO;
+import org.kane.domain.DTO.entityDTO.recipe_recource.coefficient.CoefficientShowDTO;
 import org.kane.domain.mappers.CoefficientMapperShow;
 import org.kane.exceptions.not_found.CategoryNotFoundException;
 import org.kane.exceptions.not_found.MeasureUnitNotFound;
@@ -26,9 +27,7 @@ public class CoefficientServiceImpl implements CoefficientService{
 
     @Transactional
     @Override
-    public CoefficientShowDTO addCoefficient(CoefficientCreateDTO coefficientShowDTO){
-        var category = categoryRepository.findById(coefficientShowDTO.getCategoryId())
-                .orElseThrow(() -> new CategoryNotFoundException("Category not found"));
+    public CoefficientShowDTO addCoefficient(CoefficientCreateDTO coefficientShowDTO, Category category){
         var coefficient = Coefficient.builder()
                 .conversionFactor(coefficientShowDTO.getConversionFactor())
                 .measureUnit(measureUnitRepository.findById(coefficientShowDTO

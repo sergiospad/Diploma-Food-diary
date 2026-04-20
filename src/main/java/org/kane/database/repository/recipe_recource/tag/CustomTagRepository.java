@@ -1,7 +1,7 @@
 package org.kane.database.repository.recipe_recource.tag;
 
 import org.kane.database.entity.recipe_recource.Tag;
-import org.kane.domain.DTO.entityDTO.diary.recipe_recource.TagDTO;
+import org.kane.domain.DTO.entityDTO.recipe_recource.TagDTO;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
 package org.kane.domain.service.recipe_recource.measure_unit;
 
-import org.kane.domain.DTO.entityDTO.diary.recipe_recource.measure_unit.MeasureUnitDTO;
+import org.kane.domain.DTO.entityDTO.recipe_recource.measure_unit.MeasureUnitDTO;
 
 import java.util.List;
 

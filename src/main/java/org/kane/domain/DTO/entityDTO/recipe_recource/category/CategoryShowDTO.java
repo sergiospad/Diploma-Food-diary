@@ -1,8 +1,8 @@
-package org.kane.domain.DTO.entityDTO.diary.recipe_recource.category;
+package org.kane.domain.DTO.entityDTO.recipe_recource.category;
 
 import lombok.Builder;
 import lombok.Data;
-import org.kane.domain.DTO.entityDTO.diary.recipe_recource.coefficient.CoefficientShowDTO;
+import org.kane.domain.DTO.entityDTO.recipe_recource.coefficient.CoefficientShowDTO;
 
 import java.util.List;
 

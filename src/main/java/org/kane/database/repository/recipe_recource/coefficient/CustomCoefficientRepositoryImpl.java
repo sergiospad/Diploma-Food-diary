@@ -3,7 +3,7 @@ package org.kane.database.repository.recipe_recource.coefficient;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import org.kane.domain.DTO.entityDTO.diary.recipe_recource.coefficient.CoefficientShowDTO;
+import org.kane.domain.DTO.entityDTO.recipe_recource.coefficient.CoefficientShowDTO;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

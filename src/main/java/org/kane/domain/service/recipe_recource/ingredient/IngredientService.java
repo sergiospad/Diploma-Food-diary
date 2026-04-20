@@ -2,10 +2,10 @@ package org.kane.domain.service.recipe_recource.ingredient;
 
 import org.kane.database.entity.Recipe;
 import org.kane.database.entity.recipe_recource.Ingredient;
-import org.kane.domain.DTO.entityDTO.diary.recipe_recource.ingredient.IngredientChangeDTO;
-import org.kane.domain.DTO.entityDTO.diary.recipe_recource.ingredient.IngredientCreateDTO;
-import org.kane.domain.DTO.entityDTO.diary.recipe_recource.ingredient.IngredientEditDTO;
-import org.kane.domain.DTO.entityDTO.diary.recipe_recource.ingredient.IngredientShowDTO;
+import org.kane.domain.DTO.entityDTO.recipe_recource.ingredient.IngredientChangeDTO;
+import org.kane.domain.DTO.entityDTO.recipe_recource.ingredient.IngredientCreateDTO;
+import org.kane.domain.DTO.entityDTO.recipe_recource.ingredient.IngredientEditDTO;
+import org.kane.domain.DTO.entityDTO.recipe_recource.ingredient.IngredientShowDTO;
 
 import java.util.List;
 

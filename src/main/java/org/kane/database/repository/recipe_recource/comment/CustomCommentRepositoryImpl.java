@@ -4,7 +4,7 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import org.kane.domain.DTO.entityDTO.diary.recipe_recource.comment.CommentShowDTO;
+import org.kane.domain.DTO.entityDTO.recipe_recource.comment.CommentShowDTO;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

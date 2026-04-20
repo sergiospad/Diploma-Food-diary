@@ -1,8 +1,9 @@
 package org.kane.domain.service.recipe_recource.category;
 
-import org.kane.domain.DTO.entityDTO.diary.recipe_recource.category.CategoryCreateDTO;
-import org.kane.domain.DTO.entityDTO.diary.recipe_recource.category.CategoryNameDTO;
-import org.kane.domain.DTO.entityDTO.diary.recipe_recource.category.CategoryShowDTO;
+import org.kane.domain.DTO.entityDTO.recipe_recource.category.CategoryCreateDTO;
+import org.kane.domain.DTO.entityDTO.recipe_recource.category.CategoryNameDTO;
+import org.kane.domain.DTO.entityDTO.recipe_recource.category.CategoryShowDTO;
+import org.kane.domain.DTO.entityDTO.recipe_recource.coefficient.CategoryAddCoefficientDTO;
 
 import java.util.List;
 
@@ -14,4 +15,6 @@ public interface CategoryService {
     List<CategoryShowDTO> getAllShowDTO();
 
     void editCategory(CategoryNameDTO categoryNameDTO);
+
+    CategoryShowDTO addCoefficient(CategoryAddCoefficientDTO coefficientDTO);
 }

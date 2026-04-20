@@ -9,7 +9,7 @@ import org.kane.database.repository.recipe_recource.coefficient.CoefficientRepos
 import org.kane.database.repository.recipe_recource.ingredient.IngredientRepository;
 import org.kane.database.repository.recipe_recource.measure_unit.MeasureUnitRepository;
 import org.kane.database.repository.product.ProductRepository;
-import org.kane.domain.DTO.entityDTO.diary.recipe_recource.ingredient.*;
+import org.kane.domain.DTO.entityDTO.recipe_recource.ingredient.*;
 import org.kane.exceptions.not_found.IngredientNotFoundException;
 import org.kane.exceptions.not_found.MeasureUnitNotFound;
 import org.kane.exceptions.not_found.NoSuchProductException;

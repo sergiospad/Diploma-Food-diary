@@ -2,16 +2,16 @@ package org.kane.domain.service.recipe_recource.category;
 
 import lombok.RequiredArgsConstructor;
 import org.kane.database.entity.recipe_recource.Category;
-import org.kane.database.entity.recipe_recource.Coefficient;
 import org.kane.database.repository.recipe_recource.category.CategoryRepository;
 import org.kane.database.repository.recipe_recource.coefficient.CoefficientRepository;
 import org.kane.database.repository.recipe_recource.measure_unit.MeasureUnitRepository;
-import org.kane.domain.DTO.entityDTO.diary.recipe_recource.category.CategoryCreateDTO;
-import org.kane.domain.DTO.entityDTO.diary.recipe_recource.category.CategoryNameDTO;
-import org.kane.domain.DTO.entityDTO.diary.recipe_recource.category.CategoryShowDTO;
+import org.kane.domain.DTO.entityDTO.recipe_recource.category.CategoryCreateDTO;
+import org.kane.domain.DTO.entityDTO.recipe_recource.category.CategoryNameDTO;
+import org.kane.domain.DTO.entityDTO.recipe_recource.category.CategoryShowDTO;
+import org.kane.domain.DTO.entityDTO.recipe_recource.coefficient.CategoryAddCoefficientDTO;
 import org.kane.domain.mappers.CategoryMapperShow;
+import org.kane.domain.service.recipe_recource.coefficient.CoefficientService;
 import org.kane.exceptions.not_found.CategoryNotFoundException;
-import org.kane.exceptions.not_found.MeasureUnitNotFound;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +25,7 @@ public class CategoryServiceImpl implements CategoryService {
     private final CoefficientRepository coefficientRepository;
     private final CategoryRepository categoryRepository;
     private final CategoryMapperShow categoryMapperShow;
+    private final CoefficientService coefficientService;
 
     @Override
     public List<CategoryNameDTO> getAll() {
@@ -35,15 +36,10 @@ public class CategoryServiceImpl implements CategoryService {
     @Transactional
     public CategoryShowDTO createCategory(CategoryCreateDTO categoryCreateDTO){
         var category = Category.builder().name(categoryCreateDTO.getName()).build();
-        var coefficients = categoryCreateDTO.getCoefficients().stream().map(ccd-> Coefficient
-                    .builder()
-                    .conversionFactor(ccd.getConversionFactor())
-                    .measureUnit(measureUnitRepository.findById(ccd.getMeasureUnitId())
-                            .orElseThrow(()-> new MeasureUnitNotFound("Measure Unit Not Found")))
-                    .build())
-                .toList();
-        category.setCoefficients(coefficients);
         category = categoryRepository.save(category);
+        Category finalCategory = category;
+        categoryCreateDTO.getCoefficients()
+                .forEach(cat-> coefficientService.addCoefficient(cat, finalCategory));
 
         return getShowDTO(category.getId());
     }
@@ -73,6 +69,16 @@ public class CategoryServiceImpl implements CategoryService {
                 .orElseThrow(()-> new CategoryNotFoundException("Category Not Found"));
         category.setName(categoryNameDTO.getName());
         categoryRepository.save(category);
+    }
+
+    @Override
+    @Transactional
+    public CategoryShowDTO addCoefficient(CategoryAddCoefficientDTO coefficientDTO) {
+        var category = categoryRepository.findById(coefficientDTO.getId())
+                .orElseThrow(() -> new CategoryNotFoundException("Category Not Found"));
+        coefficientDTO.getCoefficients()
+                .forEach(dto -> coefficientService.addCoefficient(dto, category));
+        return getShowDTO(category.getId());
     }
 
 }

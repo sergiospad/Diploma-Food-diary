@@ -1,4 +1,4 @@
-package org.kane.domain.DTO.entityDTO.diary.recipe_recource.ingredient;
+package org.kane.domain.DTO.entityDTO.recipe_recource;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class IngredientChangeDTO {
-    private Long ingredientID;
-    private Long measureID;
+public class TagDTO {
+    private Long id;
+    private String name;
 }

@@ -1,4 +1,4 @@
-package org.kane.domain.DTO.entityDTO.diary.recipe_recource.cooking_stage;
+package org.kane.domain.DTO.entityDTO.recipe_recource.cooking_stage;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
