@@ -1,4 +1,4 @@
-package org.kane.domain.service.recipe_recource.meal;
+package org.kane.domain.service.diary.meal;
 
 import lombok.RequiredArgsConstructor;
 import org.kane.database.entity.diary.Meal;
@@ -13,7 +13,7 @@ import org.kane.domain.DTO.entityDTO.diary.meal.MealShowDTO;
 import org.kane.domain.DTO.entityDTO.diary.meal_item.MealItemShowDTO;
 import org.kane.domain.DTO.entityDTO.diary.meal_item.TotalMealShowDTO;
 import org.kane.domain.mappers.MealEditMapper;
-import org.kane.domain.service.recipe_recource.meal_item.MealItemService;
+import org.kane.domain.service.diary.meal_item.MealItemService;
 import org.kane.exceptions.not_found.MealNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

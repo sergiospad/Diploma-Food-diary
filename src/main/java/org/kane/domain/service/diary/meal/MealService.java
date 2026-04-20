@@ -1,4 +1,4 @@
-package org.kane.domain.service.recipe_recource.meal;
+package org.kane.domain.service.diary.meal;
 
 import org.kane.domain.DTO.entityDTO.diary.meal.MealCreateDTO;
 import org.kane.domain.DTO.entityDTO.diary.meal.MealEditDTO;

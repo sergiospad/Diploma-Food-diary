@@ -92,7 +92,7 @@ public class RecipeServiceImpl implements RecipeService {
                 .map(i-> ingredientService.createIngredient(i, finalRecipe))
                 .toList();
         var stages = recipeCreateDTO.getStages().stream()
-                .map(cookingStageService::createCookingStage)
+                .map(s-> cookingStageService.createCookingStage(s, finalRecipe))
                 .toList();
         recipe.setIllustration(imageModelRepository.findById(recipeCreateDTO.getIllustrationID()).orElse(null));
 

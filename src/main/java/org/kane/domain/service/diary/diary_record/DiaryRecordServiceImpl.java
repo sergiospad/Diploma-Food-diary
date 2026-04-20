@@ -11,7 +11,7 @@ import org.kane.domain.DTO.entityDTO.diary.meal.MealShowDTO;
 import org.kane.domain.DTO.entityDTO.diary.meal_item.MealItemShowDTO;
 import org.kane.domain.DTO.entityDTO.diary.sport_activity.CalorieConsumptionShowDTO;
 import org.kane.domain.DTO.request.DiaryRecordRequest;
-import org.kane.domain.service.recipe_recource.meal.MealService;
+import org.kane.domain.service.diary.meal.MealService;
 import org.kane.domain.service.energy_value.EnergyValueService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,4 +1,4 @@
-package org.kane.domain.service.recipe_recource.meal_item;
+package org.kane.domain.service.diary.meal_item;
 
 import lombok.RequiredArgsConstructor;
 import org.kane.database.entity.diary.MealItem;
