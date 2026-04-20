@@ -24,6 +24,7 @@ public class CoefficientServiceImpl implements CoefficientService{
     private final MeasureUnitRepository measureUnitRepository;
     private final CoefficientMapperShow coefficientMapperShow;
 
+    @Transactional
     @Override
     public CoefficientShowDTO addCoefficient(CoefficientCreateDTO coefficientShowDTO){
         var category = categoryRepository.findById(coefficientShowDTO.getCategoryId())
@@ -39,6 +40,7 @@ public class CoefficientServiceImpl implements CoefficientService{
         return coefficientMapperShow.map(coefficient);
     }
 
+    @Transactional
     @Override
     public CoefficientShowDTO editCoefficient(CoefficientEditDTO coefficientEditDTO){
         var mu = measureUnitRepository.findById(coefficientEditDTO.getMeasureUnitID())
