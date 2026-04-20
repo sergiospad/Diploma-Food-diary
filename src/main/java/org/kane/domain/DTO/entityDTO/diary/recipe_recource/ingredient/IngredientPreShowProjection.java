@@ -11,6 +11,7 @@ import org.kane.database.entity.physical_quantity.ProductWeight;
 public class IngredientPreShowProjection {
     private Long id;
     private Long productID;
+    private String productName;
     private ProductWeight amount;
     private Long measureUnitID;
 }

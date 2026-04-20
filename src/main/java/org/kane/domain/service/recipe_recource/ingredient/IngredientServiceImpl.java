@@ -1,6 +1,7 @@
 package org.kane.domain.service.recipe_recource.ingredient;
 
 import lombok.RequiredArgsConstructor;
+import org.kane.database.entity.Recipe;
 import org.kane.database.entity.physical_quantity.ProductWeight;
 import org.kane.database.entity.recipe_recource.Ingredient;
 import org.kane.database.entity.recipe_recource.MeasureUnit;
@@ -28,46 +29,49 @@ public class IngredientServiceImpl implements IngredientService{
 
     @Override
     @Transactional
-    public Ingredient createIngredient(IngredientCreateDTO ingredientCreateDTO) {
+    public Ingredient createIngredient(IngredientCreateDTO ingredientCreateDTO, Recipe recipe) {
         var product = productRepository.findById(ingredientCreateDTO.getProductID())
                 .orElseThrow(()-> new NoSuchProductException("product not found"));
         var coeff = coefficientRepository.getCoefficientByProductID(ingredientCreateDTO.getProductID(), ingredientCreateDTO.getMeasureUnitID());
         ProductWeight pw = new ProductWeight(ingredientCreateDTO.getAmount()).divide(coeff);
         MeasureUnit mu = measureUnitRepository.findById(ingredientCreateDTO.getMeasureUnitID())
                 .orElseThrow(()->new MeasureUnitNotFound("measure unit not found"));
-        return Ingredient.builder()
+        return ingredientRepository.save(Ingredient.builder()
                 .specMeasureUnit(mu)
                 .weight(pw)
+                .recipe(recipe)
                 .product(product)
-                .build();
+                .build());
     }
-
+    @Transactional
     @Override
     public Ingredient updateIngredient(IngredientEditDTO ingredient) {
         var ing =  ingredientRepository.findById(ingredient.getId())
                 .orElseThrow(()-> new IngredientNotFoundException("ingredient not found"));
-        if(!ing.getSpecMeasureUnit().getId().equals(ingredient.getMeasureUnitID())){
+        if(ingredient.getMeasureUnitID()!=null){
             var mu = measureUnitRepository.findById(ingredient.getMeasureUnitID())
                     .orElseThrow(()->new MeasureUnitNotFound("measure unit not found"));
             ing.setSpecMeasureUnit(mu);
-            recalculateWeight(ingredient, ing);
-        } else if(Math.abs(ingredient.getAmount()-ing.getWeight().getValue())>0.0001){
-            recalculateWeight(ingredient, ing);
         }
-        if(!ing.getProduct().getId().equals(ingredient.getProductID())){
+        if(ingredient.getProductID()!=null){
             var product = productRepository.findById(ingredient.getProductID())
                     .orElseThrow(()->new NoSuchProductException("product not found"));
             ing.setProduct(product);
         }
+        if(ingredient.getAmount()!=null){
+            ing.setWeight(recalculateWeight(ing, ingredient.getAmount()));
+        }
+
         return ingredientRepository.save(ing);
     }
 
-    private void recalculateWeight(IngredientEditDTO ingredient, Ingredient ing) {
-        var coeff = coefficientRepository.getCoefficientByProductID(ingredient.getProductID(), ingredient.getMeasureUnitID());
-        ProductWeight pw = ProductWeight.calculateWeight(ingredient.getAmount(), coeff);
-        ing.setWeight(pw);
+    private ProductWeight recalculateWeight(Ingredient ingredient, Double amount) {
+        var coeff = coefficientRepository.getCoefficientByProductID(ingredient.getProduct().getId(),ingredient.getSpecMeasureUnit().getId());
+        return ProductWeight.calculateWeight(amount, coeff);
     }
 
+    @Transactional
+    @Override
     public void removeIngredient(Long id){
         ingredientRepository.deleteById(id);
     }
@@ -84,7 +88,7 @@ public class IngredientServiceImpl implements IngredientService{
         var mes = measureUnitRepository.findAllByIngredientID(ingredientPreShowDTO.getId());
         return IngredientShowDTO.builder()
                 .id(ingredientPreShowDTO.getId())
-                .productName(productRepository.findNameById(ingredientPreShowDTO.getProductID()))
+                .productName(ingredientPreShowDTO.getProductName())
                 .amount(ingredientPreShowDTO.getAmount().calculateAmount(coeff))
                 .units(mes)
                 .build();

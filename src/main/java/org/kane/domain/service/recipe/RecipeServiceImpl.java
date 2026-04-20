@@ -28,9 +28,12 @@ import org.springframework.transaction.annotation.Transactional;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static java.util.stream.Collectors.toList;
 import static org.kane.database.entity.QRecipe.recipe;
 
 @Slf4j
@@ -82,17 +85,20 @@ public class RecipeServiceImpl implements RecipeService {
                 .map(tag->  tagRepository.findById(tag)
                         .orElseThrow(()-> new TagNotFoundException("Tag not found with id " + tag)))
                 .toList();
+        recipe.setTags(tags);
+        recipe = recipeRepository.save(recipe);
+        Recipe finalRecipe = recipe;
         var ingredients = recipeCreateDTO.getIngredients().stream()
-                .map(ingredientService::createIngredient)
+                .map(i-> ingredientService.createIngredient(i, finalRecipe))
                 .toList();
         var stages = recipeCreateDTO.getStages().stream()
                 .map(cookingStageService::createCookingStage)
                 .toList();
         recipe.setIllustration(imageModelRepository.findById(recipeCreateDTO.getIllustrationID()).orElse(null));
-        recipe.setTags(tags);
+
         recipe.setIngredients(ingredients);
         recipe.setCookingStages(stages);
-        recipe = recipeRepository.save(recipe);
+
         return fromPreShowToShow(recipeRepository.getRecipePreShowProjByID(recipe.getId()));
     }
 
@@ -104,8 +110,10 @@ public class RecipeServiceImpl implements RecipeService {
                 .orElseThrow(()->new RecipeNotFoundException("recipe not found"));
 
         var currentTagIds = recipe.getTags().stream().map(Tag::getId).toList();
-        Set<Long> removeTagIds = recipeEditDTO.getRemoveTags() == null ? Set.of() : Set.copyOf(recipeEditDTO.getRemoveTags());
-        Stream<Long> addTagStream = recipeEditDTO.getAddTags() == null ? Stream.empty() : recipeEditDTO.getAddTags().stream();
+        Set<Long> removeTagIds = Stream.ofNullable(recipeEditDTO.getRemoveTags())
+                .flatMap(List::stream)
+                .collect(Collectors.toSet());
+        Stream<Long> addTagStream = Stream.ofNullable(recipeEditDTO.getAddTags()).flatMap(List::stream);
 
         var tags = Stream.concat(currentTagIds.stream(), addTagStream)
                 .distinct()
@@ -113,25 +121,15 @@ public class RecipeServiceImpl implements RecipeService {
                 .toList();
 
         recipe.setTags(tagRepository.findAllTagsByListId(tags));
-        recipeRepository.save(recipe);
+        recipe = recipeRepository.save(recipe);
+        Stream.ofNullable(recipeEditDTO.getEditedIngredients())
+                .flatMap(List::stream)
+                .forEach(ingredientService::updateIngredient);
+        Stream.ofNullable(recipeEditDTO.getEditedStages())
+                .flatMap(List::stream)
+                .forEach(cookingStageService::editCookingStage);
 
-//        if( recipeEditDTO.getAddTags()!=null)
-//            recipeEditDTO.getAddTags()
-//                    .forEach(t-> tagRepository.findById(t)
-//                            .ifPresent(tags::add));
-//        tags.forEach(tag-> System.out.println(tag.getId()));
-//        if(recipeEditDTO.getRemoveTags()!=null)
-//            recipeEditDTO.getRemoveTags()
-//                    .forEach(t-> tagRepository.findById(t)
-//                            .ifPresent(tags::remove));
-//        tags.forEach(tag-> System.out.println(tag.getId()));
-//        recipe.setTags(tags);
-        if(recipeEditDTO.getEditedIngredients()!=null)
-            recipeEditDTO.getEditedIngredients()
-                    .forEach(ingredientService::updateIngredient);
-        if(recipeEditDTO.getEditedStages()!=null)
-            recipeEditDTO.getEditedStages()
-                    .forEach(cookingStageService::editCookingStage);
+
         return fromPreShowToShow(recipeRepository.getRecipePreShowProjByID(recipe.getId()));
     }
 

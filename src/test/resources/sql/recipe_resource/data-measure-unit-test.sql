@@ -74,7 +74,7 @@ SELECT setval('measure_unit_id_seq', (SELECT COALESCE(MAX(id), 1) FROM measure_u
 
 -- Заполнение coefficient
 INSERT INTO coefficient (id, conversion_factor, category_id, measure_unit_id) VALUES
-                                                                                  (1, 100.0000, 1, 1),   -- 100г для мяса
+                                                                                  (1, 1.0, 1, 1),   -- 100г для мяса
                                                                                   (2, 100.0000, 2, 1),   -- 100г для круп
                                                                                   (3, 100.0000, 3, 1),   -- 100г для овощей
                                                                                   (4, 100.0000, 4, 1),   -- 100г для фруктов

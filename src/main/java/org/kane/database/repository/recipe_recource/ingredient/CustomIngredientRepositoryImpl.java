@@ -23,6 +23,7 @@ public class CustomIngredientRepositoryImpl implements CustomIngredientRepositor
         return queryFactory.select(Projections.constructor(IngredientPreShowProjection.class,
                     ingredient.id,
                     ingredient.product.id,
+                    ingredient.product.name,
                     ingredient.weight,
                     ingredient.specMeasureUnit.id))
                 .from(ingredient)
@@ -36,6 +37,7 @@ public class CustomIngredientRepositoryImpl implements CustomIngredientRepositor
         return queryFactory.select(Projections.constructor(IngredientPreShowProjection.class,
                         ingredient.id,
                         ingredient.product.id,
+                        ingredient.product.name,
                         ingredient.weight,
                         ingredient.specMeasureUnit.id))
                 .from(ingredient)

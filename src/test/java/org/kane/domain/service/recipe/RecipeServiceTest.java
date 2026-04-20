@@ -55,15 +55,15 @@ class RecipeServiceTest extends IntegrationTestServiceBase {
                 .removeTags(List.of(1L))
                 .isPrivate(true)
                 .build();
-//        var editedStage = new CookingStageEditDescDTO(1L, "Не Нарезайте курицу и овощи");
-//        recipeEditDTO.setEditedStages(List.of(editedStage));
-//        var editedIngredients = IngredientEditDTO.builder()
-//                .id(1L)
-//                .productID(10L)
-//                .amount(200.0)
-//                .measureUnitID(2L)
-//                .build();
-//        recipeEditDTO.setEditedIngredients(List.of(editedIngredients));
+        var editedStage = new CookingStageEditDescDTO(1L, "Не Нарезайте курицу и овощи");
+        recipeEditDTO.setEditedStages(List.of(editedStage));
+        var editedIngredients = IngredientEditDTO.builder()
+                .id(1L)
+                .productID(10L)
+                .amount(200.0)
+                .measureUnitID(2L)
+                .build();
+        recipeEditDTO.setEditedIngredients(List.of(editedIngredients));
         var editedRecipe = recipeService.updateRecipe(recipeEditDTO);
         assertThat(editedRecipe).isNotNull();
         assertThat(editedRecipe.getId()).isEqualTo(recipeEditDTO.getId());
