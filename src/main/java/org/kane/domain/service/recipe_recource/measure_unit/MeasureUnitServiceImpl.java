@@ -6,7 +6,9 @@ import org.kane.database.repository.recipe_recource.measure_unit.MeasureUnitRepo
 import org.kane.domain.DTO.entityDTO.recipe_recource.measure_unit.MeasureUnitDTO;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -14,12 +16,12 @@ public class MeasureUnitServiceImpl implements MeasureUnitService {
     private final MeasureUnitRepository measureUnitRepository;
     @Override
     public List<MeasureUnitDTO> findAllByIngredientID(Long ingredientID) {
-        var specUnit = measureUnitRepository.findByIngredientID(ingredientID);
-        var units = measureUnitRepository.findAllByIngredientID(ingredientID);
-        units = units.stream()
-                .filter(u-> u.equals(specUnit))
-                .toList();
-        units.addFirst(specUnit);
+        MeasureUnitDTO specUnit = measureUnitRepository.findByIngredientID(ingredientID);
+        List<MeasureUnitDTO> units = new ArrayList<>(measureUnitRepository.findAllByIngredientID(ingredientID));
+        if (specUnit.getId() != null) {
+            units.removeIf(u -> Objects.equals(u.getId(), specUnit.getId()));
+            units.addFirst( specUnit);
+        }
         return units;
     }
 

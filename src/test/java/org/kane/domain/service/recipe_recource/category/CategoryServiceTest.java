@@ -10,6 +10,7 @@ import org.kane.domain.DTO.entityDTO.recipe_recource.category.CategoryCreateDTO;
 import org.kane.domain.DTO.entityDTO.recipe_recource.category.CategoryNameDTO;
 import org.kane.domain.DTO.entityDTO.recipe_recource.coefficient.CategoryAddCoefficientDTO;
 import org.kane.domain.DTO.entityDTO.recipe_recource.coefficient.CoefficientCreateDTO;
+import org.kane.domain.DTO.entityDTO.recipe_recource.coefficient.CoefficientShowDTO;
 import org.kane.integration.IntegrationTestServiceBase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
@@ -84,15 +85,14 @@ class CategoryServiceTest extends IntegrationTestServiceBase {
         assertThat(result).isNotNull();
         assertThat(result.getId()).isEqualTo(7L);
         assertThat(result.getName()).isEqualTo(categoryCreateDTO.getName());
-        assertThat(result.getCoefficients()).isNotEmpty().hasSize(2);
+        assertThat(result.getCoefficients()).isNotEmpty().hasSize(3);
         var list = result.getCoefficients();
-        Stream.of(0, 1).forEach(i-> {
-            var measureUnit = measureUnitRepository
-                    .findById(savedCoeff.get(i).getMeasureUnitId())
-                    .orElseThrow();
-            assertThat(list.get(i).getMeasureUnitName()).isEqualTo(measureUnit.getName());
-            assertThat(list.get(i).getConversionFactor()).isEqualTo(savedCoeff.get(i).getConversionFactor());
-        });
+        assertThat(list.stream().map(CoefficientShowDTO::getMeasureUnitName).toList())
+                .containsExactlyInAnyOrder("г", "мл", "л");
+        assertThat(list.stream().map(CoefficientShowDTO::getId).toList())
+                .containsExactlyInAnyOrder(7L, 8L, 9L);
+        assertThat(list.stream().map(CoefficientShowDTO::getConversionFactor).toList())
+                .containsExactlyInAnyOrder(1.0, savedCoeff.get(0).getConversionFactor(), savedCoeff.get(1).getConversionFactor());
     }
 
     @Test

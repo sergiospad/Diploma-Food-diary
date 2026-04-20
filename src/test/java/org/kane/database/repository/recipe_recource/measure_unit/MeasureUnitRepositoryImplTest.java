@@ -82,6 +82,14 @@ class MeasureUnitRepositoryImplTest extends IntegrationTestBase {
         assertThat(list).isNotNull().hasSize(5);
         var listID = list.stream().map(MeasureUnitDTO::getId).toList();
         assertThat(listID).contains(5L, 3L, 4L).doesNotContain(1L, 2L);
+    }
 
+    @Test
+    void findByName(){
+        var mu = measureUnitRepository.findByName(savedMeasureUnit.getName())
+                .orElseThrow(()-> new MeasureUnitNotFound("MeasureUnit not found"));
+        assertThat(mu).isNotNull();
+        assertThat(mu.getName()).isEqualTo(savedMeasureUnit.getName());
+        assertThat(mu.getId()).isEqualTo(savedMeasureUnit.getId());
     }
 }

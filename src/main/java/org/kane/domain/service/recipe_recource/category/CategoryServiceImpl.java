@@ -9,9 +9,11 @@ import org.kane.domain.DTO.entityDTO.recipe_recource.category.CategoryCreateDTO;
 import org.kane.domain.DTO.entityDTO.recipe_recource.category.CategoryNameDTO;
 import org.kane.domain.DTO.entityDTO.recipe_recource.category.CategoryShowDTO;
 import org.kane.domain.DTO.entityDTO.recipe_recource.coefficient.CategoryAddCoefficientDTO;
+import org.kane.domain.DTO.entityDTO.recipe_recource.coefficient.CoefficientCreateDTO;
 import org.kane.domain.mappers.CategoryMapperShow;
 import org.kane.domain.service.recipe_recource.coefficient.CoefficientService;
 import org.kane.exceptions.not_found.CategoryNotFoundException;
+import org.kane.exceptions.not_found.MeasureUnitNotFound;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,7 +39,14 @@ public class CategoryServiceImpl implements CategoryService {
     public CategoryShowDTO createCategory(CategoryCreateDTO categoryCreateDTO){
         var category = Category.builder().name(categoryCreateDTO.getName()).build();
         category = categoryRepository.save(category);
+        var measureUnit = measureUnitRepository.findByName("г")
+                .orElseThrow(()->new MeasureUnitNotFound("Measure Unit Not Found"));
+        CoefficientCreateDTO startCoeff = CoefficientCreateDTO.builder()
+                .measureUnitId(measureUnit.getId())
+                .conversionFactor(1.0)
+                .build();
         Category finalCategory = category;
+        coefficientService.addCoefficient(startCoeff, finalCategory);
         categoryCreateDTO.getCoefficients()
                 .forEach(cat-> coefficientService.addCoefficient(cat, finalCategory));
 
