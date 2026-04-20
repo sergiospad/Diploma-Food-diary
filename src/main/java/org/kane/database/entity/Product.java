@@ -11,6 +11,7 @@ import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@PrimaryKeyJoinColumn(name="id")
 @DiscriminatorValue("PRODUCT")
 @Indexed
 public class Product extends NutritionalInfo{

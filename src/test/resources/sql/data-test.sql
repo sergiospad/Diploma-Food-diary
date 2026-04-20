@@ -53,11 +53,11 @@ INSERT INTO nutritional_info (id, name, calories_per_100g, protein_per_100g, fat
                                                                                                                                                   (10, 'Яблоко', 52.0, 0.30, 0.20, 14.00, false, 'PRODUCT', 2);
 
 -- Заполнение recipe (наследуется от nutritional_info)
-INSERT INTO recipe (id, name, calories_per_100g, protein_per_100g, fat_per_100g, carbs_per_100g, private, discriminator, author_id, summary, created_at, illustration_id, cooking_time) VALUES
-                                                                                                                                                                                   (4, 'Куриный суп', 45.0, 4.50, 1.50, 4.00, false, 'RECIPE', 1, 'Наваристый куриный суп с лапшой и овощами', '2024-01-15 12:00:00', 3, 60),
-                                                                                                                                                                                   (5, 'Салат Цезарь', 180.0, 8.00, 12.00, 10.00, false, 'RECIPE', 2, 'Классический салат Цезарь с курицей и сухариками', '2024-01-16 14:30:00', 2, 20),
-                                                                                                                                                                                   (7, 'Греческий салат', 120.0, 3.00, 9.00, 6.00, false, 'RECIPE', 4, 'Свежий греческий салат с фетой и оливками', '2024-01-18 09:45:00', 3, 15),
-                                                                                                                                                                                   (9, 'Картофельное пюре', 110.0, 2.00, 4.00, 17.00, false, 'RECIPE', 1, 'Нежное картофельное пюре со сливочным маслом', '2024-01-20 18:00:00', 8, 30);
+INSERT INTO recipe (id, summary, created_at, illustration_id, cooking_time) VALUES
+                                                                                                                                                                                   (4,  'Наваристый куриный суп с лапшой и овощами', '2024-01-15 12:00:00', 3, 60),
+                                                                                                                                                                                   (5,  'Классический салат Цезарь с курицей и сухариками', '2024-01-16 14:30:00', 2, 20),
+                                                                                                                                                                                   (7,  'Свежий греческий салат с фетой и оливками', '2024-01-18 09:45:00', 3, 15),
+                                                                                                                                                                                   (9,  'Нежное картофельное пюре со сливочным маслом', '2024-01-20 18:00:00', 8, 30);
 -- Заполнение favourite_recipe
 INSERT INTO favourite_recipe (id, user_id, recipe_id) VALUES
                                                           (1, 1, 4),
@@ -112,13 +112,13 @@ INSERT INTO category (id, name) VALUES
                                     (6, 'Напитки');
 
 -- Заполнение product (наследуется от nutritional_info)
-INSERT INTO product (id, name, calories_per_100g, protein_per_100g, fat_per_100g, carbs_per_100g, private, discriminator, author_id, description, category_id) VALUES
-                                                                                                                                                                          (1, 'Куриная грудка', 165.0, 31.00, 3.60, 0.00, false, 'PRODUCT', 1, 'Куриная грудка без кожи и костей', 1),
-                                                                                                                                                                          (2, 'Рис белый', 130.0, 2.70, 0.30, 28.00, false, 'PRODUCT', 1, 'Рис белый шлифованный', 2),
-                                                                                                                                                                          (3, 'Брокколи', 34.0, 2.80, 0.40, 7.00, false, 'PRODUCT', 2, 'Свежая брокколи', 3),
-                                                                                                                                                                          (6, 'Овсяная каша', 68.0, 2.50, 1.50, 12.00, false, 'PRODUCT', 2, 'Геркулес традиционный', 2),
-                                                                                                                                                                          (8, 'Стейк из говядины', 250.0, 26.00, 17.00, 0.00, false, 'PRODUCT', 4, 'Говяжья вырезка', 1),
-                                                                                                                                                                          (10, 'Яблоко', 52.0, 0.30, 0.20, 14.00, false, 'PRODUCT', 2, 'Яблоки свежие', 4);
+INSERT INTO product (id, description, category_id) VALUES
+                                                         (1,  'Куриная грудка без кожи и костей', 1),
+                                                         (2,  'Рис белый шлифованный', 2),
+                                                         (3,  'Свежая брокколи', 3),
+                                                         (6, 'Геркулес традиционный', 2),
+                                                         (8,  'Говяжья вырезка', 1),
+                                                         (10, 'Яблоки свежие', 4);
 
 -- Заполнение measure_unit
 INSERT INTO measure_unit (id, name) VALUES

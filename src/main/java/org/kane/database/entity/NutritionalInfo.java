@@ -52,4 +52,7 @@ public abstract class NutritionalInfo {
     @Column(name = "private")
     protected Boolean isPrivate;
 
+    @Column(name="discriminator", insertable = false, updatable = false)
+    protected String discriminator;
+
 }

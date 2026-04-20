@@ -21,6 +21,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @DiscriminatorValue("RECIPE")
+@PrimaryKeyJoinColumn(name="id")
 @Indexed
 public class Recipe extends NutritionalInfo {
     @Column

@@ -28,10 +28,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
-/**
- * Юнит-тесты сервисного слоя: поднимается только {@link UserServiceImpl}, зависимости — моки.
- * БД и Spring-контекст не нужны; проверяется логика и контракт вызовов к репозиторию/кодировщику.
- */
+
 @ExtendWith(MockitoExtension.class)
 class MockUserServiceTest {
 
@@ -82,10 +79,10 @@ class MockUserServiceTest {
     @Test
     void updateCurrentUser_mapsAndSaves_returnsTrue() {
         UserEditDTO dto = UserEditDTO.builder().id(1L).username("bob").build();
-        User entity = User.builder().id(1L).username("bob").build();
+        User entity = User.builder().id(1L).username("bob").email("test@mail.com").build();
         when(userEditMapper.copyMap( dto, entity)).thenReturn(entity);
         when(userRepository.save(entity)).thenReturn(entity);
-
+        when(userService.updateUser(dto)).thenReturn(true);
         assertThat(userService.updateUser(dto)).isTrue();
         verify(userRepository).save(entity);
     }

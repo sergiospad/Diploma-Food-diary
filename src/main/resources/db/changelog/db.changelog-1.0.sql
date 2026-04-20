@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS recipe(
     illustration_ID BIGINT REFERENCES image_model,
     FOREIGN KEY (id) references nutritional_info(id),
     cooking_time SMALLINT
-) INHERITS (nutritional_info);
+);
 
 --changeset kane:7
 CREATE TABLE IF NOT EXISTS favourite_recipe(
@@ -111,7 +111,7 @@ CREATE TABLE IF NOT EXISTS product(
     description TEXT NOT NULL ,
     category_ID BIGINT REFERENCES category NOT NULL,
     FOREIGN KEY (id) REFERENCES nutritional_info(id)
-) INHERITS (nutritional_info);
+);
 
 --changeset kane:13
 CREATE TABLE IF NOT EXISTS measure_unit(
