@@ -27,7 +27,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public CommentShowDTO createComment(Principal principal, CommentCreateDTO commentCreateDTO){
         var user = userRepository.getCurrentUser(principal);
-        var recipe = recipeRepository.findById(commentCreateDTO.getProductID())
+        var recipe = recipeRepository.findById(commentCreateDTO.getRecipeID())
                 .orElseThrow(() -> new RecipeNotFoundException("Recipe not found"));
         var image = imageModelRepository.findById(commentCreateDTO.getImageID())
                 .orElse(null);
@@ -39,6 +39,11 @@ public class CommentServiceImpl implements CommentService {
                 .build();
         comment =  commentRepository.save(comment);
         return commentMapperShow.map(comment);
+    }
+
+    @Override
+    public void deleteComment(Principal principal, Long id){
+        commentRepository.deleteById(id);
     }
 
 

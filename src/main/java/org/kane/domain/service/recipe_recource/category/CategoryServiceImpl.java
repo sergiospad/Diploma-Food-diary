@@ -63,6 +63,7 @@ public class CategoryServiceImpl implements CategoryService {
                 ).toList();
     }
 
+    @Transactional
     @Override
     public void editCategory(CategoryNameDTO categoryNameDTO){
         var category = categoryRepository.findById(categoryNameDTO.getId())
@@ -71,8 +72,8 @@ public class CategoryServiceImpl implements CategoryService {
         categoryRepository.save(category);
     }
 
-    @Override
     @Transactional
+    @Override
     public CategoryShowDTO addCoefficient(CategoryAddCoefficientDTO coefficientDTO) {
         var category = categoryRepository.findById(coefficientDTO.getId())
                 .orElseThrow(() -> new CategoryNotFoundException("Category Not Found"));

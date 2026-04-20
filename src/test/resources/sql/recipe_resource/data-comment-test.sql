@@ -8,7 +8,7 @@ INSERT INTO image_model (id, url, image_type) VALUES
                                                   (6, '/images/avatars/user1.jpg', 'USER'),
                                                   (7, '/images/recipes/steak.jpg', 'RECIPE'),
                                                   (8, '/images/recipes/porridge.jpg', 'RECIPE');
-SELECT setval('image_type_id_seq', (SELECT COALESCE(MAX(id), 1) FROM image_type), true);
+SELECT setval('image_model_id_seq', (SELECT COALESCE(MAX(id), 1) FROM image_model), true);
 
 -- Заполнение users
 INSERT INTO users (id, username, password, email, height_sm, birthdate, gender, role, created_at, avatar_id) VALUES
@@ -27,8 +27,8 @@ INSERT INTO nutritional_info (id, name, calories_per_100g, protein_per_100g, fat
                                                                                                                                                   (4, 'Куриный суп', 45.0, 4.50, 1.50, 4.00, false, 'RECIPE', 1),
                                                                                                                                                   (5, 'Салат Цезарь', 180.0, 8.00, 12.00, 10.00, false, 'RECIPE', 2),
                                                                                                                                                   (6, 'Овсяная каша', 68.0, 2.50, 1.50, 12.00, false, 'PRODUCT', 2),
-                                                                                                                                                  (7, 'Греческий салат', 120.0, 3.00, 9.00, 6.00, false, 'RECIPE', 4),
-                                                                                                                                                  (8, 'Стейк из говядины', 250.0, 26.00, 17.00, 0.00, false, 'PRODUCT', 4),
+                                                                                                                                              (7, 'Греческий салат', 120.0, 3.00, 9.00, 6.00, false, 'RECIPE', 4),
+                                                                                                                                                      (8, 'Стейк из говядины', 250.0, 26.00, 17.00, 0.00, false, 'PRODUCT', 4),
                                                                                                                                                   (9, 'Картофельное пюре', 110.0, 2.00, 4.00, 17.00, false, 'RECIPE', 1),
                                                                                                                                                   (10, 'Яблоко', 52.0, 0.30, 0.20, 14.00, false, 'PRODUCT', 2);
 SELECT setval('nutritional_info_id_seq', (SELECT COALESCE(MAX(id), 1) FROM nutritional_info), true);

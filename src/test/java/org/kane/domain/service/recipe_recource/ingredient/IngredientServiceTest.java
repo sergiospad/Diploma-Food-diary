@@ -90,10 +90,10 @@ class IngredientServiceTest extends IntegrationTestServiceBase {
                 .build();
         var ingr = ingredientService.updateIngredient(ingrEdit);
         assertThat(ingr).isNotNull();
-        assertThat(ingr.getId()).isEqualTo(1L);
+        assertThat(ingr.getId()).isEqualTo(ingrEdit.getId());
         assertThat(ingr.getProduct().getId()).isEqualTo(1L);
-        assertThat(ingr.getSpecMeasureUnit().getId()).isEqualTo(1L);
-        assertThat(ingr.getWeight().getValue()).isEqualTo(300.0);
+        assertThat(ingr.getSpecMeasureUnit().getId()).as("Measure Unit").isEqualTo(ingrEdit.getMeasureUnitID());
+        assertThat(ingr.getWeight().getValue()).isEqualTo(2.0);
     }
     @Test
     void updateIngredien4() {

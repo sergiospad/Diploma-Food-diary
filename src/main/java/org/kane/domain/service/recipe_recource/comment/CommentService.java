@@ -7,4 +7,6 @@ import java.security.Principal;
 
 public interface CommentService {
     CommentShowDTO createComment(Principal principal, CommentCreateDTO commentCreateDTO);
+
+    void deleteComment(Principal principal, Long id);
 }

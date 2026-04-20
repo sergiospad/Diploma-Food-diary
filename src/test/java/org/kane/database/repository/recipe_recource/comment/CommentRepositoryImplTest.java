@@ -81,7 +81,6 @@ class CommentRepositoryImplTest extends IntegrationTestBase {
         assertThat(comment.getCreatedAt()).isEqualTo(savedComment.getCreatedAt());
         assertThat(comment.getUserAvatarID()).isEqualTo(savedComment.getCommentator().getAvatar().getId());
         assertThat(comment.getUsername()).isEqualTo(savedComment.getCommentator().getUsername());
-
-
     }
+
 }

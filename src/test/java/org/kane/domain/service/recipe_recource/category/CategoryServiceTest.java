@@ -128,6 +128,5 @@ class CategoryServiceTest extends IntegrationTestServiceBase {
         assertThat(result).isNotNull();
         assertThat(result.getId()).isEqualTo(cacdto.getId());
         assertThat(result.getCoefficients()).isNotEmpty().hasSize(4);
-
     }
 }
