@@ -1,7 +1,9 @@
 package org.kane.domain.service.recipe;
 
 import org.junit.jupiter.api.Test;
+import org.kane.database.entity.Recipe;
 import org.kane.database.entity.physical_quantity.ProductWeight;
+import org.kane.database.repository.recipe.RecipeRepository;
 import org.kane.domain.DTO.entityDTO.diary.recipe_recource.cooking_stage.CookingStageEditDescDTO;
 import org.kane.domain.DTO.entityDTO.diary.recipe_recource.ingredient.IngredientEditDTO;
 import org.kane.domain.DTO.entityDTO.recipe.RecipeEditDTO;
@@ -30,6 +32,9 @@ class RecipeServiceTest extends IntegrationTestServiceBase {
     @Autowired
     private RecipeService recipeService;
 
+    @Autowired
+    private RecipeRepository recipeRepository;
+
     @Test
     void searchBySummary() {
     }
@@ -40,8 +45,9 @@ class RecipeServiceTest extends IntegrationTestServiceBase {
 
     @Test
     void updateRecipe() {
+        var recipe = recipeRepository.findById(4L).orElseThrow();
         var recipeEditDTO = RecipeEditDTO.builder()
-                .id(4L)
+                .id(recipe.getId())
                 .name("Не Куриный Суп")
                 .summary("Не Наваристый Не куриный Не суп Не с лапшой и не овощами")
                 .cookingTime((short)90)
@@ -49,15 +55,15 @@ class RecipeServiceTest extends IntegrationTestServiceBase {
                 .removeTags(List.of(1L))
                 .isPrivate(true)
                 .build();
-        var editedStage = new CookingStageEditDescDTO(1L, "Не Нарезайте курицу и овощи");
-        recipeEditDTO.setEditedStages(List.of(editedStage));
-        var editedIngredients = IngredientEditDTO.builder()
-                .id(1L)
-                .productID(10L)
-                .amount(200.0)
-                .measureUnitID(2L)
-                .build();
-        recipeEditDTO.setEditedIngredients(List.of(editedIngredients));
+//        var editedStage = new CookingStageEditDescDTO(1L, "Не Нарезайте курицу и овощи");
+//        recipeEditDTO.setEditedStages(List.of(editedStage));
+//        var editedIngredients = IngredientEditDTO.builder()
+//                .id(1L)
+//                .productID(10L)
+//                .amount(200.0)
+//                .measureUnitID(2L)
+//                .build();
+//        recipeEditDTO.setEditedIngredients(List.of(editedIngredients));
         var editedRecipe = recipeService.updateRecipe(recipeEditDTO);
         assertThat(editedRecipe).isNotNull();
         assertThat(editedRecipe.getId()).isEqualTo(recipeEditDTO.getId());

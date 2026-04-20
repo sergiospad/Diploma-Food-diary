@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.kane.domain.DTO.entityDTO.diary.recipe_recource.cooking_stage.CookingStageEditDescDTO;
 import org.kane.domain.DTO.entityDTO.diary.recipe_recource.ingredient.IngredientEditDTO;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -18,8 +19,13 @@ public class RecipeEditDTO {
     private String name;
     private String summary;
     private Short cookingTime;
-    private List<Long> addTags;
-    private List<Long> removeTags;
+
+    @Builder.Default
+    private List<Long> addTags = new ArrayList<>();
+
+    @Builder.Default
+    private List<Long> removeTags= new ArrayList<>();
+
     private Boolean isPrivate;
     private List<CookingStageEditDescDTO> editedStages;
     private List<IngredientEditDTO> editedIngredients;

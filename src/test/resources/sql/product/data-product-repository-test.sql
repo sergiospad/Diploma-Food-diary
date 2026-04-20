@@ -8,6 +8,7 @@ INSERT INTO image_model (id, url, image_type) VALUES
                                                   (6, '/images/avatars/user1.jpg', 'USER'),
                                                   (7, '/images/recipes/steak.jpg', 'RECIPE'),
                                                   (8, '/images/recipes/porridge.jpg', 'RECIPE');
+SELECT setval('image_model_id_seq', (SELECT COALESCE(MAX(id), 1) FROM image_model), true);
 
 -- Заполнение users
 INSERT INTO users (id, username, password, email, height_sm, birthdate, gender, role, created_at, avatar_id) VALUES
@@ -16,6 +17,7 @@ INSERT INTO users (id, username, password, email, height_sm, birthdate, gender, 
                                                                                                                  (3, 'admin', '$2a$10$z3SKjhcdAMmZ7CKfsHeoOOzJaEYk69UBhZq.BU/xYdCf7PPItvHOy', 'admin@example.com', 180, '1988-03-10', 'M', 'ADMIN', '2024-01-09 09:00:00', 1),
                                                                                                                  (4, 'chef_mike', '$2a$10$z3SKjhcdAMmZ7CKfsHeoOOzJaEYk69UBhZq.BU/xYdCf7PPItvHOy', 'mike@example.com', 178, '1985-12-01', 'M', 'USER', '2024-01-12 14:20:00', 1),
                                                                                                                  (5, 'lisa_cook', '$2a$10$z3SKjhcdAMmZ7CKfsHeoOOzJaEYk69UBhZq.BU/xYdCf7PPItvHOy', 'lisa@example.com', 162, '1995-07-25', 'FM', 'ADMIN', '2024-01-13 16:45:00', 6);
+SELECT setval('users_id_seq', (SELECT COALESCE(MAX(id), 1) FROM users), true);
 
 -- Заполнение recipe (наследуется от nutritional_info)
 INSERT INTO nutritional_info (id, name, calories_per_100g, protein_per_100g, fat_per_100g, carbs_per_100g, private, discriminator, author_id) VALUES
@@ -29,6 +31,7 @@ INSERT INTO nutritional_info (id, name, calories_per_100g, protein_per_100g, fat
                                                                                                                                                   (8, 'Стейк из говядины', 250.0, 26.00, 17.00, 0.00, false, 'PRODUCT', 4),
                                                                                                                                                   (9, 'Картофельное пюре', 110.0, 2.00, 4.00, 17.00, false, 'RECIPE', 1),
                                                                                                                                                   (10, 'Яблоко', 52.0, 0.30, 0.20, 14.00, false, 'PRODUCT', 2);
+SELECT setval('nutritional_info_id_seq', (SELECT COALESCE(MAX(id), 1) FROM nutritional_info), true);
 
 -- Заполнение category
 INSERT INTO category (id, name) VALUES
@@ -38,16 +41,18 @@ INSERT INTO category (id, name) VALUES
                                     (4, 'Фрукты'),
                                     (5, 'Молочные продукты'),
                                     (6, 'Напитки');
+SELECT setval('category_id_seq', (SELECT COALESCE(MAX(id), 1) FROM category), true);
 
 
 -- Заполнение product (наследуется от nutritional_info)
 INSERT INTO product (id,description, category_id) VALUES
-                                                                                                                                                                   (1,  'Куриная грудка без кожи и костей', 1),
-                                                                                                                                                                   (2,  'Рис белый шлифованный', 2),
-                                                                                                                                                                   (3,  'Свежая брокколи', 3),
-                                                                                                                                                                   (6, 'Геркулес традиционный', 2),
-                                                                                                                                                                   (8,  'Говяжья вырезка', 1),
-                                                                                                                                                                   (10, 'Яблоки свежие', 4);
+                                                        (1,  'Куриная грудка без кожи и костей', 1),
+                                                        (2,  'Рис белый шлифованный', 2),
+                                                        (3,  'Свежая брокколи', 3),
+                                                        (6, 'Геркулес традиционный', 2),
+                                                        (8,  'Говяжья вырезка', 1),
+                                                        (10, 'Яблоки свежие', 4);
+SELECT setval('image_model_id_seq', (SELECT COALESCE(MAX(id), 1) FROM image_model), true);
 
 
 -- Заполнение measure_unit
@@ -59,6 +64,7 @@ INSERT INTO measure_unit (id, name) VALUES
                                         (5, 'шт'),
                                         (6, 'ст.л.'),
                                         (7, 'ч.л.');
+SELECT setval('measure_unit_id_seq', (SELECT COALESCE(MAX(id), 1) FROM measure_unit), true);
 
 -- Заполнение coefficient
 INSERT INTO coefficient (id, conversion_factor, category_id, measure_unit_id) VALUES
@@ -68,5 +74,6 @@ INSERT INTO coefficient (id, conversion_factor, category_id, measure_unit_id) VA
                                                                                   (4, 100.0000, 4, 1),   -- 100г для фруктов
                                                                                   (5, 150.0000, 2, 2),   -- 1кг крупы = 1000г
                                                                                   (6, 200.0000, 1, 2);   -- 1кг мяса = 1000г
+SELECT setval('coefficient_id_seq', (SELECT COALESCE(MAX(id), 1) FROM coefficient), true);
 
 

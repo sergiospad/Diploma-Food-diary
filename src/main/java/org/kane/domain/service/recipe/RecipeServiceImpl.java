@@ -4,6 +4,7 @@ import com.querydsl.core.BooleanBuilder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.kane.database.entity.Recipe;
+import org.kane.database.entity.recipe_recource.Tag;
 import org.kane.database.enum_types.CaloricityType;
 import org.kane.database.repository.recipe_recource.image_model.ImageModelRepository;
 import org.kane.database.repository.recipe.RecipeRepository;
@@ -25,7 +26,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Stream;
 
 import static org.kane.database.entity.QRecipe.recipe;
 
@@ -99,17 +103,29 @@ public class RecipeServiceImpl implements RecipeService {
                 .map(r-> recipeEditMapper.copyMap(recipeEditDTO, r))
                 .orElseThrow(()->new RecipeNotFoundException("recipe not found"));
 
-        var tags = recipe.getTags();
-        if( recipeEditDTO.getAddTags()!=null)
-            recipeEditDTO.getAddTags()
-                    .forEach(t-> tagRepository.findById(t)
-                            .ifPresent(tags::add));
-        if(recipeEditDTO.getRemoveTags()!=null)
-            recipeEditDTO.getRemoveTags()
-                    .forEach(t-> tagRepository.findById(t)
-                            .ifPresent(tags::remove));
-        recipe.setTags(tags);
+        var currentTagIds = recipe.getTags().stream().map(Tag::getId).toList();
+        Set<Long> removeTagIds = recipeEditDTO.getRemoveTags() == null ? Set.of() : Set.copyOf(recipeEditDTO.getRemoveTags());
+        Stream<Long> addTagStream = recipeEditDTO.getAddTags() == null ? Stream.empty() : recipeEditDTO.getAddTags().stream();
 
+        var tags = Stream.concat(currentTagIds.stream(), addTagStream)
+                .distinct()
+                .filter(t -> !removeTagIds.contains(t))
+                .toList();
+
+        recipe.setTags(tagRepository.findAllTagsByListId(tags));
+        recipeRepository.save(recipe);
+
+//        if( recipeEditDTO.getAddTags()!=null)
+//            recipeEditDTO.getAddTags()
+//                    .forEach(t-> tagRepository.findById(t)
+//                            .ifPresent(tags::add));
+//        tags.forEach(tag-> System.out.println(tag.getId()));
+//        if(recipeEditDTO.getRemoveTags()!=null)
+//            recipeEditDTO.getRemoveTags()
+//                    .forEach(t-> tagRepository.findById(t)
+//                            .ifPresent(tags::remove));
+//        tags.forEach(tag-> System.out.println(tag.getId()));
+//        recipe.setTags(tags);
         if(recipeEditDTO.getEditedIngredients()!=null)
             recipeEditDTO.getEditedIngredients()
                     .forEach(ingredientService::updateIngredient);

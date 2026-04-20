@@ -63,4 +63,14 @@ class CustomTagRepositoryImplTest extends IntegrationTestBase {
             assertThat(tag.getName()).isIn(tagsName);
         });
     }
+
+    @Test
+    void findAllTagsByListId() {
+        var tagsId = savedTags.stream().map(Tag::getId).toList();
+        var tags = tagRepository.findAllTagsByListId(tagsId);
+        assertThat(tags).isNotEmpty().hasSize(savedTags.size());
+        assertThat(tags.stream().map(Tag::getId).toList()).containsAll(tagsId);
+        var tagNames = savedTags.stream().map(Tag::getName).toList();
+        assertThat(tagNames).containsAll(savedTags.stream().map(Tag::getName).toList());
+    }
 }

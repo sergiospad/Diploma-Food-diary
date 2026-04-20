@@ -8,6 +8,8 @@ INSERT INTO image_model (id, url, image_type) VALUES
                                                   (6, '/images/avatars/user1.jpg', 'USER'),
                                                   (7, '/images/recipes/steak.jpg', 'RECIPE'),
                                                   (8, '/images/recipes/porridge.jpg', 'RECIPE');
+SELECT setval('image_model_id_seq', (SELECT COALESCE(MAX(id), 1) FROM image_model), true);
+
 
 INSERT INTO users (id, username, password, email, height_sm, birthdate, gender, role, created_at, avatar_id) VALUES
                                                                                                                  (1, 'john_doe', '$2a$10$z3SKjhcdAMmZ7CKfsHeoOOzJaEYk69UBhZq.BU/xYdCf7PPItvHOy', 'john@example.com', 175, '1990-05-15', 'M', 'USER', '2024-01-10 10:00:00', 1),
@@ -15,6 +17,8 @@ INSERT INTO users (id, username, password, email, height_sm, birthdate, gender, 
                                                                                                                  (3, 'admin', '$2a$10$z3SKjhcdAMmZ7CKfsHeoOOzJaEYk69UBhZq.BU/xYdCf7PPItvHOy', 'admin@example.com', 180, '1988-03-10', 'M', 'ADMIN', '2024-01-09 09:00:00', 1),
                                                                                                                  (4, 'chef_mike', '$2a$10$z3SKjhcdAMmZ7CKfsHeoOOzJaEYk69UBhZq.BU/xYdCf7PPItvHOy', 'mike@example.com', 178, '1985-12-01', 'M', 'USER', '2024-01-12 14:20:00', 1),
                                                                                                                  (5, 'lisa_cook', '$2a$10$z3SKjhcdAMmZ7CKfsHeoOOzJaEYk69UBhZq.BU/xYdCf7PPItvHOy', 'lisa@example.com', 162, '1995-07-25', 'FM', 'ADMIN', '2024-01-13 16:45:00', 6);
+SELECT setval('users_id_seq', (SELECT COALESCE(MAX(id), 1) FROM users), true);
+
 
 -- Заполнение recipe (наследуется от nutritional_info)
 INSERT INTO nutritional_info (id, name, calories_per_100g, protein_per_100g, fat_per_100g, carbs_per_100g, private, discriminator, author_id) VALUES
@@ -28,6 +32,7 @@ INSERT INTO nutritional_info (id, name, calories_per_100g, protein_per_100g, fat
                                                                                                                                                   (8, 'Стейк из говядины', 250.0, 26.00, 17.00, 0.00, false, 'PRODUCT', 4),
                                                                                                                                                   (9, 'Картофельное пюре', 110.0, 2.00, 4.00, 17.00, false, 'RECIPE', 1),
                                                                                                                                                   (10, 'Яблоко', 52.0, 0.30, 0.20, 14.00, false, 'PRODUCT', 2);
+SELECT setval('nutritional_info_id_seq', (SELECT COALESCE(MAX(id), 1) FROM nutritional_info), true);
 
 
 -- Заполнение daily_diary_record
@@ -37,6 +42,7 @@ INSERT INTO daily_diary_record (id, record_date, user_id, auto_calculation) VALU
                                                                                 (3, '2024-01-16', 1, true),
                                                                                 (4, '2024-01-16', 2, true),
                                                                                 (5, '2024-01-17', 4, false);
+SELECT setval('daily_diary_record_id_seq', (SELECT COALESCE(MAX(id), 1) FROM daily_diary_record), true);
 
 -- Заполнение meal
 INSERT INTO meal (id, mealtime, type, diary_record_id) VALUES
@@ -47,6 +53,7 @@ INSERT INTO meal (id, mealtime, type, diary_record_id) VALUES
                                                            (5, '12:30:00', 'LUNCH', 2),
                                                            (6, '09:00:00', 'BREAKFAST', 3),
                                                            (7, '14:00:00', 'LUNCH', 4);
+SELECT setval('meal_id_seq', (SELECT COALESCE(MAX(id), 1) FROM meal), true);
 
 -- Заполнение meal_item
 INSERT INTO meal_item (id, weight_g, meal_id, nutrition_id) VALUES
@@ -58,4 +65,5 @@ INSERT INTO meal_item (id, weight_g, meal_id, nutrition_id) VALUES
                                                                 (6, 100.0, 5, 10),  -- яблоко на обед (user2)
                                                                 (7, 200.0, 6, 6),   -- овсяная каша на завтрак (user1, day2)
                                                                 (8, 250.0, 7, 4);   -- куриный суп на обед (user2, day2)
+SELECT setval('meal_item_id_seq', (SELECT COALESCE(MAX(id), 1) FROM meal_item), true);
 

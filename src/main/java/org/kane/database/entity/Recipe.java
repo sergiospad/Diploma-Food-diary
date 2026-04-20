@@ -44,7 +44,7 @@ public class Recipe extends NutritionalInfo {
     @Builder.Default
     private List<Comment> comments = new ArrayList<>();
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(name = "tag_recipes",
             joinColumns = @JoinColumn(name = "recipe_ID"),
             inverseJoinColumns = @JoinColumn(name = "tag_ID")

@@ -8,6 +8,7 @@ INSERT INTO image_model (id, url, image_type) VALUES
                                                   (6, '/images/avatars/user1.jpg', 'USER'),
                                                   (7, '/images/recipes/steak.jpg', 'RECIPE'),
                                                   (8, '/images/recipes/porridge.jpg', 'RECIPE');
+SELECT setval('image_model_id_seq', (SELECT COALESCE(MAX(id), 1) FROM image_model), true);
 
 INSERT INTO users (id, username, password, email, height_sm, birthdate, gender, role, created_at, avatar_id) VALUES
                                                                                                                  (1, 'john_doe', '$2a$10$z3SKjhcdAMmZ7CKfsHeoOOzJaEYk69UBhZq.BU/xYdCf7PPItvHOy', 'john@example.com', 175, '1990-05-15', 'M', 'USER', '2024-01-10 10:00:00', 1),
@@ -15,6 +16,8 @@ INSERT INTO users (id, username, password, email, height_sm, birthdate, gender, 
                                                                                                                  (3, 'admin', '$2a$10$z3SKjhcdAMmZ7CKfsHeoOOzJaEYk69UBhZq.BU/xYdCf7PPItvHOy', 'admin@example.com', 180, '1988-03-10', 'M', 'ADMIN', '2024-01-09 09:00:00', 1),
                                                                                                                  (4, 'chef_mike', '$2a$10$z3SKjhcdAMmZ7CKfsHeoOOzJaEYk69UBhZq.BU/xYdCf7PPItvHOy', 'mike@example.com', 178, '1985-12-01', 'M', 'USER', '2024-01-12 14:20:00', 1),
                                                                                                                  (5, 'lisa_cook', '$2a$10$z3SKjhcdAMmZ7CKfsHeoOOzJaEYk69UBhZq.BU/xYdCf7PPItvHOy', 'lisa@example.com', 162, '1995-07-25', 'FM', 'ADMIN', '2024-01-13 16:45:00', 6);
+SELECT setval('users_id_seq', (SELECT COALESCE(MAX(id), 1) FROM users), true);
+
 
 -- Заполнение daily_diary_record
 INSERT INTO daily_diary_record (id, record_date, user_id, auto_calculation) VALUES
@@ -23,6 +26,8 @@ INSERT INTO daily_diary_record (id, record_date, user_id, auto_calculation) VALU
                                                                                 (3, '2024-01-16', 1, true),
                                                                                 (4, '2024-01-16', 2, true),
                                                                                 (5, '2024-01-17', 4, false);
+SELECT setval('daily_diary_record_id_seq', (SELECT COALESCE(MAX(id), 1) FROM daily_diary_record), true);
+
 
 -- Заполнение sports_activity
 INSERT INTO sports_activity (id, name, burned_calories, diary_record_id) VALUES
@@ -31,6 +36,7 @@ INSERT INTO sports_activity (id, name, burned_calories, diary_record_id) VALUES
                                                                              (3, 'Тренажерный зал', 400.0, 2),
                                                                              (4, 'Плавание', 300.0, 3),
                                                                              (5, 'Йога', 120.0, 4);
+SELECT setval('sports_activity_id_seq', (SELECT COALESCE(MAX(id), 1) FROM sports_activity), true);
 
 
 

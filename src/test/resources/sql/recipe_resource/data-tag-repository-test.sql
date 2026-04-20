@@ -8,6 +8,7 @@ INSERT INTO image_model (id, url, image_type) VALUES
                                                   (6, '/images/avatars/user1.jpg', 'USER'),
                                                   (7, '/images/recipes/steak.jpg', 'RECIPE'),
                                                   (8, '/images/recipes/porridge.jpg', 'RECIPE');
+SELECT setval('image_model_id_seq', (SELECT COALESCE(MAX(id), 1) FROM image_model), true);
 
 -- Заполнение users
 INSERT INTO users (id, username, password, email, height_sm, birthdate, gender, role, created_at, avatar_id) VALUES
@@ -16,6 +17,8 @@ INSERT INTO users (id, username, password, email, height_sm, birthdate, gender, 
                                                                                                                  (3, 'admin', '$2a$10$z3SKjhcdAMmZ7CKfsHeoOOzJaEYk69UBhZq.BU/xYdCf7PPItvHOy', 'admin@example.com', 180, '1988-03-10', 'M', 'ADMIN', '2024-01-09 09:00:00', 1),
                                                                                                                  (4, 'chef_mike', '$2a$10$z3SKjhcdAMmZ7CKfsHeoOOzJaEYk69UBhZq.BU/xYdCf7PPItvHOy', 'mike@example.com', 178, '1985-12-01', 'M', 'USER', '2024-01-12 14:20:00', 1),
                                                                                                                  (5, 'lisa_cook', '$2a$10$z3SKjhcdAMmZ7CKfsHeoOOzJaEYk69UBhZq.BU/xYdCf7PPItvHOy', 'lisa@example.com', 162, '1995-07-25', 'FM', 'ADMIN', '2024-01-13 16:45:00', 6);
+SELECT setval('users_id_seq', (SELECT COALESCE(MAX(id), 1) FROM users), true);
+
 -- Заполнение recipe (наследуется от nutritional_info)
 INSERT INTO nutritional_info (id, name, calories_per_100g, protein_per_100g, fat_per_100g, carbs_per_100g, private, discriminator, author_id) VALUES
                                                                                                                                                   (1, 'Куриная грудка', 165.0, 31.00, 3.60, 0.00, false, 'PRODUCT', 1),
@@ -28,6 +31,7 @@ INSERT INTO nutritional_info (id, name, calories_per_100g, protein_per_100g, fat
                                                                                                                                                   (8, 'Стейк из говядины', 250.0, 26.00, 17.00, 0.00, false, 'PRODUCT', 4),
                                                                                                                                                   (9, 'Картофельное пюре', 110.0, 2.00, 4.00, 17.00, false, 'RECIPE', 1),
                                                                                                                                                   (10, 'Яблоко', 52.0, 0.30, 0.20, 14.00, false, 'PRODUCT', 2);
+SELECT setval('nutritional_info_id_seq', (SELECT COALESCE(MAX(id), 1) FROM nutritional_info), true);
 
 
 
@@ -37,6 +41,7 @@ INSERT INTO recipe (id, summary, created_at, illustration_id, cooking_time) VALU
                                                                                                                                                                                             (5,  'Классический салат Цезарь с курицей и сухариками', '2024-01-16 14:30:00', 2, 20),
                                                                                                                                                                                             (7,  'Свежий греческий салат с фетой и оливками', '2024-01-18 09:45:00', 3, 15),
                                                                                                                                                                                             (9, 'Нежное картофельное пюре со сливочным маслом', '2024-01-20 18:00:00', 8, 30);
+SELECT setval('recipe_id_seq', (SELECT COALESCE(MAX(id), 1) FROM recipe), true);
 
 -- Заполнение tag
 INSERT INTO tag (id, name, priority) VALUES
@@ -48,6 +53,7 @@ INSERT INTO tag (id, name, priority) VALUES
                                          (6, 'Быстрое', 1),
                                          (7, 'Праздничное', 2),
                                          (8, 'Итальянская', 2);
+SELECT setval('tag_id_seq', (SELECT COALESCE(MAX(id), 1) FROM tag), true);
 
 -- Заполнение tag_recipes
 INSERT INTO tag_recipes (id, recipe_id, tag_id) VALUES
@@ -60,3 +66,4 @@ INSERT INTO tag_recipes (id, recipe_id, tag_id) VALUES
                                                     (7, 7, 5),
                                                     (8, 7, 8),
                                                     (9, 9, 3);
+SELECT setval('tag_recipes_id_seq', (SELECT COALESCE(MAX(id), 1) FROM tag_recipes), true);

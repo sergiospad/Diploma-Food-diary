@@ -3,6 +3,7 @@ package org.kane.database.repository.recipe_recource.tag;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.kane.database.entity.recipe_recource.Tag;
 import org.kane.domain.DTO.entityDTO.diary.recipe_recource.TagDTO;
 import org.springframework.stereotype.Repository;
 
@@ -34,6 +35,11 @@ public class CustomTagRepositoryImpl implements CustomTagRepository {
                 .join(recipe.tags, tag)
                 .where(recipe.id.eq(recipeID))
                 .fetch();
+    }
+
+    @Override
+    public List<Tag> findAllTagsByListId(List<Long> listId) {
+        return queryFactory.select(tag).from(tag).where(tag.id.in(listId)).fetch();
     }
 
 
