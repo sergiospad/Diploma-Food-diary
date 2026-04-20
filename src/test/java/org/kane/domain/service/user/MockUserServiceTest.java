@@ -80,9 +80,9 @@ class MockUserServiceTest {
     void updateCurrentUser_mapsAndSaves_returnsTrue() {
         UserEditDTO dto = UserEditDTO.builder().id(1L).username("bob").build();
         User entity = User.builder().id(1L).username("bob").email("test@mail.com").build();
+        when(userRepository.findById(dto.getId())).thenReturn(Optional.of(entity));
         when(userEditMapper.copyMap( dto, entity)).thenReturn(entity);
-        when(userRepository.save(entity)).thenReturn(entity);
-        when(userService.updateUser(dto)).thenReturn(true);
+        when(userRepository.save(entity)).thenReturn(entity).then(invocation -> invocation.getArgument(0));
         assertThat(userService.updateUser(dto)).isTrue();
         verify(userRepository).save(entity);
     }
