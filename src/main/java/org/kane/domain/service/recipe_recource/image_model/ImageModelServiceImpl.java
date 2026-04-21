@@ -8,12 +8,14 @@ import org.kane.database.repository.recipe_recource.image_model.ImageModelReposi
 import org.kane.database.repository.user.UserRepository;
 import org.kane.exceptions.not_found.ImageNotFoundException;
 import org.kane.util.ImageUploadService;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
 
 import static org.kane.util.ImageUploadService.*;
 
+@Service
 @RequiredArgsConstructor
 public class ImageModelServiceImpl implements ImageModelService {
     private static final String ERROR_MES = "Image not found";
