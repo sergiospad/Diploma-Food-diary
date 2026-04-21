@@ -15,19 +15,18 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class EnergyValueServiceImpl implements EnergyValueService{
 
-
     private final IngredientRepository ingredientRepository;
     private final MealItemRepository mealItemRepository;
     private final UserRepository userRepository;
 
-
     private EnergyValueShowDTO calculateAllEnergyValue(Long recipeID){
-        var result = ingredientRepository.findIngredientEnergyDTOByRecipeID(recipeID).stream().
-                reduce(new EnergyValueShowDTO(), EnergyValueShowDTO::merge, EnergyValueShowDTO::merge);
+        EnergyValueShowDTO result = new EnergyValueShowDTO();
+        for (var ing:ingredientRepository.findIngredientEnergyDTOByRecipeID(recipeID)) {
+            result.add(ing);
+        }
         result.setCaloricityType(CaloricityType.ALL);
         return result;
     }
-
 
     private EnergyValueShowDTO calculateEnergyValuePerHundred(Long recipeID){
         var enValue = calculateAllEnergyValue(recipeID);

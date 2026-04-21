@@ -35,8 +35,8 @@ public class ProductWeight {
         return value/100.0;
     }
 
-    public ProductWeight add(ProductWeight productWeight){
-        return new ProductWeight(this.value+ productWeight.getValue());
+    public void add(ProductWeight productWeight){
+        this.value+=productWeight.getValue();
     }
 
     public ProductWeight divide(Double coefficient){

@@ -43,6 +43,7 @@ public class IngredientServiceImpl implements IngredientService{
                 .product(product)
                 .build());
     }
+
     @Transactional
     @Override
     public Ingredient updateIngredient(IngredientEditDTO ingredient) {
@@ -61,7 +62,6 @@ public class IngredientServiceImpl implements IngredientService{
         if(ingredient.getAmount()!=null){
             ing.setWeight(recalculateWeight(ing, ingredient.getAmount()));
         }
-
         return ingredientRepository.save(ing);
     }
 
@@ -69,6 +69,7 @@ public class IngredientServiceImpl implements IngredientService{
         var coeff = coefficientRepository.getCoefficientByProductID(ingredient.getProduct().getId(),ingredient.getSpecMeasureUnit().getId());
         return ProductWeight.calculateWeight(amount, coeff);
     }
+
 
     @Transactional
     @Override

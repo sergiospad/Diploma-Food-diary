@@ -12,7 +12,7 @@ public interface RecipeService {
     List<RecipePreviewDTO> findPreviews(Principal principal, RecipePreviewRequest request, Pageable pageable);
     List<RecipeSummarySearchDTO> searchBySummary(String searchItem);
     List<RecipeTitleSearchDTO> searchByTitle(String searchItem);
-    RecipeShowDTO createRecipe(RecipeCreateDTO recipeCreateDTO);
+    RecipeShowDTO createRecipe(Principal principal, RecipeCreateDTO recipeCreateDTO);
     RecipeShowDTO updateRecipe(RecipeEditDTO recipeEditDTO);
 
     RecipeShowDTO showRecipe(Long recipeID);

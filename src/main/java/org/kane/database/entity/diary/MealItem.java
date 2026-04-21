@@ -1,10 +1,7 @@
 package org.kane.database.entity.diary;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.kane.database.converter.ProductWeightConverter;
 import org.kane.database.entity.NutritionalInfo;
 import org.kane.database.entity.physical_quantity.ProductWeight;
@@ -14,6 +11,7 @@ import org.kane.database.entity.physical_quantity.ProductWeight;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@ToString(of={"id", "productWeight", "nutritionalInfo"})
 public class MealItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

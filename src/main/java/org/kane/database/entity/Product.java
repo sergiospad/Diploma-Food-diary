@@ -14,6 +14,7 @@ import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
 @PrimaryKeyJoinColumn(name="id")
 @DiscriminatorValue("PRODUCT")
 @Indexed
+@ToString(of={"description"}, callSuper = true)
 public class Product extends NutritionalInfo{
     @Column
     private String description;

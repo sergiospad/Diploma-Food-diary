@@ -8,6 +8,6 @@ import org.kane.database.entity.physical_quantity.nutrients.BaseNutrient;
 public interface BaseNutrConverter extends AttributeConverter<BaseNutrient,Double> {
     @Override
     public default Double convertToDatabaseColumn(BaseNutrient baseNutrient) {
-        return baseNutrient.value;
+        return baseNutrient == null ? null : baseNutrient.value;
     }
 }

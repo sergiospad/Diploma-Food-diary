@@ -1,10 +1,7 @@
 package org.kane.database.entity.diary;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.kane.database.converter.HumanWeightConverter;
 import org.kane.database.converter.nutrients_converter.CaloriesConverter;
 import org.kane.database.entity.physical_quantity.nutrients.Calories;
@@ -15,6 +12,7 @@ import org.kane.database.entity.physical_quantity.nutrients.Calories;
 @NoArgsConstructor
 @Builder
 @Table(name = "sports_activity")
+@ToString(of={"id", "name", "burnedCalories"})
 public class SportsActivity {
 
     @Id

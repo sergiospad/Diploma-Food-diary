@@ -2,10 +2,7 @@ package org.kane.database.entity.recipe_recource;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.kane.database.entity.Recipe;
 import org.kane.database.entity.User;
 
@@ -16,6 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@ToString(of={"id", "message", "createdAt"})
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

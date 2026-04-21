@@ -23,6 +23,7 @@ import java.util.Set;
 @Data
 @Entity
 @Table(name = "users")
+@ToString(of = {"id", "username", "password", "email"})
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder

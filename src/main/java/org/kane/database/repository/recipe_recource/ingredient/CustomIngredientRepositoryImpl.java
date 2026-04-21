@@ -58,7 +58,10 @@ public class CustomIngredientRepositoryImpl implements CustomIngredientRepositor
                 .join(recipe.ingredients, ingredient)
                 .where(recipe.id.eq(recipeID))
                 .distinct()
-                .fetch();
+                .fetch()
+                .stream()
+                .peek(IngredientEnergyDTO::reevaluate)
+                .toList();
     }
 
 

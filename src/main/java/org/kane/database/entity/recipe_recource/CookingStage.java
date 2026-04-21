@@ -1,10 +1,7 @@
 package org.kane.database.entity.recipe_recource;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.kane.database.converter.PathConverter;
 import org.kane.database.entity.Recipe;
 
@@ -15,6 +12,7 @@ import java.nio.file.Path;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@ToString(of={"id", "stageNumber", "description"})
 public class CookingStage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

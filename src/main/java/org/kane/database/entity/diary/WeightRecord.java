@@ -2,10 +2,7 @@ package org.kane.database.entity.diary;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.kane.database.converter.HumanWeightConverter;
 import org.kane.database.entity.User;
 import org.kane.database.entity.physical_quantity.HumanWeight;
@@ -17,6 +14,7 @@ import java.time.LocalDate;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(of={"id", "measuredWeight", "dateOfMeasurement"})
 public class WeightRecord {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

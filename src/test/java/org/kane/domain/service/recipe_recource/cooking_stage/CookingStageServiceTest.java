@@ -34,7 +34,7 @@ class CookingStageServiceTest extends IntegrationTestServiceBase {
     private CookingStageService cookingStageService;
 
     @Test
-    void createCookingStage() {
+    void createCookingStage1() {
         var recipe = recipeRepository.findById(4L).orElseThrow();
         var cscdto = CookingStageCreateDTO.builder()
                 .description("testDescripton")
@@ -47,7 +47,21 @@ class CookingStageServiceTest extends IntegrationTestServiceBase {
         assertThat(stage.getDescription()).isEqualTo(cscdto.getDescription());
         assertThat(stage.getRecipe().getId()).isEqualTo(recipe.getId());
         assertThat(stage.getImage().getId()).isEqualTo(cscdto.getImageID());
+    }
 
+    @Test
+    void createCookingStage2() {
+        var recipe = recipeRepository.findById(4L).orElseThrow();
+        var cscdto = CookingStageCreateDTO.builder()
+                .description("testDescripton")
+                .stageNumber((short)4)
+                .build();
+        var stage = cookingStageService.createCookingStage(cscdto, recipe);
+        assertThat(stage).isNotNull();
+        assertThat(stage.getId()).isEqualTo(10L);
+        assertThat(stage.getDescription()).isEqualTo(cscdto.getDescription());
+        assertThat(stage.getRecipe().getId()).isEqualTo(recipe.getId());
+        assertThat(stage.getImage()).isNull();
     }
 
     @Test

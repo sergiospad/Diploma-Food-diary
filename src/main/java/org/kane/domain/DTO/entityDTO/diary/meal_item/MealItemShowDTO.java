@@ -6,6 +6,7 @@ import org.kane.database.entity.physical_quantity.nutrients.Calories;
 import org.kane.database.entity.physical_quantity.nutrients.Carbs;
 import org.kane.database.entity.physical_quantity.nutrients.Fat;
 import org.kane.database.entity.physical_quantity.nutrients.Protein;
+import org.kane.database.enum_types.NutritionType;
 import org.kane.domain.DTO.entityDTO.diary.meal.NutritionalInfoDTO;
 
 @EqualsAndHashCode(callSuper = true)
@@ -16,6 +17,7 @@ public class MealItemShowDTO extends NutritionalInfoDTO {
     Long id;
     String name;
     ProductWeight productWeight;
+    NutritionType nutritionType;
 
     public MealItemShowDTO(Long id,
                            String name,

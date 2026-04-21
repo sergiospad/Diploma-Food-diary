@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS task(
     id BIGSERIAL PRIMARY KEY,
     beginning_date DATE NOT NULL,
     ending_date DATE,
-    calories_deficit NUMERIC(5, 1) NOT NULL,
+    calories_deficit NUMERIC(6,2) NOT NULL,
     target VARCHAR(10) NOT NULL ,
     status VARCHAR(10) NOT NULL ,
     target_weight_kg NUMERIC(5,2) NOT NULL ,
@@ -48,10 +48,10 @@ CREATE TABLE IF NOT EXISTS task(
 CREATE TABLE IF NOT EXISTS nutritional_info(
     id BIGSERIAL PRIMARY KEY,
     name VARCHAR(60) NOT NULL UNIQUE,
-    calories_per_100g NUMERIC(5,1) NOT NULL ,
-    protein_per_100g NUMERIC(5, 2) NOT NULL,
-    fat_per_100g NUMERIC(5, 2) NOT NULL,
-    carbs_per_100g NUMERIC(5, 2) NOT NULL,
+    calories_per_100g NUMERIC(6,2) NOT NULL ,
+    protein_per_100g NUMERIC(8, 4) NOT NULL,
+    fat_per_100g NUMERIC(8, 4) NOT NULL,
+    carbs_per_100g NUMERIC(8, 4) NOT NULL,
     private BOOLEAN DEFAULT FALSE,
     discriminator VARCHAR(10) NOT NULL,
     author_ID BIGINT REFERENCES users NOT NULL
@@ -166,7 +166,7 @@ CREATE TABLE IF NOT EXISTS meal_item(
 CREATE TABLE IF NOT EXISTS sports_activity(
     id BIGSERIAL PRIMARY KEY,
     name VARCHAR(15) NOT NULL ,
-    burned_calories NUMERIC(5, 1) NOT NULL ,
+    burned_calories NUMERIC(6,2) NOT NULL ,
     diary_record_ID BIGINT REFERENCES daily_diary_record ON DELETE CASCADE NOT NULL
 );
 

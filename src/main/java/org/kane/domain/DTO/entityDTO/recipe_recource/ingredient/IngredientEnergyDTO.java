@@ -19,4 +19,12 @@ public class IngredientEnergyDTO {
     private Protein protein;
     private Fat fat;
     private Carbs carbs;
+
+    public void reevaluate() {
+        var coeff = productWeight.getWeightCoefficient();
+        calories.multiply(coeff);
+        protein.multiply(coeff);
+        fat.multiply(coeff);
+        carbs.multiply(coeff);
+    }
 }

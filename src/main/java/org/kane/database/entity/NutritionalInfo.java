@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
 import org.kane.database.converter.nutrients_converter.CaloriesConverter;
 import org.kane.database.converter.nutrients_converter.CarbsConverter;
@@ -20,9 +21,10 @@ import org.kane.database.entity.physical_quantity.nutrients.Protein;
 @NoArgsConstructor
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "discriminator", discriminatorType = DiscriminatorType.STRING)
+@ToString(of={"id", "name", "calories", "fat", "protein", "carbs", "isPrivate", "discriminator"})
 public abstract class NutritionalInfo {
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)

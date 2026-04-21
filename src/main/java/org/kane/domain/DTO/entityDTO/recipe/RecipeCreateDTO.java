@@ -1,12 +1,18 @@
 package org.kane.domain.DTO.entityDTO.recipe;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.kane.domain.DTO.entityDTO.recipe_recource.cooking_stage.CookingStageCreateDTO;
 import org.kane.domain.DTO.entityDTO.recipe_recource.ingredient.IngredientCreateDTO;
 
 import java.util.List;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class RecipeCreateDTO {
     private String name;
     private String summary;

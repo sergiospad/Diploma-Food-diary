@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -26,12 +27,14 @@ public class CookingStageServiceImpl implements CookingStageService {
     @Transactional
     @Override
     public CookingStage createCookingStage(CookingStageCreateDTO cookingStageCreateDTO, Recipe recipe) {
+        Long imageId = cookingStageCreateDTO.getImageID();
+        var image = Optional.ofNullable(imageId)
+                .flatMap(imageModelRepository::findById)
+                .orElse(null);
         return cookingStageRepository.save(CookingStage.builder()
                 .stageNumber(cookingStageCreateDTO.getStageNumber())
                 .description(cookingStageCreateDTO.getDescription())
-                .image(imageModelRepository
-                        .findById(cookingStageCreateDTO.getImageID())
-                        .orElse(null))
+                .image(image)
                 .recipe(recipe)
                 .build());
     }

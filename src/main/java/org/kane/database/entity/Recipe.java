@@ -23,6 +23,7 @@ import java.util.List;
 @DiscriminatorValue("RECIPE")
 @PrimaryKeyJoinColumn(name="id")
 @Indexed
+@ToString(callSuper = true, of = {"summary", "createdAt", "cookingTime"})
 public class Recipe extends NutritionalInfo {
     @Column
     @FullTextField

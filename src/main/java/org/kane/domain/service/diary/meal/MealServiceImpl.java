@@ -43,10 +43,11 @@ public class MealServiceImpl implements MealService {
                 .type(mealCreateDTO.getMealType())
                 .dailyRecord(dailyRecord)
                 .build();
-        mealCreateDTO.getList().stream()
-                .map(mealItemService::unpackMealItem)
-                .forEach(meal::addMealItem);
         meal = mealRepository.save(meal);
+        final Meal finalMeal = meal;
+        mealCreateDTO.getList()
+                .forEach(m-> mealItemService.unpackMealItem(m, finalMeal));
+
         return getMealShowDTO(meal.getId(), meal.getType(), meal.getMealTime(), mealRepository.showMealItems(meal.getId()));
     }
 

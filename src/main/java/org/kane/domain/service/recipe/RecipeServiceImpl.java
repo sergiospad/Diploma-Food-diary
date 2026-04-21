@@ -79,12 +79,14 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     @Transactional
-    public RecipeShowDTO createRecipe(RecipeCreateDTO recipeCreateDTO) {
+    public RecipeShowDTO createRecipe(Principal principal, RecipeCreateDTO recipeCreateDTO) {
+        var user = userRepository.getCurrentUser(principal);
         Recipe recipe = createRecipeMapper.map(recipeCreateDTO);
         var tags = recipeCreateDTO.getTags().stream()
                 .map(tag->  tagRepository.findById(tag)
                         .orElseThrow(()-> new TagNotFoundException("Tag not found with id " + tag)))
                 .toList();
+        recipe.setAuthor(user);
         recipe.setTags(tags);
         recipe = recipeRepository.save(recipe);
         Recipe finalRecipe = recipe;
@@ -94,7 +96,10 @@ public class RecipeServiceImpl implements RecipeService {
         var stages = recipeCreateDTO.getStages().stream()
                 .map(s-> cookingStageService.createCookingStage(s, finalRecipe))
                 .toList();
-        recipe.setIllustration(imageModelRepository.findById(recipeCreateDTO.getIllustrationID()).orElse(null));
+        Long illustrationId = recipeCreateDTO.getIllustrationID();
+        recipe.setIllustration(illustrationId == null
+                ? null
+                : imageModelRepository.findById(illustrationId).orElse(null));
 
         recipe.setIngredients(ingredients);
         recipe.setCookingStages(stages);

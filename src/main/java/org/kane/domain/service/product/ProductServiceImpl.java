@@ -31,6 +31,7 @@ public class ProductServiceImpl implements ProductService {
     private final CategoryRepository categoryRepository;
     private final ProductEditMapper productEditMapper;
 
+    @Transactional
     @Override
     public Long createProduct(Principal principal, ProductCreateDTO productCreateDTO) {
         var user = userRepository.getCurrentUser(principal);
@@ -43,6 +44,7 @@ public class ProductServiceImpl implements ProductService {
         return product.getId();
     }
 
+    @Transactional
     @Override
     public void updateProduct(ProductEditDTO productEditDTO) {
         var product = productRepository.findById(productEditDTO.getId())
@@ -67,20 +69,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Long> addTagToRecipe(Long recipeId, Long tagId) {
-        return List.of();
-    }
-
-    @Override
-    public List<Long> removeTagFromRecipe(Long recipeId, Long tagId) {
-        return List.of();
-    }
-
-    @Override
-    public List<ProductSearchDTO> searchForSuitableNutritions(String keyItem){
-        return productRepository.findSearchDTO(keyItem);
-    }
-
     public NutritionShowProjection getNutritionShowProjection(Long id){
         return productRepository.getNutritionsShowProjection(id);
     }

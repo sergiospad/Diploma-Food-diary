@@ -1,10 +1,7 @@
 package org.kane.database.entity.recipe_recource;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.kane.database.converter.ProductWeightConverter;
 import org.kane.database.entity.Product;
 import org.kane.database.entity.Recipe;
@@ -15,6 +12,7 @@ import org.kane.database.entity.physical_quantity.ProductWeight;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@ToString(of={"id", "specMeasureUnit", "weight"})
 public class Ingredient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

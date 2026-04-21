@@ -30,23 +30,12 @@ public class EnergyValueShowDTO {
         this.carbs = new Carbs(0.0);
     }
 
-    public EnergyValueShowDTO merge(IngredientEnergyDTO dto){
-        var copy = copy();
-        copy.productWeight = this.productWeight.add(dto.getProductWeight());
-        copy.calories.add(dto.getCalories());
-        copy.protein.add(dto.getProtein());
-        copy.fat.add(dto.getFat());
-        copy.carbs.add(dto.getCarbs());
-        return copy;
-    }
-    public EnergyValueShowDTO merge(EnergyValueShowDTO dto){
-        var copy = copy();
-        copy.productWeight = this.productWeight.add(dto.getProductWeight());
-        copy.calories.add(dto.getCalories());
-        copy.protein.add(dto.getProtein());
-        copy.fat.add(dto.getFat());
-        copy.carbs.add(dto.getCarbs());
-        return copy;
+    public void add(IngredientEnergyDTO ingredientEnergyDTO){
+        this.productWeight.add(ingredientEnergyDTO.getProductWeight());
+        this.calories.add(ingredientEnergyDTO.getCalories());
+        this.protein.add(ingredientEnergyDTO.getProtein());
+        this.fat.add(ingredientEnergyDTO.getFat());
+        this.carbs.add(ingredientEnergyDTO.getCarbs());
     }
 
     public EnergyValueShowDTO divide(Double coefficient){

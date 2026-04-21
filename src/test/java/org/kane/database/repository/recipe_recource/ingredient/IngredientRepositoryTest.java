@@ -99,11 +99,11 @@ class IngredientRepositoryTest extends IntegrationTestBase {
         var weights = ing.stream().map(IngredientEnergyDTO::getProductWeight).toList();
         assertThat(weights).contains(new ProductWeight(200.0), new ProductWeight(100.0));
         var calories = ing.stream().map(IngredientEnergyDTO::getCalories).toList();
-        assertThat(calories).contains(new Calories(165.0),  new Calories(130.0),  new Calories(68.0));
+        assertThat(calories).contains(new Calories(330.0),  new Calories(130.0),  new Calories(68.0));
         var proteins = ing.stream().map(IngredientEnergyDTO::getProtein).toList();
-        assertThat(proteins).contains(new Protein(31.00),  new Protein(2.70),  new Protein(2.50));
+        assertThat(proteins).contains(new Protein(62.00),  new Protein(2.70),  new Protein(2.50));
         var fat = ing.stream().map(IngredientEnergyDTO::getFat).toList();
-        assertThat(fat).contains(new Fat(3.60),  new Fat(0.30),  new Fat(1.50));
+        assertThat(fat).contains(new Fat(7.20),  new Fat(0.30),  new Fat(1.50));
         var carbs = ing.stream().map(IngredientEnergyDTO::getCarbs).toList();
         assertThat(carbs).contains(new Carbs(0.00),  new Carbs(28.00),  new Carbs(12.00));
     }

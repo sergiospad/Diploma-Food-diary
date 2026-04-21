@@ -1,16 +1,14 @@
 package org.kane.database.entity.recipe_recource;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@ToString(of = {"id", "conversionFactor"})
 public class Coefficient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

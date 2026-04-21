@@ -1,10 +1,7 @@
 package org.kane.database.entity.recipe_recource;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.kane.database.entity.Product;
 
 import java.util.ArrayList;
@@ -15,6 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@ToString(of={"id", "name"})
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
