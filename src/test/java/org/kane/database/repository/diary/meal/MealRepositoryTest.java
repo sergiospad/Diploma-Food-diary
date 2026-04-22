@@ -22,6 +22,7 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.jdbc.SqlGroup;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
 
@@ -131,6 +132,12 @@ class MealRepositoryTest extends IntegrationTestBase {
             var list = savedDiaryRecordMap.get(key);
             assertThat(map.get(key)).isNotNull().isEqualTo(list);
         }
+    }
+
+    @Test
+    void getShowDTOMap1() {
+        var map = mealRepository.getShowDTOMap(LocalDate.now(), savedUser.getId());
+        assertThat(map).hasSize(0);
     }
 
     @Test
