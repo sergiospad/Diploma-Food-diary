@@ -9,6 +9,7 @@ import org.kane.domain.DTO.entityDTO.diary.sport_activity.SportActivityEditDTO;
 import org.kane.domain.DTO.entityDTO.diary.sport_activity.SportActivityShowDTO;
 import org.kane.domain.DTO.entityDTO.diary.sport_activity.SportsActivityCreateDTO;
 import org.kane.domain.mappers.sports_activity.SportsActivityCreateMapper;
+import org.kane.domain.mappers.sports_activity.SportsActivityEditMapper;
 import org.kane.domain.mappers.sports_activity.SportsActivityShowMapper;
 import org.kane.exceptions.not_found.SportsActivityNotFound;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,7 @@ public class SportsActivityServiceImpl implements SportsActivityService {
     private final UserRepository userRepository;
     private final SportActivitiesRepository sportActivitiesRepository;
     private final SportsActivityShowMapper sportsActivityShowMapper;
+    private final SportsActivityEditMapper sportsActivityEditMapper;
 
     @Transactional
     @Override
@@ -41,6 +43,7 @@ public class SportsActivityServiceImpl implements SportsActivityService {
     @Override
     public SportActivityShowDTO updateSportActivity(SportActivityEditDTO sportActivityEditDTO){
         return sportActivitiesRepository.findById(sportActivityEditDTO.getId())
+                .map(sa-> sportsActivityEditMapper.copyMap(sportActivityEditDTO, sa))
                 .map(sportActivitiesRepository::save)
                 .map(sportsActivityShowMapper::map)
                 .orElseThrow(()-> new SportsActivityNotFound("SportsActivity not found"));
@@ -52,6 +55,4 @@ public class SportsActivityServiceImpl implements SportsActivityService {
     public void deleteSportActivity(Long sportsActivityID){
         sportActivitiesRepository.deleteById(sportsActivityID);
     }
-
-
 }

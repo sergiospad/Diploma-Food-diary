@@ -1,5 +1,6 @@
 package org.kane.domain.DTO.entityDTO.diary.meal;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -16,7 +17,7 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
-
+@AllArgsConstructor
 public class MealShowDTO extends NutritionalInfoDTO {
     Long id;
     LocalTime time;
@@ -32,6 +33,7 @@ public class MealShowDTO extends NutritionalInfoDTO {
                        LocalTime time,
                        List<MealItemShowDTO> mealItemShowDTO) {
         this.id = id;
+        this.time = time;
         this.mealType = mealType;
         this.showDTOList = mealItemShowDTO;
         this.setCalories(calories);

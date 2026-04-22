@@ -12,7 +12,7 @@ import org.kane.domain.DTO.entityDTO.diary.meal.NutritionalInfoDTO;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
+
 public class MealItemShowDTO extends NutritionalInfoDTO {
     Long id;
     String name;
@@ -33,5 +33,20 @@ public class MealItemShowDTO extends NutritionalInfoDTO {
         setProteins(protein);
         setFat(fat);
         setCarbs(carbs);
+    }
+
+    /** Для QueryDSL  */
+    public MealItemShowDTO(Long id,
+                           String name,
+                           ProductWeight productWeight,
+                           Calories calories,
+                           Protein protein,
+                           Fat fat,
+                           Carbs carbs,
+                           String discriminator) {
+        this(id, name, productWeight, calories, protein, fat, carbs);
+        if (discriminator != null) {
+            this.nutritionType = NutritionType.valueOf(discriminator);
+        }
     }
 }

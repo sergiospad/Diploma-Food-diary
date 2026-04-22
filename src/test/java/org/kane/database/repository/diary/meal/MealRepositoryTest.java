@@ -12,6 +12,7 @@ import org.kane.database.entity.physical_quantity.nutrients.Carbs;
 import org.kane.database.entity.physical_quantity.nutrients.Fat;
 import org.kane.database.entity.physical_quantity.nutrients.Protein;
 import org.kane.database.enum_types.MealType;
+import org.kane.database.enum_types.NutritionType;
 import org.kane.domain.DTO.entityDTO.diary.meal.MealProjection;
 import org.kane.domain.DTO.entityDTO.diary.meal_item.MealItemShowDTO;
 import org.kane.integration.IntegrationTestBase;
@@ -66,7 +67,8 @@ class MealRepositoryTest extends IntegrationTestBase {
                 new Calories(136.0),
                 new Protein(5.0),
                 new Fat(3.0),
-                new Carbs(24.0)
+                new Carbs(24.0),
+                NutritionType.PRODUCT.name()
         );
         list.add(mealItem);
         mealItem = new MealItemShowDTO(
@@ -76,7 +78,8 @@ class MealRepositoryTest extends IntegrationTestBase {
                 new Calories(26.0),
                 new Protein(0.15),
                 new Fat(0.1),
-                new Carbs(7.0)
+                new Carbs(7.0),
+                NutritionType.PRODUCT.name()
         );
         list.add(mealItem);
         savedDiaryRecordMap.put(mealProj, list);
@@ -93,7 +96,8 @@ class MealRepositoryTest extends IntegrationTestBase {
                 new Calories(112.5),
                 new Protein(11.25),
                 new Fat(3.75),
-                new Carbs(10.0)
+                new Carbs(10.0),
+                NutritionType.RECIPE.name()
         );
         list.add(mealItem);
         savedDiaryRecordMap.put(mealProj, list);
@@ -110,7 +114,8 @@ class MealRepositoryTest extends IntegrationTestBase {
                 new Calories(270.0),
                 new Protein(12.0),
                 new Fat(18.0),
-                new Carbs(15.0)
+                new Carbs(15.0),
+                NutritionType.RECIPE.name()
         );
         list.add(mealItem);
         savedDiaryRecordMap.put(mealProj, list);

@@ -1,6 +1,9 @@
 package org.kane.domain.DTO.entityDTO.diary.meal;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.kane.database.enum_types.MealType;
 import org.kane.domain.DTO.entityDTO.diary.meal_item.MealItemEditDTO;
 
@@ -9,6 +12,9 @@ import java.time.LocalTime;
 import java.util.List;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class MealEditDTO {
     private Long mealID;
     private MealType mealType;

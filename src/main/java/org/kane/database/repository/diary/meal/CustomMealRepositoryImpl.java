@@ -7,6 +7,7 @@ import com.querydsl.core.types.dsl.SimplePath;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NonNull;
+import org.kane.database.enum_types.NutritionType;
 import org.kane.domain.DTO.entityDTO.diary.meal.MealProjection;
 import org.kane.domain.DTO.entityDTO.diary.meal_item.MealItemShowDTO;
 import org.springframework.stereotype.Repository;
@@ -37,6 +38,7 @@ public class CustomMealRepositoryImpl implements CustomMealRepository {
                         meal.mealTime,
                         mealItem.id,
                         mealItem.nutritionalInfo.name,
+                        mealItem.nutritionalInfo.discriminator,
                         mealItem.productWeight,
                         mealItem.nutritionalInfo.calories,
                         mealItem.nutritionalInfo.protein,
@@ -68,6 +70,10 @@ public class CustomMealRepositoryImpl implements CustomMealRepository {
                     row.get(mealItem.nutritionalInfo.protein),
                     row.get(mealItem.nutritionalInfo.fat),
                     row.get(mealItem.nutritionalInfo.carbs));
+            String disc = row.get(mealItem.nutritionalInfo.discriminator);
+            if (disc != null) {
+                mealItemShowDTO.setNutritionType(NutritionType.valueOf(disc));
+            }
             mealItemShowDTO.getCalories().multiply(coeff);
             mealItemShowDTO.getProteins().multiply(coeff);
             mealItemShowDTO.getFat().multiply(coeff);
@@ -83,6 +89,7 @@ public class CustomMealRepositoryImpl implements CustomMealRepository {
         List<Tuple> rows = queryFactory.select(
                         mealItem.id,
                         mealItem.nutritionalInfo.name,
+                        mealItem.nutritionalInfo.discriminator,
                         mealItem.productWeight,
                         mealItem.nutritionalInfo.calories,
                         mealItem.nutritionalInfo.protein,
@@ -105,6 +112,10 @@ public class CustomMealRepositoryImpl implements CustomMealRepository {
                     row.get(mealItem.nutritionalInfo.protein),
                     row.get(mealItem.nutritionalInfo.fat),
                     row.get(mealItem.nutritionalInfo.carbs));
+            String disc = row.get(mealItem.nutritionalInfo.discriminator);
+            if (disc != null) {
+                mealItemShowDTO.setNutritionType(NutritionType.valueOf(disc));
+            }
             mealItemShowDTO.getCalories().multiply(coeff);
             mealItemShowDTO.getProteins().multiply(coeff);
             mealItemShowDTO.getFat().multiply(coeff);

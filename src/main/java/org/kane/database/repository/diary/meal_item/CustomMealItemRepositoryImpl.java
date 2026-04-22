@@ -24,7 +24,8 @@ public class CustomMealItemRepositoryImpl implements CustomMealItemRepository {
                     mealItem.nutritionalInfo.calories,
                     mealItem.nutritionalInfo.protein,
                     mealItem.nutritionalInfo.fat,
-                    mealItem.nutritionalInfo.carbs))
+                    mealItem.nutritionalInfo.carbs,
+                    mealItem.nutritionalInfo.discriminator))
                 .from(mealItem)
                 .where(mealItem.meal.id.eq(mealID))
                 .fetch();
