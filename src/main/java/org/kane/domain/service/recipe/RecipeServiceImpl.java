@@ -62,11 +62,13 @@ public class RecipeServiceImpl implements RecipeService {
             var user = userRepository.getCurrentUser(principal);
             predicate.and(recipe.in(user.getFavouriteRecipes()));
         }
-        if(request.getSortType()== SortTypeRecipe.NEWER)
-            return recipeRepository.findAllPreviewDTOOrderedByNew(predicate, pageable).getContent();
-        else if(request.getSortType()== SortTypeRecipe.OLDER)
-            return  recipeRepository.findAllPreviewDTOOrderedByOlder(predicate, pageable).getContent();
-        else return recipeRepository.findAllPreviewDTOOrderedByOlder(predicate, pageable).getContent();
+        if (request.getSortType() == SortTypeRecipe.OLDER) {
+            return recipeRepository.findAllPreviewDTOOrderedByOlder(predicate, pageable).getContent();
+        }
+        if (request.getSortType() == SortTypeRecipe.POPULAR) {
+            return recipeRepository.findAllPreviewDTOOrderedByPopular(predicate, pageable).getContent();
+        }
+        return recipeRepository.findAllPreviewDTOOrderedByNew(predicate, pageable).getContent();
     }
 
     @Override

@@ -3,6 +3,8 @@ package org.kane.database.repository.recipe;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
@@ -18,8 +20,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.kane.database.entity.QRecipe.recipe;
@@ -32,11 +32,13 @@ public class CustomRecipeRepositoryImpl implements CustomRecipeRepository {
 
     @Override
     public Page<RecipePreviewDTO> findAllPreviewDTOOrderedByNew(BooleanBuilder predicate, Pageable pageable) {
-        OrderSpecifier<LocalDateTime> order = recipe.createdAt.desc();
-        return getRecipePreviewDTOs(predicate, pageable, order);
+        return getRecipePreviewDTOs(predicate, pageable, recipe.createdAt.desc());
     }
 
-    private @NonNull PageImpl<RecipePreviewDTO> getRecipePreviewDTOs(BooleanBuilder predicate, Pageable pageable, OrderSpecifier<LocalDateTime> order) {
+    private @NonNull PageImpl<RecipePreviewDTO> getRecipePreviewDTOs(
+            BooleanBuilder predicate,
+            Pageable pageable,
+            OrderSpecifier<?>... orders) {
         long total = new JPAQuery<Long>(em).select(recipe.id.count()).from(recipe).where(predicate).fetchOne();
 
         List<RecipePreviewDTO> content = new JPAQuery<RecipePreviewDTO>(em)
@@ -47,7 +49,7 @@ public class CustomRecipeRepositoryImpl implements CustomRecipeRepository {
                     recipe.illustration.id.as("imageID")))
                 .from(recipe)
                 .where(predicate)
-                .orderBy(order)
+                .orderBy(orders)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -57,9 +59,16 @@ public class CustomRecipeRepositoryImpl implements CustomRecipeRepository {
 
     @Override
     public Page<RecipePreviewDTO> findAllPreviewDTOOrderedByOlder(BooleanBuilder predicate, Pageable pageable) {
-        OrderSpecifier<LocalDateTime> order = recipe.createdAt.asc();
+        return getRecipePreviewDTOs(predicate, pageable, recipe.createdAt.asc());
+    }
 
-        return getRecipePreviewDTOs(predicate, pageable, order);
+    @Override
+    public Page<RecipePreviewDTO> findAllPreviewDTOOrderedByPopular(BooleanBuilder predicate, Pageable pageable) {
+
+        NumberExpression<Long> favouriteUsersCount = Expressions.numberTemplate(Long.class,
+                "(select count(favUser) from User favUser join favUser.favouriteRecipes favRecipe where favRecipe.id = {0})",
+                recipe.id);
+        return getRecipePreviewDTOs(predicate, pageable, favouriteUsersCount.desc(), recipe.createdAt.desc());
     }
 
     @Override
@@ -71,6 +80,7 @@ public class CustomRecipeRepositoryImpl implements CustomRecipeRepository {
                         .fuzzy(2))
                 .fetchHits(5)
                 .stream()
+                .filter(r-> !r.getIsPrivate())
                 .map(recipe -> new RecipeSummarySearchDTO(
                         recipe.getId(),
                         recipe.getName(),
@@ -87,7 +97,9 @@ public class CustomRecipeRepositoryImpl implements CustomRecipeRepository {
                         .matching(searchItem)
                         .fuzzy(2)
                 ).fetchHits(5)
-                .stream().map(
+                .stream()
+                .filter(r-> !r.getIsPrivate())
+                .map(
                         rec-> new RecipeTitleSearchDTO(
                                 rec.getId(),
                                 rec.getName()))

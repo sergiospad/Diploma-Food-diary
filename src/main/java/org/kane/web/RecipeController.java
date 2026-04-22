@@ -3,6 +3,7 @@ package org.kane.web;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.kane.domain.DTO.entityDTO.recipe.RecipePreviewDTO;
+import org.kane.domain.DTO.entityDTO.recipe.RecipeSummarySearchDTO;
 import org.kane.domain.DTO.request.RecipePreviewRequest;
 import org.kane.domain.service.recipe.RecipeService;
 import org.springframework.data.domain.Pageable;
@@ -30,5 +31,12 @@ public class RecipeController {
             @RequestBody RecipePreviewRequest recipePreviewRequest,
             @PageableDefault(size = 18) Pageable pageable) {
         return ResponseEntity.ok(recipeService.findPreviews(principal, recipePreviewRequest, pageable));
+    }
+
+    @GetMapping("/summary/search")
+    @PreAuthorize("permitAll()")
+    public ResponseEntity<List<RecipeSummarySearchDTO>> summarySearch(@ModelAttribute String searchItem) {
+        var result = recipeService.searchBySummary(searchItem);
+        return ResponseEntity.ok(result);
     }
 }

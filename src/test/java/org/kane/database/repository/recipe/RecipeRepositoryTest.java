@@ -142,6 +142,22 @@ class RecipeRepositoryTest extends IntegrationTestBase{
     }
 
     @Test
+    void findAllPreviewDTO6(){
+        BooleanBuilder predicate = new BooleanBuilder();
+        Pageable pageable = PageRequest.of(0, 10);
+
+        Page<RecipePreviewDTO> result = recipeRepository.findAllPreviewDTOOrderedByOlder(predicate, pageable);
+
+        assertNotNull(result);
+        assertEquals(4L, result.getTotalElements());
+        assertEquals(4, result.getContent().size());
+        assertNotNull(result.getContent().getFirst().getId());
+        assertNotNull(result.getContent().getFirst().getName());
+        assertNotNull(result.getContent().getFirst().getSummary());
+        assertEquals(pageable, result.getPageable());
+    }
+
+    @Test
     void findAllPreviewDTO4(){
         BooleanBuilder predicate = new BooleanBuilder();
         predicate.and(recipe.author.id.eq(1L));
@@ -161,5 +177,21 @@ class RecipeRepositoryTest extends IntegrationTestBase{
         Page<RecipePreviewDTO> result = recipeRepository.findAllPreviewDTOOrderedByNew(predicate, pageable);
         assertNotNull(result);
         assertThat(result.getTotalElements()).isEqualTo(2L);
+    }
+
+    @Test
+    void findAllPreviewDTO7(){
+        BooleanBuilder predicate = new BooleanBuilder();
+        Pageable pageable = PageRequest.of(0, 10);
+
+        Page<RecipePreviewDTO> result = recipeRepository.findAllPreviewDTOOrderedByPopular(predicate, pageable);
+
+        assertNotNull(result);
+        assertEquals(4L, result.getTotalElements());
+        assertEquals(4, result.getContent().size());
+        assertNotNull(result.getContent().getFirst().getId());
+        assertNotNull(result.getContent().getFirst().getName());
+        assertNotNull(result.getContent().getFirst().getSummary());
+        assertEquals(pageable, result.getPageable());
     }
 }

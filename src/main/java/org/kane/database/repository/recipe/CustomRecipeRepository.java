@@ -15,6 +15,8 @@ public interface CustomRecipeRepository {
 
     Page<RecipePreviewDTO> findAllPreviewDTOOrderedByOlder(BooleanBuilder predicate, Pageable pageable);
 
+    Page<RecipePreviewDTO> findAllPreviewDTOOrderedByPopular(BooleanBuilder predicate, Pageable pageable);
+
     List<RecipeSummarySearchDTO>  findSummaryDTOByItem(String searchItem);
     List<RecipeTitleSearchDTO> findTitleDTOByItem(String searchItem);
 
