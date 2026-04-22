@@ -2,7 +2,6 @@ package org.kane.database.repository.recipe;
 
 import com.querydsl.core.BooleanBuilder;
 import jakarta.persistence.EntityManager;
-import org.hibernate.search.mapper.orm.Search;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.kane.database.entity.Recipe;
@@ -100,7 +99,7 @@ class RecipeRepositoryTest extends IntegrationTestBase{
         BooleanBuilder predicate = new BooleanBuilder();
         Pageable pageable = PageRequest.of(0, 10);
 
-        Page<RecipePreviewDTO> result = recipeRepository.findAllPreviewDTO(predicate, pageable);
+        Page<RecipePreviewDTO> result = recipeRepository.findAllPreviewDTOOrderedByNew(predicate, pageable);
 
         assertNotNull(result);
         assertEquals(4L, result.getTotalElements());
@@ -116,7 +115,7 @@ class RecipeRepositoryTest extends IntegrationTestBase{
         BooleanBuilder predicate = new BooleanBuilder();
         predicate.and(recipe.isPrivate.isFalse());
         Pageable pageable = PageRequest.of(0, 10);
-        Page<RecipePreviewDTO> result = recipeRepository.findAllPreviewDTO(predicate, pageable);
+        Page<RecipePreviewDTO> result = recipeRepository.findAllPreviewDTOOrderedByNew(predicate, pageable);
         assertNotNull(result);
         assertEquals(3L, result.getTotalElements());
     }
@@ -127,7 +126,7 @@ class RecipeRepositoryTest extends IntegrationTestBase{
         predicate.and(recipe.isPrivate.isFalse());
         predicate.and(recipe.tags.any().id.in(1L, 5L, 3L));
         Pageable pageable = PageRequest.of(0, 10);
-        Page<RecipePreviewDTO> result = recipeRepository.findAllPreviewDTO(predicate, pageable);
+        Page<RecipePreviewDTO> result = recipeRepository.findAllPreviewDTOOrderedByNew(predicate, pageable);
         assertNotNull(result);
         assertEquals(2L, result.getTotalElements());
     }
@@ -137,7 +136,7 @@ class RecipeRepositoryTest extends IntegrationTestBase{
         BooleanBuilder predicate = new BooleanBuilder();
         predicate.and(recipe.author.id.eq(1L));
         Pageable pageable = PageRequest.of(0, 10);
-        Page<RecipePreviewDTO> result = recipeRepository.findAllPreviewDTO(predicate, pageable);
+        Page<RecipePreviewDTO> result = recipeRepository.findAllPreviewDTOOrderedByNew(predicate, pageable);
         assertNotNull(result);
         assertEquals(2L, result.getTotalElements());
     }
@@ -148,7 +147,7 @@ class RecipeRepositoryTest extends IntegrationTestBase{
         predicate.and(recipe.author.id.eq(1L));
         predicate.and(recipe.isPrivate.isFalse());
         Pageable pageable = PageRequest.of(0, 10);
-        Page<RecipePreviewDTO> result = recipeRepository.findAllPreviewDTO(predicate, pageable);
+        Page<RecipePreviewDTO> result = recipeRepository.findAllPreviewDTOOrderedByNew(predicate, pageable);
         assertNotNull(result);
         assertEquals(1L, result.getTotalElements());
     }
@@ -159,7 +158,7 @@ class RecipeRepositoryTest extends IntegrationTestBase{
         BooleanBuilder predicate = new BooleanBuilder();
         predicate.and(recipe.in(user.getFavouriteRecipes()));
         Pageable pageable = PageRequest.of(0, 10);
-        Page<RecipePreviewDTO> result = recipeRepository.findAllPreviewDTO(predicate, pageable);
+        Page<RecipePreviewDTO> result = recipeRepository.findAllPreviewDTOOrderedByNew(predicate, pageable);
         assertNotNull(result);
         assertThat(result.getTotalElements()).isEqualTo(2L);
     }

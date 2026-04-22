@@ -1,11 +1,13 @@
 package org.kane.database.repository.recipe;
 
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQuery;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.search.mapper.orm.Search;
+import org.jspecify.annotations.NonNull;
 import org.kane.database.entity.Recipe;
 import org.kane.domain.DTO.entityDTO.recipe.RecipePreShowProjection;
 import org.kane.domain.DTO.entityDTO.recipe.RecipePreviewDTO;
@@ -16,6 +18,8 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.kane.database.entity.QRecipe.recipe;
@@ -27,8 +31,12 @@ public class CustomRecipeRepositoryImpl implements CustomRecipeRepository {
     private final EntityManager em;
 
     @Override
-    public Page<RecipePreviewDTO> findAllPreviewDTO(BooleanBuilder predicate, Pageable pageable) {
+    public Page<RecipePreviewDTO> findAllPreviewDTOOrderedByNew(BooleanBuilder predicate, Pageable pageable) {
+        OrderSpecifier<LocalDateTime> order = recipe.createdAt.desc();
+        return getRecipePreviewDTOs(predicate, pageable, order);
+    }
 
+    private @NonNull PageImpl<RecipePreviewDTO> getRecipePreviewDTOs(BooleanBuilder predicate, Pageable pageable, OrderSpecifier<LocalDateTime> order) {
         long total = new JPAQuery<Long>(em).select(recipe.id.count()).from(recipe).where(predicate).fetchOne();
 
         List<RecipePreviewDTO> content = new JPAQuery<RecipePreviewDTO>(em)
@@ -39,12 +47,19 @@ public class CustomRecipeRepositoryImpl implements CustomRecipeRepository {
                     recipe.illustration.id.as("imageID")))
                 .from(recipe)
                 .where(predicate)
-                .distinct()
+                .orderBy(order)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
 
         return new PageImpl<>(content, pageable, total);
+    }
+
+    @Override
+    public Page<RecipePreviewDTO> findAllPreviewDTOOrderedByOlder(BooleanBuilder predicate, Pageable pageable) {
+        OrderSpecifier<LocalDateTime> order = recipe.createdAt.asc();
+
+        return getRecipePreviewDTOs(predicate, pageable, order);
     }
 
     @Override

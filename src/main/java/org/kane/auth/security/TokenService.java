@@ -7,7 +7,9 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
+import java.security.Principal;
 import java.util.Collections;
 import java.util.Map;
 
@@ -22,6 +24,15 @@ public class TokenService {
         this.authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
         final CustomUserDetails userDetails = customUserDetailsService.loadUserByUsername(loginRequest.getUsername());
+        String token = jwtTokenProvider.generateToken(Map.of("role", userDetails.getRole()), userDetails.getUsername());
+        return JWTTokenResponse.builder()
+                .token(token)
+                .success(true)
+                .build();
+    }
+
+    public JWTTokenResponse updateToken(Principal principal) {
+        final CustomUserDetails userDetails = customUserDetailsService.loadUserByUsername(principal.getName());
         String token = jwtTokenProvider.generateToken(Map.of("role", userDetails.getRole()), userDetails.getUsername());
         return JWTTokenResponse.builder()
                 .token(token)

@@ -69,7 +69,7 @@ class MockRecipeServiceTest {
 
     @Test
     void findPreviews1() {
-        when(recipeRepository.findAllPreviewDTO(any(BooleanBuilder.class), eq(pageable)))
+        when(recipeRepository.findAllPreviewDTOOrderedByNew(any(BooleanBuilder.class), eq(pageable)))
                 .thenReturn(mockPage);
 
         List<RecipePreviewDTO> result = recipeService.findPreviews(principal, request, pageable);
@@ -78,7 +78,7 @@ class MockRecipeServiceTest {
         assertEquals(2, result.size());
         assertEquals("Борщ", result.getFirst().getName());
 
-        verify(recipeRepository).findAllPreviewDTO(any(BooleanBuilder.class), eq(pageable));
+        verify(recipeRepository).findAllPreviewDTOOrderedByNew(any(BooleanBuilder.class), eq(pageable));
         verify(userRepository, never()).getCurrentUser(any());
     }
 
@@ -88,7 +88,7 @@ class MockRecipeServiceTest {
         Long[] tags = {1L, 2L, 3L};
         request.setTags(tags);
 
-        when(recipeRepository.findAllPreviewDTO(any(BooleanBuilder.class), eq(pageable)))
+        when(recipeRepository.findAllPreviewDTOOrderedByNew(any(BooleanBuilder.class), eq(pageable)))
                 .thenReturn(mockPage);
 
 
@@ -98,7 +98,7 @@ class MockRecipeServiceTest {
         assertEquals(2, result.size());
 
         ArgumentCaptor<BooleanBuilder> predicateCaptor = ArgumentCaptor.forClass(BooleanBuilder.class);
-        verify(recipeRepository).findAllPreviewDTO(predicateCaptor.capture(), eq(pageable));
+        verify(recipeRepository).findAllPreviewDTOOrderedByNew(predicateCaptor.capture(), eq(pageable));
 
         BooleanBuilder capturedPredicate = predicateCaptor.getValue();
         assertNotNull(capturedPredicate);
@@ -121,7 +121,7 @@ class MockRecipeServiceTest {
         currentUser.setFavouriteRecipes(favouriteRecipes);
 
         when(userRepository.getCurrentUser(principal)).thenReturn(currentUser);
-        when(recipeRepository.findAllPreviewDTO(any(BooleanBuilder.class), eq(pageable)))
+        when(recipeRepository.findAllPreviewDTOOrderedByNew(any(BooleanBuilder.class), eq(pageable)))
                 .thenReturn(mockPage);
 
         List<RecipePreviewDTO> result = recipeService.findPreviews(principal, request, pageable);
@@ -130,12 +130,12 @@ class MockRecipeServiceTest {
         assertEquals(2, result.size());
 
         verify(userRepository).getCurrentUser(principal);
-        verify(recipeRepository).findAllPreviewDTO(any(BooleanBuilder.class), eq(pageable));
+        verify(recipeRepository).findAllPreviewDTOOrderedByNew(any(BooleanBuilder.class), eq(pageable));
     }
 
     @Test
     void findPreviews_ShouldReturnEmptyList_WhenNoRecipesFound() {
-        when(recipeRepository.findAllPreviewDTO(any(BooleanBuilder.class), eq(pageable)))
+        when(recipeRepository.findAllPreviewDTOOrderedByNew(any(BooleanBuilder.class), eq(pageable)))
                 .thenReturn(new PageImpl<>(List.of(), pageable, 0L));
 
         List<RecipePreviewDTO> result = recipeService.findPreviews(principal, request, pageable);
@@ -143,18 +143,18 @@ class MockRecipeServiceTest {
         assertNotNull(result);
         assertTrue(result.isEmpty());
 
-        verify(recipeRepository).findAllPreviewDTO(any(BooleanBuilder.class), eq(pageable));
+        verify(recipeRepository).findAllPreviewDTOOrderedByNew(any(BooleanBuilder.class), eq(pageable));
     }
 
     @Test
     void findPreviews_ShouldNotIncludePrivateRecipes_Always() {
-        when(recipeRepository.findAllPreviewDTO(any(BooleanBuilder.class), eq(pageable)))
+        when(recipeRepository.findAllPreviewDTOOrderedByNew(any(BooleanBuilder.class), eq(pageable)))
                 .thenReturn(mockPage);
 
         recipeService.findPreviews(principal, request, pageable);
 
         ArgumentCaptor<BooleanBuilder> predicateCaptor = ArgumentCaptor.forClass(BooleanBuilder.class);
-        verify(recipeRepository).findAllPreviewDTO(predicateCaptor.capture(), eq(pageable));
+        verify(recipeRepository).findAllPreviewDTOOrderedByNew(predicateCaptor.capture(), eq(pageable));
 
         BooleanBuilder capturedPredicate = predicateCaptor.getValue();
         assertNotNull(capturedPredicate);
@@ -167,7 +167,7 @@ class MockRecipeServiceTest {
         request.setAuthorId(null);
         request.setFavoriteOnly(false);
 
-        when(recipeRepository.findAllPreviewDTO(any(BooleanBuilder.class), eq(pageable)))
+        when(recipeRepository.findAllPreviewDTOOrderedByNew(any(BooleanBuilder.class), eq(pageable)))
                 .thenReturn(mockPage);
 
 
@@ -177,7 +177,7 @@ class MockRecipeServiceTest {
         assertNotNull(result);
         assertEquals(2, result.size());
 
-        verify(recipeRepository).findAllPreviewDTO(any(BooleanBuilder.class), eq(pageable));
+        verify(recipeRepository).findAllPreviewDTOOrderedByNew(any(BooleanBuilder.class), eq(pageable));
         verify(userRepository, never()).getCurrentUser(any());
     }
 
@@ -186,7 +186,7 @@ class MockRecipeServiceTest {
 
         request.setTags(new Long[]{});
 
-        when(recipeRepository.findAllPreviewDTO(any(BooleanBuilder.class), eq(pageable)))
+        when(recipeRepository.findAllPreviewDTOOrderedByNew(any(BooleanBuilder.class), eq(pageable)))
                 .thenReturn(mockPage);
 
         List<RecipePreviewDTO> result = recipeService.findPreviews(principal, request, pageable);
@@ -195,6 +195,6 @@ class MockRecipeServiceTest {
         assertNotNull(result);
         assertEquals(2, result.size());
 
-        verify(recipeRepository).findAllPreviewDTO(any(BooleanBuilder.class), eq(pageable));
+        verify(recipeRepository).findAllPreviewDTOOrderedByNew(any(BooleanBuilder.class), eq(pageable));
     }
 }

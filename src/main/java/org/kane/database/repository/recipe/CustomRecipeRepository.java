@@ -11,7 +11,10 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface CustomRecipeRepository {
-    Page<RecipePreviewDTO> findAllPreviewDTO(BooleanBuilder predicate, Pageable pageable);
+    Page<RecipePreviewDTO> findAllPreviewDTOOrderedByNew(BooleanBuilder predicate, Pageable pageable);
+
+    Page<RecipePreviewDTO> findAllPreviewDTOOrderedByOlder(BooleanBuilder predicate, Pageable pageable);
+
     List<RecipeSummarySearchDTO>  findSummaryDTOByItem(String searchItem);
     List<RecipeTitleSearchDTO> findTitleDTOByItem(String searchItem);
 

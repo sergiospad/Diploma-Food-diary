@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.kane.database.entity.Recipe;
 import org.kane.database.entity.recipe_recource.Tag;
 import org.kane.database.enum_types.CaloricityType;
+import org.kane.database.enum_types.SortTypeRecipe;
 import org.kane.database.repository.recipe_recource.image_model.ImageModelRepository;
 import org.kane.database.repository.recipe.RecipeRepository;
 import org.kane.database.repository.recipe_recource.tag.TagRepository;
@@ -26,14 +27,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static java.util.stream.Collectors.toList;
 import static org.kane.database.entity.QRecipe.recipe;
 
 @Slf4j
@@ -64,7 +62,11 @@ public class RecipeServiceImpl implements RecipeService {
             var user = userRepository.getCurrentUser(principal);
             predicate.and(recipe.in(user.getFavouriteRecipes()));
         }
-        return recipeRepository.findAllPreviewDTO(predicate, pageable).getContent();
+        if(request.getSortType()== SortTypeRecipe.NEWER)
+            return recipeRepository.findAllPreviewDTOOrderedByNew(predicate, pageable).getContent();
+        else if(request.getSortType()== SortTypeRecipe.OLDER)
+            return  recipeRepository.findAllPreviewDTOOrderedByOlder(predicate, pageable).getContent();
+        else return recipeRepository.findAllPreviewDTOOrderedByOlder(predicate, pageable).getContent();
     }
 
     @Override

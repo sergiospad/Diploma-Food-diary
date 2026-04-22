@@ -14,6 +14,5 @@ public class RecipePreviewRequest {
     SortTypeRecipe sortType;
     boolean favoriteOnly;
     Long[] tags;
-    Short page;
     Long authorId;
 }
