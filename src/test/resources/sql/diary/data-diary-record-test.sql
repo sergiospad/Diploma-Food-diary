@@ -26,3 +26,73 @@ INSERT INTO daily_diary_record (id, record_date, user_id, auto_calculation) VALU
                                                                                 (4, '2024-01-16', 2, true),
                                                                                 (5, '2024-01-17', 4, false);
 SELECT setval('daily_diary_record_id_seq', (SELECT COALESCE(MAX(id), 1) FROM daily_diary_record), true);
+
+-- Заполнение weight_record
+INSERT INTO weight_record (id, measured_weight_kg, date_of_measurement, user_id) VALUES
+                                                                                     (1, 85.50, '2024-01-01', 1),
+                                                                                     (2, 84.20, '2024-01-06', 1),
+                                                                                     (3, 83.00, '2024-02-15', 1),
+                                                                                     (4, 85.30, '2024-01-01', 2),
+                                                                                     (5, 64.80, '2024-01-07', 2),
+                                                                                     (6, 64.10, '2024-01-14', 2),
+                                                                                     (7, 90.00, '2024-01-01', 4),
+                                                                                     (8, 89.00, '2024-01-10', 4),
+                                                                                     (9, 88.00, '2024-01-20', 4);
+SELECT setval('weight_record_id_seq', (SELECT COALESCE(MAX(id), 1) FROM weight_record), true);
+
+-- Заполнение recipe (наследуется от nutritional_info)
+INSERT INTO nutritional_info (id, name, calories_per_100g, protein_per_100g, fat_per_100g, carbs_per_100g, private, discriminator, author_id) VALUES
+                                                                                                                                                  (1, 'Куриная грудка', 165.0, 31.00, 3.60, 0.00, false, 'PRODUCT', 1),
+                                                                                                                                                  (2, 'Рис белый', 130.0, 2.70, 0.30, 28.00, false, 'PRODUCT', 1),
+                                                                                                                                                  (3, 'Брокколи', 34.0, 2.80, 0.40, 7.00, false, 'PRODUCT', 2),
+                                                                                                                                                  (4, 'Куриный суп', 45.0, 4.50, 1.50, 4.00, false, 'RECIPE', 1),
+                                                                                                                                                  (5, 'Салат Цезарь', 180.0, 8.00, 12.00, 10.00, false, 'RECIPE', 2),
+                                                                                                                                                  (6, 'Овсяная каша', 68.0, 2.50, 1.50, 12.00, false, 'PRODUCT', 2),
+                                                                                                                                                  (7, 'Греческий салат', 120.0, 3.00, 9.00, 6.00, false, 'RECIPE', 4),
+                                                                                                                                                  (8, 'Стейк из говядины', 250.0, 26.00, 17.00, 0.00, false, 'PRODUCT', 4),
+                                                                                                                                                  (9, 'Картофельное пюре', 110.0, 2.00, 4.00, 17.00, false, 'RECIPE', 1),
+                                                                                                                                                  (10, 'Яблоко', 52.0, 0.30, 0.20, 14.00, false, 'PRODUCT', 2);
+SELECT setval('nutritional_info_id_seq', (SELECT COALESCE(MAX(id), 1) FROM nutritional_info), true);
+
+
+-- Заполнение meal
+INSERT INTO meal (id, mealtime, type, diary_record_id) VALUES
+                                                           (1, '08:00:00', 'BREAKFAST', 1),
+                                                           (2, '13:00:00', 'LUNCH', 1),
+                                                           (3, '19:00:00', 'DINNER', 1),
+                                                           (4, '08:30:00', 'BREAKFAST', 2),
+                                                           (5, '12:30:00', 'LUNCH', 2),
+                                                           (6, '09:00:00', 'BREAKFAST', 5),
+                                                           (7, '14:00:00', 'LUNCH', 5);
+SELECT setval('meal_id_seq', (SELECT COALESCE(MAX(id), 1) FROM meal), true);
+
+-- Заполнение meal_item
+INSERT INTO meal_item (id, weight_g, meal_id, nutrition_id) VALUES
+                                                                (1, 200.0, 1, 6),   -- овсяная каша на завтрак
+                                                                (2, 50.0, 1, 10),   -- яблоко на завтрак
+                                                                (3, 250.0, 2, 4),   -- куриный суп на обед
+                                                                (4, 150.0, 3, 5),   -- салат Цезарь на ужин
+                                                                (5, 180.0, 4, 6),   -- овсяная каша на завтрак (user2)
+                                                                (6, 100.0, 5, 10),  -- яблоко на обед (user2)
+                                                                (7, 200.0, 6, 6),   -- овсяная каша на завтрак (user1, day2)
+                                                                (8, 250.0, 7, 4);   -- куриный суп на обед (user2, day2)
+SELECT setval('meal_item_id_seq', (SELECT COALESCE(MAX(id), 1) FROM meal_item), true);
+
+-- Заполнение sports_activity
+INSERT INTO sports_activity (id, name, burned_calories, diary_record_id) VALUES
+                                                                             (1, 'Бег', 350.0, 1),
+                                                                             (2, 'Ходьба', 150.0, 1),
+                                                                             (3, 'Тренажерный зал', 400.0, 2),
+                                                                             (4, 'Плавание', 300.0, 3),
+                                                                             (5, 'Йога', 120.0, 5);
+SELECT setval('sports_activity_id_seq', (SELECT COALESCE(MAX(id), 1) FROM sports_activity), true);
+
+
+
+
+
+
+
+
+
+

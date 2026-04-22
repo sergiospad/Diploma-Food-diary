@@ -14,7 +14,6 @@ import org.kane.domain.DTO.entityDTO.diary.sport_activity.CalorieConsumptionShow
 import org.kane.domain.DTO.request.DiaryRecordRequest;
 import org.kane.domain.service.diary.meal.MealService;
 import org.kane.domain.service.energy_value.EnergyValueService;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,7 +34,6 @@ public class DiaryRecordServiceImpl implements DiaryRecordService {
     private final EnergyValueService energyValueService;
     private final SportActivitiesRepository sportActivitiesRepository;
     private final MealService mealService;
-    private final @Lazy DiaryRecordService diaryRecordService;
 
     @Transactional
     @Override
@@ -49,12 +47,14 @@ public class DiaryRecordServiceImpl implements DiaryRecordService {
         diaryRecordRepository.save(diaryRecord);
     }
 
-
+    @Transactional
     @Override
     public DiaryRecordShowDTO getDiaryRecord(Principal principal, DiaryRecordRequest diaryRecordRequest){
         var userID = userRepository.getCurrentUserId(principal);
         var map = mealRepository.getShowDTOMap(diaryRecordRequest.getRecordDate(), userID);
-        if(map.isEmpty()) diaryRecordService.createDiaryRecord(principal, diaryRecordRequest.getRecordDate());
+        if (map.isEmpty())
+            createDiaryRecord(principal, diaryRecordRequest.getRecordDate());
+
         List<MealShowDTO> meals = new ArrayList<>();
         for(Map.Entry<MealProjection, List<MealItemShowDTO>> mapEntry : map.entrySet())
             meals.add(mealService.getMealShowDTO(mapEntry));
