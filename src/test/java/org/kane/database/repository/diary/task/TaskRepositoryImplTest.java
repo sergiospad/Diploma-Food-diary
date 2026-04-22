@@ -48,13 +48,13 @@ class TaskRepositoryImplTest extends IntegrationTestBase {
     void setUp() {
         savedUser = savedEntities.getUser();
         savedWeightRecord = WeightRecord.builder()
-                .id(1L)
-                .measuredWeight(new HumanWeight(85.50))
-                .dateOfMeasurement(LocalDate.of(2024, 1, 1))
+                .id(3L)
+                .measuredWeight(new HumanWeight(83.00))
+                .dateOfMeasurement(LocalDate.of(2024, 1, 15))
                 .user(savedUser)
                 .build();
         var task = Task.builder().id(1L)
-                .beginningDate(LocalDate.of(2024, 1,1))
+                .beginningDate(LocalDate.of(2025, 1,1))
                 .caloriesDeficit(new Calories(500.0))
                 .target(TaskTarget.W_LOSS)
                 .status(TaskStatus.ONGOING)
