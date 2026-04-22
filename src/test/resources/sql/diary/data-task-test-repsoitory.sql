@@ -34,7 +34,7 @@ SELECT setval('weight_record_id_seq', (SELECT COALESCE(MAX(id), 1) FROM weight_r
 
 -- Заполнение task
 INSERT INTO task (id, beginning_date, ending_date, calories_deficit, target, status, target_weight_kg, user_id, start_weight_id) VALUES
-                                                                                                                                     (1, '2024-01-01', NULL, 500.0, 'W_LOSS', 'ONGOING', 75.00, 1, 1),
+                                                                                                                                     (1, '2025-01-01', NULL, 500.0, 'W_LOSS', 'ONGOING', 75.00, 1, 3),
                                                                                                                                      (2, '2024-01-01', NULL, 300.0, 'W_LOSS', 'ONGOING', 60.00, 2, 4),
                                                                                                                                      (3, '2024-01-15', NULL, 0.0, 'W_GAIN', 'ONGOING', 70.00, 4, 7),
                                                                                                                                      (4, '2023-10-01', '2023-12-31', 400.0, 'W_LOSS', 'COMPLETED', 72.00, 1, 1);

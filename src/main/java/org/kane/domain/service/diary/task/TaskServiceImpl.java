@@ -7,9 +7,11 @@ import org.kane.database.repository.diary.task.TaskRepository;
 import org.kane.database.repository.user.UserRepository;
 import org.kane.database.repository.diary.weight_record.WeightRecordRepository;
 import org.kane.domain.DTO.entityDTO.diary.task.CurrentTaskShowDTO;
+import org.kane.domain.DTO.entityDTO.diary.task.TaskArchiveShowDTO;
 import org.kane.domain.DTO.entityDTO.diary.task.TaskCreateDTO;
 import org.kane.domain.DTO.request.ChangeStatusTaskRequest;
 import org.kane.domain.mappers.CreateTaskMapper;
+import org.kane.domain.mappers.CurrentTaskMapper;
 import org.kane.exceptions.not_found.TaskNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +30,7 @@ public class TaskServiceImpl implements TaskService {
     private final TaskRepository taskRepository;
     private final UserRepository userRepository;
     private final WeightRecordRepository weightRecordRepository;
+    private final CurrentTaskMapper currentTaskMapper;
 
 
     @Transactional
@@ -35,9 +39,17 @@ public class TaskServiceImpl implements TaskService {
         var user = userRepository.getCurrentUser(principal);
         var task = createTaskMapper.map(createDTO);
         task.setUser(user);
-        if(task.getStatus() == TaskStatus.ONGOING) {
-            task.setStartWeightRecord(weightRecordRepository.getLastMeasurement(user.getId()));
-            task = taskRepository.save(task);
+        var lastWeight = weightRecordRepository.getLastMeasurement(user.getId());
+        if(task.getBeginningDate().isAfter(LocalDate.now())){
+            task.setStatus(TaskStatus.PLANNED);
+        }
+        else if(task.getBeginningDate().isEqual(LocalDate.now())
+                || task.getBeginningDate().isBefore(LocalDate.now())){
+            task.setStatus(TaskStatus.ONGOING);
+        }
+        task.setStartWeightRecord(lastWeight);
+        task = taskRepository.save(task);
+        if (task.getStatus() == TaskStatus.ONGOING) {
             return buildOngoingTask(task, user.getId());
         }
         return buildPlannedShowTask(task);
@@ -65,27 +77,15 @@ public class TaskServiceImpl implements TaskService {
     }
 
     private CurrentTaskShowDTO buildPlannedShowTask(Task task) {
-        return CurrentTaskShowDTO.builder()
-                .id(task.getId())
-                .startWeight(null)
-                .targetWeight(task.getTargetWeight())
-                .currentWeight(null)
-                .numberOfDays((short) 0)
-                .taskTarget(task.getTarget())
-                .caloriesDeficit(task.getCaloriesDeficit())
-                .build();
+        return currentTaskMapper.map(task);
     }
 
     private CurrentTaskShowDTO buildOngoingTask(Task task, Long userId) {
-        return CurrentTaskShowDTO.builder()
-                .id(task.getId())
-                .startWeight(task.getStartWeightRecord().getMeasuredWeight())
-                .targetWeight(task.getTargetWeight())
-                .currentWeight(weightRecordRepository.getLastMeasurement(userId).getMeasuredWeight())
-                .numberOfDays((short) (Math.abs(ChronoUnit.DAYS.between(LocalDate.now(), task.getBeginningDate())) + 1))
-                .taskTarget(task.getTarget())
-                .caloriesDeficit(task.getCaloriesDeficit())
-                .build();
+        var currentTask = currentTaskMapper.map(task);
+        currentTask.setStartWeight(task.getStartWeightRecord().getMeasuredWeight());
+        currentTask.setNumberOfDays((short) (Math.abs(ChronoUnit.DAYS.between(LocalDate.now(), task.getBeginningDate())) + 1));
+        currentTask.setCurrentWeight(weightRecordRepository.getLastMeasurement(userId).getMeasuredWeight());
+        return currentTask;
     }
 
     @Override
@@ -96,6 +96,13 @@ public class TaskServiceImpl implements TaskService {
         task.setStatus(changeStatusTaskRequest.getStatus());
         task.setEndingDate(changeStatusTaskRequest.getEndingDate());
         taskRepository.save(task);
+    }
+
+    @Transactional
+    @Override
+    public List<TaskArchiveShowDTO> getArchiveTasks(Principal principal){
+        var userId = userRepository.getCurrentUserId(principal);
+        return taskRepository.showArchives(userId);
     }
 
 

@@ -41,7 +41,7 @@ class SportsActivityServiceImplTest extends IntegrationTestServiceBase {
         var sacdto = SportsActivityCreateDTO.builder()
                 .name("Пробежка")
                 .calories(new Calories(500.0))
-                .diaryRecordDate(LocalDate.of(2024, 1, 17))
+                .diaryRecordDate(LocalDate.now())
                 .build();
         var activities = sportsActivityService.createActivity(principal, sacdto);
         assertThat(activities).isNotNull();
