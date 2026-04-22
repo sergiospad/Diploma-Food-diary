@@ -11,7 +11,8 @@ import org.kane.domain.DTO.entityDTO.diary.weight_record.WeightRecordShowDTO;
 import org.kane.domain.DTO.entityDTO.diary.weight_record.for_chart.WeightChartDataDTO;
 import org.kane.domain.DTO.entityDTO.diary.weight_record.for_chart.WeightPointDTO;
 import org.kane.domain.DTO.request.WeightChartRequest;
-import org.kane.domain.mappers.weight_chart.WeightChartRequestMapper;
+import org.kane.domain.mappers.weight_record.WeightRecordShowMapper;
+import org.kane.domain.mappers.weight_record.WeightChartRequestMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +27,7 @@ public class WeightRecordServiceImpl implements WeightRecordService {
     private final WeightRecordRepository weightRecordRepository;
     private final UserRepository userRepository;
     private final WeightChartRequestMapper weightChartRequestMapper;
+    private final WeightRecordShowMapper weightRecordShowMapper;
 
     @Override
     public List<WeightRecordShowDTO> getAllRecords(Principal principal){
@@ -36,17 +38,17 @@ public class WeightRecordServiceImpl implements WeightRecordService {
     @Override
     public CurrentWeightRecordShowDTO getCurrentRecord(Principal principal){
         var user = userRepository.getCurrentUser(principal);
-        CurrentWeightRecordShowDTO rec = (CurrentWeightRecordShowDTO)weightRecordRepository.findLastRecordOfUser(user.getId());
+        CurrentWeightRecordShowDTO rec = weightRecordShowMapper
+                .map(weightRecordRepository.findLastRecordOfUser(user.getId()));
         var height = user.getHeight();
-        if(height==null){
+        if(height==null)
             rec.setBMI(null);
-        }
-        else{
+        else
             rec.setBMI(rec.getMeasure().value()/(height*height * 0.0001));
-        }
         return rec;
     }
 
+    @Transactional
     @Override
     public CurrentWeightRecordShowDTO createRecord(Principal principal, WeightRecordCreateDTO weightRecordCreateDTO){
         var user = userRepository.getCurrentUser(principal);

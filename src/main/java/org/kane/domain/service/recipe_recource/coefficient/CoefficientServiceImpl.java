@@ -9,7 +9,7 @@ import org.kane.database.repository.recipe_recource.measure_unit.MeasureUnitRepo
 import org.kane.domain.DTO.entityDTO.recipe_recource.coefficient.CoefficientCreateDTO;
 import org.kane.domain.DTO.entityDTO.recipe_recource.coefficient.CoefficientEditDTO;
 import org.kane.domain.DTO.entityDTO.recipe_recource.coefficient.CoefficientShowDTO;
-import org.kane.domain.mappers.CoefficientMapperShow;
+import org.kane.domain.mappers.coefficient.CoefficientMapperShow;
 import org.kane.exceptions.not_found.CategoryNotFoundException;
 import org.kane.exceptions.not_found.MeasureUnitNotFound;
 import org.springframework.stereotype.Service;

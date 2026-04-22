@@ -5,6 +5,7 @@ import lombok.*;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class CurrentWeightRecordShowDTO extends WeightRecordShowDTO{
     private Double BMI;
 }

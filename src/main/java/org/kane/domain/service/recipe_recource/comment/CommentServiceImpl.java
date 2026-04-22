@@ -8,7 +8,7 @@ import org.kane.database.repository.recipe.RecipeRepository;
 import org.kane.database.repository.user.UserRepository;
 import org.kane.domain.DTO.entityDTO.recipe_recource.comment.CommentCreateDTO;
 import org.kane.domain.DTO.entityDTO.recipe_recource.comment.CommentShowDTO;
-import org.kane.domain.mappers.CommentMapperShow;
+import org.kane.domain.mappers.coefficient.CommentMapperShow;
 import org.kane.exceptions.not_found.RecipeNotFoundException;
 import org.springframework.stereotype.Service;
 

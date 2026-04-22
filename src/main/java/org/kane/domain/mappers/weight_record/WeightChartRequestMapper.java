@@ -1,4 +1,4 @@
-package org.kane.domain.mappers.weight_chart;
+package org.kane.domain.mappers.weight_record;
 
 import org.kane.domain.DTO.entityDTO.diary.weight_record.for_chart.WeightChartDataDTO;
 import org.kane.domain.DTO.request.WeightChartRequest;
