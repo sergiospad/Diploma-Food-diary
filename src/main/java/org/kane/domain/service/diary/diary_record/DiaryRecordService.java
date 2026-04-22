@@ -8,9 +8,9 @@ import java.security.Principal;
 import java.time.LocalDate;
 
 public interface DiaryRecordService {
-    void createDiaryRecord(Principal principal, LocalDate localDate);
+    void createDiaryRecord(Principal principal,  DiaryRecordRequest diaryRecordRequest);
 
-    DiaryRecordShowDTO getDiaryRecord(Principal principal, DiaryRecordRequest diaryRecordRequest);
+    DiaryRecordShowDTO showDiaryRecord(Principal principal, DiaryRecordRequest diaryRecordRequest);
 
-    CalorieConsumptionShowDTO getConsumptionOfDiaryRecord(Long userID, LocalDate date);
+    CalorieConsumptionShowDTO getConsumptionOfDiaryRecord(Principal principal, LocalDate date);
 }

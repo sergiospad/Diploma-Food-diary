@@ -20,7 +20,6 @@ import java.security.Principal;
 import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SqlGroup({
         @Sql(
@@ -45,7 +44,7 @@ class DiaryRecordServiceTest extends IntegrationTestServiceBase {
     void getDiaryRecord() {
         var date = LocalDate.now();
         Principal principal = () -> "chef_mike";
-        var record = diaryRecordService.getDiaryRecord(principal, new DiaryRecordRequest(date));
+        var record = diaryRecordService.showDiaryRecord(principal, new DiaryRecordRequest(date));
         assertThat(record.getDate()).isEqualTo(date);
         assertThat(record.getTotal()).isEqualTo(new TotalMealShowDTO());
         assertThat(record.getMeals()).isEmpty();
@@ -58,7 +57,7 @@ class DiaryRecordServiceTest extends IntegrationTestServiceBase {
     void getDiaryRecord1() {
         Principal principal = () -> "chef_mike";
         var date = LocalDate.of(2024,1,17);
-        var record = diaryRecordService.getDiaryRecord(principal, new DiaryRecordRequest(date));
+        var record = diaryRecordService.showDiaryRecord(principal, new DiaryRecordRequest(date));
         assertThat(record.getDate()).isEqualTo(date);
         var total = new TotalMealShowDTO();
         total.setCalories(new Calories(68.0*2+2.5*45.0));
@@ -82,9 +81,8 @@ class DiaryRecordServiceTest extends IntegrationTestServiceBase {
     @Test
     void getConsumptionOfDiaryRecord() {
         Principal principal = () -> "chef_mike";
-        var userID = userRepository.getCurrentUserId(principal);
         var date = LocalDate.of(2024,1,17);
-        var cons = diaryRecordService.getConsumptionOfDiaryRecord(userID, date);
+        var cons = diaryRecordService.getConsumptionOfDiaryRecord(principal, date);
         assertThat(cons.getAutoCalc()).isFalse();
         assertThat(cons.getInRestConsumption().value).isBetween(1000.0, 2500.0);
         assertThat(cons.getSportActivityShowDTOList()).hasSize(1);
@@ -101,7 +99,7 @@ class DiaryRecordServiceTest extends IntegrationTestServiceBase {
         var date = LocalDate.now();
         var dr = diaryRecordRepository.getDiaryRecordByRecordDate(date, userID);
         assertThat(dr).isNull();
-        diaryRecordService.createDiaryRecord(principal, date);
+        diaryRecordService.createDiaryRecord(principal, new DiaryRecordRequest(date));
         dr = diaryRecordRepository.getDiaryRecordByRecordDate(date, userID);
         assertThat(dr).isNotNull();
         assertThat(dr.getId()).isNotNull().isEqualTo(6L);

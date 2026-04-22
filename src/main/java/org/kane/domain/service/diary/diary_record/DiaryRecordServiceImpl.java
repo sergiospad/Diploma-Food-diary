@@ -37,10 +37,10 @@ public class DiaryRecordServiceImpl implements DiaryRecordService {
 
     @Transactional
     @Override
-    public void createDiaryRecord(Principal principal, LocalDate localDate){
+    public void createDiaryRecord(Principal principal, DiaryRecordRequest diaryRecordRequest){
         var user = userRepository.getCurrentUser(principal);
         var diaryRecord = DiaryRecord.builder()
-                .recordDate(localDate)
+                .recordDate(diaryRecordRequest.getRecordDate())
                 .user(user)
                 .autoCalculation(false)
                 .build();
@@ -49,11 +49,11 @@ public class DiaryRecordServiceImpl implements DiaryRecordService {
 
     @Transactional
     @Override
-    public DiaryRecordShowDTO getDiaryRecord(Principal principal, DiaryRecordRequest diaryRecordRequest){
+    public DiaryRecordShowDTO showDiaryRecord(Principal principal, DiaryRecordRequest diaryRecordRequest){
         var userID = userRepository.getCurrentUserId(principal);
         var map = mealRepository.getShowDTOMap(diaryRecordRequest.getRecordDate(), userID);
         if (map.isEmpty())
-            createDiaryRecord(principal, diaryRecordRequest.getRecordDate());
+            createDiaryRecord(principal, diaryRecordRequest);
 
         List<MealShowDTO> meals = new ArrayList<>();
         for(Map.Entry<MealProjection, List<MealItemShowDTO>> mapEntry : map.entrySet())
@@ -62,13 +62,14 @@ public class DiaryRecordServiceImpl implements DiaryRecordService {
                 .date(diaryRecordRequest.getRecordDate())
                 .meals(meals)
                 .total(mealService.getTotal(meals))
-                .calorieConsumption(getConsumptionOfDiaryRecord(userID, diaryRecordRequest.getRecordDate()))
+                .calorieConsumption(getConsumptionOfDiaryRecord(principal, diaryRecordRequest.getRecordDate()))
                 .build();
     }
 
 
     @Override
-    public CalorieConsumptionShowDTO getConsumptionOfDiaryRecord(Long userID, LocalDate date){
+    public CalorieConsumptionShowDTO getConsumptionOfDiaryRecord(Principal principal, LocalDate date){
+        var userID = userRepository.getCurrentUserId(principal);
         var BMR = energyValueService.getBMR(userID);
         var diaryInfo = diaryRecordRepository.getIDAndAutocalc(date, userID);
         var activities = sportActivitiesRepository.getActivities(diaryInfo.getId());
