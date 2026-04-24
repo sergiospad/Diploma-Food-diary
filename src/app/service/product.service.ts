@@ -1,12 +1,12 @@
 import {inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Endpoint} from '../util/endpoint';
-import ProductCreateDTO from '../DTO/product/product-create.dto';
 import {Observable} from 'rxjs';
-import ProductEditDTO from '../DTO/product/product-edit.dto';
-import ProductSearchDTO from '../DTO/product/product-search.dto';
 import MeasureUnitDTO from '../DTO/entity_dto/recipe-recource/measure-unit.dto';
-import NutritionShowProjection from '../DTO/nutritional_info/nutrition-show.projection';
+import ProductCreateDTO from '../DTO/entity_dto/product/product-create.dto';
+import ProductEditDTO from '../DTO/entity_dto/product/product-edit.dto';
+import ProductSearchDTO from '../DTO/entity_dto/product/product-search.dto';
+import NutritionShowProjection from '../DTO/entity_dto/nutritional_info/nutrition-show.projection';
 
 @Injectable({
   providedIn: 'root',
