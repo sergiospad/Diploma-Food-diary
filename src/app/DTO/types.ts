@@ -5,3 +5,5 @@ export type SortTypeRecipe = 'NEWER' | 'OLDER' | 'POPULAR';
 export type CaloricityType = 'PER_HUNDRED' | 'ALL';
 
 export type NutritionType = 'PRODUCT' | 'RECIPE';
+
+export type ImageType = 'RECIPE' | 'USER' | 'COOKING_STAGE'
