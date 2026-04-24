@@ -5,7 +5,7 @@ import ProductCreateDTO from '../DTO/product/product-create.dto';
 import {Observable} from 'rxjs';
 import ProductEditDTO from '../DTO/product/product-edit.dto';
 import ProductSearchDTO from '../DTO/product/product-search.dto';
-import MeasureUnitDTO from '../DTO/recipe-recource/measure-unit.dto';
+import MeasureUnitDTO from '../DTO/entity_dto/recipe-recource/measure-unit.dto';
 import NutritionShowProjection from '../DTO/nutritional_info/nutrition-show.projection';
 
 @Injectable({
