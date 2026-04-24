@@ -1,6 +1,6 @@
 export type UserGender = 'M'|"FM";
 
-export interface UserEditDto{
+export default interface UserEditDto{
   id:number;
   username:string;
   email:string;

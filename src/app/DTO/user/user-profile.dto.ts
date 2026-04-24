@@ -1,6 +1,6 @@
 import {UserRole} from '../types';
 
-export interface UserProfileDto{
+export default interface UserProfileDto{
   id:number;
   username:string;
   avatarID:number;

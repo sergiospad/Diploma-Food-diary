@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {UserProfileDto} from '../app/DTO/user/user-profile.dto';
+import UserProfileDto from '../app/DTO/user/user-profile.dto';
 import {UserRole} from '../app/DTO/types';
 
 const TOKEN_KEY = "auth-token";

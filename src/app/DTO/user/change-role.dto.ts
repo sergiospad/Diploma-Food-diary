@@ -1,6 +1,6 @@
 import {UserRole} from '../types';
 
-export interface ChangeRoleDto {
+export default interface ChangeRoleDto {
   userId: number;
-  Role: UserRole;
+  role: UserRole;
 }
