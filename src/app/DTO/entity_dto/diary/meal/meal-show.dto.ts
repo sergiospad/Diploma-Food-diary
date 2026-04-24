@@ -1,8 +1,8 @@
-import {MealType} from '../../../types';
+import BaseNutrition from '../../nutritional_info/base-nurtition';
+import { MealType } from '../../../types';
 import MealItemShowDTO from '../meal_item/meal-item-show.dto';
 
-/** `LocalTime` с бэка — строка вида `"14:30:00"` (jackson-datatype-jsr310). */
-export default interface MealShowDTO {
+export default interface MealShowDTO extends BaseNutrition {
   id: number;
   time: string;
   mealType: MealType;
