@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
-import UserProfileDto from '../app/DTO/user/user-profile.dto';
-import {UserRole} from '../app/DTO/types';
+import UserProfileDto from '../DTO/user/user-profile.dto';
+import {UserRole} from '../DTO/types';
 
 const TOKEN_KEY = "auth-token";
 const RESPONSE_KEY = "success-response";
@@ -43,7 +43,7 @@ export class TokenStorageService{
     }
     else {
       globalThis.sessionStorage.removeItem(ROLE_KEY);
-      globalThis.sessionStorage.setItem(ROLE_KEY, 'guest')
+      globalThis.sessionStorage.setItem(ROLE_KEY, 'GUEST')
     }
   }
   public getRole(): UserRole{
