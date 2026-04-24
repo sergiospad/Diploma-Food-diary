@@ -10,18 +10,18 @@ import CommentShowDTO from '../../DTO/entity_dto/recipe-recource/comment/comment
 })
 export class CommentService {
   private readonly http = inject(HttpClient);
-  private readonly categoryAPI = new Endpoint('comment');
+  private readonly commentAPI = new Endpoint('comment');
 
-  createComment(comment: CommentCreateDTO):Observable<CommentShowDTO>{
-    return this.http.put<CommentShowDTO>(this.categoryAPI.builder()
+  createComment(comment: CommentCreateDTO): Observable<CommentShowDTO> {
+    return this.http.put<CommentShowDTO>(this.commentAPI.builder()
       .points("create")
       .build(),
       comment)
   }
 
-  deleteComment(id:number):Observable<any>{
+  deleteComment(id: number): Observable<any> {
     return this.http.delete<any>(
-      this.categoryAPI.builder()
+      this.commentAPI.builder()
         .points("delete")
         .addParam("id", id.toString())
         .build())
