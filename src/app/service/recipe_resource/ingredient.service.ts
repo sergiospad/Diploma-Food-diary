@@ -8,7 +8,7 @@ import IngredientChangeDTO from '../../DTO/entity_dto/recipe-recource/ingredient
 @Injectable({
   providedIn: 'root',
 })
-export class IngredientService {
+export default class IngredientService {
   private readonly http = inject(HttpClient);
   private readonly ingredientAPI = new Endpoint('ingredient');
 

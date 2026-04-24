@@ -10,7 +10,7 @@ import CategoryAddCoefficientDTO from '../../DTO/entity_dto/recipe-recource/cate
 @Injectable({
   providedIn: 'root',
 })
-export class CategoryService {
+export default class CategoryService {
   private readonly http = inject(HttpClient);
   private readonly categoryAPI = new Endpoint('category');
 

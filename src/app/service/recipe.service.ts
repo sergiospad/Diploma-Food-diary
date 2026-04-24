@@ -3,17 +3,18 @@ import {HttpClient} from '@angular/common/http';
 import {Endpoint} from '../util/endpoint';
 import RecipePreviewRequest from '../DTO/requests/recipe-preview.request';
 import {Observable} from 'rxjs';
-import RecipePreviewDTO from '../DTO/recipe/recipe-preview.dto';
-import RecipeSummarySearchDTO from '../DTO/recipe/recipe-summary-search.dto';
-import RecipeTitleSearchDTO from '../DTO/recipe/recipe-title-search.dto';
-import RecipeEditDto from '../DTO/recipe/recipe-edit.dto';
-import RecipeShowDTO from '../DTO/recipe/recipe-show.dto';
-import RecipeCreateDTO from '../DTO/recipe/recipe-create.dto';
+import RecipePreviewDTO from '../DTO/entity_dto/recipe/recipe-preview.dto';
+import RecipeSummarySearchDTO from '../DTO/entity_dto/recipe/recipe-summary-search.dto';
+import RecipeTitleSearchDTO from '../DTO/entity_dto/recipe/recipe-title-search.dto';
+import RecipeCreateDTO from '../DTO/entity_dto/recipe/recipe-create.dto';
+import RecipeShowDTO from '../DTO/entity_dto/recipe/recipe-show.dto';
+import RecipeEditDto from '../DTO/entity_dto/recipe/recipe-edit.dto';
+
 
 @Injectable({
   providedIn: 'root',
 })
-export class RecipeService {
+export default class RecipeService {
   private readonly http = inject(HttpClient);
   private readonly postAPI = new Endpoint('recipe');
 

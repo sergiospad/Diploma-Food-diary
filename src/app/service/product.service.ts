@@ -11,7 +11,7 @@ import NutritionShowProjection from '../DTO/entity_dto/nutritional_info/nutritio
 @Injectable({
   providedIn: 'root',
 })
-export class ProductService {
+export default class ProductService {
   private readonly http = inject(HttpClient);
   private readonly productAPI = new Endpoint('product');
 

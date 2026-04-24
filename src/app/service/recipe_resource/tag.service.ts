@@ -7,7 +7,7 @@ import TagDTO from '../../DTO/entity_dto/recipe-recource/tag.dto';
 @Injectable({
   providedIn: 'root',
 })
-export class TagService {
+export default class TagService {
   private readonly http = inject(HttpClient);
   private readonly tagAPI = new Endpoint('tag');
 

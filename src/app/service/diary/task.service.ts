@@ -10,7 +10,7 @@ import TaskArchiveShowDTO from '../../DTO/entity_dto/diary/task/task-archive-sho
 @Injectable({
   providedIn: 'root',
 })
-export class TaskService {
+export default class TaskService {
   private readonly http = inject(HttpClient);
   private readonly taskAPI = new Endpoint('task');
 

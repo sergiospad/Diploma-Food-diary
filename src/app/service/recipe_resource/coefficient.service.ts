@@ -8,7 +8,7 @@ import CoefficientShowDTO from '../../DTO/entity_dto/recipe-recource/coefficient
 @Injectable({
   providedIn: 'root',
 })
-export class CoefficientService {
+export default class CoefficientService {
   private readonly http = inject(HttpClient);
   private readonly categoryAPI = new Endpoint('coefficient');
 

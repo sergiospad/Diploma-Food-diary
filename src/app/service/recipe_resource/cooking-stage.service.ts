@@ -8,7 +8,7 @@ import CookingStageShowDTO from '../../DTO/entity_dto/recipe-recource/cooking_st
 @Injectable({
   providedIn: 'root',
 })
-export class CookingStageService {
+export default class CookingStageService {
   private readonly http = inject(HttpClient);
   private readonly cookingStageAPI = new Endpoint('stage');
 

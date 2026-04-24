@@ -7,7 +7,7 @@ import MeasureUnitDTO from '../../DTO/entity_dto/recipe-recource/measure-unit.dt
 @Injectable({
   providedIn: 'root',
 })
-export class MeasureUnitService {
+export default class MeasureUnitService {
   private readonly http = inject(HttpClient);
   private readonly measureUnitAPI = new Endpoint('measureUnit');
 

@@ -9,7 +9,7 @@ import SignupRequest from '../DTO/requests/signup.request';
 @Injectable({
   providedIn: 'root',
 })
-export class AuthService {
+export default class AuthService {
   private readonly http = inject(HttpClient);
   private readonly authAPI = new Endpoint('auth');
 

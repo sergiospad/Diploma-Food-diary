@@ -7,7 +7,7 @@ import {Observable} from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class MealItemService {
+export default class MealItemService {
   private readonly http = inject(HttpClient);
   private readonly mealItemAPI = new Endpoint('mealItem');
 

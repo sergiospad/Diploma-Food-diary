@@ -7,7 +7,7 @@ import {Observable} from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class ImageModelService {
+export default class ImageModelService {
 
   private readonly http = inject(HttpClient);
   private readonly imageModelAPI = new Endpoint('imageModel');

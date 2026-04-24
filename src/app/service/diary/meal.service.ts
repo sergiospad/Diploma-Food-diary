@@ -9,7 +9,7 @@ import MealEditDTO from '../../DTO/entity_dto/diary/meal/meal-edit.dto';
 @Injectable({
   providedIn: 'root',
 })
-export class MealService {
+export default class MealService {
   private readonly http = inject(HttpClient);
   private readonly mealAPI = new Endpoint('meal');
 

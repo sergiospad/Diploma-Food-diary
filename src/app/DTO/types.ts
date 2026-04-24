@@ -17,3 +17,6 @@ export type MealType = 'BREAKFAST' | 'LUNCH' | 'DINNER'
 export type TaskTarget = 'W_LOSS'| 'W_GAIN' | 'W_KEEP';
 
 export type TaskStatus = 'PLANNED' | 'ONGOING' | 'COMPLETED' | 'ABORTED';
+
+export type ChartPeriodType = 'DAY' | 'WEEK' | 'MONTH' | 'YEAR';
+

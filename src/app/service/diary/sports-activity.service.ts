@@ -9,7 +9,7 @@ import SportActivityEditDTO from '../../DTO/entity_dto/diary/sport_activity/spor
 @Injectable({
   providedIn: 'root',
 })
-export class SportsActivityService {
+export default class SportsActivityService {
   private readonly http = inject(HttpClient);
   private readonly activityAPI = new Endpoint('sportsActivity');
 

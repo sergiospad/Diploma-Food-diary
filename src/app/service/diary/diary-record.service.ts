@@ -11,7 +11,7 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class DiaryRecordService {
+export default class DiaryRecordService {
   private readonly http = inject(HttpClient);
   private readonly diaryAPI = new Endpoint('diary');
 

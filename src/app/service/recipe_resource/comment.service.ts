@@ -8,7 +8,7 @@ import CommentShowDTO from '../../DTO/entity_dto/recipe-recource/comment/comment
 @Injectable({
   providedIn: 'root',
 })
-export class CommentService {
+export default class CommentService {
   private readonly http = inject(HttpClient);
   private readonly commentAPI = new Endpoint('comment');
 
