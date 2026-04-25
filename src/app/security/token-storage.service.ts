@@ -1,11 +1,12 @@
 import {Injectable} from '@angular/core';
-import UserProfileDto from '../DTO/user/user-profile.dto';
 import {UserRole} from '../DTO/types';
+import UserProfileDto from '../DTO/entity_dto/user/user-profile.dto';
 
 const TOKEN_KEY = "auth-token";
 const RESPONSE_KEY = "success-response";
 const USER_KEY = "auth-user";
 const ROLE_KEY = "role";
+const AVATAR_KEY = "avatar";
 
 @Injectable({providedIn:'root'})
 export class TokenStorageService{
@@ -30,6 +31,7 @@ export class TokenStorageService{
   public saveUser(user:UserProfileDto){
     globalThis.sessionStorage.removeItem(USER_KEY);
     globalThis.sessionStorage.setItem(USER_KEY, JSON.stringify(user));
+    this.setRole(user);
   }
 
   public getUser():UserProfileDto{
@@ -46,6 +48,14 @@ export class TokenStorageService{
       globalThis.sessionStorage.setItem(ROLE_KEY, 'GUEST')
     }
   }
+  public setAvatar(file:Blob){
+    globalThis.sessionStorage.removeItem(ROLE_KEY);
+    globalThis.sessionStorage.setItem(ROLE_KEY, JSON.stringify(file));
+  }
+
+  public getAvatar():Blob{
+    return JSON.parse(<string>globalThis.sessionStorage.getItem(ROLE_KEY));
+}
   public getRole(): UserRole{
     return JSON.parse(<UserRole>globalThis.sessionStorage.getItem(ROLE_KEY))
   }

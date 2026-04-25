@@ -3,4 +3,5 @@ export default interface RecipePreviewDTO {
   name: string;
   summary: string;
   imageID:number;
+  image?: Blob;
 }

@@ -7,7 +7,8 @@ export default interface RecipeCreateDTO{
   illustrationID:number;
   isPrivate: boolean;
   tags: number[];
-  cookingTime: number;
+  cookingTime?: number;
   ingredients: IngredientCreateDTO[];
   stages: CookingStageCreateDTO[]
+  illustration?: Blob;
 }

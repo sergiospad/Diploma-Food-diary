@@ -1,4 +1,5 @@
-import {UserRole} from '../types';
+import {UserRole} from '../../types';
+
 
 export default interface UserProfileDto{
   id:number;

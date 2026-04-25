@@ -5,4 +5,7 @@ export default interface CommentShowDTO{
   message:string;
   createdAt:Date;
   imageID:number;
+
+  image?: Blob;
+  userAvatar?: Blob;
 }
