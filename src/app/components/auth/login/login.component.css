@@ -1,0 +1,15 @@
+.app-login{
+  text-align:center;
+  margin-top: 10rem;
+}
+
+#controls{
+  display: flex;
+  justify-content: space-between;
+  align-items: center; width: 10%;
+  margin-left: 45%;
+}
+
+mat-form-field{
+  width: 50%;
+}

@@ -1,0 +1,50 @@
+<div class="app-register">
+  <h2>Регистрация</h2>
+  <form [formGroup]="registerForm">
+    <div>
+      <div class = 'question'>
+        Уже есть аккаунт? <a routerLink="{{LOGIN}}">Перейти к авторизации</a>
+      </div>
+      <div class="justify-content-center">
+        <div></div>
+        <mat-form-field appearance="outline">
+          <mat-label>Логин</mat-label>
+          <input matInput formControlName="username">
+        </mat-form-field>
+      </div>
+      <div class="justify-content-center">
+        <div></div>
+        <mat-form-field appearance="outline">
+          <mat-label>Email</mat-label>
+          <input matInput formControlName="email">
+        </mat-form-field>
+      </div>
+      <div class="justify-content-center">
+        <div></div>
+        <mat-form-field appearance="outline">
+          <mat-label>Пароль</mat-label>
+          <input matInput formControlName="password" type="password">
+        </mat-form-field>
+      </div>
+      <div class="justify-content-center">
+        <div></div>
+        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+          <mat-label>Подтвердите пароль</mat-label>
+          <input matInput formControlName="confirmPassword" type="password">
+          @if (passwordsMismatchVisible()) {
+            <mat-error>Пароли не совпадают</mat-error>
+          }
+        </mat-form-field>
+      </div>
+      <div id="controls" class="row">
+        <button type="button"
+                (click)="register()"
+                mat-flat-button color="primary"
+                [disabled]="registerForm.invalid"
+                style="width: 10%">
+          Зарегистрироваться
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
