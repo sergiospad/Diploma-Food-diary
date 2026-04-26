@@ -10,8 +10,7 @@
   display: flex;
   align-items: center;
   gap: 56px;
-  padding-top:26px;
-  padding-bottom:26px;
+  padding:26px 50px;
 }
 
 .nav{
@@ -40,6 +39,7 @@
   transition: opacity 0.2s;
   font-family: "Birthstone", cursive;
   font-style: normal;
+  color: var(--dark)
 }
 
 .logo_span:hover {
@@ -71,12 +71,13 @@
 .action-button {
   transition: transform 0.2s,
   background-color 0.2s;
-  color: var(--light);
+  color: var(--dark);
 }
 
 .action-button:hover {
   transform: scale(1.1);
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: var(--dark);
+  color: var(--light);
 }
 
 .profile-avatar-button {
@@ -123,7 +124,8 @@
 
 .search-box {
   width: 320px;
-  margin: 0 16px;
+  margin-right: 1200px;
+
 }
 .search-box .mat-mdc-form-field {
   width: 100%;

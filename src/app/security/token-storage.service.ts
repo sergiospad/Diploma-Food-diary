@@ -34,8 +34,16 @@ export class TokenStorageService{
     this.setRole(user);
   }
 
-  public getUser():UserProfileDto|null{
-    return JSON.parse(<string>globalThis.sessionStorage.getItem(USER_KEY));
+  public getUser(): UserProfileDto | null {
+    const raw = globalThis.sessionStorage.getItem(USER_KEY);
+    if (raw == null || raw.trim() === '') {
+      return null;
+    }
+    try {
+      return JSON.parse(raw) as UserProfileDto;
+    } catch {
+      return null;
+    }
   }
 
   public setRole(user:UserProfileDto|null){

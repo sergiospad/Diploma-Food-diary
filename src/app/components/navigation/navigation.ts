@@ -1,11 +1,11 @@
 import {AsyncPipe} from '@angular/common';
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, DestroyRef, inject, OnInit} from '@angular/core';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import AvatarIndexedDb from '../../image_services/avatar-indexed.db';
 import {TokenStorageService} from '../../security/token-storage.service';
 import UserProfileDto from '../../DTO/entity_dto/user/user-profile.dto';
-import {Router, RouterLink} from '@angular/router';
+import {NavigationEnd, Router, RouterLink} from '@angular/router';
 import {FEED_ROOT, LOGIN} from '../../util/roots';
-import {MatToolbar} from '@angular/material/toolbar';
 import {MatTooltip} from '@angular/material/tooltip';
 import {MatIconButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
@@ -17,15 +17,25 @@ import {MatInput} from '@angular/material/input';
 import RecipeService from '../../service/recipe.service';
 import RecipeTitleSearchDTO from '../../DTO/entity_dto/recipe/recipe-title-search.dto';
 import {MatAutocomplete, MatAutocompleteTrigger, MatOption} from '@angular/material/autocomplete';
-import {Observable, of} from 'rxjs';
-import {catchError, debounceTime, distinctUntilChanged, finalize, map, shareReplay, startWith, switchMap} from 'rxjs/operators';
+import {fromEvent, Observable, of} from 'rxjs';
+import {
+  catchError,
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  finalize,
+  map,
+  shareReplay,
+  startWith,
+  switchMap,
+} from 'rxjs/operators';
 import RecipeSummarySearchDTO from '../../DTO/entity_dto/recipe/recipe-summary-search.dto';
 import {markWord} from '../../util/regex-search-editor';
 
 @Component({
   selector: 'app-navigation',
+  standalone: true,
   imports: [
-    MatToolbar,
     RouterLink,
     MatTooltip,
     MatIconButton,
@@ -46,6 +56,9 @@ import {markWord} from '../../util/regex-search-editor';
   styleUrl: './navigation.css',
 })
 export class NavigationComponent implements OnInit {
+  private static readonly AUTH_USER_STORAGE_KEY = 'auth-user';
+
+  private readonly destroyRef = inject(DestroyRef);
   private readonly avatarRepository = inject(AvatarIndexedDb);
   private readonly tokenService = inject(TokenStorageService);
   private readonly recipeService = inject(RecipeService);
@@ -64,10 +77,30 @@ export class NavigationComponent implements OnInit {
   protected readonly searchControl = new FormControl('', { nonNullable: true });
 
   ngOnInit(): void {
+    this.syncUserFromStorage();
+
+    this.router.events
+      .pipe(
+        filter((e): e is NavigationEnd => e instanceof NavigationEnd),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe(() => this.syncUserFromStorage());
+
+    fromEvent<StorageEvent>(globalThis, 'storage')
+      .pipe(
+        filter(
+          (e) =>
+            e.storageArea === globalThis.sessionStorage &&
+            e.key === NavigationComponent.AUTH_USER_STORAGE_KEY,
+        ),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe(() => this.syncUserFromStorage());
+  }
+
+  private syncUserFromStorage(): void {
     this.user = this.tokenService.getUser();
-    if (this.user) {
-      this.avatar = this.avatarRepository.getBlob();
-    }
+    this.avatar = this.user ? this.avatarRepository.getBlob() : undefined;
   }
 
 
@@ -108,19 +141,22 @@ export class NavigationComponent implements OnInit {
     if (!query) {
       return;
     }
-    void this.router.navigate([this.FEED_ROOT], {queryParams: {search: query}});
+    void this.router.navigate(['/', this.FEED_ROOT], {
+      queryParams: { search: query },
+    });
   }
 
   protected onSearchSelect(recipe: RecipeTitleSearchDTO | RecipeSummarySearchDTO): void {
     //TODO добавить переход на страницу рецепта когда будет готово
-    void this.router.navigate([this.FEED_ROOT], {
-      queryParams: {search: recipe.name, recipeId: recipe.id},
+    void this.router.navigate(['/', this.FEED_ROOT], {
+      queryParams: { search: recipe.name, recipeId: recipe.id },
     });
   }
 
-  logout(){
+  logout(): void {
     this.tokenService.logout();
     this.user = null;
+    this.avatar = undefined;
   }
 
   private withSearchLoading<T>(source: Observable<T>): Observable<T> {

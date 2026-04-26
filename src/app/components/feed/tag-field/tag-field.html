@@ -1,0 +1,8 @@
+<section class="tag-field" aria-labelledby="tag-field-heading">
+  <h2 id="tag-field-heading" class="tag-field__title">Теги</h2>
+  <div class="tag-field__chips" role="list">
+    @for (tag of tags; track tag.id) {
+      <button class="tag-field__chip" role="listitem">{{ tag.name }}</button>
+    }
+  </div>
+</section>

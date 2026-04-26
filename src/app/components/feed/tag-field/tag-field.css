@@ -1,0 +1,51 @@
+:host {
+  display: block;
+}
+
+.tag-field {
+  box-sizing: border-box;
+  width: 300px;
+  min-height: 100vh;
+  padding: 1rem 1.25rem;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  background-color: var(--accent-light);
+  color: var(--dark);
+  box-shadow: 0 1px 3px rgba(var(--dark-rgb), 0.08);
+}
+
+.tag-field__title {
+  margin: 1.5rem 0;
+  font-size: 2.25rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--dark);
+}
+
+.tag-field__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.tag-field__chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  font-size: 1.25rem;
+  line-height: 1.25;
+  background-color: rgba(var(--dark-rgb), 0.04);
+  border: none;
+  color: var(--dark);
+  transition:
+    background-color var(--tr, 0.2s) ease,
+    border-color var(--tr, 0.2s) ease,
+    box-shadow var(--tr, 0.2s) ease;
+}
+
+.tag-field__chip:hover {
+  border: 1px solid var(--border-color);
+  background-color: var(--light);
+  box-shadow: 0 0 0 1px rgba(251, 183, 49, 0.35);
+}

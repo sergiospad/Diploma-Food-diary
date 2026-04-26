@@ -1,5 +1,6 @@
-import {NutritionType} from '../types';
+
 import BaseNutrition from './base-nurtition';
+import {NutritionType} from '../../types';
 
 export default interface NutritionShowProjection extends BaseNutrition{
   ID: number;

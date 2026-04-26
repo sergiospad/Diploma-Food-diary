@@ -17,3 +17,8 @@ mat-form-field{
 .question{
   margin-bottom: 1rem;
 }
+
+.submit_button{
+  margin-top: 2rem;
+  width: 20%;
+}

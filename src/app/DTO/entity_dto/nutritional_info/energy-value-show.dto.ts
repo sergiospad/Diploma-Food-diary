@@ -1,4 +1,5 @@
-import {CaloricityType} from '../types';
+import {CaloricityType} from '../../types';
+
 
 export default interface EnergyValueShowDTO {
 

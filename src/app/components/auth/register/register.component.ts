@@ -3,7 +3,7 @@ import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/
 import AuthService from '../../../service/auth.service';
 import {NotificationService} from '../../../security/notification-service';
 import {Router, RouterLink} from '@angular/router';
-import {LOGIN, ROOT} from '../../../util/roots';
+import { LOGIN } from '../../../util/roots';
 import {passwordsMatchValidator} from '../../../security/password-match-validator';
 import {MatError} from '@angular/material/form-field';
 import {MatFormField, MatInput, MatLabel} from '@angular/material/input';
@@ -76,7 +76,7 @@ export default class RegisterComponent implements OnInit {
       })
       .subscribe({
         next: () => {
-          void this.router.navigate([ROOT]).then(() => {
+          void this.router.navigate(['/']).then(() => {
             this.notificationService.showSnackBar('Successfully registered');
             globalThis.location.reload();
           });

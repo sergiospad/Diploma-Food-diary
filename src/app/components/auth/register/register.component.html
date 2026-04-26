@@ -3,7 +3,7 @@
   <form [formGroup]="registerForm">
     <div>
       <div class = 'question'>
-        Уже есть аккаунт? <a routerLink="{{LOGIN}}">Перейти к авторизации</a>
+        Уже есть аккаунт? <a [routerLink]="['/', LOGIN]">Перейти к авторизации</a>
       </div>
       <div class="justify-content-center">
         <div></div>
@@ -41,7 +41,7 @@
                 (click)="register()"
                 mat-flat-button color="primary"
                 [disabled]="registerForm.invalid"
-                style="width: 10%">
+               class="submit_button">
           Зарегистрироваться
         </button>
       </div>

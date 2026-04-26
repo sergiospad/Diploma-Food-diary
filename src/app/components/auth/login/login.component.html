@@ -23,7 +23,7 @@
                 [disabled]="loginForm.invalid">
           Ввести данные
         </button>
-        <a style="justify-self: end;" routerLink="{{REGISTER}}">Регистрация</a>
+        <a style="justify-self: end;" [routerLink]="['/', REGISTER]">Регистрация</a>
       </div>
     </div>
   </form>

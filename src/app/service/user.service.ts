@@ -2,10 +2,10 @@ import {inject, Injectable} from '@angular/core';
 import {Endpoint} from '../util/endpoint';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import UserProfileDto from '../DTO/user/user-profile.dto';
-import UserEditDto from '../DTO/user/user-edit.dto';
 import UpdatePasswordRequest from '../DTO/requests/update-password.request';
-import ChangeRoleDto from '../DTO/user/change-role.dto';
+import UserProfileDto from '../DTO/entity_dto/user/user-profile.dto';
+import UserEditDto from '../DTO/entity_dto/user/user-edit.dto';
+import ChangeRoleDto from '../DTO/entity_dto/user/change-role.dto';
 
 @Injectable({
   providedIn: 'root',

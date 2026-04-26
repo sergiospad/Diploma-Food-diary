@@ -8,6 +8,7 @@ import {ActivatedRouteSnapshot,
 import {inject, Injectable} from '@angular/core';
 import {TokenStorageService} from './token-storage.service';
 import {NotificationService} from './notification-service';
+import { LOGIN } from '../util/roots';
 
 @Injectable({providedIn: 'root'})
 export class AuthGuardService implements CanActivate {
@@ -20,7 +21,9 @@ export class AuthGuardService implements CanActivate {
     if(resp)
       return true;
 
-    this.router.navigate(['/login'], {queryParams:{returnUrl:state.url}});
+    void this.router.navigate(['/', LOGIN], {
+      queryParams: { returnUrl: state.url },
+    });
     globalThis.sessionStorage.clear();
     this.notificationService.showSnackBar("Token Expired")
     return false;

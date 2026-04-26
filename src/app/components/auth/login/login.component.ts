@@ -76,7 +76,9 @@ export default class LoginComponent implements OnInit {
           }
         });
         this.notificationService.showSnackBar('Successfully logged in');
-        this.router.navigate([FEED_ROOT]).then(() => globalThis.location.reload());
+        void this.router
+          .navigate(['/', FEED_ROOT])
+          .then(() => globalThis.location.reload());
       },
       error: (err: unknown) => {
         const message = httpErrorMessage(err, 'Failed to load profile');
