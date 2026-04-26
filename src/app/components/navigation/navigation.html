@@ -1,0 +1,85 @@
+<header class="header" id="header-top">
+  <div class="container">
+  <a [routerLink]="FEED_ROOT">
+    <div class = "logo"></div>
+
+  <span [routerLink]="FEED_ROOT"
+        class="logo_span">
+    MealMind
+  </span>
+  </a>
+
+  <span class="spacer"></span>
+
+    <div class="search-box">
+      <mat-form-field appearance="outline" subscriptSizing="dynamic">
+        <mat-icon matPrefix>search</mat-icon>
+        <input
+          matInput
+          [formControl]="searchControl"
+          [matAutocomplete]="recipeAuto"
+          placeholder="Поиск рецептов"
+          (keyup.enter)="onSearch()"
+        />
+        <mat-autocomplete
+          #recipeAuto="matAutocomplete"
+          (optionSelected)="onSearchSelect($event.option.value)"
+        >
+          @if (isSearchLoading) {
+            <mat-option disabled>Поиск...</mat-option>
+          }
+          @for (item of (searchTitleResults$ | async); track item.id) {
+            <mat-option [value]="item">
+              <h6 [innerHTML]="markWord(item.name, searchControl.value)"></h6>
+            </mat-option>
+          }
+          @for (item of (searchSummaryResults$ | async); track item.id) {
+            <mat-option [value]="item">
+              <h6>{{ item.name }}</h6>
+              <span [innerHTML]="markWord(item.summary, searchControl.value)"></span>
+            </mat-option>
+          }
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+
+  @if (user) {
+    <div class="user-info">
+      <h3 class="user-name">{{ user.username }}</h3>
+    </div>
+  }
+
+  <div class="toolbar-actions">
+    @if (!user) {
+      <button matTooltip="Login"
+              [routerLink]="LOGIN"
+              mat-icon-button
+              class="action-button"
+              aria-label="Login">
+        <mat-icon>login</mat-icon>
+      </button>
+    } @else {
+      <button [matMenuTriggerFor]="menu"
+              matTooltip="Profile"
+              class="profile-avatar-button"
+              aria-label="Profile menu">
+        <img src="{{avatar|async}}"
+             [alt]='stockPic'
+             class="profile-avatar-img">
+      </button>
+    }
+  </div>
+
+  <mat-menu #menu="matMenu" class="nav">
+    <button mat-menu-item routerLink="/profile">
+      <mat-icon>person</mat-icon>
+      <span>Profile</span>
+    </button>
+    <mat-divider></mat-divider>
+    <button mat-menu-item (click)="logout()">
+      <mat-icon>logout</mat-icon>
+      <span>Logout</span>
+    </button>
+  </mat-menu>
+  </div>
+</header>

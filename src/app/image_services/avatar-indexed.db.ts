@@ -36,9 +36,9 @@ export default class AvatarIndexedDb {
   }
 
 
-  async getBlob(): Promise<Blob | null> {
+  async getBlob(): Promise<Blob> {
     const db = await this.openDb();
-    const result = await new Promise<Blob | null>((resolve, reject) => {
+    const result = await new Promise<Blob>((resolve, reject) => {
       const tx = db.transaction(this.storeName, 'readonly');
       const store = tx.objectStore(this.storeName);
       const req = store.get(this.keyName);

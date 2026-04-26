@@ -34,7 +34,7 @@ export class TokenStorageService{
     this.setRole(user);
   }
 
-  public getUser():UserProfileDto{
+  public getUser():UserProfileDto|null{
     return JSON.parse(<string>globalThis.sessionStorage.getItem(USER_KEY));
   }
 

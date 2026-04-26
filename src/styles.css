@@ -1,1 +1,39 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  --accent-light: #fbb731;
+  --dark: #443737;
+  --light: #ffffff;
+}
+
+/* Unified menu style */
+.mat-mdc-menu-panel,
+.mat-mdc-autocomplete-panel {
+  background-color: var(--light) !important;
+}
+
+.mat-mdc-menu-item,
+.mat-mdc-option {
+  color: var(--dark) !important;
+  background-color: var(--light) !important;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  font-weight: 500;
+  transition:
+    border-color 0.2s ease,
+    font-weight 0.2s ease;
+}
+
+.mat-mdc-menu-item:hover,
+.mat-mdc-option:hover,
+.mat-mdc-menu-item.mdc-list-item--selected,
+.mat-mdc-option.mdc-list-item--selected,
+.mat-mdc-option.mdc-list-item--active {
+  color: var(--dark) !important;
+  background-color: var(--light) !important;
+  border-bottom-color: var(--accent-light);
+  font-weight: 600;
+}
+
+.mat-mdc-menu-item .mat-icon,
+.mat-mdc-option .mat-icon {
+  color: var(--dark) !important;
+}

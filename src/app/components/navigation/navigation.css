@@ -1,0 +1,156 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Birthstone&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Unna:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+.header {
+  border-bottom: 1px solid var(--border-color);
+  margin-top: 1px;
+}
+.header-wrapper{
+  display: flex;
+  align-items: center;
+  gap: 56px;
+  padding-top:26px;
+  padding-bottom:26px;
+}
+
+.nav{
+  flex-grow:1;
+  display: flex;
+  gap:47px;
+  margin-left: min(10vw, 140px);
+}
+
+.logo {
+  display: block;
+  width: 11rem;
+  height: 3.5rem;
+  background-image: url('../../../../public/Icon.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.logo_span {
+  font-size: 3rem;
+  letter-spacing: 0.5px;
+  transition: opacity 0.2s;
+  font-family: "Birthstone", cursive;
+  font-style: normal;
+}
+
+.logo_span:hover {
+  opacity: 0.8;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  margin-right: 16px;
+}
+
+.user-name {
+  margin: 0;
+  font-size: 1.5rem;
+  color: var(--light);
+  opacity: 0.9;
+  font-family: "Unna", serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.toolbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.action-button {
+  transition: transform 0.2s,
+  background-color 0.2s;
+  color: var(--light);
+}
+
+.action-button:hover {
+  transform: scale(1.1);
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.profile-avatar-button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  padding: 0;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  background: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+}
+
+.comment-avatar {
+  flex-shrink: 0;
+  margin-left: 10px;
+}
+
+.profile-avatar-button:hover {
+  border-color: rgba(255, 255, 255, 0.6);
+  transform: scale(1.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.profile-avatar-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.profile-menu {
+  min-width: 180px;
+}
+
+.profile-menu .mat-icon {
+  margin-right: 12px;
+  color: #666;
+}
+
+.search-box {
+  width: 320px;
+  margin: 0 16px;
+}
+.search-box .mat-mdc-form-field {
+  width: 100%;
+}
+
+@media (max-width: 600px) {
+  .user-name {
+    font-size: 0.9rem;
+    display: none;
+  }
+
+  .logo {
+    font-size: 1.2rem;
+    margin-left: 10px;
+  }
+}
+
+@media (max-width: 400px) {
+  .logo {
+    font-size: 1rem;
+  }
+
+  .toolbar-actions {
+    gap: 4px;
+  }
+}
+
+
+
+

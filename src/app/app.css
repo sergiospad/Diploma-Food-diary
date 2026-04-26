@@ -1,0 +1,21 @@
+:host{
+  --open-sans: 'Open Sans', sans-serif;
+  --nunito-sans: 'Nunito Sans', sans-serif;
+
+  --accent-light: #FBB731;
+  --accent-dark: #F37335;
+  --border-color: #DEDEDE;
+
+  --dark: #443737;
+  --light: #FFFFFF;
+  --footer-color: #1E2F40;
+  --light-rgb: 255, 255, 255;
+  --dark-rgb: 68, 55, 55;
+
+  --tr: 0.2s;
+}
+
+
+body{
+
+}
