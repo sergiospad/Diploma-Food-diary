@@ -31,6 +31,7 @@ import {
 } from 'rxjs/operators';
 import RecipeSummarySearchDTO from '../../DTO/entity_dto/recipe/recipe-summary-search.dto';
 import {markWord} from '../../util/regex-search-editor';
+import {ImageUploadService} from '../../image_services/image-upload.service';
 
 @Component({
   selector: 'app-navigation',
@@ -63,6 +64,7 @@ export class NavigationComponent implements OnInit {
   private readonly tokenService = inject(TokenStorageService);
   private readonly recipeService = inject(RecipeService);
   private readonly router = inject(Router);
+  private readonly imageUploadService = inject(ImageUploadService);
 
   protected readonly LOGIN = LOGIN;
   protected readonly FEED_ROOT = FEED_ROOT;
@@ -70,7 +72,7 @@ export class NavigationComponent implements OnInit {
   protected readonly markWord = markWord;
 
   protected user: UserProfileDto|null = null;
-  protected avatar:Promise<Blob> | undefined;
+  protected avatarUrl: Promise<string> | undefined;
   protected isSearchLoading = false;
 
   private searchPending = 0;
@@ -100,7 +102,15 @@ export class NavigationComponent implements OnInit {
 
   private syncUserFromStorage(): void {
     this.user = this.tokenService.getUser();
-    this.avatar = this.user ? this.avatarRepository.getBlob() : undefined;
+    this.avatarUrl = this.user
+      ? this.avatarRepository
+          .getBlob()
+          .then((blob) =>
+            blob
+              ? this.imageUploadService.convertBlobToDataUrl(blob)
+              : this.stockPic,
+          )
+      : undefined;
   }
 
 
@@ -156,7 +166,7 @@ export class NavigationComponent implements OnInit {
   logout(): void {
     this.tokenService.logout();
     this.user = null;
-    this.avatar = undefined;
+    this.avatarUrl = undefined;
   }
 
   private withSearchLoading<T>(source: Observable<T>): Observable<T> {
@@ -169,5 +179,6 @@ export class NavigationComponent implements OnInit {
       }),
     );
   }
+
 }
 

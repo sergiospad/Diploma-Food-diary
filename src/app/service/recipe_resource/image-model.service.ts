@@ -24,7 +24,7 @@ export default class ImageModelService {
       formData);
   }
 
-  getImage(id: number): Observable<Blob> {
+    getImage(id: number): Observable<Blob> {
     return this.http.get(
       this.imageModelAPI.builder()
         .points('get', id.toString())

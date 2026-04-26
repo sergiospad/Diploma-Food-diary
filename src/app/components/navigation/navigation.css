@@ -50,12 +50,13 @@
   display: flex;
   align-items: center;
   margin-right: 16px;
+  color: var(--dark);
 }
 
 .user-name {
   margin: 0;
   font-size: 1.5rem;
-  color: var(--light);
+  color: var(--dark);
   opacity: 0.9;
   font-family: "Unna", serif;
   font-weight: 400;
@@ -154,5 +155,24 @@
 }
 
 
+.add-recipe {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  font-size: 1.25rem;
+  line-height: 1.25;
+  background-color: rgba(255, 255, 255, 0);
+  /*background-color: rgba(var(--dark-rgb), 0.04);*/
+  border: none;
+  color: var(--dark);
+  transition:
+    background-color var(--tr, 0.2s) ease,
+    border-color var(--tr, 0.2s) ease,
+    box-shadow var(--tr, 0.2s) ease;
+}
 
-
+.add-recipe:hover {
+  background-color: rgba(var(--dark-rgb), 0.04);
+  box-shadow: 0 0 0 1px rgba(251, 183, 49, 0.35);
+}

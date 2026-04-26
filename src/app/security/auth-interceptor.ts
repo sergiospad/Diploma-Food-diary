@@ -4,9 +4,8 @@ import {Observable} from 'rxjs';
 import {TokenStorageService} from './token-storage.service';
 const TOKEN_HEADER_KEY = 'Authorization';
 
-@Injectable({
-  providedIn: 'root',
-})
+/** Регистрируется в `app.config` через `HTTP_INTERCEPTORS` (см. `provideHttpClient(withInterceptorsFromDi())`). */
+@Injectable()
 export class AuthInterceptor implements HttpInterceptor {
   private readonly tokenService = inject(TokenStorageService);
 

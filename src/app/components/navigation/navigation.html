@@ -43,7 +43,11 @@
         </mat-form-field>
       </div>
 
-      @if (user) {
+      @if (user!==null) {
+        <button type="button" class="add-recipe">
+          <mat-icon>add</mat-icon>
+          Добавить рецепт
+        </button>
         <div class="user-info">
           <h3 class="user-name">{{ user.username }}</h3>
         </div>
@@ -56,7 +60,7 @@
                   matTooltip="Profile"
                   class="profile-avatar-button"
                   aria-label="Profile menu">
-            <img src="{{avatar|async}}"
+            <img [src]="(avatarUrl | async) ?? stockPic"
                  [alt]='stockPic'
                  class="profile-avatar-img">
           </button>
