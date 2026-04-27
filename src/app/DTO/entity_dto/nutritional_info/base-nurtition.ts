@@ -1,7 +1,7 @@
 
 export default interface BaseNutrition {
   calories: number;
-  proteins: number;
+  protein: number;
   fat: number;
   carbs: number;
 }

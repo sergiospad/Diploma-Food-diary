@@ -7,6 +7,8 @@ import {MatIcon} from '@angular/material/icon';
 import {CookingTimeStepper} from './cooking-time-stepper';
 import IngredientCreateView from '../../DTO/entity_dto/recipe-recource/ingredient/ingredient-create.view';
 import {AddIngredient} from './add-ingredient/add-ingredient';
+import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
+import AddProductComponent from './add-product/add-product';
 
 @Component({
   selector: 'app-add-recipe',
@@ -23,6 +25,7 @@ import {AddIngredient} from './add-ingredient/add-ingredient';
 })
 export class AddRecipeComponent implements OnInit {
 
+  private readonly dialog = inject(MatDialog);
   protected title = signal('')
   protected titleImage?:Blob;
   protected summary = signal('');
@@ -56,5 +59,11 @@ export class AddRecipeComponent implements OnInit {
 
   protected addToList($event: IngredientCreateView) {
     this.ingredients?.push($event);
+  }
+
+  protected openAddProductDialog() {
+    const dialogAddProductConfig = new MatDialogConfig();
+    dialogAddProductConfig.width = "600px";
+    this.dialog.open(AddProductComponent, dialogAddProductConfig);
   }
 }

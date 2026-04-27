@@ -1,5 +1,3 @@
-@import "@ng-select/ng-select/themes/default.theme.css";
-
 .new-ingredient{
   display: flex;
   flex-direction: column;
@@ -13,20 +11,34 @@
 .new-ingredient__amount-and-mu{
   display: flex;
   gap: 1rem;
+  flex-direction: row;
 }
 
 .new-ingredient__amount{
   width: 150px;
+  height: 50px;
 }
 
-.new-ingredient__mu{
+.new-ingredient__mu {
+  width: 220px;
+}
+
+/* Визуально «заморожено», пока control disabled (до продукта / до загрузки единиц) */
+.new-ingredient__mu.mat-form-field-disabled,
+.new-ingredient__mu.mat-mdc-form-field-disabled {
+  opacity: 0.55;
+}
+
+.new-ingredient__actions {
+  display: flex;
+  justify-content: center;
+  width: 100%;
   margin-top: 1rem;
-  font-size: 18px;
 }
 
-.new-ingredient__button{
+.new-ingredient__button {
   --mat-button-filled-container-color: var(--accent-light);
   overflow: hidden;
   border-radius: 0;
-  min-width:  400px;
+  min-width: 400px;
 }

@@ -8,9 +8,9 @@ import ProductService from '../../../service/product.service';
 import {MatError, MatFormField, MatInput, MatLabel} from '@angular/material/input';
 import {MatAutocomplete, MatAutocompleteTrigger, MatOption} from '@angular/material/autocomplete';
 import {AsyncPipe} from '@angular/common';
-import {NgSelectComponent} from '@ng-select/ng-select';
 import {MatButton} from '@angular/material/button';
 import IngredientCreateView from '../../../DTO/entity_dto/recipe-recource/ingredient/ingredient-create.view';
+import {MatSelect} from '@angular/material/select';
 
 @Component({
   selector: 'app-add-ingredient',
@@ -24,8 +24,8 @@ import IngredientCreateView from '../../../DTO/entity_dto/recipe-recource/ingred
     MatOption,
     AsyncPipe,
     MatError,
-    NgSelectComponent,
     MatButton,
+    MatSelect,
   ],
   templateUrl: './add-ingredient.html',
   styleUrl: './add-ingredient.css',
@@ -51,13 +51,15 @@ export class AddIngredient implements OnInit {
     this.ingredientForm = this.createIngredientForm();
   }
 
-  createIngredientForm(){
+  createIngredientForm() {
     this.chosenProduct = undefined;
-    return this.formBuilder.group({
-      productID:[null, Validators.compose([Validators.required])],
-      amount:[null, Validators.compose([Validators.required,  Validators.min(0.01),])],
-      measureUnitID:[null, Validators.compose([Validators.required])],
+    const group = this.formBuilder.group({
+      productID: [null, Validators.compose([Validators.required])],
+      amount: [null, Validators.compose([Validators.required, Validators.min(0.01)])],
+      measureUnitID: [null, Validators.compose([Validators.required])],
     });
+    group.get('measureUnitID')?.disable({ emitEvent: false });
+    return group;
   }
 
   protected readonly searchProductResults$: Observable<ProductSearchDTO[]> =
@@ -95,9 +97,15 @@ export class AddIngredient implements OnInit {
       measureUnitID: null,
     });
     this.productSearchControl.setValue(product.name, { emitEvent: false });
+    this.ingredientForm.get('measureUnitID')?.disable({ emitEvent: false });
+    this.searchMeasureUnitResults = [];
     this.productService
       .getAllMeasureUnits(product.id)
-      .subscribe((data) => (this.searchMeasureUnitResults = data));
+      .pipe(catchError(() => of([] as MeasureUnitDTO[])))
+      .subscribe((data) => {
+        this.searchMeasureUnitResults = data;
+        this.ingredientForm.get('measureUnitID')?.enable({ emitEvent: false });
+      });
   }
 
   protected onProductQueryInput(): void {
@@ -107,15 +115,17 @@ export class AddIngredient implements OnInit {
       productID: null,
       measureUnitID: null,
     });
+    this.ingredientForm.get('measureUnitID')?.disable({ emitEvent: false });
   }
 
   protected addToNewProductCard() {
-    if (this.ingredientForm.invalid || !this.chosenProduct) {
-      this.ingredientForm.markAllAsTouched();
+    this.ingredientForm.markAllAsTouched();
+    const raw = this.ingredientForm.getRawValue();
+    if (!this.chosenProduct || raw.productID == null || raw.amount == null || raw.measureUnitID == null) {
       return;
     }
 
-    const selectedMeasureUnitId = this.ingredientForm.value.measureUnitID as number | null;
+    const selectedMeasureUnitId = raw.measureUnitID as number;
     const selectedMeasureUnit = this.searchMeasureUnitResults?.find(
       (unit) => unit.id === selectedMeasureUnitId,
     );

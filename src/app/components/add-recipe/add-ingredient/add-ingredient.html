@@ -29,29 +29,26 @@
         <input matInput formControlName="amount"/>
       </mat-form-field>
 
-      <div class="new-ingredient__mu">
-        <ng-select
-          [items]="searchMeasureUnitResults ?? []"
-          bindLabel="name"
-          bindValue="id"
-          placeholder="ед. изм."
-          appendTo="body"
-          [multiple]="false"
-          [clearable]="false"
-          [disabled]="!chosenProduct"
-          formControlName="measureUnitID">
-        </ng-select>
-      </div>
+      <mat-form-field appearance="outline" class="new-ingredient__mu">
+        <mat-label>Ед. изм.</mat-label>
+        <mat-select formControlName="measureUnitID" placeholder="Выберите единицу">
+          @for (mu of searchMeasureUnitResults ?? []; track mu.id) {
+            <mat-option [value]="mu.id">{{ mu.name }}</mat-option>
+          }
+        </mat-select>
+        @if (ingredientForm.get('measureUnitID')?.invalid && ingredientForm.get('measureUnitID')?.touched) {
+          <mat-error>Выберите единицу измерения</mat-error>
+        }
+      </mat-form-field>
     </div>
   </div>
-  <div >
-    <button class = "new-ingredient__button"
-            type="button"
-            mat-flat-button
-            (click)="addToNewProductCard()">
+  <div class="new-ingredient__actions">
+    <button
+      class="new-ingredient__button"
+      type="button"
+      mat-flat-button
+      (click)="addToNewProductCard()">
       Добавить новый продукт
     </button>
   </div>
-
-
 </form>
