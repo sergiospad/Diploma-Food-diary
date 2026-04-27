@@ -37,6 +37,7 @@ export class AddRecipeComponent implements OnInit {
   selectImage(): void {}
 
   protected onCookingTimeInput(event: Event): void {
+    //TODO продумать добавление директивы
     const el = event.target as HTMLInputElement;
     const parsed = this.stepper.parseInput(el.value);
     if(parsed!=null) this.cookingTime.set(parsed);

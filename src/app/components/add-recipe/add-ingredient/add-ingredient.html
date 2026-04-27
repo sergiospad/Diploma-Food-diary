@@ -1,1 +1,44 @@
-<p>add-ingredient works!</p>
+<form [formGroup]="ingredientForm">
+  <div>
+    <mat-form-field appearance="outline">
+      <mat-label>Название продукта</mat-label>
+      <input
+        matInput
+        [formControl]="productSearchControl"
+        [matAutocomplete]="productSearchAuto"
+        (input)="onProductQueryInput()">
+      <mat-autocomplete [displayWith] ="displayProductName"
+        #productSearchAuto="matAutocomplete"
+                        (optionSelected)="onMeasureUnitSearchSelect($event.option.value)">
+        @if (isProductSearchLoading) {
+          <mat-option disabled>Поиск...</mat-option>
+        }
+        @for (item of (searchProductResults$ | async); track item.id) {
+          <mat-option [value]="item">
+            {{ item.name }}
+          </mat-option>
+        }
+        @if (ingredientForm.get('productID')?.hasError('required')) {
+          <mat-error>Выберите продукт</mat-error>
+        }
+      </mat-autocomplete>
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field appearance="outline">
+      <mat-label>Количество</mat-label>
+      <input matInput formControlName="amount"/>
+    </mat-form-field>
+  </div>
+  <ng-select
+    [items]="searchMeasureUnitResults ?? []"
+    bindLabel="name"
+    bindValue="id"
+    placeholder="Выберите единицу измерения"
+    appendTo="body"
+    [multiple]="false"
+    [clearable]="false"
+    [disabled]="!chosenProduct"
+    formControlName="measureUnitID">
+  </ng-select>
+</form>

@@ -40,7 +40,7 @@ export default class ProductService {
     )
   }
 
-  getAllMeasureUnitsAll(productId: number): Observable<MeasureUnitDTO[]> {
+  getAllMeasureUnits(productId: number): Observable<MeasureUnitDTO[]> {
     return this.http.get<MeasureUnitDTO[]>(
       this.productAPI.builder()
         .points("measureUnits")
