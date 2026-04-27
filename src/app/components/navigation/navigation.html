@@ -44,9 +44,11 @@
       </div>
 
       @if (user!==null) {
-        <button type="button" class="add-recipe">
+        <button type="button"
+                [routerLink]="['/', ADD_RECIPE]"
+                class="add-recipe">
           <mat-icon>add</mat-icon>
-          Добавить рецепт
+          &nbsp;&nbsp;&nbsp;Добавить рецепт
         </button>
         <div class="user-info">
           <h3 class="user-name">{{ user.username }}</h3>

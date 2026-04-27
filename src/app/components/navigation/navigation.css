@@ -173,6 +173,6 @@
 }
 
 .add-recipe:hover {
-  background-color: rgba(var(--dark-rgb), 0.04);
+  background-color: rgba(var(--accent-light-rgb), 0.24);
   box-shadow: 0 0 0 1px rgba(251, 183, 49, 0.35);
 }

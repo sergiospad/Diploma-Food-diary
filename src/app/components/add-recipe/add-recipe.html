@@ -1,1 +1,69 @@
-<p>add-recipe works!</p>
+<div class="container">
+  <h1 class="new-recipe">Новый рецепт</h1>
+  <div class="blocks">
+    <div class="blocks__captions">
+      <mat-form-field class="blocks__captions__title" appearance="outline">
+        <mat-label>Название рецепта</mat-label>
+        <input matInput [value]="title()"
+               (input)="title.set($any($event.target).value)"/>
+      </mat-form-field>
+
+      <div class="blocks__captions__image">
+        <button mat-flat-button class="blocks__captions__image__button empty-image" (click)="selectImage()">
+          <mat-icon>add</mat-icon>
+          <span><br>Добавить изображение рецепта</span>
+        </button>
+      </div>
+
+      <mat-form-field class="blocks__captions__summary" appearance="outline">
+        <mat-label>Краткое описание рецепта</mat-label>
+        <input matInput [value]="summary()"
+               (input)="summary.set($any($event.target).value)"/>
+      </mat-form-field>
+    </div>
+
+    <div class="blocks__ingredients">
+      <div class="blocks__ingredients__private">
+        <input
+          class="checkbox"
+          type="checkbox"
+          id="add-recipe-is-private"
+          [checked]="isPrivate()"
+          (change)="isPrivate.set($any($event.target).checked)"/>
+        <label class="blocks__ingredients__label" for="add-recipe-is-private">Приватный рецепт</label>
+      </div>
+
+      <div class="blocks__ingredients__time">
+        <div class="blocks__ingredients__time__checkbox">
+          <input
+            class="checkbox"
+            type="checkbox"
+            id="add-recipe-needs-time"
+            [checked]="needsTime()"
+            (change)="needsTime.set($any($event.target).checked)"/>
+          <label class="blocks__ingredients__label" for="add-recipe-needs-time">Добавить время приготовления</label>
+        </div>
+        @if (needsTime()) {
+          <div class="blocks__ingredients__time__num-input">
+            <label class="blocks__ingredients__label" for="add-recipe-cooking-time">Время приготовления</label>
+            <input
+              id="add-recipe-cooking-time"
+              type="number"
+              min="5"
+              max="500"
+              step="5"
+              [value]="cookingTime()"
+              (input)="onCookingTimeInput($event)"
+              (blur)="onCookingTimeBlur($event)"/>
+            мин.
+          </div>
+        }
+      </div>
+      <div class="blocks__ingredients__new-product">
+        <button mat-flat-button class="blocks__ingredients__new-product__button">Добавить новый продукт</button>
+      </div>
+      <span>Ингредиенты</span>
+    </div>
+
+  </div>
+</div>
