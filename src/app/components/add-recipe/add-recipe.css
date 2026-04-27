@@ -99,10 +99,10 @@
   gap: 0.5rem;
   overflow: hidden;
   border-radius: 0;
-  min-width:  600px;
+  min-width:  400px;
   --mat-button-filled-container-color: var(--accent-dark);
 }
 
 .blocks__ingredients span {
-  font-size: 2rem;
+  font-size: 1.8rem;
 }

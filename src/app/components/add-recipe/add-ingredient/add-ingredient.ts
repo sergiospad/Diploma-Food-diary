@@ -1,4 +1,4 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, inject, OnInit, output} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import ProductSearchDTO from '../../../DTO/entity_dto/product/product-search.dto';
 import MeasureUnitDTO from '../../../DTO/entity_dto/recipe-recource/measure-unit.dto';
@@ -9,6 +9,8 @@ import {MatError, MatFormField, MatInput, MatLabel} from '@angular/material/inpu
 import {MatAutocomplete, MatAutocompleteTrigger, MatOption} from '@angular/material/autocomplete';
 import {AsyncPipe} from '@angular/common';
 import {NgSelectComponent} from '@ng-select/ng-select';
+import {MatButton} from '@angular/material/button';
+import IngredientCreateView from '../../../DTO/entity_dto/recipe-recource/ingredient/ingredient-create.view';
 
 @Component({
   selector: 'app-add-ingredient',
@@ -23,6 +25,7 @@ import {NgSelectComponent} from '@ng-select/ng-select';
     AsyncPipe,
     MatError,
     NgSelectComponent,
+    MatButton,
   ],
   templateUrl: './add-ingredient.html',
   styleUrl: './add-ingredient.css',
@@ -36,19 +39,20 @@ export class AddIngredient implements OnInit {
   private productSearchPending = 0;
 
   protected chosenProduct?: ProductSearchDTO;
-  protected chosenMeasureUnit?:MeasureUnitDTO;
   protected searchMeasureUnitResults?:MeasureUnitDTO[]
+  formedIngredient = output<IngredientCreateView>();
 
-  protected displayProductName = (product: ProductSearchDTO | string | null) => {
-    if (!product) return null;
-    return typeof product === 'string' ? product : product.name;
+  protected displayProductName = (value: any): string => {
+    if (!value) return '';
+    return typeof value === 'string' ? value : (value.name ?? '');
   };
 
   ngOnInit(): void {
-   this.ingredientForm = this.createIngredientForm();
+    this.ingredientForm = this.createIngredientForm();
   }
 
   createIngredientForm(){
+    this.chosenProduct = undefined;
     return this.formBuilder.group({
       productID:[null, Validators.compose([Validators.required])],
       amount:[null, Validators.compose([Validators.required,  Validators.min(0.01),])],
@@ -71,6 +75,7 @@ export class AddIngredient implements OnInit {
       ),
       shareReplay({bufferSize: 1, refCount: true}),
     );
+
 
   private withProductSearchLoading<T>(source: Observable<T>): Observable<T> {
     this.productSearchPending += 1;
@@ -102,5 +107,33 @@ export class AddIngredient implements OnInit {
       productID: null,
       measureUnitID: null,
     });
+  }
+
+  protected addToNewProductCard() {
+    if (this.ingredientForm.invalid || !this.chosenProduct) {
+      this.ingredientForm.markAllAsTouched();
+      return;
+    }
+
+    const selectedMeasureUnitId = this.ingredientForm.value.measureUnitID as number | null;
+    const selectedMeasureUnit = this.searchMeasureUnitResults?.find(
+      (unit) => unit.id === selectedMeasureUnitId,
+    );
+    if (!selectedMeasureUnit) {
+      this.ingredientForm.get('measureUnitID')?.setErrors({ required: true });
+      return;
+    }
+
+    const ingredient = {
+      productID: this.chosenProduct.id,
+      measureUnitID: selectedMeasureUnit.id,
+      productName: this.chosenProduct.name,
+      measureUnitName: selectedMeasureUnit.name,
+      amount: Number(this.ingredientForm.value.amount),
+    } as IngredientCreateView;
+    this.formedIngredient.emit(ingredient);
+    this.ingredientForm = this.createIngredientForm();
+    this.productSearchControl.setValue('', { emitEvent: false });
+    this.searchMeasureUnitResults = [];
   }
 }

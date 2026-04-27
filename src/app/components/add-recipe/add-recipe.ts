@@ -5,6 +5,8 @@ import {MatFormField, MatInput, MatLabel} from '@angular/material/input';
 import {MatButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
 import {CookingTimeStepper} from './cooking-time-stepper';
+import IngredientCreateView from '../../DTO/entity_dto/recipe-recource/ingredient/ingredient-create.view';
+import {AddIngredient} from './add-ingredient/add-ingredient';
 
 @Component({
   selector: 'app-add-recipe',
@@ -13,7 +15,8 @@ import {CookingTimeStepper} from './cooking-time-stepper';
     MatFormField,
     MatLabel,
     MatButton,
-    MatIcon
+    MatIcon,
+    AddIngredient
   ],
   templateUrl: './add-recipe.html',
   styleUrl: './add-recipe.css',
@@ -26,12 +29,14 @@ export class AddRecipeComponent implements OnInit {
   protected isPrivate = signal(false);
   protected needsTime = signal(false);
   protected cookingTime = signal(30);
+  protected ingredients?:IngredientCreateView[]
 
   private readonly stepper = new CookingTimeStepper(5,5);
 
   protected readonly input = input;
 
   ngOnInit(): void {
+    this.ingredients = [];
   }
 
   selectImage(): void {}
@@ -49,4 +54,7 @@ export class AddRecipeComponent implements OnInit {
   }
 
 
+  protected addToList($event: IngredientCreateView) {
+    this.ingredients?.push($event);
+  }
 }

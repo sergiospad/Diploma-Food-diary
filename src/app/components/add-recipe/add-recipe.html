@@ -63,6 +63,10 @@
         <button mat-flat-button class="blocks__ingredients__new-product__button">Добавить новый продукт</button>
       </div>
       <span>Ингредиенты</span>
+      @for (ing of ingredients; track $index) {
+        {{ ing.productName }} {{ ing.amount }} {{ ing.measureUnitName }}
+      }
+      <app-add-ingredient (formedIngredient)="addToList($event)"></app-add-ingredient>
     </div>
 
   </div>

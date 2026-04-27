@@ -1,6 +1,6 @@
 <form [formGroup]="ingredientForm">
-  <div>
-    <mat-form-field appearance="outline">
+  <div class="new-ingredient">
+    <mat-form-field class = "new-ingredient__name" appearance="outline">
       <mat-label>Название продукта</mat-label>
       <input
         matInput
@@ -23,22 +23,35 @@
         }
       </mat-autocomplete>
     </mat-form-field>
+    <div class = "new-ingredient__amount-and-mu">
+      <mat-form-field class="new-ingredient__amount" appearance="outline">
+        <mat-label>Количество</mat-label>
+        <input matInput formControlName="amount"/>
+      </mat-form-field>
+
+      <div class="new-ingredient__mu">
+        <ng-select
+          [items]="searchMeasureUnitResults ?? []"
+          bindLabel="name"
+          bindValue="id"
+          placeholder="ед. изм."
+          appendTo="body"
+          [multiple]="false"
+          [clearable]="false"
+          [disabled]="!chosenProduct"
+          formControlName="measureUnitID">
+        </ng-select>
+      </div>
+    </div>
   </div>
-  <div>
-    <mat-form-field appearance="outline">
-      <mat-label>Количество</mat-label>
-      <input matInput formControlName="amount"/>
-    </mat-form-field>
+  <div >
+    <button class = "new-ingredient__button"
+            type="button"
+            mat-flat-button
+            (click)="addToNewProductCard()">
+      Добавить новый продукт
+    </button>
   </div>
-  <ng-select
-    [items]="searchMeasureUnitResults ?? []"
-    bindLabel="name"
-    bindValue="id"
-    placeholder="Выберите единицу измерения"
-    appendTo="body"
-    [multiple]="false"
-    [clearable]="false"
-    [disabled]="!chosenProduct"
-    formControlName="measureUnitID">
-  </ng-select>
+
+
 </form>
