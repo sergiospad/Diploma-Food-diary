@@ -9,10 +9,36 @@
       </mat-form-field>
 
       <div class="blocks__captions__image">
-        <button mat-flat-button class="blocks__captions__image__button empty-image" (click)="selectImage()">
-          <mat-icon>add</mat-icon>
-          <span><br>Добавить изображение рецепта</span>
-        </button>
+        <input
+          type="file"
+          accept="image/*"
+          hidden
+          #fileInput
+          (change)="selectImage($event)">
+        @if (titleImageURL()) {
+          <div class="blocks__captions__image-preview">
+            <img
+              class="blocks__captions__title-image"
+              [src]="titleImageURL()"
+              alt="Превью изображения рецепта">
+            <button
+              type="button"
+              class="blocks__captions__image-replace"
+              (click)="fileInput.click()"
+              aria-label="Заменить изображение">
+              <span class="blocks__captions__image-replace__hint">Заменить</span>
+            </button>
+          </div>
+        } @else {
+          <button
+            type="button"
+            mat-flat-button
+            class="blocks__captions__image__button empty-image"
+            (click)="fileInput.click()">
+            <mat-icon>add</mat-icon>
+            <span><br>Добавить изображение рецепта</span>
+          </button>
+        }
       </div>
 
       <mat-form-field class="blocks__captions__summary" appearance="outline">
@@ -62,12 +88,22 @@
       <div class="blocks__ingredients__new-product">
         <button mat-flat-button class="blocks__ingredients__new-product__button" (click)="openAddProductDialog()">Добавить новый продукт</button>
       </div>
-      <span>Ингредиенты</span>
+      <span class="blocks__ingredients__heading">Ингредиенты</span>
       @for (ing of ingredients; track $index) {
-        {{ ing.productName }} {{ ing.amount }} {{ ing.measureUnitName }}
+        <div class="ingredient-line">
+          <span class="ingredient-line__name">{{ ing.productName }}</span>
+          <span class="ingredient-line__leader" aria-hidden="true"></span>
+          <span class="ingredient-line__meta">
+            {{ ing.amount }} {{ ing.measureUnitName }}
+          </span>
+        </div>
       }
       <app-add-ingredient (formedIngredient)="addToList($event)"></app-add-ingredient>
     </div>
-
   </div>
+  <div class="divider"></div>
+  <div class="cooking-stages">
+    <span class="blocks__ingredients__heading">Этапы готовки</span>
+  </div>
+
 </div>
