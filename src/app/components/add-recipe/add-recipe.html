@@ -1,109 +1,85 @@
 <div class="container">
   <h1 class="new-recipe">Новый рецепт</h1>
   <div class="blocks">
-    <div class="blocks__captions">
-      <mat-form-field class="blocks__captions__title" appearance="outline">
-        <mat-label>Название рецепта</mat-label>
-        <input matInput [value]="title()"
-               (input)="title.set($any($event.target).value)"/>
-      </mat-form-field>
+    <app-recipe-main-info-section (toMainComponentTitle)="title = $event"
+                                  (toMainComponentSummary)="summary = $event"
+                                  (toMainComponentTitleImageBlob)="titleImageBlob = $event"
+    ></app-recipe-main-info-section>
 
-      <div class="blocks__captions__image">
-        <input
-          type="file"
-          accept="image/*"
-          hidden
-          #fileInput
-          (change)="selectImage($event)">
-        @if (titleImageURL()) {
-          <div class="blocks__captions__image-preview">
-            <img
-              class="blocks__captions__title-image"
-              [src]="titleImageURL()"
-              alt="Превью изображения рецепта">
-            <button
-              type="button"
-              class="blocks__captions__image-replace"
-              (click)="fileInput.click()"
-              aria-label="Заменить изображение">
-              <span class="blocks__captions__image-replace__hint">Заменить</span>
-            </button>
-          </div>
-        } @else {
-          <button
-            type="button"
-            mat-flat-button
-            class="blocks__captions__image__button empty-image"
-            (click)="fileInput.click()">
-            <mat-icon>add</mat-icon>
-            <span><br>Добавить изображение рецепта</span>
-          </button>
-        }
-      </div>
-
-      <mat-form-field class="blocks__captions__summary" appearance="outline">
-        <mat-label>Краткое описание рецепта</mat-label>
-        <input matInput [value]="summary()"
-               (input)="summary.set($any($event.target).value)"/>
-      </mat-form-field>
-    </div>
-
-    <div class="blocks__ingredients">
-      <div class="blocks__ingredients__private">
-        <input
-          class="checkbox"
-          type="checkbox"
-          id="add-recipe-is-private"
-          [checked]="isPrivate()"
-          (change)="isPrivate.set($any($event.target).checked)"/>
-        <label class="blocks__ingredients__label" for="add-recipe-is-private">Приватный рецепт</label>
-      </div>
-
-      <div class="blocks__ingredients__time">
-        <div class="blocks__ingredients__time__checkbox">
-          <input
-            class="checkbox"
-            type="checkbox"
-            id="add-recipe-needs-time"
-            [checked]="needsTime()"
-            (change)="needsTime.set($any($event.target).checked)"/>
-          <label class="blocks__ingredients__label" for="add-recipe-needs-time">Добавить время приготовления</label>
-        </div>
-        @if (needsTime()) {
-          <div class="blocks__ingredients__time__num-input">
-            <label class="blocks__ingredients__label" for="add-recipe-cooking-time">Время приготовления</label>
-            <input
-              id="add-recipe-cooking-time"
-              type="number"
-              min="5"
-              max="500"
-              step="5"
-              [value]="cookingTime()"
-              (input)="onCookingTimeInput($event)"
-              (blur)="onCookingTimeBlur($event)"/>
-            мин.
-          </div>
-        }
-      </div>
-      <div class="blocks__ingredients__new-product">
-        <button mat-flat-button class="blocks__ingredients__new-product__button" (click)="openAddProductDialog()">Добавить новый продукт</button>
-      </div>
-      <span class="blocks__ingredients__heading">Ингредиенты</span>
-      @for (ing of ingredients; track $index) {
-        <div class="ingredient-line">
-          <span class="ingredient-line__name">{{ ing.productName }}</span>
-          <span class="ingredient-line__leader" aria-hidden="true"></span>
-          <span class="ingredient-line__meta">
-            {{ ing.amount }} {{ ing.measureUnitName }}
-          </span>
-        </div>
-      }
-      <app-add-ingredient (formedIngredient)="addToList($event)"></app-add-ingredient>
-    </div>
+   <app-recipe-main-info-ingredients-section (toMainComponentCookingTime)="cookingTime = $event"
+                                             (toMainComponentIsPrivate)="isPrivate = $event"
+                                             [ingredients]="ingredients">
+   </app-recipe-main-info-ingredients-section>
   </div>
   <div class="divider"></div>
   <div class="cooking-stages">
-    <span class="blocks__ingredients__heading">Этапы готовки</span>
+    <span class="blocks__ingredients__heading cooking-stages__title">Этапы готовки</span>
+    <div class="cooking-stages__grid">
+      @for (stage of cookingStages ?? []; track $index) {
+        <article class="cooking-stage-card">
+          <span class="cooking-stage-card__index" [attr.aria-label]="'Шаг ' + ($index + 1)">{{ $index + 1 }}</span>
+          <div class="cooking-stage-card__media">
+            @if (stage.imageURL) {
+              <img
+                class="cooking-stage-card__image"
+                [src]="stage.imageURL"
+                alt="">
+            } @else {
+              <div class="cooking-stage-card__placeholder" aria-hidden="true">
+                <mat-icon class="cooking-stage-card__placeholder-icon">hide_image</mat-icon>
+                <span class="cooking-stage-card__placeholder-text">Без фото</span>
+              </div>
+            }
+          </div>
+          <div class="cooking-stage-card__body">
+            <p class="cooking-stage-card__description">{{ stage.description }}</p>
+          </div>
+          <button
+            type="button"
+            mat-icon-button
+            class="cooking-stage-card__remove"
+            (click)="removeStage($index)"
+            [attr.aria-label]="'Удалить этап ' + ($index + 1)">
+            <mat-icon>close</mat-icon>
+          </button>
+        </article>
+      }
+    </div>
+    <div class="cooking-stages__add">
+      <app-add-cooking-stage (cookingStage)="addCookingStageToList($event)"></app-add-cooking-stage>
+    </div>
   </div>
-
+  <div class="divider"></div>
+  <div class="tags">
+    <mat-form-field appearance="outline" class="tags__list">
+      <mat-label>Теги</mat-label>
+      <mat-select
+        name="recipeTags"
+        placeholder="Выберите теги"
+        multiple
+        [(ngModel)]="selectedTags">
+        @for (tag of allTags ?? []; track tag.id) {
+          <mat-option [value]="tag">{{ tag.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    @for (tag of selectedTags; track tag.id){
+      <div class = "tags__chip">{{tag.name}}</div>
+    }
+  </div>
+  <div class="divider"></div>
+  <div class="submit-button">
+    <button
+      mat-flat-button
+      class="submit__active__button"
+      [disabled]="!canSubmit()"
+      (click)="saveRecipe()">
+      Добавить новый рецепт
+    </button>
+  </div>
+  @if ((cookingStages ?? []).length > maxCookingStages) {
+    <div class="limit" role="alert">
+      Превышен лимит этапов готовки: не больше {{ maxCookingStages }} (сейчас {{ (cookingStages ?? []).length }}).
+    </div>
+  }
 </div>

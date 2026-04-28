@@ -31,14 +31,15 @@
 
 .new-ingredient__actions {
   display: flex;
-  justify-content: center;
+  justify-content: start;
   width: 100%;
   margin-top: 1rem;
 }
 
 .new-ingredient__button {
+  display: block;
+  justify-content: center;
   --mat-button-filled-container-color: var(--accent-light);
-  overflow: hidden;
   border-radius: 0;
-  min-width: 400px;
+  min-width: 80%;
 }

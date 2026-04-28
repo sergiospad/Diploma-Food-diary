@@ -1,11 +1,11 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {MatDialogRef} from '@angular/material/dialog';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import CategoryNameDTO from '../../../DTO/entity_dto/recipe-recource/category/category-name.dto';
-import CategoryService from '../../../service/recipe_resource/category.service';
-import ProductCreateDTO from '../../../DTO/entity_dto/product/product-create.dto';
-import ProductService from '../../../service/product.service';
-import {NotificationService} from '../../../security/notification-service';
+import CategoryNameDTO from '../../../../DTO/entity_dto/recipe-recource/category/category-name.dto';
+import CategoryService from '../../../../service/recipe_resource/category.service';
+import ProductCreateDTO from '../../../../DTO/entity_dto/product/product-create.dto';
+import ProductService from '../../../../service/product.service';
+import {NotificationService} from '../../../../security/notification-service';
 import {MatError, MatFormField, MatInput, MatLabel} from '@angular/material/input';
 import {MatOption} from '@angular/material/core';
 import {MatSelect} from '@angular/material/select';

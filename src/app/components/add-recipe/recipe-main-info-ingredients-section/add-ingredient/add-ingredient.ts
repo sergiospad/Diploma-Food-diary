@@ -1,15 +1,15 @@
 import {Component, inject, OnInit, output} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import ProductSearchDTO from '../../../DTO/entity_dto/product/product-search.dto';
-import MeasureUnitDTO from '../../../DTO/entity_dto/recipe-recource/measure-unit.dto';
+import ProductSearchDTO from '../../../../DTO/entity_dto/product/product-search.dto';
+import MeasureUnitDTO from '../../../../DTO/entity_dto/recipe-recource/measure-unit.dto';
 import {Observable, of} from 'rxjs';
 import {catchError, debounceTime, distinctUntilChanged, finalize, map, shareReplay, startWith, switchMap} from 'rxjs/operators';
-import ProductService from '../../../service/product.service';
+import ProductService from '../../../../service/product.service';
 import {MatError, MatFormField, MatInput, MatLabel} from '@angular/material/input';
 import {MatAutocomplete, MatAutocompleteTrigger, MatOption} from '@angular/material/autocomplete';
 import {AsyncPipe} from '@angular/common';
 import {MatButton} from '@angular/material/button';
-import IngredientCreateView from '../../../DTO/entity_dto/recipe-recource/ingredient/ingredient-create.view';
+import IngredientCreateView from '../../../../DTO/entity_dto/recipe-recource/ingredient/ingredient-create.view';
 import {MatSelect} from '@angular/material/select';
 
 @Component({

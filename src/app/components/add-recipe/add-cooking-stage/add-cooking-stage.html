@@ -1,1 +1,51 @@
-<p>add-cooking-stage works!</p>
+<div class="container">
+
+  <div class="image">
+    <input
+      type="file"
+      accept="image/*"
+      hidden
+      #fileInput
+      (change)="selectImage($event)">
+    @if (showIllustrationIRL()) {
+      <div class="image-preview">
+        <img
+          class="illustration-image"
+          [src]="showIllustrationIRL()"
+          alt="Превью изображения рецепта">
+        <button
+          type="button"
+          class="image-replace"
+          (click)="fileInput.click()"
+          aria-label="Заменить изображение">
+          <span class="image-replace__hint">Заменить</span>
+        </button>
+      </div>
+    } @else {
+      <button
+        type="button"
+        mat-flat-button
+        class="image__button empty-image"
+        (click)="fileInput.click()">
+        <mat-icon>add</mat-icon>
+        <span><br>Добавить изображение этапа готовки</span>
+      </button>
+    }
+  </div>
+  <div class="decription">
+    <mat-form-field class="description__input" appearance="outline">
+      <mat-label>Описание этапа готовки</mat-label>
+      <input matInput [value]="description()"
+             (input)="description.set($any($event.target).value)"/>
+    </mat-form-field>
+  </div>
+  <div class="add-cooking-stage__button">
+    <button mat-raised-button
+            class="add-cooking-stage__action__button"
+            [disabled]="description()===''"
+            (click)="addToRecipe()"
+            disableRipple>Добавить
+    </button>
+  </div>
+
+</div>

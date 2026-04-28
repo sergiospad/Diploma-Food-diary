@@ -3,7 +3,7 @@ import LoginComponent from './components/auth/login/login.component';
 import RegisterComponent from './components/auth/register/register.component';
 import { FeedComponent } from './components/feed/feed';
 import {ADD_RECIPE, FEED_ROOT, LOGIN, REGISTER} from './util/roots';
-import {AddRecipeComponent} from './components/add-recipe/add-recipe';
+import AddRecipeComponent from './components/add-recipe/add-recipe';
 
 export const routes: Routes = [
   { path: LOGIN, component: LoginComponent },
