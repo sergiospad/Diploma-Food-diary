@@ -1,15 +1,13 @@
-import {Component, model, output} from '@angular/core';
-import {MatIcon} from '@angular/material/icon';
-import {MatIconButton} from '@angular/material/button';
+import {Component, model} from '@angular/core';
 import CookingStageCreateView from '../../../DTO/entity_dto/recipe-recource/cooking_stage/cooking-stage-create.view';
-import {AddCookingStage} from '../add-cooking-stage/add-cooking-stage';
+import {AddCookingStage} from './add-cooking-stage/add-cooking-stage';
+import {CookingStageShowSection} from './cooking-stage-show-section/cooking-stage-show-section';
 
 @Component({
   selector: 'app-cooking-stage-section',
   imports: [
-    MatIcon,
-    MatIconButton,
-    AddCookingStage
+    AddCookingStage,
+    CookingStageShowSection,
   ],
   templateUrl: './cooking-stage-section.html',
   styleUrl: './cooking-stage-section.css',

@@ -1,8 +1,8 @@
 import {Component, inject, output, signal} from '@angular/core';
 import {MatButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
-import {ImageUploadService} from '../../../image_services/image-upload.service';
-import CookingStageCreateView from '../../../DTO/entity_dto/recipe-recource/cooking_stage/cooking-stage-create.view';
+import {ImageUploadService} from '../../../../image_services/image-upload.service';
+import CookingStageCreateView from '../../../../DTO/entity_dto/recipe-recource/cooking_stage/cooking-stage-create.view';
 import {MatFormField, MatInput, MatLabel} from '@angular/material/input';
 import {submit} from '@angular/forms/signals';
 

@@ -1,11 +1,8 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {MatFormField, MatLabel} from '@angular/material/input';
-import {MatButton, MatIconButton} from '@angular/material/button';
-import {MatIcon} from '@angular/material/icon';
+import {MatButton} from '@angular/material/button';
 import IngredientCreateView from '../../DTO/entity_dto/recipe-recource/ingredient/ingredient-create.view';
-import {MatDialog} from '@angular/material/dialog';
 import CookingStageCreateView from '../../DTO/entity_dto/recipe-recource/cooking_stage/cooking-stage-create.view';
-import {AddCookingStage} from './add-cooking-stage/add-cooking-stage';
 import TagDto from '../../DTO/entity_dto/recipe-recource/tag.dto';
 import TagService from '../../service/recipe_resource/tag.service';
 import {MatOption} from '@angular/material/core';
@@ -30,9 +27,6 @@ import {CookingStageSection} from './cooking-stage-section/cooking-stage-section
     MatFormField,
     MatLabel,
     MatButton,
-    MatIconButton,
-    MatIcon,
-    AddCookingStage,
     MatOption,
     MatSelect,
     ReactiveFormsModule,

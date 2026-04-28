@@ -41,5 +41,5 @@
   justify-content: center;
   --mat-button-filled-container-color: var(--accent-light);
   border-radius: 0;
-  min-width: 80%;
+  min-width: 100%;
 }
