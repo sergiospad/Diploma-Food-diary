@@ -20,6 +20,7 @@ import {
   RecipeMainInfoIngredientsSection
 } from './recipe-main-info-ingredients-section/recipe-main-info-ingredients-section';
 import {CookingStageSection} from './cooking-stage-section/cooking-stage-section';
+import {TagShowSection} from './tag-show-section/tag-show-section';
 
 @Component({
   selector: 'app-add-recipe',
@@ -34,13 +35,13 @@ import {CookingStageSection} from './cooking-stage-section/cooking-stage-section
     RecipeMainInfoSectionComponent,
     RecipeMainInfoIngredientsSection,
     CookingStageSection,
+    TagShowSection,
   ],
   templateUrl: './add-recipe.html',
   styleUrl: './add-recipe.css',
 })
-class AddRecipeComponent implements OnInit {
+class AddRecipeComponent {
 
-  private readonly tagService = inject(TagService);
   private readonly imageService = inject(ImageModelService);
   private readonly recipeService = inject(RecipeService);
   private readonly router = inject(Router);
@@ -51,34 +52,26 @@ class AddRecipeComponent implements OnInit {
   protected isPrivate?: boolean;
   protected cookingTime?:number;
   protected ingredients: IngredientCreateView[] = [];
-  protected cookingStages?: CookingStageCreateView[];
+  protected cookingStages: CookingStageCreateView[]=[];
   protected allTags?: TagDto[];
   protected selectedTags: TagDto[] = [];
 
   protected readonly maxCookingStages = 30;
 
 
-  ngOnInit(): void {
-    this.cookingStages = [];
-    this.tagService.getAllTags()
-      .subscribe(data=>this.allTags = data);
-  }
-
-
   protected submitRecipe(): Observable<RecipeCreateDTO> {
-    const stages = this.cookingStages ?? [];
 
     return this.imageService.uploadImage(this.titleImageBlob!, 'RECIPE').pipe(
       switchMap((illustrationID) => {
         return forkJoin(
-          stages.map((s) =>
+          this.cookingStages.map((s) =>
             s.imageBlob == null
               ? of(-1)
               : this.imageService.uploadImage(s.imageBlob, 'COOKING_STAGE'),
           ),
         ).pipe(
           map((imageIds) => {
-            const stageDtos: CookingStageCreateDTO[] = stages.map((s, i) => ({
+            const stageDtos: CookingStageCreateDTO[] = this.cookingStages.map((s, i) => ({
               description: s.description,
               stageNumber: i + 1,
               imageID: imageIds[i]===-1? undefined : imageIds[i],
