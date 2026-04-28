@@ -207,3 +207,9 @@ div.mat-mdc-select-panel.add-product-category-panel .mat-mdc-option:nth-child(n 
     animation: none !important;
   }
 }
+
+
+.heading {
+  font-size: 1.8rem;
+  font-weight: 600;
+}

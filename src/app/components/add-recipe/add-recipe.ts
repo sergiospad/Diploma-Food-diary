@@ -22,6 +22,7 @@ import {RecipeMainInfoSectionComponent} from './recipe-main-info-section/recipe-
 import {
   RecipeMainInfoIngredientsSection
 } from './recipe-main-info-ingredients-section/recipe-main-info-ingredients-section';
+import {CookingStageSection} from './cooking-stage-section/cooking-stage-section';
 
 @Component({
   selector: 'app-add-recipe',
@@ -38,6 +39,7 @@ import {
     FormsModule,
     RecipeMainInfoSectionComponent,
     RecipeMainInfoIngredientsSection,
+    CookingStageSection,
   ],
   templateUrl: './add-recipe.html',
   styleUrl: './add-recipe.css',
@@ -68,10 +70,6 @@ class AddRecipeComponent implements OnInit {
       .subscribe(data=>this.allTags = data);
   }
 
-  protected addCookingStageToList($event: CookingStageCreateView) {
-    this.cookingStages ??= [];
-    this.cookingStages.push($event);
-  }
 
   protected submitRecipe(): Observable<RecipeCreateDTO> {
     const stages = this.cookingStages ?? [];
@@ -148,11 +146,6 @@ class AddRecipeComponent implements OnInit {
 
   }
 
-
-  protected removeStage(index: number) {
-    this.cookingStages ??= [];
-    this.cookingStages.splice(index, 1);
-  }
 }
 
 export default AddRecipeComponent
