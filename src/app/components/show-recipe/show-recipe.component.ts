@@ -13,13 +13,15 @@ import AvatarIndexedDb from '../../image_services/avatar-indexed.db';
 import {MatIcon} from '@angular/material/icon';
 import {MatButton} from '@angular/material/button';
 import {IngredientsShowRecipe} from './ingredients-show-recipe/ingredients-show-recipe';
+import {EnergyInfoShowRecipe} from './energy-info-show-recipe/energy-info-show-recipe';
 
 @Component({
   selector: 'app-show-recipe',
   imports: [
     MatIcon,
     MatButton,
-    IngredientsShowRecipe
+    IngredientsShowRecipe,
+    EnergyInfoShowRecipe
   ],
   templateUrl: './show-recipe.component.html',
   styleUrl: './show-recipe.component.css',

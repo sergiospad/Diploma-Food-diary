@@ -94,3 +94,12 @@
   min-width:  80%;
   --mat-button-filled-container-color: var(--accent-dark);
 }
+
+.divider {
+  display: block;
+  width: 100%;
+  max-width: var(--add-recipe-main-column-max);
+  margin: 2rem auto 0;
+  border: 0;
+  border-top: 1px solid var(--border-color);
+}

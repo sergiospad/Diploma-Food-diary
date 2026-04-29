@@ -9,4 +9,7 @@ export default interface EnergyValueShowDTO {
   protein: number;
   fat: number;
   carbs: number;
+  proteinPer?:number;
+  fatPer?:number;
+  carbsPer?:number;
 }

@@ -1,0 +1,34 @@
+@if (energyInfo()) {
+  <div class="container">
+    <span class="heading">Энергетическая ценность</span>
+    <mat-select
+      class="energy-select"
+      name="energy-caloricity-type"
+      [(ngModel)]="selectedType"
+      (ngModelChange)="onTypeChange($event)">
+      @for (t of types; track t) {
+        <mat-option [value]="t">{{ typeDict.get(t) }}</mat-option>
+      }
+    </mat-select>
+    <div class="energy-card">
+      <div class="energy-main">
+        <div class="energy-calories">
+          Калорийность {{ baseNutrition.calories | number: '1.0-1' }} ккал
+        </div>
+        <div class="energy-macros">
+          Б: {{ energyInfo()?.proteinPer | number: '1.0-1' | percent}} ·
+          Ж: {{ energyInfo()?.fatPer | number: '1.0-1'|percent }} ·
+          У: {{energyInfo()?.carbsPer | number: '1.0-1'|percent }}
+        </div>
+      </div>
+      <div class="energy-chart">
+        <canvas
+          baseChart
+          [type]="pieChartType"
+          [data]="pieChartData"
+          [options]="pieChartOptions">
+        </canvas>
+      </div>
+    </div>
+  </div>
+}

@@ -31,8 +31,14 @@
         </button>
       }
       <app-ingredients-show-recipe [ingredients]="recipe?.ingredients??[]">
-    </app-ingredients-show-recipe>
+      </app-ingredients-show-recipe>
+
+      <app-energy-info-show-recipe [energyInfo]="recipe?.energy">
+      </app-energy-info-show-recipe>
     </div>
 
   </div>
+  <div class="divider" role="separator" aria-hidden="true"></div>
+
+
 </div>
