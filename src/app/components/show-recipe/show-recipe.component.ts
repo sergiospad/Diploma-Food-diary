@@ -14,6 +14,7 @@ import {MatIcon} from '@angular/material/icon';
 import {MatButton} from '@angular/material/button';
 import {IngredientsShowRecipe} from './ingredients-show-recipe/ingredients-show-recipe';
 import {EnergyInfoShowRecipe} from './energy-info-show-recipe/energy-info-show-recipe';
+import {CookingStagesShowRecipe} from './cooking-stages-show-recipe/cooking-stages-show-recipe';
 
 @Component({
   selector: 'app-show-recipe',
@@ -21,7 +22,8 @@ import {EnergyInfoShowRecipe} from './energy-info-show-recipe/energy-info-show-r
     MatIcon,
     MatButton,
     IngredientsShowRecipe,
-    EnergyInfoShowRecipe
+    EnergyInfoShowRecipe,
+    CookingStagesShowRecipe
   ],
   templateUrl: './show-recipe.component.html',
   styleUrl: './show-recipe.component.css',

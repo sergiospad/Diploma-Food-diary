@@ -25,7 +25,7 @@ import {DecimalPipe, PercentPipe} from '@angular/common';
 export class EnergyInfoShowRecipe {
   energyInfo = input<EnergyValueShowDTO | undefined>();
 
-  protected readonly pieChartType: 'pie' = 'pie';
+  protected readonly pieChartType = 'pie' as const;
   protected pieChartData: ChartData<'pie', number[], string> = {
     labels: ['Белки', 'Жиры', 'Углеводы'],
     datasets: [
