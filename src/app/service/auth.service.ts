@@ -3,7 +3,6 @@ import {HttpClient} from '@angular/common/http';
 import {Endpoint} from '../util/endpoint';
 import LoginRequest from '../DTO/requests/login.request';
 import {Observable} from 'rxjs';
-import JWTTokenResponse from '../DTO/responce/jwt-token.response';
 import SignupRequest from '../DTO/requests/signup.request';
 
 @Injectable({

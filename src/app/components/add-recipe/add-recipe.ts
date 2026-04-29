@@ -1,12 +1,8 @@
-import {Component, inject, OnInit} from '@angular/core';
-import {MatFormField, MatLabel} from '@angular/material/input';
+import {Component, inject} from '@angular/core';
 import {MatButton} from '@angular/material/button';
 import IngredientCreateView from '../../DTO/entity_dto/recipe-recource/ingredient/ingredient-create.view';
 import CookingStageCreateView from '../../DTO/entity_dto/recipe-recource/cooking_stage/cooking-stage-create.view';
 import TagDto from '../../DTO/entity_dto/recipe-recource/tag.dto';
-import TagService from '../../service/recipe_resource/tag.service';
-import {MatOption} from '@angular/material/core';
-import {MatSelect} from '@angular/material/select';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import RecipeCreateDTO from '../../DTO/entity_dto/recipe/recipe-create.dto';
 import CookingStageCreateDTO from '../../DTO/entity_dto/recipe-recource/cooking_stage/cooking-stage-create.dto';
@@ -25,11 +21,7 @@ import {TagShowSection} from './tag-show-section/tag-show-section';
 @Component({
   selector: 'app-add-recipe',
   imports: [
-    MatFormField,
-    MatLabel,
     MatButton,
-    MatOption,
-    MatSelect,
     ReactiveFormsModule,
     FormsModule,
     RecipeMainInfoSectionComponent,
@@ -53,11 +45,9 @@ class AddRecipeComponent {
   protected cookingTime?:number;
   protected ingredients: IngredientCreateView[] = [];
   protected cookingStages: CookingStageCreateView[]=[];
-  protected allTags?: TagDto[];
   protected selectedTags: TagDto[] = [];
 
   protected readonly maxCookingStages = 30;
-
 
   protected submitRecipe(): Observable<RecipeCreateDTO> {
 
@@ -115,9 +105,6 @@ class AddRecipeComponent {
     };
   }
 
-  /**
-   * `true`, если форму можно отправить (кнопка: `[disabled]="!canSubmit()"`).
-   */
   protected canSubmit(): boolean {
     if (!this.title?.trim()) return false;
 

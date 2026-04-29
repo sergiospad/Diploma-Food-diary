@@ -8,7 +8,7 @@ export class NotificationService{
   private readonly snackbar = inject(MatSnackBar);
   public showSnackBar(message:string):void{
     this.snackbar.open(message, "", {
-      duration: 2000
+      duration: 20000
     });
   }
 }

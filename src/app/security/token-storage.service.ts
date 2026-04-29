@@ -56,14 +56,7 @@ export class TokenStorageService{
       globalThis.sessionStorage.setItem(ROLE_KEY, 'GUEST')
     }
   }
-  public setAvatar(file:Blob){
-    globalThis.sessionStorage.removeItem(ROLE_KEY);
-    globalThis.sessionStorage.setItem(ROLE_KEY, JSON.stringify(file));
-  }
 
-  public getAvatar():Blob{
-    return JSON.parse(<string>globalThis.sessionStorage.getItem(ROLE_KEY));
-}
   public getRole(): UserRole{
     return JSON.parse(<UserRole>globalThis.sessionStorage.getItem(ROLE_KEY))
   }

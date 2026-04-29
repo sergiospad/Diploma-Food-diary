@@ -6,10 +6,12 @@ export default interface RecipeShowDTO {
   id: number;
   authorName: string;
   avatarID:number;
+  avatar?: string;
   cookingTime: number;
   name: string;
   summary: string;
   illustrationID: number;
+  illustration?:string;
   tags: TagDTO[];
   ingredients: IngredientShowDTO[];
   cookingStages: CookingStageShowDTO[];

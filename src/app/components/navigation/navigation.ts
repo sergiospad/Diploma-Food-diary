@@ -68,7 +68,7 @@ export class NavigationComponent implements OnInit {
 
   protected readonly LOGIN = LOGIN;
   protected readonly FEED_ROOT = FEED_ROOT;
-  protected readonly stockPic = 'https://play-lh.googleusercontent.com/QTGIa44vlItPa2hs73btKocNVJfK4qEdi8EEiF8GG9JvcGSN1cVZ-gqI_2zDgGN19A=w480-h960';
+  protected readonly stockPic = 'https://cdn5.vectorstock.com/i/thumb-large/04/35/human-avatar-profile-male-avatar-vector-44780435.jpg';
   protected readonly markWord = markWord;
 
   protected user: UserProfileDto|null = null;

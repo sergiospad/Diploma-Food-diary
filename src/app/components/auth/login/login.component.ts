@@ -12,6 +12,8 @@ import {MatFormField, MatInput, MatLabel} from '@angular/material/input';
 import {MatButton} from '@angular/material/button';
 import {FEED_ROOT, REGISTER} from '../../../util/roots'
 import {httpErrorMessage} from '../../../util/error.service';
+import {catchError, switchMap, tap} from 'rxjs/operators';
+import {EMPTY, from} from 'rxjs';
 
 
 @Component({
@@ -67,24 +69,20 @@ export default class LoginComponent implements OnInit {
   private succeedAuth(data: { token: string; success?: boolean }): void {
     this.tokenService.saveToken(data.token);
     this.tokenService.saveResponse(data.success ?? true);
-    this.userService.getCurrentUser().subscribe({
-      next: (user) => {
-        this.tokenService.saveUser(user);
-        this.imageModelService.getImage(user.avatarID).subscribe({
-          next: (image) => {
-            void this.avatarRep.saveBlob(image);
-          }
-        });
-        this.notificationService.showSnackBar('Successfully logged in');
-        void this.router
-          .navigate(['/', FEED_ROOT])
-          .then(() => globalThis.location.reload());
-      },
-      error: (err: unknown) => {
-        const message = httpErrorMessage(err, 'Failed to load profile');
+    this.userService.getCurrentUser().pipe(
+      tap((user) => this.tokenService.saveUser(user)),
+      switchMap((user) => this.imageModelService.getImage(user.avatarID)),
+      switchMap((blob) => from(this.avatarRep.saveBlob(blob))),
+      tap(() => this.notificationService.showSnackBar('Successfully logged in')),
+      tap(() => {
+        void this.router.navigate(['/', FEED_ROOT]).then(() => globalThis.location.reload());
+      }),
+      catchError((error) => {
+        const message = httpErrorMessage(error, 'Failed to load profile');
         this.notificationService.showSnackBar(message);
-      },
-    });
+        return EMPTY;
+      }),
+    ).subscribe();
   }
 
   protected readonly REGISTER = REGISTER;

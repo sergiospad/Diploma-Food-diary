@@ -1,0 +1,38 @@
+<div class="container">
+  <div class="author">
+    <img class="author__image" [src]="recipe?.avatar"/>
+    <span class="author__username">{{recipe?.authorName}}</span>
+  </div>
+  <h1 class="new-recipe">{{ recipe?.name }}</h1>
+  <div class="blocks">
+    <div class="blocks__captions">
+      <div class="blocks__captions__image-preview">
+        <img
+          class="blocks__captions__title-image"
+          [src]="recipe?.illustration"
+          alt="Превью изображения рецепта">
+        <div class="blocks__captions__summary">
+          {{ recipe?.summary }}
+        </div>
+      </div>
+    </div>
+    <div class="blocks__ingredients">
+      <div class="blocks__ingredients__time">
+        <mat-icon>access_time</mat-icon>
+        @if (recipe?.cookingTime) {
+          <div class="blocks__ingredients__time__minutes">{{ recipe?.cookingTime }}
+          мин.
+          </div>
+        }
+      </div>
+      @if (ableToEdit()){
+        <button mat-flat-button class="blocks__ingredients__edit-recipe__button" (click)="editRecipe()">
+          Редактировать рецепт
+        </button>
+      }
+      <app-ingredients-show-recipe [ingredients]="recipe?.ingredients??[]">
+    </app-ingredients-show-recipe>
+    </div>
+
+  </div>
+</div>
