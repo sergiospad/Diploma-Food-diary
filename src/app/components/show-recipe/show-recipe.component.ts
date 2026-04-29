@@ -15,6 +15,7 @@ import {MatButton} from '@angular/material/button';
 import {IngredientsShowRecipe} from './ingredients-show-recipe/ingredients-show-recipe';
 import {EnergyInfoShowRecipe} from './energy-info-show-recipe/energy-info-show-recipe';
 import {CookingStagesShowRecipe} from './cooking-stages-show-recipe/cooking-stages-show-recipe';
+import {CommentsShowRecipe} from './comments-show-recipe/comments-show-recipe';
 
 @Component({
   selector: 'app-show-recipe',
@@ -23,7 +24,8 @@ import {CookingStagesShowRecipe} from './cooking-stages-show-recipe/cooking-stag
     MatButton,
     IngredientsShowRecipe,
     EnergyInfoShowRecipe,
-    CookingStagesShowRecipe
+    CookingStagesShowRecipe,
+    CommentsShowRecipe
   ],
   templateUrl: './show-recipe.component.html',
   styleUrl: './show-recipe.component.css',
@@ -51,7 +53,8 @@ export class ShowRecipeComponent implements OnInit {
         this.imageService.getImage(recipe.illustrationID).pipe(
           switchMap((blob) => from(this.imageUpload.convertBlobToDataUrl(blob))),
           tap((url) => {
-            this.recipe!.illustration = url;
+            if(this.recipe)
+                this.recipe.illustration = url;
           }),
           map(() => recipe))),
       switchMap((recipe) =>
@@ -61,12 +64,15 @@ export class ShowRecipeComponent implements OnInit {
             switchMap((blob) => from(this.imageUpload.convertBlobToDataUrl(blob))
             ))),
       tap((url) => {
-          if (url) {
-            this.recipe!.avatar = url;
+          if (url && this.recipe) {
+            this.recipe.avatar = url;
           }else{
             this.avatarDB.getBlob()
               .then((blob)=> this.imageUpload.convertBlobToDataUrl(blob))
-              .then((url)=> this.recipe!.avatar = url)
+              .then((url)=> {
+                if(this.recipe)
+                  this.recipe.avatar = url
+              })
           }
         }
       ), catchError((error) => {
@@ -86,5 +92,9 @@ export class ShowRecipeComponent implements OnInit {
 
   protected ableToEdit(){
     return this.recipe?.authorName == this.tokenService.getUser()?.username;
+  }
+
+  protected onTagClick(id: number) {
+    //TODO добавить редирект с фильтрацией
   }
 }

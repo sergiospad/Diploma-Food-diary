@@ -41,5 +41,14 @@
   <div class="divider" role="separator" aria-hidden="true"></div>
     <app-cooking-stages-show-recipe [cookingStages]="recipe?.cookingStages??[]">
     </app-cooking-stages-show-recipe>
-
+  <div class="divider" role="separator" aria-hidden="true"></div>
+  <div class="tags">
+    @for (tag of recipe?.tags; track tag.id){
+      <button class = "tags__chip" (click)="onTagClick(tag.id)">{{tag.name}}</button>
+    }
+  </div>
+  <div class="comments">
+    <app-comments-show-recipe>
+    </app-comments-show-recipe>
+  </div>
 </div>
