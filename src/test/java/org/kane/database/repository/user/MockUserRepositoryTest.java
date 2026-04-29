@@ -94,12 +94,14 @@ class MockUserRepositoryTest {
                 .id(savedUser.getId())
                 .username(savedUser.getUsername())
                 .avatarID(1L)
+                .role(Role.USER)
                 .build();
         when(principal.getName()).thenReturn(savedUser.getUsername());
         when(queryFactory.select(Projections.constructor(UserProfileDTO.class,
                 user.id,
                 user.username,
-                user.avatar.id))).thenReturn(userProfileQuery);
+                user.avatar.id,
+                user.role))).thenReturn(userProfileQuery);
         when(userProfileQuery.from(user)).thenReturn(userProfileQuery);
         when(userProfileQuery.where(any(Predicate.class))).thenReturn(userProfileQuery);
         when(userProfileQuery.fetchOne()).thenReturn(profile);
@@ -110,5 +112,6 @@ class MockUserRepositoryTest {
         assertEquals(savedUser.getId(), result.getId());
         assertEquals(savedUser.getUsername(), result.getUsername());
         assertEquals(1L, result.getAvatarID());
+        assertEquals(savedUser.getRole(), result.getRole());
     }
 }

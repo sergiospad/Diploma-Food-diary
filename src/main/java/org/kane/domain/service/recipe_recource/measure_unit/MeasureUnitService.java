@@ -1,6 +1,6 @@
 package org.kane.domain.service.recipe_recource.measure_unit;
 
-import org.kane.domain.DTO.entityDTO.recipe_recource.measure_unit.MeasureUnitDTO;
+import org.kane.domain.DTO.entityDTO.recipe_recource.MeasureUnitDTO;
 
 import java.util.List;
 
@@ -12,4 +12,5 @@ public interface MeasureUnitService {
     List<MeasureUnitDTO> getAllUnits();
 
     List<MeasureUnitDTO> getFreeUnitsByCategoryID(Long categoryID);
+
 }

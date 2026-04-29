@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/mealItem")
 @RequiredArgsConstructor
-public class MealItem {
+public class MealItemController {
 
     private final MealItemService mealItemService;
 
@@ -25,12 +25,9 @@ public class MealItem {
         return ResponseEntity.ok(new MessageResponse("Meal Item Updated Successfully"));
     }
 
-    /**
-     * DELETE /api/mealItem/delete?id=1
-     */
-    @DeleteMapping("/delete")
+    @DeleteMapping("/delete/{id}")
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-    public ResponseEntity<MessageResponse> deleteMealItem(@RequestParam("id") Long id){
+    public ResponseEntity<MessageResponse> deleteMealItem(@PathVariable Long id){
         mealItemService.deleteMealItem(id);
         return ResponseEntity.ok(new MessageResponse("Meal Item Deleted Successfully"));
     }

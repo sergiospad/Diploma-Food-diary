@@ -21,4 +21,6 @@ public interface CustomRecipeRepository {
     List<RecipeTitleSearchDTO> findTitleDTOByItem(String searchItem);
 
     RecipePreShowProjection getRecipePreShowProjByID(Long recipeID);
+
+    Long getAuthorIDByRecipeID(Long recipeID);
 }

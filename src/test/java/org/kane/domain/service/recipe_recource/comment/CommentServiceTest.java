@@ -61,6 +61,20 @@ class CommentServiceTest extends IntegrationTestServiceBase {
     }
 
     @Test
+    void createComment1() {
+        var commentCreateDTO = CommentCreateDTO.builder()
+                .message("testCommend")
+                .recipeID(4L)
+                .build();
+        var comment = commentService.createComment(principal, commentCreateDTO);
+        assertThat(comment).isNotNull();
+        assertThat(comment.getId()).isEqualTo(6L);
+        assertThat(comment.getMessage()).isEqualTo(commentCreateDTO.getMessage());
+        assertThat(comment.getUsername()).isEqualTo(principal.getName());
+        assertThat(comment.getUserAvatarID()).isEqualTo(1L);
+    }
+
+    @Test
     void deleteComment(){
         var comments = commentRepository.getAllShowDTOFromRecipeID(4L);
         assertThat(comments).isNotNull().hasSize(2);

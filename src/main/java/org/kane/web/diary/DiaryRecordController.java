@@ -46,7 +46,7 @@ public class DiaryRecordController {
     @GetMapping("/consumption")
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<CalorieConsumptionShowDTO> getConsumptionOfDiaryRecord(Principal principal,
-                                                                                 @RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDate date){
+                                                                                 @RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date){
         var result = diaryRecordService.getConsumptionOfDiaryRecord(principal, date);
         return ResponseEntity.ok().body(result);
     }

@@ -29,13 +29,14 @@ public class ImageUploadService {
 
     public static final Path DEFAULT_USER_AVATAR_PATH = BUCKET
             .resolve(ImagePrefix.USER.toString())
+            .resolve("default")
             .resolve(DEFAULT_USER_AVATAR_FILE);
 
     @SneakyThrows
     public static Optional<byte[]> get(Path imagePath){
-        Path fullPath = BUCKET.resolve(imagePath.toString());
-        return Files.exists(fullPath)?
-                Optional.of(Files.readAllBytes(fullPath))
+//        Path fullPath = BUCKET.resolve(imagePath.toString());
+        return Files.exists(imagePath)?
+                Optional.of(Files.readAllBytes(imagePath))
                 :Optional.empty();
     }
 

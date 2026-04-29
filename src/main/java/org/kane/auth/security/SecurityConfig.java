@@ -20,6 +20,9 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.kane.auth.security.SecurityConstants.SIGN_UP_URLS;
+import static org.kane.auth.security.SecurityConstants.TAGS_ALL;
+
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -38,7 +41,8 @@ public class SecurityConfig{
                         .maxSessionsPreventsLogin(false)
                 )
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(SecurityConstants.SIGN_UP_URLS).permitAll()
+                        .requestMatchers(SIGN_UP_URLS).permitAll()
+                        .requestMatchers(TAGS_ALL).permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)

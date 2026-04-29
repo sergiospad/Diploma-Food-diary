@@ -22,7 +22,7 @@ public class SportsActivityController {
 
     private final SportsActivityService sportsActivityService;
 
-    @PutMapping("create")
+    @PutMapping("/create")
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<SportActivityShowDTO> createSportActivity(Principal principal, @RequestBody SportsActivityCreateDTO sportsActivityCreateDTO){
         var result = sportsActivityService.createActivity(principal, sportsActivityCreateDTO);
@@ -36,12 +36,9 @@ public class SportsActivityController {
         return ResponseEntity.ok(result);
     }
 
-    /**
-     * DELETE /api/sportsActivity/delete?id=1
-     */
-    @DeleteMapping("/delete")
+    @DeleteMapping("/delete/{id}")
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-    public ResponseEntity<MessageResponse> deleteActivity(@RequestParam("id") Long id){
+    public ResponseEntity<MessageResponse> deleteActivity(@PathVariable Long id){
         sportsActivityService.deleteSportActivity(id);
         return ResponseEntity.ok(new MessageResponse("Deleted"));
     }

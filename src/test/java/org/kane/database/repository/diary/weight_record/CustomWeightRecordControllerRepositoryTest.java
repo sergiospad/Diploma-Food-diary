@@ -31,7 +31,7 @@ import static org.junit.jupiter.api.Assertions.*;
                 config = @SqlConfig(transactionMode = SqlConfig.TransactionMode.ISOLATED)
         )
 })
-class CustomWeightRecordRepositoryTest extends IntegrationTestBase {
+class CustomWeightRecordControllerRepositoryTest extends IntegrationTestBase {
 
     private User savedUser;
     private WeightRecord savedWeightRecord1;

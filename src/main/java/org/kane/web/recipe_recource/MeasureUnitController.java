@@ -2,7 +2,7 @@ package org.kane.web.recipe_recource;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.kane.domain.DTO.entityDTO.recipe_recource.measure_unit.MeasureUnitDTO;
+import org.kane.domain.DTO.entityDTO.recipe_recource.MeasureUnitDTO;
 import org.kane.domain.service.recipe_recource.measure_unit.MeasureUnitService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,9 +19,6 @@ public class MeasureUnitController {
 
     private final MeasureUnitService measureUnitService;
 
-    /**
-     * GET /api/measureUnit/all?id=1
-     */
     @GetMapping("/all/{id}")
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<List<MeasureUnitDTO>> findAllMeasureUnit(@PathVariable Long id){
@@ -30,9 +27,9 @@ public class MeasureUnitController {
     }
 
     /**
-     * PUT /api/measureUnit/create?name=n
+     * GET /api/measureUnit/create?name=n
      */
-    @PutMapping("/create")
+    @GetMapping("/create")
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<MeasureUnitDTO> createMeasureUnit(@RequestParam("name") String name){
         var result = measureUnitService.createMeasureUnit(name);
@@ -52,8 +49,4 @@ public class MeasureUnitController {
         var result = measureUnitService.getFreeUnitsByCategoryID(id);
         return ResponseEntity.ok(result);
     }
-
-
-
-
 }

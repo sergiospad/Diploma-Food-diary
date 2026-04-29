@@ -3,6 +3,8 @@ package org.kane.domain.DTO.entityDTO.recipe;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
 @AllArgsConstructor
 public class RecipePreShowProjection {
@@ -13,4 +15,5 @@ public class RecipePreShowProjection {
     String name;
     String summary;
     Long illustrationID;
+    LocalDateTime createdAt;
 }

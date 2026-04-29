@@ -6,7 +6,7 @@ import org.kane.database.entity.Product;
 import org.kane.database.entity.User;
 import org.kane.database.entity.recipe_recource.Category;
 import org.kane.database.enum_types.NutritionType;
-import org.kane.domain.DTO.entityDTO.recipe_recource.measure_unit.MeasureUnitDTO;
+import org.kane.domain.DTO.entityDTO.recipe_recource.MeasureUnitDTO;
 import org.kane.exceptions.not_found.NoSuchProductException;
 import org.kane.integration.IntegrationTestBase;
 import org.kane.integration.SavedEntities;

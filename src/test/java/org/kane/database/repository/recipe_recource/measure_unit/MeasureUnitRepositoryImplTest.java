@@ -4,7 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.kane.database.entity.recipe_recource.Ingredient;
 import org.kane.database.entity.recipe_recource.MeasureUnit;
-import org.kane.domain.DTO.entityDTO.recipe_recource.measure_unit.MeasureUnitDTO;
+import org.kane.domain.DTO.entityDTO.recipe_recource.MeasureUnitDTO;
 import org.kane.exceptions.not_found.MeasureUnitNotFound;
 import org.kane.integration.IntegrationTestBase;
 import org.kane.integration.SavedEntities;

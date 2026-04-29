@@ -16,4 +16,6 @@ public interface RecipeService {
     RecipeShowDTO updateRecipe(RecipeEditDTO recipeEditDTO);
 
     RecipeShowDTO showRecipe(Long recipeID);
+
+    Long getAuthorOfRecipe(Long recipeID);
 }

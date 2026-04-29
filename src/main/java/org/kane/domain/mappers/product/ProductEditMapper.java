@@ -13,12 +13,12 @@ public class ProductEditMapper implements CopyMapper<ProductEditDTO, Product> {
     @Override
     public Product copyMap(ProductEditDTO from, Product to) {
         to.setName(from.getTitle());
-        to.setDescription(from.getDescription());
-        to.setIsPrivate(from.getIsPrivate());
-        to.setCalories(from.getCalories());
-        to.setProtein(from.getProtein());
-        to.setFat(from.getFat());
-        to.setCarbs(from.getCarbs());
+        to.setDescription(Optional.ofNullable(from.getDescription()).orElse(to.getDescription()));
+        to.setIsPrivate(Optional.ofNullable(from.getIsPrivate()).orElse(to.getIsPrivate()));
+        to.setCalories(Optional.ofNullable(from.getCalories()).orElse(to.getCalories()));
+        to.setProtein(Optional.ofNullable(from.getProtein()).orElse(to.getProtein()));
+        to.setFat(Optional.ofNullable(from.getFat()).orElse(to.getFat()));
+        to.setCarbs(Optional.ofNullable(from.getCarbs()).orElse(to.getCarbs()));
         return to;
     }
 }

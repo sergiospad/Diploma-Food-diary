@@ -43,7 +43,8 @@ public class UserRepositoryImpl implements CustomUserRepository {
         return queryFactory.select(Projections.constructor(UserProfileDTO.class,
                 user.id,
                 user.username,
-                user.avatar.id))
+                user.avatar.id,
+                user.role))
                 .from(user)
                 .where(user.username.eq(username))
                 .fetchOne();

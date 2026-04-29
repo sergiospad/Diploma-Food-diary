@@ -6,7 +6,7 @@ import org.kane.domain.DTO.entityDTO.nutritional_info.NutritionShowProjection;
 import org.kane.domain.DTO.entityDTO.product.ProductCreateDTO;
 import org.kane.domain.DTO.entityDTO.product.ProductEditDTO;
 import org.kane.domain.DTO.entityDTO.product.ProductSearchDTO;
-import org.kane.domain.DTO.entityDTO.recipe_recource.measure_unit.MeasureUnitDTO;
+import org.kane.domain.DTO.entityDTO.recipe_recource.MeasureUnitDTO;
 import org.kane.domain.DTO.response.MessageResponse;
 import org.kane.domain.service.product.ProductService;
 import org.springframework.http.ResponseEntity;

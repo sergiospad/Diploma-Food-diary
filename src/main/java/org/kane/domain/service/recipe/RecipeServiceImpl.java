@@ -157,6 +157,11 @@ public class RecipeServiceImpl implements RecipeService {
         return fromPreShowToShow(recipeRepository.getRecipePreShowProjByID(recipeID));
     }
 
+    @Override
+    public Long getAuthorOfRecipe(Long recipeID){
+        return recipeRepository.getAuthorIDByRecipeID(recipeID);
+    }
+
 
 
 

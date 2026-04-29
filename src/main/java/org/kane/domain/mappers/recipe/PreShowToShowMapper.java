@@ -17,6 +17,7 @@ public class PreShowToShowMapper implements Mapper<RecipePreShowProjection, Reci
                 .name(from.getName())
                 .summary(from.getSummary())
                 .illustrationID(from.getIllustrationID())
+                .createdAt(from.getCreatedAt())
                 .build();
     }
 }

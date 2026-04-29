@@ -3,7 +3,6 @@ package org.kane.web.recipe_recource;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.kane.database.entity.recipe_recource.Comment;
 import org.kane.domain.DTO.entityDTO.recipe_recource.comment.CommentCreateDTO;
 import org.kane.domain.DTO.entityDTO.recipe_recource.comment.CommentShowDTO;
 import org.kane.domain.DTO.response.MessageResponse;
@@ -13,6 +12,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 @Slf4j
 @CrossOrigin
@@ -38,6 +38,12 @@ public class CommentController {
     public ResponseEntity<MessageResponse> deleteComment(Principal principal, @RequestParam("id") Long id) {
         commentService.deleteComment(principal, id);
         return ResponseEntity.ok(new MessageResponse("Comment has been deleted"));
+    }
+
+    @GetMapping("/get/{recipeID}")
+    @PreAuthorize("permitAll()")
+    public ResponseEntity<List<CommentShowDTO>> getByRecipeID(@PathVariable Long recipeID) {
+        return ResponseEntity.ok(commentService.getByRecipeID(recipeID));
     }
 
 }

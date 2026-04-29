@@ -21,7 +21,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/weightRecord")
 @RequiredArgsConstructor
-public class WeightRecord {
+public class WeightRecordController {
 
     private final WeightRecordService weightRecordService;
 

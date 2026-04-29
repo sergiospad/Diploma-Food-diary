@@ -62,7 +62,7 @@ public class RecipeController {
         return ResponseEntity.ok(result);
     }
 
-    @PatchMapping("/create")
+    @PatchMapping("/edit")
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<RecipeShowDTO> updateRecipe(@RequestBody RecipeEditDTO recipeEditDTO) {
         var result = recipeService.updateRecipe(recipeEditDTO);
@@ -70,12 +70,18 @@ public class RecipeController {
     }
 
     /**
-     * GET /api/recipe/show?recipeID=1
+     * GET /api/recipe/show?id=1
      */
     @GetMapping("/show")
     @PreAuthorize("permitAll()")
-    public ResponseEntity<RecipeShowDTO> showRecipe(@RequestParam("recipeID") Long recipeID) {
+    public ResponseEntity<RecipeShowDTO> showRecipe(@RequestParam("id") Long recipeID) {
         var result = recipeService.showRecipe(recipeID);
         return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/author/{recipeID}")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    public ResponseEntity<Long> findRecipeAuthor(@PathVariable Long recipeID) {
+        return ResponseEntity.ok(recipeService.getAuthorOfRecipe(recipeID));
     }
 }

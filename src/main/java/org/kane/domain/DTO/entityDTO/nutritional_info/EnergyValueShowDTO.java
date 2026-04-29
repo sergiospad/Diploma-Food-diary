@@ -40,7 +40,6 @@ public class EnergyValueShowDTO {
 
     public EnergyValueShowDTO divide(Double coefficient){
         var copy = copy();
-        copy.productWeight = this.productWeight.divide(coefficient);
         copy.calories.divide(coefficient);
         copy.protein.divide(coefficient);
         copy.fat.divide(coefficient);

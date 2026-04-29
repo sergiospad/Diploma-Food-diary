@@ -7,6 +7,7 @@ import org.kane.domain.DTO.entityDTO.recipe_recource.TagDTO;
 import org.kane.domain.DTO.entityDTO.recipe_recource.cooking_stage.CookingStageShowDTO;
 import org.kane.domain.DTO.entityDTO.recipe_recource.ingredient.IngredientShowDTO;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -23,4 +24,5 @@ public class RecipeShowDTO {
     private List<IngredientShowDTO> ingredients;
     private EnergyValueShowDTO energy;
     private List<CookingStageShowDTO> cookingStages;
+    private LocalDateTime createdAt;
 }

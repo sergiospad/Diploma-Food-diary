@@ -13,7 +13,7 @@ import org.kane.database.repository.product.ProductRepository;
 import org.kane.domain.DTO.entityDTO.product.ProductCreateDTO;
 import org.kane.domain.DTO.entityDTO.product.ProductEditDTO;
 import org.kane.domain.DTO.entityDTO.product.ProductSearchDTO;
-import org.kane.domain.DTO.entityDTO.recipe_recource.measure_unit.MeasureUnitDTO;
+import org.kane.domain.DTO.entityDTO.recipe_recource.MeasureUnitDTO;
 import org.kane.integration.IntegrationTestServiceBase;
 import org.kane.integration.SavedEntities;
 import org.springframework.beans.factory.annotation.Autowired;

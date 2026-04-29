@@ -17,7 +17,7 @@ import java.security.Principal;
 @RestController
 @RequestMapping("/api/meal")
 @RequiredArgsConstructor
-public class Meal {
+public class MealController {
 
     private final MealService mealService;
 

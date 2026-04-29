@@ -30,6 +30,11 @@ public class Comment {
     @Column(updatable = false)
     private LocalDateTime createdAt;
 
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = LocalDateTime.now();
+    }
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "commentator_id")
     private User commentator;

@@ -1,4 +1,4 @@
-package org.kane.domain.DTO.entityDTO.recipe_recource.measure_unit;
+package org.kane.domain.DTO.entityDTO.recipe_recource;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

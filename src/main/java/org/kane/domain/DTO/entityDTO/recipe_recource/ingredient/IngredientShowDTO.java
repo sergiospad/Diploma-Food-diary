@@ -2,7 +2,7 @@ package org.kane.domain.DTO.entityDTO.recipe_recource.ingredient;
 
 import lombok.Builder;
 import lombok.Data;
-import org.kane.domain.DTO.entityDTO.recipe_recource.measure_unit.MeasureUnitDTO;
+import org.kane.domain.DTO.entityDTO.recipe_recource.MeasureUnitDTO;
 
 import java.util.List;
 

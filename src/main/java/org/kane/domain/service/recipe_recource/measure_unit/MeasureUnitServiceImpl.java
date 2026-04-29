@@ -3,7 +3,7 @@ package org.kane.domain.service.recipe_recource.measure_unit;
 import lombok.RequiredArgsConstructor;
 import org.kane.database.entity.recipe_recource.MeasureUnit;
 import org.kane.database.repository.recipe_recource.measure_unit.MeasureUnitRepository;
-import org.kane.domain.DTO.entityDTO.recipe_recource.measure_unit.MeasureUnitDTO;
+import org.kane.domain.DTO.entityDTO.recipe_recource.MeasureUnitDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

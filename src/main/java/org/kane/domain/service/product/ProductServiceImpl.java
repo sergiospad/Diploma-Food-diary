@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.kane.database.repository.recipe_recource.category.CategoryRepository;
 import org.kane.database.repository.product.ProductRepository;
 import org.kane.database.repository.user.UserRepository;
-import org.kane.domain.DTO.entityDTO.recipe_recource.measure_unit.MeasureUnitDTO;
+import org.kane.domain.DTO.entityDTO.recipe_recource.MeasureUnitDTO;
 import org.kane.domain.DTO.entityDTO.nutritional_info.NutritionShowProjection;
 import org.kane.domain.DTO.entityDTO.product.ProductCreateDTO;
 import org.kane.domain.DTO.entityDTO.product.ProductEditDTO;

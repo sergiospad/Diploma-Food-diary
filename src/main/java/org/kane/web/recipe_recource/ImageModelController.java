@@ -34,28 +34,25 @@ public class ImageModelController {
         return ResponseEntity.ok(result);
     }
 
-    /**
-     * GET /api/imageModel/get?id=1
-     */
-    @GetMapping("/get")
+    @GetMapping("/get/{id}")
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-    public ResponseEntity<byte[]> getImage(@RequestParam("id") Long id) {
+    public ResponseEntity<byte[]> getImage(@PathVariable Long id) {
         var result = imageModelService.getImage(id);
         return ResponseEntity.ok(result);
     }
 
-    @PatchMapping(value ="/update", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PatchMapping(value ="/update/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<MessageResponse> updateImage(Principal principal,
-                                                       @RequestParam("id") Long id,
+                                                       @PathVariable Long id,
                                                        @RequestPart("file") MultipartFile file){
         imageModelService.updateImage(principal, file, id);
         return ResponseEntity.ok(new MessageResponse("Image has been updated successfully"));
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping("/delete/{id}")
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-    public ResponseEntity<MessageResponse> deleteImage(@RequestParam("id") Long id){
+    public ResponseEntity<MessageResponse> deleteImage(@PathVariable Long id){
         imageModelService.deleteImage(id);
         return ResponseEntity.ok(new MessageResponse("Image has been deleted successfully"));
     }

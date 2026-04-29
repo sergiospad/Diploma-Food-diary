@@ -37,6 +37,11 @@ public class Recipe extends NutritionalInfo {
     @Column(updatable = false)
     private LocalDateTime createdAt;
 
+    @PrePersist
+    private void prePersist(){
+        this.createdAt = LocalDateTime.now();
+    }
+
     @OneToMany(
             cascade = CascadeType.REFRESH,
             fetch = FetchType.LAZY,

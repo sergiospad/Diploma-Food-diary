@@ -29,7 +29,7 @@ import static org.junit.jupiter.api.Assertions.*;
                 config = @SqlConfig(transactionMode = SqlConfig.TransactionMode.ISOLATED)
         )
 })
-class WeightRecordServiceTest extends IntegrationTestServiceBase {
+class WeightRecordControllerServiceTest extends IntegrationTestServiceBase {
 
     @Autowired
     private WeightRecordService weightRecordService;

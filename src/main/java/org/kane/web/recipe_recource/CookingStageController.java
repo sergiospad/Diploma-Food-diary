@@ -23,7 +23,7 @@ public class CookingStageController {
 
     @PatchMapping("/edit")
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-    public ResponseEntity<MessageResponse> editCoefficient(@RequestBody CookingStageEditDescDTO dto) {
+    public ResponseEntity<MessageResponse> editCookingStage(@RequestBody CookingStageEditDescDTO dto) {
         cookingStageService.editCookingStage(dto);
         return ResponseEntity.ok(new MessageResponse("Coefficient Edited Successfully"));
     }

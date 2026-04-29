@@ -116,11 +116,20 @@ public class CustomRecipeRepositoryImpl implements CustomRecipeRepository {
                     recipe.cookingTime,
                     recipe.name,
                     recipe.summary.as("summary"),
-                    recipe.illustration.id.as("illustrationID")))
+                    recipe.illustration.id.as("illustrationID"),
+                    recipe.createdAt))
                 .from(recipe)
                 .join(recipe.author, user)
                 .where(recipe.id.eq(recipeID))
                 .distinct()
+                .fetchOne();
+    }
+    @Override
+    public Long getAuthorIDByRecipeID(Long recipeID){
+        return new JPAQuery<Long>(em).select(recipe.author.id)
+                .from(recipe)
+                .join(recipe.author, user)
+                .where(recipe.id.eq(recipeID))
                 .fetchOne();
     }
 }

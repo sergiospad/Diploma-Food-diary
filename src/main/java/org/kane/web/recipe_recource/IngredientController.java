@@ -21,22 +21,16 @@ public class IngredientController {
 
     private final IngredientService ingredientService;
 
-    /**
-     * DELETE /api/ingredient/delete?id=1
-     */
-    @DeleteMapping("/delete")
+    @DeleteMapping("/delete/{id}")
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-    public ResponseEntity<MessageResponse> removeIngredient(@RequestParam("id") Long id){
+    public ResponseEntity<MessageResponse> removeIngredient(@PathVariable Long id){
         ingredientService.removeIngredient(id);
         return ResponseEntity.ok(new MessageResponse("Ingredient has been removed"));
     }
 
-    /**
-     * GET /api/ingredient/get?id=1
-     */
-    @GetMapping("/get")
+    @GetMapping("/get/{id}")
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-    public ResponseEntity<List<IngredientShowDTO>> getShowIngredients(@RequestParam("id") Long id){
+    public ResponseEntity<List<IngredientShowDTO>> getShowIngredients(@PathVariable Long id){
         var result = ingredientService.getShowIngredients(id);
         return ResponseEntity.ok(result);
     }
