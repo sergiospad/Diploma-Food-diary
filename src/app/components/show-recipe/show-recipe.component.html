@@ -41,6 +41,9 @@
   <div class="divider" role="separator" aria-hidden="true"></div>
     <app-cooking-stages-show-recipe [cookingStages]="recipe?.cookingStages??[]">
     </app-cooking-stages-show-recipe>
+  @if (recipe) {
+    <div class="recipe__date">Опубликовано: {{ recipe.createdAt | dateFormat }}</div>
+  }
   <div class="divider" role="separator" aria-hidden="true"></div>
   <div class="tags">
     @for (tag of recipe?.tags; track tag.id){
@@ -48,7 +51,7 @@
     }
   </div>
   <div class="comments">
-    <app-comments-show-recipe>
+    <app-comments-show-recipe [recipeId]="recipeId">
     </app-comments-show-recipe>
   </div>
 </div>

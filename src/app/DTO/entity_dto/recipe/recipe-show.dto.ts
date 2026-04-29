@@ -17,4 +17,5 @@ export default interface RecipeShowDTO {
   ingredients: IngredientShowDTO[];
   energy: EnergyValueShowDTO;
   cookingStages: CookingStageShowDTO[];
+  createdAt:Date;
 }

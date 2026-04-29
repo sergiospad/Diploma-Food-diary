@@ -1,0 +1,57 @@
+<div class="comments-add">
+  <input
+    type="file"
+    accept="image/*"
+    hidden
+    #fileInput
+    (change)="selectImage($event)">
+
+  <div class="comments-add__row">
+    <div class="comments-add__media">
+      @if (commentImageURL()) {
+        <div class="comments-add__preview">
+          <img [src]="commentImageURL()" alt="Превью вложения" loading="lazy">
+          <button
+            type="button"
+            class="comments-add__preview-action"
+            (click)="fileInput.click()"
+            aria-label="Заменить изображение">
+            Заменить
+          </button>
+        </div>
+      } @else {
+        <button
+          type="button"
+          mat-stroked-button
+          class="comments-add__pick-image"
+          (click)="fileInput.click()">
+          <mat-icon>add_photo_alternate</mat-icon>
+          <span>Прикрепить фото</span>
+        </button>
+      }
+    </div>
+
+    <mat-form-field class="comments-add__field" appearance="outline">
+      <mat-label>Комментарий</mat-label>
+      <textarea
+        matInput
+        rows="3"
+        [value]="message()"
+        (input)="message.set($any($event.target).value)"
+        placeholder="Напишите сообщение…"></textarea>
+    </mat-form-field>
+  </div>
+
+  <div class="comments-add__actions">
+    <button
+      type="button"
+      mat-flat-button
+      color="primary"
+      class="comments-add__submit"
+      [disabled]="!message().trim() && !commentImageURL()"
+      (click)="submitComment()">
+      <mat-icon>send</mat-icon>
+      <span>Отправить</span>
+    </button>
+  </div>
+</div>

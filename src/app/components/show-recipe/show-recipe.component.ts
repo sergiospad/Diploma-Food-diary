@@ -16,6 +16,8 @@ import {IngredientsShowRecipe} from './ingredients-show-recipe/ingredients-show-
 import {EnergyInfoShowRecipe} from './energy-info-show-recipe/energy-info-show-recipe';
 import {CookingStagesShowRecipe} from './cooking-stages-show-recipe/cooking-stages-show-recipe';
 import {CommentsShowRecipe} from './comments-show-recipe/comments-show-recipe';
+import {DatePipe} from '@angular/common';
+import {DateFormatter} from '../../util/date-formatter';
 
 @Component({
   selector: 'app-show-recipe',
@@ -25,7 +27,8 @@ import {CommentsShowRecipe} from './comments-show-recipe/comments-show-recipe';
     IngredientsShowRecipe,
     EnergyInfoShowRecipe,
     CookingStagesShowRecipe,
-    CommentsShowRecipe
+    CommentsShowRecipe,
+    DateFormatter
   ],
   templateUrl: './show-recipe.component.html',
   styleUrl: './show-recipe.component.css',

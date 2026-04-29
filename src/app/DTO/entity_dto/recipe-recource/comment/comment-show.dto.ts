@@ -4,8 +4,8 @@ export default interface CommentShowDTO{
   userAvatarID:number;
   message:string;
   createdAt:Date;
-  imageID:number;
+  imageID?:number;
 
-  image?: Blob;
-  userAvatar?: Blob;
+  image?: string;
+  userAvatar?: string;
 }

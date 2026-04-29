@@ -6,7 +6,7 @@ export type CaloricityType = 'PER_HUNDRED' | 'ALL';
 
 export type NutritionType = 'PRODUCT' | 'RECIPE';
 
-export type ImageType = 'RECIPE' | 'USER' | 'COOKING_STAGE';
+export type ImageType = 'RECIPE' | 'USER' | 'COOKING_STAGE' | 'COMMENT';
 
 /** ISO 8601 date only: yyyy-MM-dd — same shape as Java LocalDate in JSON. */
 export type CalendarDate = string;

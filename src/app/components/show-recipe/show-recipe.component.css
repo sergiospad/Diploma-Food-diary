@@ -104,6 +104,19 @@
   border-top: 1px solid var(--border-color);
 }
 
+.recipe__date {
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  margin: 3rem 0 0 auto;
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+  color: color-mix(in srgb, var(--dark) 88%, #fff);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
 .tags {
   margin-top: 2rem;
   display: flex;
@@ -133,3 +146,4 @@
   background-color: var(--light);
   box-shadow: 0 0 0 1px rgba(251, 183, 49, 0.35);
 }
+
