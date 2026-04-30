@@ -25,7 +25,10 @@ export class EditRecipeIngredientsShow {
   protected removeIngredient($index: number) {
     const id = this.recipe().ingredients[$index].id;
     this.recipe().ingredients.splice($index, 1);
-    this.recipeEdit().removedIngredients.push(id);
+    this.recipeEdit.update((state) => ({
+      ...state,
+      removedIngredients: [...(state.removedIngredients ?? []), id],
+    }));
   }
 
 
@@ -38,7 +41,10 @@ export class EditRecipeIngredientsShow {
       this.indexToEdit.set(-1);
       return;
     }
-    this.recipeEdit().editedIngredients.push(event);
+    this.recipeEdit.update((state) => ({
+      ...state,
+      editedIngredients: [...(state.editedIngredients ?? []), event],
+    }));
     this.indexToEdit.set(-1);
   }
 }

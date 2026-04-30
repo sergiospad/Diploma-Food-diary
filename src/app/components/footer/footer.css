@@ -1,5 +1,5 @@
 .footer {
-  margin-top: 3rem;
+  margin-top: auto;
   border-top: 1px solid var(--border-color);
   background: color-mix(in srgb, var(--footer-color) 94%, white);
   color: var(--light);

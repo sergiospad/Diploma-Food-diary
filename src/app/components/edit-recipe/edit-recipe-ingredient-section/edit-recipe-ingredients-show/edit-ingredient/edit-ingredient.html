@@ -4,7 +4,7 @@
     <div class = "new-ingredient__amount-and-mu">
       <mat-form-field class="new-ingredient__amount" appearance="outline">
         <mat-label>Количество</mat-label>
-        <input matInput formControlName="amount" (change)="onChangeAmount($any($event).input.value)"/>
+        <input matInput formControlName="amount" (input)="onChangeAmount($any($event.target).value)"/>
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="new-ingredient__mu">
