@@ -1,5 +1,5 @@
 import {inject, Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Endpoint} from '../util/endpoint';
 import RecipePreviewRequest from '../DTO/requests/recipe-preview.request';
 import {Observable} from 'rxjs';
@@ -52,11 +52,14 @@ export default class RecipeService {
   }
 
   updateRecipe(recipe: RecipeEditDto):Observable<RecipeShowDTO>{
+    const headers = new HttpHeaders({'Content-Type': 'application/json'});
     return this.http.patch<RecipeShowDTO>(
       this.recipeAPI.builder()
         .points("edit")
         .build(),
-      recipe)
+      recipe,
+      {headers},
+    );
   }
 
   showRecipe(id: number): Observable<RecipeShowDTO>{

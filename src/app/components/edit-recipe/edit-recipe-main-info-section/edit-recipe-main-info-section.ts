@@ -26,13 +26,24 @@ export class EditRecipeMainInfoSection {
     this.recipeEdit().name = value;
   }
 
-  selectImage(event:Event): void {
-    const input = event.target as HTMLInputElement
-    if(input.files?.[0]){
-      this.recipeEdit().titleImage = input.files[0];
-      this.imageUpload.convertBlobToDataUrl( input.files[0])
-        .then(r => this.recipe().illustration = r)
+  selectImage(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+    if (!file) {
+      return;
     }
+    this.recipeEdit.update((rec) => ({
+      ...rec,
+      titleImage: file,
+    }));
+    void this.imageUpload.convertBlobToDataUrl(file).then((url) => {
+      queueMicrotask(() => {
+        this.recipe.update((rec) => ({
+          ...rec,
+          illustration: url,
+        }));
+      });
+    });
   }
 
   protected onSummaryChange(value:string) {

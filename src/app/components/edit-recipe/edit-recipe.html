@@ -16,22 +16,23 @@
     </app-edit-recipe-cooking-stages>
   </div>
   <div class="divider"></div>
-<!--  <app-tag-show-section (toMainComponentSelectedTags)="selectedTags=$event">-->
-<!--  </app-tag-show-section>-->
+  <app-edit-tags [(recipe)]="recipe"
+                 [(recipeEdit)]="recipeEdit">
+  </app-edit-tags>
   <div class="divider"></div>
   <div class="submit-button">
-<!--    <button-->
-<!--      mat-flat-button-->
-<!--      class="submit__active__button"-->
-<!--      (click)="saveRecipe()">-->
-<!--      Подтвердить-->
-<!--    </button>-->
-<!--    <button-->
-<!--      mat-flat-button-->
-<!--      class="submit__active__button"-->
-<!--      (click)="saveRecipe()">-->
-<!--      Отмена-->
-<!--    </button>-->
+    <button
+      mat-flat-button
+      class="submit__active__button"
+      (click)="saveRecipe()">
+      Подтвердить
+    </button>
+    <button
+      mat-flat-button
+      class="submit__active__button"
+      (click)="cancel()">
+      Отмена
+    </button>
   </div>
 
 </div>

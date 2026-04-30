@@ -38,7 +38,9 @@ export class EditRecipeShowStage implements OnInit {
     this.cookingStage.set(stage);
     this.imageModelService.getImage(stage.imageId).pipe(
       switchMap((blob) => this.imageUpload.convertBlobToDataUrl(blob)),
-      tap((url) => this.image.set(url)),
+      tap((url) => {
+        queueMicrotask(() => this.image.set(url));
+      }),
     ).subscribe();
   }
 
@@ -47,9 +49,9 @@ export class EditRecipeShowStage implements OnInit {
       ...rec,
       cookingStages: rec.cookingStages.filter((_, i) => i !== this.index()),
     }));
-    this.recipeEdit.update(rec=> ({
+    this.recipeEdit.update((rec) => ({
       ...rec,
-      removedStages: [...rec.removedStages, this.cookingStage().id]
+      removedStages: [...(rec.removedStages ?? []), this.cookingStage().id],
     }));
   }
 

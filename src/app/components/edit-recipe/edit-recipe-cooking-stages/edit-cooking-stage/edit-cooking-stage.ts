@@ -52,6 +52,7 @@ export class EditCookingStage implements OnInit {
     const input = event.target as HTMLInputElement
     if (input.files?.[0]) {
       this.cookingStageProjection().image = input.files[0];
+      this.cookingStageProjection().imageID = this.cookingStage().imageId
       this.imageUploadService.convertBlobToDataUrl(input.files[0])
         .then(r => this.image.set(r))
     }

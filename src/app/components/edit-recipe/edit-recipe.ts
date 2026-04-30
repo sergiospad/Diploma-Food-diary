@@ -1,32 +1,30 @@
 import {Component, inject, OnInit, signal} from '@angular/core';
-import {RECIPE_ID} from '../../util/roots';
-import {ActivatedRoute} from '@angular/router';
+import {RECIPE, RECIPE_ID} from '../../util/roots';
+import {ActivatedRoute, Router} from '@angular/router';
 import RecipeService from '../../service/recipe.service';
 import RecipeShowDTO from '../../DTO/entity_dto/recipe/recipe-show.dto';
-import RecipeEditDto from '../../DTO/entity_dto/recipe/recipe-edit.dto';
-import {CookingStageSection} from '../add-recipe/cooking-stage-section/cooking-stage-section';
 import {MatButton} from '@angular/material/button';
-import {
-  RecipeMainInfoIngredientsSection
-} from '../add-recipe/recipe-main-info-ingredients-section/recipe-main-info-ingredients-section';
-import {RecipeMainInfoSectionComponent} from '../add-recipe/recipe-main-info-section/recipe-main-info-section';
-import {TagShowSection} from '../add-recipe/tag-show-section/tag-show-section';
 import {EditRecipeMainInfoSection} from './edit-recipe-main-info-section/edit-recipe-main-info-section';
 import RecipeEditProjection from '../../DTO/entity_dto/recipe/recipe-edit-projection';
-import {map, switchMap, tap} from 'rxjs/operators';
+import {catchError, map, switchMap, tap} from 'rxjs/operators';
 import ImageModelService from '../../service/recipe_resource/image-model.service';
 import {ImageUploadService} from '../../image_services/image-upload.service';
-import {from} from 'rxjs';
+import {from, Observable, of} from 'rxjs';
 import {EditRecipeIngredientSection} from './edit-recipe-ingredient-section/edit-recipe-ingredient-section';
-import {CookingTimeStepper} from '../add-recipe/recipe-main-info-ingredients-section/cooking-time-stepper';
 import {EditRecipeCookingStages} from './edit-recipe-cooking-stages/edit-recipe-cooking-stages';
+import {EditTags} from './edit-tags/edit-tags';
+import RecipeEditDto from '../../DTO/entity_dto/recipe/recipe-edit.dto';
+import IngredientEditDTO from '../../DTO/entity_dto/recipe-recource/ingredient/ingredient-edit.dto';
+import {NotificationService} from '../../security/notification-service';
 
 @Component({
   selector: 'app-edit-recipe',
   imports: [
     EditRecipeMainInfoSection,
     EditRecipeIngredientSection,
-    EditRecipeCookingStages
+    EditRecipeCookingStages,
+    EditTags,
+    MatButton
   ],
   templateUrl: './edit-recipe.html',
   styleUrl: './edit-recipe.css',
@@ -36,6 +34,9 @@ export class EditRecipeComponent implements OnInit {
   private readonly recipeService = inject(RecipeService);
   private readonly imageService = inject(ImageModelService);
   private readonly imageUploadService = inject(ImageUploadService);
+  private readonly notificationService = inject(NotificationService);
+  private readonly route = inject(Router);
+
   recipeId = Number(this.activatedRoute.snapshot.paramMap.get(RECIPE_ID));
   recipe = signal<RecipeShowDTO>({} as RecipeShowDTO);
   recipeEdit = signal<RecipeEditProjection>({} as RecipeEditProjection);
@@ -43,10 +44,53 @@ export class EditRecipeComponent implements OnInit {
 
   ngOnInit(): void {
     this.recipeService.showRecipe(this.recipeId).pipe(
-      tap(data => this.recipe.set(data)),
-      switchMap(data => this.imageService.getImage(data.illustrationID)),
-      switchMap(data=> from(this.imageUploadService.convertBlobToDataUrl(data))),
-      tap(url=> this.recipe().illustration = url))
-    .subscribe()
+      switchMap((data) =>
+        this.imageService.getImage(data.illustrationID).pipe(
+          switchMap((blob) =>
+            from(this.imageUploadService.convertBlobToDataUrl(blob)),
+          ),
+          map((url) => ({...data, illustration: url})),
+          catchError(() => of(data)),
+        ),
+      ),
+      tap((recipe) => this.recipe.set(recipe)),
+    ).subscribe();
+  }
+
+  protected saveRecipe() {
+    if(this.recipeEdit().titleImage)
+      this.imageService.updateImage(this.recipeEdit().titleImage!, this.recipe().avatarID).subscribe()
+    if(this.recipeEdit().editedStages&&this.recipeEdit().editedStages.length>0)
+      this.recipeEdit().editedStages
+        .filter(stage => stage.image)
+        .forEach(stage=> this.imageService.updateImage(stage.image!, stage.imageID!).subscribe())
+
+    const toServer = {
+      id: this.recipeId,
+      name: this.recipeEdit().name,
+      summary: this.recipeEdit().summary,
+      cookingTime: this.recipeEdit().cookingTime,
+      addTags: this.recipeEdit().addTags,
+      removeTags: this.recipeEdit().removeTags,
+      isPrivate: this.recipeEdit().isPrivate,
+      editedStages: this.recipeEdit().editedStages?.map(stage=> stage?? stage as RecipeEditDto),
+      editedIngredients: this.recipeEdit().editedIngredients
+      }as RecipeEditDto;
+    console.dir(JSON.stringify(toServer));
+    this.recipeService.updateRecipe(toServer).subscribe({
+      error: ()=> {
+        this.notificationService.showSnackBar("Ошибка");
+      },
+      complete:()=>{
+        this.route.navigate(['/', RECIPE, this.recipeId.toString()])
+          .then(() => globalThis.location.reload());
+      }
+    })
+    }
+
+
+  protected cancel() {
+    this.route.navigate(['/', RECIPE, this.recipeId.toString()])
+      .then(() => globalThis.location.reload());
   }
 }
