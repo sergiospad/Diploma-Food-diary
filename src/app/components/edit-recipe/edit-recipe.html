@@ -1,1 +1,36 @@
-<p>edit-recipe works!</p>
+<div class="container">
+  <h1 class="new-recipe">Редактирование рецепта</h1>
+  <div class="blocks">
+    <app-edit-recipe-main-info-section [(recipe)]="recipe"
+                                       [(recipeEdit)]="recipeEdit">
+    </app-edit-recipe-main-info-section>
+
+    <app-edit-recipe-ingredient-section  [(recipe)]="recipe"
+                                         [(recipeEdit)]="recipeEdit">
+    </app-edit-recipe-ingredient-section>
+  </div>
+  <div class="divider"></div>
+  <div class="cooking-stages">
+<!--    <app-cooking-stage-section [cookingStages]="cookingStages">-->
+<!--    </app-cooking-stage-section>-->
+  </div>
+  <div class="divider"></div>
+<!--  <app-tag-show-section (toMainComponentSelectedTags)="selectedTags=$event">-->
+<!--  </app-tag-show-section>-->
+  <div class="divider"></div>
+  <div class="submit-button">
+<!--    <button-->
+<!--      mat-flat-button-->
+<!--      class="submit__active__button"-->
+<!--      (click)="saveRecipe()">-->
+<!--      Подтвердить-->
+<!--    </button>-->
+<!--    <button-->
+<!--      mat-flat-button-->
+<!--      class="submit__active__button"-->
+<!--      (click)="saveRecipe()">-->
+<!--      Отмена-->
+<!--    </button>-->
+  </div>
+
+</div>

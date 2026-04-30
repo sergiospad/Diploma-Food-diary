@@ -1,6 +1,6 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {FEED_ROOT, RECIPE_ID} from '../../util/roots';
+import {EDIT, EDIT_RECIPE, FEED_ROOT, RECIPE, RECIPE_ID} from '../../util/roots';
 import RecipeShowDTO from '../../DTO/entity_dto/recipe/recipe-show.dto';
 import RecipeService from '../../service/recipe.service';
 import {NotificationService} from '../../security/notification-service';
@@ -49,7 +49,6 @@ export class ShowRecipeComponent implements OnInit {
   ngOnInit(): void {
     this.recipeService.showRecipe(this.recipeId).pipe(
       tap((recipe) => {
-        console.dir(recipe);
         this.recipe = recipe;
       }),
       switchMap((recipe) =>
@@ -82,7 +81,6 @@ export class ShowRecipeComponent implements OnInit {
 
         this.router.navigate(['/', FEED_ROOT]).then(() => globalThis.location.reload());
         this.notificationService.showSnackBar('Рецепт не найден!');
-        console.log(error);
         return EMPTY;
       }),
     ).subscribe();
@@ -90,7 +88,8 @@ export class ShowRecipeComponent implements OnInit {
   }
 
   protected editRecipe() {
-    //TODO добавить edit recipe
+    this.router.navigate(['/', RECIPE, EDIT, this.recipeId])
+      .then(()=>globalThis.location.reload());
   }
 
   protected ableToEdit(){

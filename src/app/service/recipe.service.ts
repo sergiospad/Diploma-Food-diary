@@ -16,11 +16,11 @@ import RecipeEditDto from '../DTO/entity_dto/recipe/recipe-edit.dto';
 })
 export default class RecipeService {
   private readonly http = inject(HttpClient);
-  private readonly postAPI = new Endpoint('recipe');
+  private readonly recipeAPI = new Endpoint('recipe');
 
   getAllRecipePreviews(recipe: RecipePreviewRequest, page:number):Observable<RecipePreviewDTO[]>{
      return this.http.post<RecipePreviewDTO[]>(
-       this.postAPI.builder()
+       this.recipeAPI.builder()
          .points("previews")
          .addParam("page", page.toString())
          .build(),
@@ -29,7 +29,7 @@ export default class RecipeService {
 
   summarySearch(searchItem:string):Observable<RecipeSummarySearchDTO[]>{
     return this.http.get<RecipeSummarySearchDTO[]>(
-      this.postAPI.builder()
+      this.recipeAPI.builder()
         .points("search", "summary")
         .addParam("searchItem", searchItem)
         .build())
@@ -37,7 +37,7 @@ export default class RecipeService {
 
   titleSearch(searchItem: string): Observable<RecipeTitleSearchDTO[]> {
     return this.http.get<RecipeTitleSearchDTO[]>(
-      this.postAPI.builder()
+      this.recipeAPI.builder()
         .points("search", "title")
         .addParam("titleSearch", searchItem)
         .build());
@@ -45,7 +45,7 @@ export default class RecipeService {
 
   createRecipe(recipe: RecipeCreateDTO):Observable<RecipeShowDTO>{
     return this.http.put<RecipeShowDTO>(
-      this.postAPI.builder()
+      this.recipeAPI.builder()
         .points("create")
         .build()
       , recipe)
@@ -53,7 +53,7 @@ export default class RecipeService {
 
   updateRecipe(recipe: RecipeEditDto):Observable<RecipeShowDTO>{
     return this.http.patch<RecipeShowDTO>(
-      this.postAPI.builder()
+      this.recipeAPI.builder()
         .points("edit")
         .build(),
       recipe)
@@ -61,9 +61,16 @@ export default class RecipeService {
 
   showRecipe(id: number): Observable<RecipeShowDTO>{
     return this.http.get<RecipeShowDTO>(
-      this.postAPI.builder()
+      this.recipeAPI.builder()
         .points("show")
         .addParam("id", id.toString())
+        .build())
+  }
+
+  findAuthorByRecipe(recipeID:number):Observable<number>{
+    return this.http.get<number>(
+      this.recipeAPI.builder()
+        .points("author", recipeID.toString())
         .build())
   }
 

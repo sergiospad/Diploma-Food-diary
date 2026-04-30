@@ -35,7 +35,6 @@ export class RecipeMainInfoIngredientsSection {
   private readonly stepper = new CookingTimeStepper(5, 5);
 
   protected onCookingTimeInput(event: Event): void {
-    //TODO продумать добавление директивы
     const el = event.target as HTMLInputElement;
     const parsed = this.stepper.parseInput(el.value);
     if(parsed!=null) {
@@ -58,12 +57,6 @@ export class RecipeMainInfoIngredientsSection {
     this.toMainComponentIngredients.emit(newIng);
   }
 
-  protected removeIngredient(index: number): void {
-    let newIng = this.ingredients() ?? [];
-    newIng.splice(index, 1);
-    this.ingredients.set(newIng);
-    this.toMainComponentIngredients.emit(newIng);
-  }
 
   protected openAddProductDialog() {
     const dialogAddProductConfig = new MatDialogConfig();
