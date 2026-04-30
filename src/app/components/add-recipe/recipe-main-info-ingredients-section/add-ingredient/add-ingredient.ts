@@ -3,7 +3,7 @@ import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} fr
 import ProductSearchDTO from '../../../../DTO/entity_dto/product/product-search.dto';
 import MeasureUnitDTO from '../../../../DTO/entity_dto/recipe-recource/measure-unit.dto';
 import {Observable, of} from 'rxjs';
-import {catchError, debounceTime, distinctUntilChanged, finalize, map, shareReplay, startWith, switchMap} from 'rxjs/operators';
+import {catchError} from 'rxjs/operators';
 import ProductService from '../../../../service/product.service';
 import {MatError, MatFormField, MatInput, MatLabel} from '@angular/material/input';
 import {MatAutocomplete, MatAutocompleteTrigger, MatOption} from '@angular/material/autocomplete';
@@ -11,6 +11,7 @@ import {AsyncPipe} from '@angular/common';
 import {MatButton} from '@angular/material/button';
 import IngredientCreateView from '../../../../DTO/entity_dto/recipe-recource/ingredient/ingredient-create.view';
 import {MatSelect} from '@angular/material/select';
+import ProductSearchEngineService from '../../../../util/product-search-engine.service';
 
 @Component({
   selector: 'app-add-ingredient',
@@ -35,8 +36,7 @@ export class AddIngredient implements OnInit {
   private readonly formBuilder = inject(FormBuilder);
   private readonly productService = inject(ProductService);
   protected readonly productSearchControl = new FormControl('', { nonNullable: true });
-  protected isProductSearchLoading = false;
-  private productSearchPending = 0;
+  protected productSearchService = new ProductSearchEngineService();
 
   protected chosenProduct?: ProductSearchDTO;
   protected searchMeasureUnitResults?:MeasureUnitDTO[]
@@ -63,32 +63,12 @@ export class AddIngredient implements OnInit {
   }
 
   protected readonly searchProductResults$: Observable<ProductSearchDTO[]> =
-    this.productSearchControl.valueChanges.pipe(
-      startWith(this.productSearchControl.value),
-      map((value) => value.trim()),
-      debounceTime(300),
-      distinctUntilChanged(),
-      switchMap((query) =>
-        query.length < 2
-          ? of([])
-          : this.withProductSearchLoading(this.productService.productSearch(query)).pipe(
-            catchError(() => of([])),
-          ),
-      ),
-      shareReplay({bufferSize: 1, refCount: true}),
-    );
+    this.productSearchService.getSearchResults(this.productSearchControl);
 
-
-  private withProductSearchLoading<T>(source: Observable<T>): Observable<T> {
-    this.productSearchPending += 1;
-    this.isProductSearchLoading = true;
-    return source.pipe(
-      finalize(() => {
-        this.productSearchPending -= 1;
-        this.isProductSearchLoading = this.productSearchPending > 0;
-      }),
-    );
+  protected getSearchLoading():boolean{
+    return this.productSearchService.getSearchLoading();
   }
+
 
   protected onMeasureUnitSearchSelect(product: ProductSearchDTO): void {
     this.chosenProduct = product;

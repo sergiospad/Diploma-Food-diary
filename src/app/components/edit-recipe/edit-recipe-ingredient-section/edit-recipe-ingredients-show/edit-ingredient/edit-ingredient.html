@@ -1,0 +1,38 @@
+<form [formGroup]="ingredientForm">
+  <div class="new-ingredient">
+    {{ingredient().productName}}
+    <div class = "new-ingredient__amount-and-mu">
+      <mat-form-field class="new-ingredient__amount" appearance="outline">
+        <mat-label>Количество</mat-label>
+        <input matInput formControlName="amount" (change)="onChangeAmount($any($event).input.value)"/>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="new-ingredient__mu">
+        <mat-label>Ед. изм.</mat-label>
+        <mat-select formControlName="measureUnitID" placeholder="Выберите единицу" (selectionChange)="onChangeMeasureUnit($event.value)">
+          @for (mu of ingredient().units ; track mu.id) {
+            <mat-option [value]="mu.id">{{ mu.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="new-ingredient__actions">
+    <button
+      class="new-ingredient__button"
+      type="button"
+      mat-flat-button
+      (click)="submitChanges()">
+      Подтвердить
+    </button>
+    <div class="new-ingredient__actions">
+      <button
+        class="new-ingredient__button"
+        type="button"
+        mat-flat-button
+        (click)="onAbort()">
+        Отменить
+      </button>
+  </div>
+  </div>
+</form>

@@ -1,8 +1,4 @@
 import {Component, inject, model, OnInit, signal} from '@angular/core';
-import {AddIngredient} from "../../add-recipe/recipe-main-info-ingredients-section/add-ingredient/add-ingredient";
-import {
-    IngredientsShowSection
-} from "../../add-recipe/recipe-main-info-ingredients-section/ingredients-show-section/ingredients-show-section";
 import {MatButton} from "@angular/material/button";
 import RecipeShowDTO from '../../../DTO/entity_dto/recipe/recipe-show.dto';
 import RecipeEditProjection from '../../../DTO/entity_dto/recipe/recipe-edit-projection';
@@ -14,10 +10,8 @@ import {EditRecipeIngredientsShow} from './edit-recipe-ingredients-show/edit-rec
 @Component({
   selector: 'app-edit-recipe-ingredient-section',
   imports: [
-    AddIngredient,
-    IngredientsShowSection,
     MatButton,
-    EditRecipeIngredientsShow
+    EditRecipeIngredientsShow,
   ],
   templateUrl: './edit-recipe-ingredient-section.html',
   styleUrl: './edit-recipe-ingredient-section.css',

@@ -10,7 +10,7 @@
       <mat-autocomplete [displayWith] ="displayProductName"
         #productSearchAuto="matAutocomplete"
                         (optionSelected)="onMeasureUnitSearchSelect($event.option.value)">
-        @if (isProductSearchLoading) {
+        @if (getSearchLoading()) {
           <mat-option disabled>Поиск...</mat-option>
         }
         @for (item of (searchProductResults$ | async); track item.id) {

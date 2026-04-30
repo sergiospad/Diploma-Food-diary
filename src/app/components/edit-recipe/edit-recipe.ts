@@ -23,11 +23,6 @@ import {CookingTimeStepper} from '../add-recipe/recipe-main-info-ingredients-sec
 @Component({
   selector: 'app-edit-recipe',
   imports: [
-    CookingStageSection,
-    MatButton,
-    RecipeMainInfoIngredientsSection,
-    RecipeMainInfoSectionComponent,
-    TagShowSection,
     EditRecipeMainInfoSection,
     EditRecipeIngredientSection
   ],

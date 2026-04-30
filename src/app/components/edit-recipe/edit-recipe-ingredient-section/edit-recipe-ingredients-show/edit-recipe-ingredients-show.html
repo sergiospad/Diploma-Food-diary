@@ -2,7 +2,11 @@
   <span class="blocks__ingredients__heading">Ингредиенты</span>
 </div>
 @for (ing of recipe().ingredients; track $index) {
-  @if(indexToEdit()===$index){}
+  @if(indexToEdit()===$index){
+    <app-edit-ingredient [ingredient]="ing"
+                         (toMainComponentIngredientChange)="onIngredientChanged($event)">
+    </app-edit-ingredient>
+  }
   @else {
   <div class="ingredient-line">
     <span class="ingredient-line__name">{{ ing.productName }}</span>
