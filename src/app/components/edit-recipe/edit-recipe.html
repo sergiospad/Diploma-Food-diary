@@ -11,8 +11,9 @@
   </div>
   <div class="divider"></div>
   <div class="cooking-stages">
-<!--    <app-cooking-stage-section [cookingStages]="cookingStages">-->
-<!--    </app-cooking-stage-section>-->
+    <app-edit-recipe-cooking-stages [(recipe)]="recipe"
+                                    [(recipeEdit)]="recipeEdit">
+    </app-edit-recipe-cooking-stages>
   </div>
   <div class="divider"></div>
 <!--  <app-tag-show-section (toMainComponentSelectedTags)="selectedTags=$event">-->

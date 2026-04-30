@@ -1,1 +1,21 @@
-<p>edit-recipe-cooking-stages works!</p>
+<div class="cooking-stages">
+  <span class="heading cooking-stages__title">Этапы готовки</span>
+  <div class="cooking-stages__grid">
+    @for(stage of recipe().cookingStages; track $index){
+      @if(indexToEdit()===$index){
+        <app-edit-cooking-stage [(recipe)]="recipe"
+                                [(recipeEdit)]="recipeEdit"
+                                [index]="$index"
+                                (editIndex)="setEditIndex($event)">
+        </app-edit-cooking-stage>
+      } @else {
+        <app-edit-recipe-show-stage
+          [(recipe)]="recipe"
+          [(recipeEdit)]="recipeEdit"
+          [index]="$index"
+          (editIndex)="setEditIndex($event)">
+        </app-edit-recipe-show-stage>
+      }
+    }
+  </div>
+</div>

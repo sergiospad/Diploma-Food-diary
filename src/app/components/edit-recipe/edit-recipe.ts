@@ -19,12 +19,14 @@ import {ImageUploadService} from '../../image_services/image-upload.service';
 import {from} from 'rxjs';
 import {EditRecipeIngredientSection} from './edit-recipe-ingredient-section/edit-recipe-ingredient-section';
 import {CookingTimeStepper} from '../add-recipe/recipe-main-info-ingredients-section/cooking-time-stepper';
+import {EditRecipeCookingStages} from './edit-recipe-cooking-stages/edit-recipe-cooking-stages';
 
 @Component({
   selector: 'app-edit-recipe',
   imports: [
     EditRecipeMainInfoSection,
-    EditRecipeIngredientSection
+    EditRecipeIngredientSection,
+    EditRecipeCookingStages
   ],
   templateUrl: './edit-recipe.html',
   styleUrl: './edit-recipe.css',
