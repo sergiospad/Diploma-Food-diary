@@ -5,7 +5,7 @@ import AvatarIndexedDb from '../../image_services/avatar-indexed.db';
 import {TokenStorageService} from '../../security/token-storage.service';
 import UserProfileDto from '../../DTO/entity_dto/user/user-profile.dto';
 import {NavigationEnd, Router, RouterLink} from '@angular/router';
-import {ADD_RECIPE, FEED_ROOT, LOGIN, RECIPE} from '../../util/roots';
+import {ADD_RECIPE, CATEGORY, FEED_ROOT, LOGIN, PROFILE, RECIPE} from '../../util/roots';
 import {MatTooltip} from '@angular/material/tooltip';
 import {MatIconButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
@@ -32,6 +32,7 @@ import {
 import RecipeSummarySearchDTO from '../../DTO/entity_dto/recipe/recipe-summary-search.dto';
 import {markWord} from '../../util/regex-search-editor';
 import {ImageUploadService} from '../../image_services/image-upload.service';
+import {UserRole} from '../../DTO/types';
 
 @Component({
   selector: 'app-navigation',
@@ -77,10 +78,11 @@ export class NavigationComponent implements OnInit {
 
   private searchPending = 0;
   protected readonly searchControl = new FormControl('', { nonNullable: true });
+  role: UserRole = "GUEST";
 
   ngOnInit(): void {
     this.syncUserFromStorage();
-
+    this.role = this.tokenService.getRole()
     this.router.events
       .pipe(
         filter((e): e is NavigationEnd => e instanceof NavigationEnd),
@@ -179,5 +181,7 @@ export class NavigationComponent implements OnInit {
   }
 
   protected readonly ADD_RECIPE = ADD_RECIPE;
+  protected readonly PROFILE = PROFILE;
+  protected readonly CATEGORY = CATEGORY;
 }
 

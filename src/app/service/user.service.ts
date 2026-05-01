@@ -19,7 +19,8 @@ export class UserService {
   }
 
   updateUser(user:UserEditDto):Observable<any>{
-    return this.http.patch<UserEditDto>(this.userAPI.builder().points("update").build(), user);
+    console.log(JSON.stringify(user))
+    return this.http.patch(this.userAPI.builder().points("update").build(), user);
   }
 
   updatePassword(req:UpdatePasswordRequest):Observable<any>{
@@ -30,6 +31,10 @@ export class UserService {
     return this.http.patch<ChangeRoleDto>(this.userAPI.builder().points("role").build(), changeRole);
   }
 
-
-
+  getUserEditDTO():Observable<UserEditDto>{
+    return this.http.get<UserEditDto>(
+      this.userAPI.builder()
+        .points("profile", "all")
+        .build());
+  }
 }

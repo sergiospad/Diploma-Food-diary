@@ -79,14 +79,20 @@
       </div>
 
       <mat-menu #menu="matMenu" class="nav">
-        <button type="button" mat-menu-item routerLink="/profile">
+        <button type="button" mat-menu-item routerLink="{{PROFILE}}">
           <mat-icon>person</mat-icon>
-          <span>Profile</span>
+          <span>Профиль</span>
         </button>
+        @if (role==="ADMIN"){
+          <button type="button" mat-menu-item routerLink="{{CATEGORY}}">
+            <mat-icon>restaurant</mat-icon>
+            <span>Категории</span>
+          </button>
+        }
         <mat-divider></mat-divider>
         <button type="button" mat-menu-item (click)="logout()">
           <mat-icon>logout</mat-icon>
-          <span>Logout</span>
+          <span>Выйти</span>
         </button>
       </mat-menu>
     </div>

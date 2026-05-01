@@ -7,4 +7,6 @@ export const RECIPE = 'recipe';
 export const RECIPE_ID = 'id';
 export const EDIT = 'edit';
 export const EDIT_RECIPE = RECIPE + "/" + EDIT;
+export const PROFILE = "profile";
+export const CATEGORY = "category";
 

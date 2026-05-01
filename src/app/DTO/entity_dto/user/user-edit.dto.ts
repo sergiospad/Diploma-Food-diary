@@ -5,6 +5,6 @@ export default interface UserEditDto{
   username?:string;
   email?:string;
   gender?: UserGender;
-  birthdate?: Date;
+  birthDate?: Date;
   height?: number;
 }

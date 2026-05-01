@@ -1,4 +1,4 @@
-import {Component, inject, OnInit, signal} from '@angular/core';
+import {Component, computed, inject, OnInit, signal} from '@angular/core';
 import {TagField} from './tag-field/tag-field';
 import {ActivatedRoute, Router} from '@angular/router';
 import TagDto from '../../DTO/entity_dto/recipe-recource/tag.dto';
@@ -19,6 +19,7 @@ import {ImageUploadService} from '../../image_services/image-upload.service';
 import {TokenStorageService} from '../../security/token-storage.service';
 import {catchError, map, switchMap, tap} from 'rxjs/operators';
 import {forkJoin, from, of} from 'rxjs';
+import {RECIPE} from '../../util/roots';
 
 @Component({
   selector: 'app-feed',
@@ -52,7 +53,7 @@ export class FeedComponent implements OnInit {
   tags = signal<TagDto[]>([]);
   favouriteRecipes = signal<number[]>([]);
   allTags : TagDto[]=[];
-  private authorId?:number;
+  private authorName?:string;
   sortType = signal<SortTypeRecipe>("NEWER");
   sortTypeDict =  new Map<SortTypeRecipe, string>([
     ['NEWER', 'Сначала новые'],
@@ -60,8 +61,18 @@ export class FeedComponent implements OnInit {
     ['POPULAR', 'Популярные']
   ]);
   recipes = signal<RecipePreviewDTO[]>([]);
+
   page = signal<number>(0);
 
+  protected readonly previewPageSize = 12;
+
+  protected readonly displayPageNumber = computed(() => this.page() + 1);
+
+  protected readonly canGoPrevPage = computed(() => this.page() > 0);
+
+  protected readonly canGoNextPage = computed(
+    () => this.recipes().length === this.previewPageSize,
+  );
 
   ngOnInit(): void {
     this.tagService.getAllTags()
@@ -74,11 +85,33 @@ export class FeedComponent implements OnInit {
         .map(Number)
         .map(tagId=> this.allTags
           .find(tag=>tag.id===tagId)!));
-      if(this.paramMap.has("authorId"))
-        this.authorId = Number.parseInt(this.paramMap.get("authorId")!)
+      if(this.paramMap.has("authorName"))
+        this.authorName = this.paramMap.get("authorName")!
       if(this.paramMap.has("sortType"))
         this.sortType.set(this.paramMap.get("sortType") as SortTypeRecipe);
     }
+    this.submitFilters();
+  }
+
+  /** Новые фильтры — с первой страницы (индекс 0 на сервере). */
+  protected applyFilters(): void {
+    this.page.set(0);
+    this.submitFilters();
+  }
+
+  protected goToPrevPage(): void {
+    if (!this.canGoPrevPage()) {
+      return;
+    }
+    this.page.update((p) => p - 1);
+    this.submitFilters();
+  }
+
+  protected goToNextPage(): void {
+    if (!this.canGoNextPage()) {
+      return;
+    }
+    this.page.update((p) => p + 1);
     this.submitFilters();
   }
 
@@ -90,7 +123,7 @@ export class FeedComponent implements OnInit {
     return {
       isFavoriteOnly: this.needsFavourite(),
       tags: this.tags().map(tag=>tag.id),
-      authorId: this.authorId,
+      authorName: this.authorName,
       sortType: this.sortType(),
     }as RecipePreviewRequest;
   }
@@ -98,7 +131,7 @@ export class FeedComponent implements OnInit {
     const request = this.formRequest();
     console.log(request);
     this.recipeService
-      .getAllRecipePreviews(request, this.page())
+      .getAllRecipePreviews(request, this.page(), this.previewPageSize)
       .pipe(
         switchMap((response) =>
           response.length === 0
@@ -120,10 +153,17 @@ export class FeedComponent implements OnInit {
         tap((data) => this.recipes.set(data)),
         switchMap((data) => {
           const ids = data.map((res) => res.id);
+          const token = this.tokenStorage.getToken()?.trim();
+          if (!token || ids.length === 0) {
+            this.favouriteRecipes.set([]);
+            return of(undefined);
+          }
           return this.recipeService.getFavourites(ids).pipe(
-            tap((fav) =>
-              this.favouriteRecipes.set(fav.recipes),
-            )
+            tap((fav) => this.favouriteRecipes.set(fav.recipes ?? [])),
+            catchError(() => {
+              this.favouriteRecipes.set([]);
+              return of(undefined);
+            }),
           );
         }),
       )
@@ -148,5 +188,9 @@ export class FeedComponent implements OnInit {
   protected addFavourite(id: number): void {
     this.favouriteRecipes.update((list) => [...list, id]);
     this.recipeService.toggleFavourite(id).subscribe();
+  }
+
+  protected onSelectRecipe(id: number): void {
+    void this.router.navigate(['/', RECIPE, id]);
   }
 }

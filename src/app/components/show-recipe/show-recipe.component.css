@@ -9,18 +9,98 @@
   color: var(--dark);
 }
 
-.author{
+.author-card {
   display: flex;
-  gap:1rem;
+  align-items: center;
+  gap: 1rem 1.25rem;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto 1.25rem;
+  padding: 0.65rem 1rem 0.65rem 0.65rem;
+  text-align: start;
+  border-radius: 999px;
+  border: 1px solid var(--border-color, #dedede);
+  background: color-mix(in srgb, var(--light) 96%, var(--accent-light) 4%);
+  box-shadow: 0 1px 8px rgba(68, 55, 55, 0.06);
 }
 
-.author__image{
-  width: 50px;
+.author-card__avatar {
+  position: relative;
+  flex-shrink: 0;
+  width: 72px;
+  height: 72px;
 }
 
-.author__username{
-  font-size: 18px;
-  padding-top:12px;
+.author-card__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid color-mix(in srgb, var(--accent-light) 55%, white);
+  box-sizing: border-box;
+}
+
+.author-card__placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--dark) 8%, var(--light));
+  color: color-mix(in srgb, var(--dark) 45%, transparent);
+  border: 2px solid var(--border-color, #dedede);
+  box-sizing: border-box;
+}
+
+.author-card__placeholder mat-icon {
+  font-size: 2.25rem;
+  width: 2.25rem;
+  height: 2.25rem;
+}
+
+.author-card__action.mat-mdc-icon-button {
+  position: absolute;
+  right: -0.2rem;
+  bottom: -0.15rem;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--dark) 12%, transparent);
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 1px 6px rgba(68, 55, 55, 0.12);
+  --mat-icon-button-icon-size: 1.2rem;
+  --mat-icon-button-icon-color: var(--accent-dark);
+}
+
+.author-card__action.mat-mdc-icon-button:hover {
+  background: var(--light);
+}
+
+.author-card__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+  padding-right: 0.35rem;
+}
+
+.author-card__label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--dark) 55%, #fff);
+}
+
+.author-card__name {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--dark);
+  line-height: 1.25;
+  word-break: break-word;
 }
 
 .new-recipe{

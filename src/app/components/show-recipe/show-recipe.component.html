@@ -1,8 +1,37 @@
 <div class="container">
-  <div class="author">
-    <img class="author__image" [src]="recipe?.avatar"/>
-    <span class="author__username">{{recipe?.authorName}}</span>
-  </div>
+  @if (recipe) {
+    <div class="author-card">
+      <div class="author-card__avatar">
+        @if (recipe.avatar) {
+          <img
+            class="author-card__img"
+            [src]="recipe.avatar"
+            [alt]="'Аватар: ' + recipe.authorName"
+            width="72"
+            height="72"
+            loading="lazy" />
+        } @else {
+          <div class="author-card__placeholder" aria-hidden="true">
+            <mat-icon>person</mat-icon>
+          </div>
+        }
+        @if (ableToEdit()) {
+          <button
+            type="button"
+            mat-icon-button
+            class="author-card__action"
+            (click)="goToProfile()"
+            aria-label="Открыть профиль">
+            <mat-icon>restaurant</mat-icon>
+          </button>
+        }
+      </div>
+      <div class="author-card__meta">
+        <span class="author-card__label">Автор</span>
+        <span class="author-card__name">{{ recipe.authorName }}</span>
+      </div>
+    </div>
+  }
   <h1 class="new-recipe">{{ recipe?.name }}</h1>
   <div class="blocks">
     <div class="blocks__captions">

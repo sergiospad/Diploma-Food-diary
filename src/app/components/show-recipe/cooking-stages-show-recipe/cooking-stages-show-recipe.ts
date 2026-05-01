@@ -52,7 +52,8 @@ export class CookingStagesShowRecipe  {
         takeUntilDestroyed(),
       )
       .subscribe((data) => {
-        this.cookingStagesView.set(data);
+        /* Отложить до следующего тика — не менять представление в том же цикле CD, что и родитель */
+        setTimeout(() => this.cookingStagesView.set(data));
       });
   }
 }

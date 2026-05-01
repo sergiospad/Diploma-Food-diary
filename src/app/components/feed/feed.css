@@ -10,6 +10,10 @@
   color: var(--dark);
 }
 
+.feed.feed--has-pager {
+  padding-bottom: calc(5rem + env(safe-area-inset-bottom, 0px));
+}
+
 .feed__sidebar {
   flex: 0 0 auto;
 }
@@ -114,6 +118,45 @@
   min-width: 0;
 }
 
+.feed__pager {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem 0.75rem;
+  margin-bottom: 80px;
+  padding: 0.65rem 1rem max(0.65rem, env(safe-area-inset-bottom, 0px));
+  border-radius: 0;
+  border: none;
+  border-top: 1px solid var(--border-color);
+  background: color-mix(in srgb, var(--light) 12%, transparent);
+}
+
+.feed__pager-info {
+  font-size: 0.9375rem;
+  color: color-mix(in srgb, var(--dark) 85%, #fff);
+  min-width: 9rem;
+  text-align: center;
+}
+
+.feed__pager-info strong {
+  font-weight: 700;
+  color: var(--dark);
+}
+
+.feed__pager-btn.mat-mdc-icon-button {
+  --mat-icon-button-icon-color: var(--dark);
+}
+
+.feed__pager-btn.mat-mdc-icon-button[disabled] {
+  opacity: 0.38;
+}
+
 .feed__grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(260px, 1fr));
@@ -122,6 +165,7 @@
 }
 
 .recipe-card {
+  position: relative;
   display: flex;
   flex-direction: column;
   border-radius: 12px;
@@ -137,6 +181,43 @@
 .recipe-card:hover {
   border-color: color-mix(in srgb, var(--accent-light) 40%, var(--border-color));
   box-shadow: 0 6px 18px rgba(68, 55, 55, 0.1);
+}
+
+/* Клик по карточке → открытие рецепта; лайк выше по pointer-events */
+.recipe-card__hit {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: inherit;
+  background: transparent;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.recipe-card__hit:focus-visible {
+  outline: none;
+}
+
+.recipe-card:focus-within {
+  border-color: color-mix(in srgb, var(--accent-light) 45%, var(--border-color));
+}
+
+.recipe-card__hit:focus-visible ~ .recipe-card__surface {
+  outline: 2px solid var(--accent-dark);
+  outline-offset: -2px;
+}
+
+.recipe-card__surface {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+  pointer-events: none;
 }
 
 .recipe-card__media {
@@ -175,6 +256,7 @@
   bottom: 0.5rem;
   right: 0.5rem;
   z-index: 2;
+  pointer-events: auto;
   width: 2.5rem;
   height: 2.5rem;
   padding: 0;

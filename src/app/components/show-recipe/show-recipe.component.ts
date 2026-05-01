@@ -1,6 +1,6 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {EDIT, EDIT_RECIPE, FEED_ROOT, RECIPE, RECIPE_ID} from '../../util/roots';
+import {EDIT, FEED_ROOT, PROFILE, RECIPE, RECIPE_ID} from '../../util/roots';
 import RecipeShowDTO from '../../DTO/entity_dto/recipe/recipe-show.dto';
 import RecipeService from '../../service/recipe.service';
 import {NotificationService} from '../../security/notification-service';
@@ -11,12 +11,11 @@ import {EMPTY, from, of} from 'rxjs';
 import {TokenStorageService} from '../../security/token-storage.service';
 import AvatarIndexedDb from '../../image_services/avatar-indexed.db';
 import {MatIcon} from '@angular/material/icon';
-import {MatButton} from '@angular/material/button';
+import {MatButton, MatIconButton} from '@angular/material/button';
 import {IngredientsShowRecipe} from './ingredients-show-recipe/ingredients-show-recipe';
 import {EnergyInfoShowRecipe} from './energy-info-show-recipe/energy-info-show-recipe';
 import {CookingStagesShowRecipe} from './cooking-stages-show-recipe/cooking-stages-show-recipe';
 import {CommentsShowRecipe} from './comments-show-recipe/comments-show-recipe';
-import {DatePipe} from '@angular/common';
 import {DateFormatter} from '../../util/date-formatter';
 
 @Component({
@@ -24,6 +23,7 @@ import {DateFormatter} from '../../util/date-formatter';
   imports: [
     MatIcon,
     MatButton,
+    MatIconButton,
     IngredientsShowRecipe,
     EnergyInfoShowRecipe,
     CookingStagesShowRecipe,
@@ -42,9 +42,18 @@ export class ShowRecipeComponent implements OnInit {
   private readonly imageUpload = inject(ImageUploadService);
   private readonly imageService = inject(ImageModelService);
   private readonly avatarDB = inject(AvatarIndexedDb);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   recipeId = Number(this.activatedRoute.snapshot.paramMap.get(RECIPE_ID));
   recipe?:RecipeShowDTO;
+
+  /** Обновление полей, влияющих на шаблон, после async (FileReader) — иначе NG0100. */
+  private patchRecipeView(update: () => void): void {
+    setTimeout(() => {
+      update();
+      this.cdr.detectChanges();
+    }, 0);
+  }
 
   ngOnInit(): void {
     this.recipeService.showRecipe(this.recipeId).pipe(
@@ -55,8 +64,11 @@ export class ShowRecipeComponent implements OnInit {
         this.imageService.getImage(recipe.illustrationID).pipe(
           switchMap((blob) => from(this.imageUpload.convertBlobToDataUrl(blob))),
           tap((url) => {
-            if(this.recipe)
+            this.patchRecipeView(() => {
+              if (this.recipe) {
                 this.recipe.illustration = url;
+              }
+            });
           }),
           map(() => recipe))),
       switchMap((recipe) =>
@@ -67,14 +79,20 @@ export class ShowRecipeComponent implements OnInit {
             ))),
       tap((url) => {
           if (url && this.recipe) {
-            this.recipe.avatar = url;
-          }else{
-            this.avatarDB.getBlob()
-              .then((blob)=> this.imageUpload.convertBlobToDataUrl(blob))
-              .then((url)=> {
-                if(this.recipe)
-                  this.recipe.avatar = url
-              })
+            this.patchRecipeView(() => {
+              this.recipe!.avatar = url;
+            });
+          } else {
+            void this.avatarDB
+              .getBlob()
+              .then((blob) => this.imageUpload.convertBlobToDataUrl(blob))
+              .then((avatarUrl) => {
+                this.patchRecipeView(() => {
+                  if (this.recipe) {
+                    this.recipe.avatar = avatarUrl;
+                  }
+                });
+              });
           }
         }
       ), catchError((error) => {
@@ -97,6 +115,10 @@ export class ShowRecipeComponent implements OnInit {
   }
 
   protected onTagClick(id: number) {
-    //TODO добавить редирект с фильтрацией
+    return this.router.navigate(['/', FEED_ROOT], { queryParams: { tags:[id]}})
+  }
+
+  protected goToProfile(): void {
+    void this.router.navigate(['/', FEED_ROOT], { queryParams: {authorName: this.recipe?.authorName}});
   }
 }

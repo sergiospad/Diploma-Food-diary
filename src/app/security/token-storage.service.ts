@@ -58,7 +58,7 @@ export class TokenStorageService{
   }
 
   public getRole(): UserRole{
-    return JSON.parse(<UserRole>globalThis.sessionStorage.getItem(ROLE_KEY))
+    return <UserRole>globalThis.sessionStorage.getItem(ROLE_KEY)
   }
 
   public logout(){

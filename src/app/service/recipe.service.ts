@@ -21,13 +21,21 @@ export default class RecipeService {
   private readonly http = inject(HttpClient);
   private readonly recipeAPI = new Endpoint('recipe');
 
-  getAllRecipePreviews(recipe: RecipePreviewRequest, page:number):Observable<RecipePreviewDTO[]>{
+  /** Body — фильтры; query — Spring Pageable: page (с нуля), size. */
+  getAllRecipePreviews(
+    recipe: RecipePreviewRequest,
+    page: number,
+    size: number,
+  ): Observable<RecipePreviewDTO[]> {
     return this.http.post<RecipePreviewDTO[]>(
-       this.recipeAPI.builder()
-         .points("previews")
-         .addParam("page", page.toString())
-         .build(),
-       recipe);
+      this.recipeAPI
+        .builder()
+        .points('previews')
+        .addParam('page', String(page))
+        .addParam('size', String(size))
+        .build(),
+      recipe,
+    );
   }
 
   summarySearch(searchItem:string):Observable<RecipeSummarySearchDTO[]>{
