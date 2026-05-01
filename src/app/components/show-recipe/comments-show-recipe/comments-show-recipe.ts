@@ -10,12 +10,17 @@ import AvatarIndexedDb from '../../../image_services/avatar-indexed.db';
 import {NotificationService} from '../../../security/notification-service';
 import {CommentsAddShowRecipe} from './comments-add-show-recipe/comments-add-show-recipe';
 import {DateFormatter} from '../../../util/date-formatter';
+import {MatIcon} from '@angular/material/icon';
+import {MatIconButton} from '@angular/material/button';
 
 @Component({
   selector: 'app-comments-show-recipe',
+  standalone: true,
   imports: [
     CommentsAddShowRecipe,
-    DateFormatter
+    DateFormatter,
+    MatIcon,
+    MatIconButton
   ],
   templateUrl: './comments-show-recipe.html',
   styleUrl: './comments-show-recipe.css',
@@ -93,5 +98,19 @@ export class CommentsShowRecipe implements OnInit {
 
   protected addToComments($event: CommentShowDTO) {
     this.comments.push($event);
+  }
+
+  protected canRemoveComment(username: string): boolean {
+    const me = this.tokenService.getUser()?.username?.trim();
+    const author = username?.trim();
+    if (!me || !author) {
+      return false;
+    }
+    return me === author;
+  }
+
+  protected removeComment(id: number): void {
+    this.comments = this.comments.filter((c) => c.id !== id);
+    this.commentService.deleteComment(id).subscribe();
   }
 }

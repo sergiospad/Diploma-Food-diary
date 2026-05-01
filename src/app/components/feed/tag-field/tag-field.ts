@@ -1,4 +1,4 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, inject, input, OnInit, output} from '@angular/core';
 import TagService from '../../../service/recipe_resource/tag.service';
 import TagDto from '../../../DTO/entity_dto/recipe-recource/tag.dto';
 
@@ -9,14 +9,8 @@ import TagDto from '../../../DTO/entity_dto/recipe-recource/tag.dto';
   templateUrl: './tag-field.html',
   styleUrl: './tag-field.css',
 })
-export class TagField implements OnInit {
-  private readonly tagService = inject(TagService);
-  protected tags!: TagDto[];
-  protected selectedTag: TagDto|undefined;
-
-  ngOnInit(): void {
-    this.tagService.getAllTags().subscribe(tags => this.tags = tags);
-  }
-
+export class TagField  {
+  tags = input.required<TagDto[]>();
+  protected selectedTag= output<TagDto>();
 
 }

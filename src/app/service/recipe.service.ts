@@ -9,6 +9,8 @@ import RecipeTitleSearchDTO from '../DTO/entity_dto/recipe/recipe-title-search.d
 import RecipeCreateDTO from '../DTO/entity_dto/recipe/recipe-create.dto';
 import RecipeShowDTO from '../DTO/entity_dto/recipe/recipe-show.dto';
 import RecipeEditDto from '../DTO/entity_dto/recipe/recipe-edit.dto';
+import FavouritesRequest from '../DTO/requests/favourites.request';
+import FavouriteRecipeDTO from '../DTO/entity_dto/recipe/favourite-recipe.dto';
 
 
 @Injectable({
@@ -19,12 +21,15 @@ export default class RecipeService {
   private readonly recipeAPI = new Endpoint('recipe');
 
   getAllRecipePreviews(recipe: RecipePreviewRequest, page:number):Observable<RecipePreviewDTO[]>{
-     return this.http.post<RecipePreviewDTO[]>(
+    console.log(JSON.stringify(recipe));
+    const list = this.http.post<RecipePreviewDTO[]>(
        this.recipeAPI.builder()
          .points("previews")
          .addParam("page", page.toString())
          .build(),
        recipe);
+    list.subscribe((res=>console.log(res)));
+    return list;
   }
 
   summarySearch(searchItem:string):Observable<RecipeSummarySearchDTO[]>{
@@ -75,6 +80,22 @@ export default class RecipeService {
       this.recipeAPI.builder()
         .points("author", recipeID.toString())
         .build())
+  }
+
+  getFavourites(request: FavouritesRequest):Observable<FavouriteRecipeDTO>{
+    return this.http.post<FavouriteRecipeDTO>(
+      this.recipeAPI.builder()
+        .points("favorites")
+        .build(),
+      request);
+  }
+
+  toggleFavourite(id: number):Observable<any>{
+    return this.http.get(
+      this.recipeAPI.builder()
+        .points("toggle", id.toString())
+        .build()
+    )
   }
 
 }

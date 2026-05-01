@@ -28,11 +28,9 @@ export default class CommentService {
   }
 
   getByRecipeID(id:number):Observable<CommentShowDTO[]>{
-    const comms =this.http.get<CommentShowDTO[]>(
+    return this.http.get<CommentShowDTO[]>(
       this.commentAPI.builder()
         .points("get", id.toString())
       .build())
-    comms.subscribe(data=>console.dir(data))
-    return comms;
   }
 }

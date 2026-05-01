@@ -7,7 +7,8 @@
     <ul class="comments__list">
       @for (comment of comments; track comment.id) {
         <li class="comments__item">
-          <div class="comments__meta">
+          <div class="comments__toolbar">
+            <div class="comments__meta">
               <img
                 class="comments__avatar"
                 [src]="comment.userAvatar"
@@ -15,12 +16,23 @@
                 width="40"
                 height="40"
                 loading="lazy">
-            <div class="comments__author">
-              <span class="comments__username">{{ comment.username }}</span>
-              <time class="comments__date">
-                {{ comment.createdAt | dateFormat }}
-              </time>
+              <div class="comments__author">
+                <span class="comments__username">{{ comment.username }}</span>
+                <time class="comments__date">
+                  {{ comment.createdAt | dateFormat }}
+                </time>
+              </div>
             </div>
+            @if (canRemoveComment(comment.username)) {
+              <button
+                type="button"
+                mat-icon-button
+                class="comments__remove"
+                (click)="removeComment(comment.id)"
+                [attr.aria-label]="'Удалить комментарий ' + comment.id">
+                <mat-icon>close</mat-icon>
+              </button>
+            }
           </div>
           <p class="comments__message">{{ comment.message }}</p>
           @if (comment.image) {

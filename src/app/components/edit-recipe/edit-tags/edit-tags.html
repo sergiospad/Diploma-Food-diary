@@ -17,7 +17,7 @@
     </mat-select>
   </mat-form-field>
 
-  @if (recipe().tags?.length) {
+  @if (recipe().tags.length>0) {
     <div class="edit-tags__chips" aria-label="Выбранные теги">
       @for (tag of recipe().tags; track tag.id) {
         <span class="edit-tags__chip">{{ tag.name }}</span>

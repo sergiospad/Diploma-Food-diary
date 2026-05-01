@@ -6,8 +6,7 @@
       placeholder="Выберите теги"
       multiple
       [(ngModel)]="selectedTags"
-      (ngModelChange)="onSelectedTagsChange($event)"
-    >
+      (ngModelChange)="onSelectedTagsChange($event)">
       @for (tag of allTags ?? []; track tag.id) {
         <mat-option [value]="tag">{{ tag.name }}</mat-option>
       }

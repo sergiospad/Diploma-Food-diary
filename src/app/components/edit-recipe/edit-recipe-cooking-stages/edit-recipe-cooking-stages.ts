@@ -14,7 +14,7 @@ import {EditCookingStage} from './edit-cooking-stage/edit-cooking-stage';
   styleUrl: './edit-recipe-cooking-stages.css',
 })
 export class EditRecipeCookingStages {
-  recipe = model<RecipeShowDTO>({}as RecipeShowDTO);
+  recipe = model.required<RecipeShowDTO>();
   recipeEdit = model<RecipeEditProjection>({} as RecipeEditProjection);
   indexToEdit = signal<number>(-1);
 
