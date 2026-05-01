@@ -1,4 +1,4 @@
-import {Component, inject, input, OnInit, signal} from '@angular/core';
+import {Component, inject, OnInit, signal} from '@angular/core';
 import {TagField} from './tag-field/tag-field';
 import {ActivatedRoute, Router} from '@angular/router';
 import TagDto from '../../DTO/entity_dto/recipe-recource/tag.dto';
@@ -16,13 +16,9 @@ import RecipePreviewRequest from '../../DTO/requests/recipe-preview.request';
 import RecipeService from '../../service/recipe.service';
 import ImageModelService from '../../service/recipe_resource/image-model.service';
 import {ImageUploadService} from '../../image_services/image-upload.service';
+import {TokenStorageService} from '../../security/token-storage.service';
 import {catchError, map, switchMap, tap} from 'rxjs/operators';
 import {forkJoin, from, of} from 'rxjs';
-import FavouritesRequest from '../../DTO/requests/favourites.request';
-import FavouriteRecipeDTO from '../../DTO/entity_dto/recipe/favourite-recipe.dto';
-import {TokenStorageService} from '../../security/token-storage.service';
-import {NotificationService} from '../../security/notification-service';
-import {LOGIN} from '../../util/roots';
 
 @Component({
   selector: 'app-feed',
@@ -49,12 +45,12 @@ export class FeedComponent implements OnInit {
   imageService = inject(ImageModelService);
   imageUpload = inject(ImageUploadService);
   private readonly tokenStorage = inject(TokenStorageService);
-  private readonly notificationService = inject(NotificationService);
 
   private readonly paramMap = this.activeRoute.snapshot.paramMap;
 
-  isFavourite = signal(false);
+  needsFavourite = signal(false);
   tags = signal<TagDto[]>([]);
+  favouriteRecipes = signal<number[]>([]);
   allTags : TagDto[]=[];
   private authorId?:number;
   sortType = signal<SortTypeRecipe>("NEWER");
@@ -71,7 +67,7 @@ export class FeedComponent implements OnInit {
     this.tagService.getAllTags()
       .subscribe(data=>this.allTags = data);
     if(this.paramMap.has("isFavourite"))
-      this.isFavourite.set(this.paramMap.get("isFavourite")==='true')
+      this.needsFavourite.set(this.paramMap.get("isFavourite")==='true')
     if(this.paramMap.has('tags')){
       this.tags.set(this.paramMap.get("tags")!
         .split(",")
@@ -83,7 +79,7 @@ export class FeedComponent implements OnInit {
       if(this.paramMap.has("sortType"))
         this.sortType.set(this.paramMap.get("sortType") as SortTypeRecipe);
     }
-   this.submitFilters();
+    this.submitFilters();
   }
 
   protected removeIngredient(id: number): void {
@@ -92,7 +88,7 @@ export class FeedComponent implements OnInit {
 
   formRequest():RecipePreviewRequest{
     return {
-      isFavourite: this.isFavourite(),
+      isFavoriteOnly: this.needsFavourite(),
       tags: this.tags().map(tag=>tag.id),
       authorId: this.authorId,
       sortType: this.sortType(),
@@ -100,7 +96,8 @@ export class FeedComponent implements OnInit {
   }
   protected submitFilters(): void {
     const request = this.formRequest();
-    const favRec$ = this.recipeService
+    console.log(request);
+    this.recipeService
       .getAllRecipePreviews(request, this.page())
       .pipe(
         switchMap((response) =>
@@ -118,53 +115,38 @@ export class FeedComponent implements OnInit {
                   ),
                 ),
               ),
-            )
+            ),
         ),
-        tap(data=> this.recipes.set(data)),
-        map(data=> data.map(rec => rec.id)),
-        switchMap(num=> this.recipeService.getFavourites({
-          favourite: num
-        }as FavouritesRequest)),
-      );
-    favRec$
-      .pipe(
-        switchMap((req) => from(req.recipes)),
-        tap((id) => {
-          this.recipes.update((list) => {
-             return list.map((rec) =>
-                rec.id === id ? {...rec, isFavourite: true} : rec
-              )
-            }
+        tap((data) => this.recipes.set(data)),
+        switchMap((data) => {
+          const ids = data.map((res) => res.id);
+          return this.recipeService.getFavourites(ids).pipe(
+            tap((fav) =>
+              this.favouriteRecipes.set(fav.recipes),
+            )
           );
-        })
-      ).subscribe();
+        }),
+      )
+      .subscribe();
   }
 
   protected addToTags($event: TagDto) {
     this.tags.update((list) =>([...list, $event]));
   }
 
-  isAuthenticated(): boolean {
-    return this.tokenStorage.getToken() != null;
+  isFavourite(id: number): boolean {
+    return this.favouriteRecipes().includes(id);
+
   }
 
-  protected toggleFavourites(recipe: RecipePreviewDTO): void {
-    if (!this.isAuthenticated()) {
-      this.notificationService.showSnackBar('Войдите, чтобы добавлять рецепты в избранное');
-      void this.router.navigate(['/', LOGIN], {
-        queryParams: { returnUrl: this.router.url },
-      });
-      return;
-    }
-    this.recipeService.toggleFavourite(recipe.id).subscribe({
-      next: () => {
-        this.recipes.update((list) =>
-          list.map((r) =>
-            r.id === recipe.id ? {...r, isFavourite: !r.isFavourite} : r,
-          ),
-        );
-      },
-    });
+  protected removeFavourite(id: number): void {
+    this.favouriteRecipes.update((list) =>
+      list.filter((num) => num !== id));
+    this.recipeService.toggleFavourite(id).subscribe();
   }
 
+  protected addFavourite(id: number): void {
+    this.favouriteRecipes.update((list) => [...list, id]);
+    this.recipeService.toggleFavourite(id).subscribe();
+  }
 }

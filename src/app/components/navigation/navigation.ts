@@ -5,7 +5,7 @@ import AvatarIndexedDb from '../../image_services/avatar-indexed.db';
 import {TokenStorageService} from '../../security/token-storage.service';
 import UserProfileDto from '../../DTO/entity_dto/user/user-profile.dto';
 import {NavigationEnd, Router, RouterLink} from '@angular/router';
-import {ADD_RECIPE, FEED_ROOT, LOGIN} from '../../util/roots';
+import {ADD_RECIPE, FEED_ROOT, LOGIN, RECIPE} from '../../util/roots';
 import {MatTooltip} from '@angular/material/tooltip';
 import {MatIconButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
@@ -157,10 +157,8 @@ export class NavigationComponent implements OnInit {
   }
 
   protected onSearchSelect(recipe: RecipeTitleSearchDTO | RecipeSummarySearchDTO): void {
-    //TODO добавить переход на страницу рецепта когда будет готово
-    void this.router.navigate(['/', this.FEED_ROOT], {
-      queryParams: { search: recipe.name, recipeId: recipe.id },
-    });
+    void this.router.navigate(['/', RECIPE, recipe.id])
+      .then(()=> globalThis.location.reload());
   }
 
   logout(): void {

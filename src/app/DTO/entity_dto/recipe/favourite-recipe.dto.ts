@@ -1,3 +1,3 @@
-export default interface FavouriteRecipeDTO{
+export default interface FavouriteRecipeDTO {
   recipes: number[];
 }

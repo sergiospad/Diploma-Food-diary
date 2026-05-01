@@ -170,6 +170,46 @@
   opacity: 0.5;
 }
 
+.recipe-card__like.mat-mdc-icon-button {
+  position: absolute;
+  bottom: 0.5rem;
+  right: 0.5rem;
+  z-index: 2;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--dark) 12%, transparent);
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 1px 8px rgba(68, 55, 55, 0.18);
+  backdrop-filter: blur(4px);
+  --mat-icon-button-icon-size: 1.3rem;
+  --mat-icon-button-icon-color: color-mix(in srgb, var(--dark) 48%, transparent);
+  --mat-icon-button-state-layer-color: color-mix(in srgb, var(--accent-dark) 12%, transparent);
+}
+
+.recipe-card__like.mat-mdc-icon-button:hover {
+  background: var(--light);
+  --mat-icon-button-icon-color: var(--accent-dark);
+}
+
+.recipe-card__like--active.mat-mdc-icon-button {
+  border-color: color-mix(in srgb, var(--accent-dark) 35%, transparent);
+  background: color-mix(in srgb, var(--accent-light) 22%, white);
+  --mat-icon-button-icon-color: var(--accent-dark);
+}
+
+.recipe-card__like--active.mat-mdc-icon-button:hover {
+  --mat-icon-button-icon-color: color-mix(in srgb, var(--accent-dark) 92%, #000);
+}
+
+.recipe-card__like mat-icon.mat-icon {
+  font-size: 1.3rem;
+  width: 1.3rem;
+  height: 1.3rem;
+  line-height: 1.3rem;
+}
+
 .recipe-card__favourite.mat-mdc-icon-button {
   position: absolute;
   top: 0.5rem;

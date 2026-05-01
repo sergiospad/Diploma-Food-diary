@@ -3,6 +3,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Endpoint} from '../util/endpoint';
 import RecipePreviewRequest from '../DTO/requests/recipe-preview.request';
 import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 import RecipePreviewDTO from '../DTO/entity_dto/recipe/recipe-preview.dto';
 import RecipeSummarySearchDTO from '../DTO/entity_dto/recipe/recipe-summary-search.dto';
 import RecipeTitleSearchDTO from '../DTO/entity_dto/recipe/recipe-title-search.dto';
@@ -21,15 +22,12 @@ export default class RecipeService {
   private readonly recipeAPI = new Endpoint('recipe');
 
   getAllRecipePreviews(recipe: RecipePreviewRequest, page:number):Observable<RecipePreviewDTO[]>{
-    console.log(JSON.stringify(recipe));
-    const list = this.http.post<RecipePreviewDTO[]>(
+    return this.http.post<RecipePreviewDTO[]>(
        this.recipeAPI.builder()
          .points("previews")
          .addParam("page", page.toString())
          .build(),
        recipe);
-    list.subscribe((res=>console.log(res)));
-    return list;
   }
 
   summarySearch(searchItem:string):Observable<RecipeSummarySearchDTO[]>{
@@ -57,13 +55,11 @@ export default class RecipeService {
   }
 
   updateRecipe(recipe: RecipeEditDto):Observable<RecipeShowDTO>{
-    const headers = new HttpHeaders({'Content-Type': 'application/json'});
     return this.http.patch<RecipeShowDTO>(
       this.recipeAPI.builder()
         .points("edit")
         .build(),
       recipe,
-      {headers},
     );
   }
 
@@ -82,12 +78,13 @@ export default class RecipeService {
         .build())
   }
 
-  getFavourites(request: FavouritesRequest):Observable<FavouriteRecipeDTO>{
-    return this.http.post<FavouriteRecipeDTO>(
-      this.recipeAPI.builder()
-        .points("favorites")
-        .build(),
-      request);
+  getFavourites(ids: number[]): Observable<FavouriteRecipeDTO> {
+    const body: FavouritesRequest = {favourite: ids};
+    return this.http
+      .post<FavouriteRecipeDTO>(
+        this.recipeAPI.builder().points('favourites').build(),
+        body)
+
   }
 
   toggleFavourite(id: number):Observable<any>{

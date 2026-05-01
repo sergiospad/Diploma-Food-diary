@@ -18,9 +18,9 @@ class EndpointBuilder{
     return new EndpointBuilder(this.endpoint, this.params);
   }
 
-  public build():string{
-    let par = this.params.join('&');
-    return this.endpoint + '?' + par;
+  public build(): string {
+    const par = this.params.join('&');
+    return par.length > 0 ? `${this.endpoint}?${par}` : this.endpoint;
   }
 
 

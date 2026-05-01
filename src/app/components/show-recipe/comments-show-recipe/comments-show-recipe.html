@@ -8,20 +8,19 @@
       @for (comment of comments; track comment.id) {
         <li class="comments__item">
           <div class="comments__toolbar">
-            <div class="comments__meta">
-              <img
-                class="comments__avatar"
-                [src]="comment.userAvatar"
-                [alt]="'Аватар: ' + comment.username"
-                width="40"
-                height="40"
-                loading="lazy">
-              <div class="comments__author">
-                <span class="comments__username">{{ comment.username }}</span>
-                <time class="comments__date">
-                  {{ comment.createdAt | dateFormat }}
-                </time>
-              </div>
+            <img
+              class="comments__avatar"
+              [src]="comment.userAvatar"
+              [alt]="'Аватар: ' + comment.username"
+              width="32"
+              height="32"
+              loading="lazy">
+            <div class="comments__head">
+              <span class="comments__username">{{ comment.username }}</span>
+              <span class="comments__sep" aria-hidden="true">·</span>
+              <time class="comments__date">
+                {{ comment.createdAt | dateFormat }}
+              </time>
             </div>
             @if (canRemoveComment(comment.username)) {
               <button

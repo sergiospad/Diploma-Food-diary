@@ -147,3 +147,12 @@
   box-shadow: 0 0 0 1px rgba(251, 183, 49, 0.35);
 }
 
+/* Лента комментариев: не наследовать центрирование от .container, выровнять влево как текст блоков рецепта */
+.container > .comments {
+  display: block;
+  width: 100%;
+  max-width: var(--add-recipe-main-column-max);
+  margin-inline: 0;
+  text-align: start;
+}
+

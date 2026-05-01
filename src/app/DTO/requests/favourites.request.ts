@@ -1,3 +1,4 @@
-export default interface FavouritesRequest{
-  favourite:number[];
+
+export default interface FavouritesRequest {
+  favourite: number[];
 }

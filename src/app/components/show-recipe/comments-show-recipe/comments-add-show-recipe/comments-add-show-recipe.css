@@ -1,6 +1,7 @@
 .comments-add {
-  padding-top: 1rem;
+  padding-top: 0.75rem;
   border-top: 1px solid var(--mat-sys-outline-variant, rgba(0, 0, 0, 0.08));
+  max-width: 100%;
 }
 
 .comments-add__row {
@@ -17,7 +18,7 @@
 
   .comments-add__media {
     flex-shrink: 0;
-    width: 148px;
+    width: 112px;
   }
 
   .comments-add__field {

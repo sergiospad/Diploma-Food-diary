@@ -2,7 +2,7 @@ import {SortTypeRecipe} from '../types';
 
 export default interface RecipePreviewRequest {
   sortType?: SortTypeRecipe;
-  favouriteOnly?: boolean;
+  isFavoriteOnly?: boolean;
   tags?: number[];
   authorId?: number;
 }

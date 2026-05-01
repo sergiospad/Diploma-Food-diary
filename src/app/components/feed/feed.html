@@ -11,10 +11,8 @@
             class="feed__checkbox"
             type="checkbox"
             id="feed-favourite-only"
-            [checked]="isFavourite()"
-            [disabled]="!isAuthenticated()"
-            [attr.title]="isAuthenticated() ? null : 'Доступно после входа'"
-            (change)="isFavourite.set($any($event.target).checked)" />
+            [checked]="needsFavourite()"
+            (change)="needsFavourite.set($any($event.target).checked)" />
           <label class="feed__label" for="feed-favourite-only">Только избранное</label>
         </div>
 
@@ -76,21 +74,19 @@
                   <mat-icon>restaurant</mat-icon>
                 </div>
               }
-              @if (isAuthenticated()) {
-                <button
-                  type="button"
-                  mat-icon-button
-                  class="recipe-card__favourite"
-                  [class.recipe-card__favourite--active]="recipe.isFavourite"
-                  (click)="toggleFavourites(recipe)"
-                  [attr.aria-label]="
-                    recipe.isFavourite
-                      ? 'Убрать из избранного: ' + recipe.name
-                      : 'В избранное: ' + recipe.name
-                  ">
-                  <mat-icon>{{ recipe.isFavourite ? 'favorite' : 'favorite_border' }}</mat-icon>
-                </button>
-              }
+              <button
+                type="button"
+                mat-icon-button
+                class="recipe-card__like"
+                [class.recipe-card__like--active]="isFavourite(recipe.id)"
+                (click)="isFavourite(recipe.id) ? removeFavourite(recipe.id) : addFavourite(recipe.id)"
+                [attr.aria-label]="
+                  isFavourite(recipe.id)
+                    ? 'Убрать лайк: ' + recipe.name
+                    : 'Лайкнуть: ' + recipe.name
+                ">
+                <mat-icon>{{ isFavourite(recipe.id) ? 'thumb_up' : 'thumb_up_off_alt' }}</mat-icon>
+              </button>
             </div>
             <div class="recipe-card__body">
               <h3 class="recipe-card__title">{{ recipe.name }}</h3>
