@@ -1,0 +1,54 @@
+:host {
+  display: block;
+  max-width: 1240px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.edit-tags {
+  padding: 0.25rem 0 1rem;
+}
+
+.edit-tags__title {
+  margin: 0 0 0.35rem;
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--dark);
+  letter-spacing: 0.01em;
+}
+
+.edit-tags__hint {
+  margin: 0 0 1rem;
+  font-size: 0.9rem;
+  color: color-mix(in srgb, var(--dark) 58%, #fff);
+  line-height: 1.45;
+}
+
+.edit-tags__field {
+  display: block;
+  width: 100%;
+  max-width: 28rem;
+}
+
+.edit-tags__field .mat-mdc-form-field {
+  width: 100%;
+}
+
+.edit-tags__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.65rem;
+  margin-top: 1rem;
+}
+
+.edit-tags__chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--dark);
+  background: color-mix(in srgb, var(--accent-light) 35%, white);
+  border: 1px solid color-mix(in srgb, var(--accent-light) 55%, var(--border-color));
+}

@@ -1,15 +1,22 @@
+:host {
+  display: block;
+}
+
 .cooking-stages {
-  margin-top: 2rem;
-  max-width: var(--add-recipe-main-column-max);
-  margin-left: 0;
+  margin-top: 0;
+  max-width: 1240px;
+  margin-left: auto;
   margin-right: auto;
   text-align: start;
 }
 
 .cooking-stages__title {
   display: block;
-  margin-bottom: 2rem;
-  margin-top: 1.25rem;
+  margin: 0 0 1.25rem;
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--dark);
+  letter-spacing: 0.01em;
 }
 
 .cooking-stages__grid {

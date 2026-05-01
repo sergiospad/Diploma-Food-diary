@@ -28,20 +28,25 @@ export class EditTags implements OnInit {
   allTags :TagDto[] = [];
 
   onSelectedTagsChange(next: TagDto[]) {
+    this.recipe.update((r) => ({...r, tags: next}));
+
     const prev = this.tags();
-    const added = next.filter((t) => !prev.some((p) => p.id === t.id))
-      .map(t=> t.id);
-    const removed = prev.filter((p) => !next.some((t) => t.id === p.id))
-      .map(t=> t.id);
-    this.recipeEdit.update(rec=>({
+    const added = next
+      .filter((t) => !prev.some((p) => p.id === t.id))
+      .map((t) => t.id);
+    const removed = prev
+      .filter((p) => !next.some((t) => t.id === p.id))
+      .map((t) => t.id);
+    this.recipeEdit.update((rec) => ({
       ...rec,
       removeTags: [...(rec.removeTags ?? []), ...removed],
-      addTags: [...(rec.addTags ?? []), ...added]
-    }))
+      addTags: [...(rec.addTags ?? []), ...added],
+    }));
     this.tags.set(next);
   }
 
   ngOnInit(): void {
-      this.tagService.getAllTags().subscribe(tags => this.allTags = tags);
+    this.tags.set([...(this.recipe().tags ?? [])]);
+    this.tagService.getAllTags().subscribe((tags) => (this.allTags = tags));
   }
 }

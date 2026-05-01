@@ -1,13 +1,31 @@
+:host {
+  display: block;
+  flex: 1 1 280px;
+  min-width: 0;
+}
+
 .blocks__ingredients {
-  font-size: 1.5rem;
+  font-size: 1rem;
   display: flex;
   flex-direction: column;
-  gap: 3rem;
-  flex: 1 1 auto;
-  min-width: 0;
+  gap: 1.75rem;
   text-align: start;
-  margin-top: 1rem;
+  padding: 1.25rem 1.35rem;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--light) 96%, var(--accent-light) 4%);
+  box-shadow: 0 1px 3px rgba(68, 55, 55, 0.06);
 }
+
+.blocks__ingredients__heading {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--dark);
+  margin: 0 0 0.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--border-color) 90%, transparent);
+}
+
 .blocks__ingredients__private,
 .blocks__ingredients__time__checkbox,
 .blocks__ingredients__time__num-input {
@@ -19,14 +37,15 @@
 .blocks__ingredients__label {
   cursor: pointer;
   user-select: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--dark);
 }
 
-
-/* Нативный checkbox: размер задаётся width/height, не font-size. */
 .checkbox {
   margin-top: 0;
-  width: 1.35rem;
-  height: 1.35rem;
+  width: 1.2rem;
+  height: 1.2rem;
   cursor: pointer;
   flex-shrink: 0;
   accent-color: var(--accent-light);
@@ -36,20 +55,29 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 2rem;
+  gap: 1rem;
 }
 
 #add-recipe-cooking-time {
-  padding: 0.5rem;
-  width: 15%;
-  font-size: 1.5rem;
+  box-sizing: border-box;
+  padding: 0.45rem 0.6rem;
+  width: 5.5rem;
+  max-width: 100%;
+  font-size: 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background: var(--light);
 }
 
-.blocks__ingredients__edit-recipe__button{
+.blocks__ingredients__new-product {
+  margin-top: 0.25rem;
+}
+
+.blocks__ingredients__edit-recipe__button {
   box-sizing: border-box;
-  gap: 0.5rem;
-  overflow: hidden;
-  border-radius: 0;
-  min-width:  100%;
+  width: 100%;
+  border-radius: 6px;
+  font-weight: 600;
   --mat-button-filled-container-color: var(--accent-dark);
+  --mat-button-filled-label-text-color: var(--light);
 }

@@ -3,7 +3,7 @@ import {RECIPE, RECIPE_ID} from '../../util/roots';
 import {ActivatedRoute, Router} from '@angular/router';
 import RecipeService from '../../service/recipe.service';
 import RecipeShowDTO from '../../DTO/entity_dto/recipe/recipe-show.dto';
-import {MatButton} from '@angular/material/button';
+import {MatButton, MatStrokedButton} from '@angular/material/button';
 import {EditRecipeMainInfoSection} from './edit-recipe-main-info-section/edit-recipe-main-info-section';
 import RecipeEditProjection from '../../DTO/entity_dto/recipe/recipe-edit-projection';
 import {catchError, map, switchMap, tap} from 'rxjs/operators';
@@ -24,7 +24,8 @@ import {NotificationService} from '../../security/notification-service';
     EditRecipeIngredientSection,
     EditRecipeCookingStages,
     EditTags,
-    MatButton
+    MatButton,
+    MatStrokedButton,
   ],
   templateUrl: './edit-recipe.html',
   styleUrl: './edit-recipe.css',
