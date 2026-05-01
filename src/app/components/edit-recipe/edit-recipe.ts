@@ -3,18 +3,17 @@ import {RECIPE, RECIPE_ID} from '../../util/roots';
 import {ActivatedRoute, Router} from '@angular/router';
 import RecipeService from '../../service/recipe.service';
 import RecipeShowDTO from '../../DTO/entity_dto/recipe/recipe-show.dto';
-import {MatButton, MatStrokedButton} from '@angular/material/button';
+import {MatButton} from '@angular/material/button';
 import {EditRecipeMainInfoSection} from './edit-recipe-main-info-section/edit-recipe-main-info-section';
 import RecipeEditProjection from '../../DTO/entity_dto/recipe/recipe-edit-projection';
 import {catchError, map, switchMap, tap} from 'rxjs/operators';
 import ImageModelService from '../../service/recipe_resource/image-model.service';
 import {ImageUploadService} from '../../image_services/image-upload.service';
-import {from, Observable, of} from 'rxjs';
+import {from, of} from 'rxjs';
 import {EditRecipeIngredientSection} from './edit-recipe-ingredient-section/edit-recipe-ingredient-section';
 import {EditRecipeCookingStages} from './edit-recipe-cooking-stages/edit-recipe-cooking-stages';
 import {EditTags} from './edit-tags/edit-tags';
 import RecipeEditDto from '../../DTO/entity_dto/recipe/recipe-edit.dto';
-import IngredientEditDTO from '../../DTO/entity_dto/recipe-recource/ingredient/ingredient-edit.dto';
 import {NotificationService} from '../../security/notification-service';
 
 @Component({
@@ -25,7 +24,6 @@ import {NotificationService} from '../../security/notification-service';
     EditRecipeCookingStages,
     EditTags,
     MatButton,
-    MatStrokedButton,
   ],
   templateUrl: './edit-recipe.html',
   styleUrl: './edit-recipe.css',
