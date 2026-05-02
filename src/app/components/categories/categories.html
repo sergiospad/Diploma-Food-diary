@@ -1,0 +1,11 @@
+<div class="container">
+  <h3>Список категорий</h3>
+    <div class="categories_conteiner">
+      <h5>Категории</h5> <h5>Доступные единицы измерения</h5>
+    </div>
+  <ul>
+    @for(cat of categories; track cat.id){
+      <app-show-category [(category)]="categories[$index]"></app-show-category>
+    }
+  </ul>
+</div>
