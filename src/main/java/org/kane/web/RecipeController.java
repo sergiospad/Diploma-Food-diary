@@ -3,10 +3,14 @@ package org.kane.web;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.kane.domain.DTO.entityDTO.recipe.*;
+import org.kane.domain.DTO.entityDTO.recipe_recource.FavouriteRecipeDTO;
+import org.kane.domain.DTO.request.FavouritesRequest;
 import org.kane.domain.DTO.request.RecipePreviewRequest;
+import org.kane.domain.DTO.response.MessageResponse;
 import org.kane.domain.service.recipe.RecipeService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -31,7 +35,7 @@ public class RecipeController {
     public ResponseEntity<List<RecipePreviewDTO>> getAllRecipePreviews(
             Principal principal,
             @RequestBody RecipePreviewRequest recipePreviewRequest,
-            @PageableDefault(size = 18) Pageable pageable) {
+            @PageableDefault(size = 12) Pageable pageable) {
         return ResponseEntity.ok(recipeService.findPreviews(principal, recipePreviewRequest, pageable));
     }
 
@@ -81,7 +85,26 @@ public class RecipeController {
 
     @GetMapping("/author/{recipeID}")
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-    public ResponseEntity<Long> findRecipeAuthor(@PathVariable Long recipeID) {
+    public ResponseEntity<Long> findAuthorByRecipe(@PathVariable Long recipeID) {
         return ResponseEntity.ok(recipeService.getAuthorOfRecipe(recipeID));
+    }
+
+    /**
+     * POST /api/recipe/favourites — тело JSON (список id рецептов).
+     * GET с {@link RequestBody} не используем: у многих клиентов тело GET отбрасывается, preflight/CORS и кэши иначе ведут себя.
+     */
+    @PostMapping(value = "/favourites")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    public ResponseEntity<FavouriteRecipeDTO> getFavourites(
+            Principal principal,
+            @RequestBody FavouritesRequest request) {
+        return ResponseEntity.ok(recipeService.getFavourites(principal, request));
+    }
+
+    @GetMapping("/toggle/{recipeID}")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    public ResponseEntity<MessageResponse>  toggleFavourite(Principal principal, @PathVariable Long recipeID) {
+        recipeService.toggleFavourite(principal, recipeID);
+        return ResponseEntity.ok(new MessageResponse("Обновлено"));
     }
 }

@@ -112,7 +112,7 @@ class MockRecipeServiceTest {
         Long authorId = 5L;
         request.setTags(tags);
         request.setAuthorId(authorId);
-        request.setFavoriteOnly(true);
+        request.setIsFavoriteOnly(true);
 
         Set<Recipe> favouriteRecipes = new HashSet<>();
         var recipe = new Recipe();
@@ -165,7 +165,7 @@ class MockRecipeServiceTest {
 
         request.setTags(null);  // явно null
         request.setAuthorId(null);
-        request.setFavoriteOnly(false);
+        request.setIsFavoriteOnly(false);
 
         when(recipeRepository.findAllPreviewDTOOrderedByNew(any(BooleanBuilder.class), eq(pageable)))
                 .thenReturn(mockPage);

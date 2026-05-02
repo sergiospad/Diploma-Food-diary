@@ -7,6 +7,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.kane.database.entity.User;
 import org.kane.domain.DTO.entityDTO.user.BMRInfoProjection;
+import org.kane.domain.DTO.entityDTO.user.UserEditDTO;
 import org.kane.domain.DTO.entityDTO.user.UserProfileDTO;
 import org.springframework.stereotype.Repository;
 
@@ -65,6 +66,19 @@ public class UserRepositoryImpl implements CustomUserRepository {
                 .orderBy(weightRecord.dateOfMeasurement.desc())
                 .fetchFirst();
     }
-
+    @Override
+    public UserEditDTO getUserEditInfo(Long userID){
+        return queryFactory.select(Projections.constructor(UserEditDTO.class,
+                    user.id,
+                    user.username,
+                    user.email,
+                    user.gender,
+                    user.birthdate,
+                    user.height
+                ))
+                .from(user)
+                .where(user.id.eq(userID))
+                .fetchOne();
+    }
 
 }

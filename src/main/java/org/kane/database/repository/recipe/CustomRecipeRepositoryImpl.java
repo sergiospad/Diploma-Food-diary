@@ -15,6 +15,7 @@ import org.kane.domain.DTO.entityDTO.recipe.RecipePreShowProjection;
 import org.kane.domain.DTO.entityDTO.recipe.RecipePreviewDTO;
 import org.kane.domain.DTO.entityDTO.recipe.RecipeSummarySearchDTO;
 import org.kane.domain.DTO.entityDTO.recipe.RecipeTitleSearchDTO;
+import org.kane.domain.DTO.entityDTO.recipe_recource.FavouriteRecipeDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -131,5 +132,14 @@ public class CustomRecipeRepositoryImpl implements CustomRecipeRepository {
                 .join(recipe.author, user)
                 .where(recipe.id.eq(recipeID))
                 .fetchOne();
+    }
+
+    @Override
+    public List<Long> checkForFavourites(Long userID, List<Long> recipesID){
+        return new JPAQuery<Long>(em).select(recipe.id)
+                .from(user)
+                .join(user.favouriteRecipes, recipe)
+                .where(recipe.id.in(recipesID).and(user.id.eq(userID)))
+                .fetch();
     }
 }

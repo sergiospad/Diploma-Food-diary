@@ -21,4 +21,5 @@ public interface UserService {
     boolean updatePassword(Principal principal, UpdatePasswordRequest updatePasswordRequest);
     void changeRole(ChangeRoleDTO changeRoleDTO);
 
+    UserEditDTO getEditIndo(Principal principal);
 }

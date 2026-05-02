@@ -12,7 +12,7 @@ import org.kane.database.enum_types.SortTypeRecipe;
 @AllArgsConstructor
 public class RecipePreviewRequest {
     SortTypeRecipe sortType;
-    boolean favoriteOnly;
+    Boolean isFavoriteOnly;
     Long[] tags;
     Long authorId;
 }

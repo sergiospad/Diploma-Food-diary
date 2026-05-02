@@ -88,4 +88,10 @@ public class UserServiceImpl implements UserService {
     public UserProfileDTO getUserProfile(Principal principal) {
         return userRepository.getCurrentUserProfile(principal);
     }
+
+    @Override
+    public UserEditDTO getEditIndo(Principal principal){
+        var userID = userRepository.getCurrentUserId(principal);
+        return userRepository.getUserEditInfo(userID);
+    }
 }

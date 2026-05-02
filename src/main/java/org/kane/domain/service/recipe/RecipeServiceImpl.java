@@ -12,7 +12,9 @@ import org.kane.database.repository.recipe.RecipeRepository;
 import org.kane.database.repository.recipe_recource.tag.TagRepository;
 import org.kane.database.repository.user.UserRepository;
 import org.kane.domain.DTO.entityDTO.recipe.*;
+import org.kane.domain.DTO.entityDTO.recipe_recource.FavouriteRecipeDTO;
 import org.kane.domain.DTO.request.EnergyValueRequest;
+import org.kane.domain.DTO.request.FavouritesRequest;
 import org.kane.domain.DTO.request.RecipePreviewRequest;
 import org.kane.domain.mappers.recipe.CreateRecipeMapper;
 import org.kane.domain.mappers.recipe.PreShowToShowMapper;
@@ -20,6 +22,7 @@ import org.kane.domain.mappers.recipe.RecipeEditMapper;
 import org.kane.domain.service.recipe_recource.cooking_stage.CookingStageService;
 import org.kane.domain.service.energy_value.EnergyValueService;
 import org.kane.domain.service.recipe_recource.ingredient.IngredientService;
+import org.kane.domain.service.user.UserService;
 import org.kane.exceptions.not_found.RecipeNotFoundException;
 import org.kane.exceptions.not_found.TagNotFoundException;
 import org.springframework.data.domain.Pageable;
@@ -49,16 +52,17 @@ public class RecipeServiceImpl implements RecipeService {
     private final RecipeEditMapper recipeEditMapper;
     private final PreShowToShowMapper preShowToShowMapper;
     private final EnergyValueService energyValueService;
+    private final UserService userService;
 
     @Override
     public List<RecipePreviewDTO> findPreviews(Principal principal, RecipePreviewRequest request, Pageable pageable) {
         BooleanBuilder predicate = new BooleanBuilder();
         predicate.and(recipe.isPrivate).not();
-        if(request.getTags() != null)
+        if(request.getTags() != null && request.getTags().length > 0 )
             predicate.and(recipe.tags.any().id.in(request.getTags()));
         if(request.getAuthorId() != null)
             predicate.and(recipe.author.id.eq(request.getAuthorId()));
-        if(request.isFavoriteOnly()){
+        if(request.getIsFavoriteOnly()!=null && request.getIsFavoriteOnly()){
             var user = userRepository.getCurrentUser(principal);
             predicate.and(recipe.in(user.getFavouriteRecipes()));
         }
@@ -74,6 +78,13 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public List<RecipeSummarySearchDTO> searchBySummary(String searchItem) {
         return recipeRepository.findSummaryDTOByItem(searchItem);
+    }
+
+    @Override
+    public FavouriteRecipeDTO getFavourites(Principal principal, FavouritesRequest request){
+        var userID = userRepository.getCurrentUserId(principal);
+        var list = recipeRepository.checkForFavourites(userID, request.getFavourite());
+        return FavouriteRecipeDTO.builder().recipes(list).build();
     }
 
     @Override
@@ -160,6 +171,21 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public Long getAuthorOfRecipe(Long recipeID){
         return recipeRepository.getAuthorIDByRecipeID(recipeID);
+    }
+
+    @Transactional
+    @Override
+    public void toggleFavourite(Principal principal, Long recipeID){
+        var user = userRepository.getCurrentUser(principal);
+        var recipes = user.getFavouriteRecipes();
+        var recipe = recipeRepository.findById(recipeID)
+                .orElseThrow(()-> new RecipeNotFoundException("recipe not found with id " + recipeID));
+        boolean match =recipes.stream()
+                .anyMatch(rec -> rec.getId().equals(recipeID));
+        if(match) recipes.remove(recipe);
+        else recipes.add(recipe);
+        user.setFavouriteRecipes(recipes);
+        userRepository.save(user);
     }
 
 

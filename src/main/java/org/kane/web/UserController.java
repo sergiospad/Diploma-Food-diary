@@ -61,4 +61,9 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/profile/all")
+    public ResponseEntity<UserEditDTO> getUserEditDTO(Principal principal){
+        return ResponseEntity.ok(userService.getEditIndo(principal));
+    }
+
 }

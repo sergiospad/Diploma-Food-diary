@@ -9,6 +9,7 @@ import org.kane.database.repository.user.UserRepository;
 import org.kane.exceptions.not_found.ImageNotFoundException;
 import org.kane.util.ImageUploadService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
@@ -17,10 +18,13 @@ import static org.kane.util.ImageUploadService.*;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class ImageModelServiceImpl implements ImageModelService {
     private static final String ERROR_MES = "Image not found";
     private final UserRepository userRepository;
     private final ImageModelRepository imageModelRepository;
+
+    @Transactional
     @Override
     public Long uploadImage(Principal principal, MultipartFile file, ImageType type) {
         var userId = userRepository.getCurrentUserId(principal);
@@ -42,6 +46,7 @@ public class ImageModelServiceImpl implements ImageModelService {
     }
 
     @SneakyThrows
+    @Transactional
     @Override
     public void updateImage(Principal principal, MultipartFile file, Long id) {
         var userId = userRepository.getCurrentUserId(principal);
@@ -51,7 +56,7 @@ public class ImageModelServiceImpl implements ImageModelService {
         imageModel.setUrl(saveImage(file, userId, imageModel.getImageType().toString()));
         imageModelRepository.save(imageModel);
     }
-
+    @Transactional
     @Override
     public void deleteImage(Long id) {
         imageModelRepository.deleteById(id);
