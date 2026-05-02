@@ -1,0 +1,19 @@
+<div class="container">
+  <form [formGroup]="amountForm">
+    <mat-form-field appearance="outline" subscriptSizing="fixed">
+      <input
+        matInput
+        formControlName="amount"
+        type="number"
+        min="1"
+        inputmode="numeric" />
+      @if (amountForm.controls['amount'].hasError('required')) {
+        <mat-error>Укажите число</mat-error>
+      }
+      @if (amountForm.controls['amount'].hasError('min')) {
+        <mat-error>Не меньше {{ amountForm.controls['amount'].getError('min').min }}</mat-error>
+      }
+    </mat-form-field>
+    &ngsp;{{ coefficient().measureUnitName }} &ngsp;=&ngsp;{{scaledAmount()}} г
+  </form>
+</div>

@@ -55,12 +55,20 @@ export class ChangePassword implements OnInit {
     return g.hasError('passwordsMismatch') && !!touched;
   }
 
-  protected changePassword() {
+  protected cancel(): void {
+    this.dialogRef.close();
+  }
+
+  protected changePassword(): void {
     const req = {
       oldPassword: this.passwordForm.controls['oldPassword'].value,
       newPassword: this.passwordForm.controls['password'].value,
-    }as UpdatePasswordRequest;
-    this.userService.updatePassword(req)
-      .subscribe(()=> this.notificationService.showSnackBar("Пароль обновлен"))
+    } as UpdatePasswordRequest;
+    this.userService.updatePassword(req).subscribe({
+      next: () => {
+        this.notificationService.showSnackBar('Пароль обновлен');
+        this.dialogRef.close(true);
+      },
+    });
   }
 }

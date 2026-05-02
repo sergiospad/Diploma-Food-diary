@@ -1,0 +1,37 @@
+<form class = "coeffform" [formGroup]="coeffForm">
+  <mat-form-field appearance="outline" class="new-ingredient__mu">
+    <input
+      matInput
+      formControlName="muAmount"
+      type="number"
+      min="1"
+      inputmode="numeric" />
+    @if (coeffForm.controls['amount'].hasError('required')) {
+      <mat-error>Укажите число</mat-error>
+    }@if (coeffForm.controls['amount'].hasError('min')) {
+      <mat-error>Число должно быть положительным</mat-error>
+  }
+  </mat-form-field>
+  <mat-form-field appearance="outline" class="new-ingredient__mu">
+    <mat-label>Ед. изм.</mat-label>
+    <mat-select formControlName="measureUnitID" placeholder="Выберите единицу" (selectionChange)="onSelectChange($event.value)">
+      @for (mu of freeUnits ; track mu.id) {
+        <mat-option [value]="mu.id">{{ mu.name }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field appearance="outline" class="new-ingredient__mu">
+    <input
+      matInput
+      formControlName="gAmount"
+      type="number"
+      min="1"
+      inputmode="numeric" />
+    @if (coeffForm.controls['amount'].hasError('required')) {
+      <mat-error>Укажите число</mat-error>
+    }@if (coeffForm.controls['amount'].hasError('min')) {
+    <mat-error>Число должно быть положительным</mat-error>
+  }
+  </mat-form-field>
+  г.
+</form>

@@ -89,6 +89,21 @@
   opacity: 1;
 }
 
+.profile__avatar__change-password {
+  width: 100%;
+  max-width: 260px;
+  margin: 1rem auto 0;
+}
+
+.profile__password-btn {
+  box-sizing: border-box;
+  width: 100%;
+  border-radius: 8px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--dark);
+}
+
 .profile__main {
   min-width: 0;
 }

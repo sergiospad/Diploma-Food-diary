@@ -1,1 +1,23 @@
-<p>show-category works!</p>
+<div class="container">
+  <div class="category__name">
+    {{category().name}}
+  </div>
+  <ul>
+    @for (coeff of category().coefficients; track $index){
+      <li class="category__coeff">
+        @if(coeff.measureUnitName!='г'){
+          <app-show-coefficient [(coefficient)]="category().coefficients[$index]">
+          </app-show-coefficient>
+        }
+      </li>
+    }
+    <button
+      type="button"
+      mat-flat-button
+      color="primary"
+      class="add-coefficient"
+      (click)="addCoefficient()">
+      Добавить коэффициент
+    </button>
+  </ul>
+</div>

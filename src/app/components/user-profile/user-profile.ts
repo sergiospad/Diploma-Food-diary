@@ -127,11 +127,9 @@ export class UserProfile implements OnInit {
       .subscribe();
   }
 
-
-
   protected onChangePassword() {
     const dialogAddProductConfig = new MatDialogConfig();
-    dialogAddProductConfig.width = "600px";
+    dialogAddProductConfig.width = "900px";
     this.dialog.open(ChangePassword, dialogAddProductConfig);
   }
 }
