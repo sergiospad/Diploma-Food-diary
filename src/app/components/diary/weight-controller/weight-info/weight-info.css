@@ -7,7 +7,8 @@
   padding: 1rem 1.1rem;
   border-radius: 10px;
   background: color-mix(in srgb, var(--accent-light) 14%, var(--light));
-  border: 1px solid color-mix(in srgb, var(--accent-light) 55%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent-light) 50%, transparent);
+  box-shadow: 0 1px 0 color-mix(in srgb, var(--accent-light) 25%, transparent);
 }
 
 .weight-info__eyebrow {

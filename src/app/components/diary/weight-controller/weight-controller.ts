@@ -6,10 +6,11 @@ import {AddWeightRecord, WeightRecordDialogData} from './add-weight-record/add-w
 import {WeightInfo} from './weight-info/weight-info';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {MatButton} from '@angular/material/button';
+import {WeightChartComponent} from './weight-chart/weight-chart';
 
 @Component({
   selector: 'app-weight-controller',
-  imports: [BmiDiagram, AddWeightRecord, WeightInfo, MatButton],
+  imports: [BmiDiagram, WeightInfo, MatButton, WeightChartComponent],
   templateUrl: './weight-controller.html',
   styleUrl: './weight-controller.css',
 })

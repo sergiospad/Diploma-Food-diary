@@ -1,5 +1,7 @@
 <section class="weight-panel">
-  <div class="weight-panel__card">
+  <div class="weight-panel__stack">
+    <article class="weight-panel__card" aria-labelledby="weight-panel-heading">
+      <h2 id="weight-panel-heading" class="weight-panel__heading visually-hidden">Текущий вес и ИМТ</h2>
     @if (weightRecord().id != null) {
       <div class="weight-panel__main">
         @if (weightRecord().BMI != null) {
@@ -25,5 +27,10 @@
         Новое измерение
       </button>
     </footer>
+    </article>
+    <article class="weight-panel__chart-shell" aria-labelledby="weight-chart-heading">
+      <h2 id="weight-chart-heading" class="weight-panel__heading visually-hidden">График веса</h2>
+      <app-weight-chart></app-weight-chart>
+    </article>
   </div>
 </section>
