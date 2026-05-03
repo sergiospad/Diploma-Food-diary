@@ -7,6 +7,7 @@ import CurrentWeightRecordShowDTO from '../../DTO/entity_dto/diary/weight_record
 import WeightRecordCreateDTO from '../../DTO/entity_dto/diary/weight_record/weight-record-create.dto';
 import WeightChartRequest from '../../DTO/requests/weight-chart.request';
 import WeightChartDataDTO from '../../DTO/entity_dto/diary/weight_record/weight-chart-data.dto';
+import MeasurementDatesDTO from '../../DTO/entity_dto/diary/weight_record/dates-of-measurement.dto';
 
 @Injectable({
   providedIn: 'root',
@@ -43,5 +44,12 @@ export default class WeightRecordService {
         .points("chart")
         .build(),
       record);
+  }
+
+  getMeasurementDates(): Observable<MeasurementDatesDTO>{
+    return this.http.get<MeasurementDatesDTO>(
+      this.recordAPI.builder()
+        .points("dates")
+        .build());
   }
 }

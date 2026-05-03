@@ -5,7 +5,7 @@ import AvatarIndexedDb from '../../image_services/avatar-indexed.db';
 import {TokenStorageService} from '../../security/token-storage.service';
 import UserProfileDto from '../../DTO/entity_dto/user/user-profile.dto';
 import {NavigationEnd, Router, RouterLink} from '@angular/router';
-import {ADD_RECIPE, CATEGORY, FEED_ROOT, LOGIN, PROFILE, RECIPE} from '../../util/roots';
+import {ADD_RECIPE, CATEGORY, DIARY, FEED_ROOT, LOGIN, PROFILE, RECIPE} from '../../util/roots';
 import {MatTooltip} from '@angular/material/tooltip';
 import {MatIconButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
@@ -183,5 +183,6 @@ export class NavigationComponent implements OnInit {
   protected readonly ADD_RECIPE = ADD_RECIPE;
   protected readonly PROFILE = PROFILE;
   protected readonly CATEGORY = CATEGORY;
+  protected readonly DIARY = DIARY;
 }
 

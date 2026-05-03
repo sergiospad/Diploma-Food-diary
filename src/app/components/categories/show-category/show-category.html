@@ -1,23 +1,29 @@
-<div class="container">
-  <div class="category__name">
-    {{category().name}}
-  </div>
-  <ul>
-    @for (coeff of category().coefficients; track $index){
-      <li class="category__coeff">
-        @if(coeff.measureUnitName!='г'){
-          <app-show-coefficient [(coefficient)]="category().coefficients[$index]">
-          </app-show-coefficient>
-        }
-      </li>
+<section
+  class="show-category"
+  [attr.aria-labelledby]="'show-category-title-' + category().id">
+  <h2 class="show-category__title" [id]="'show-category-title-' + category().id">
+    {{ category().name }}
+  </h2>
+
+  <ul class="show-category__list" role="list">
+    @for (coeff of category().coefficients; track coeff.id; let i = $index) {
+      @if (coeff.measureUnitName !== 'г') {
+        <li class="show-category__item" role="listitem">
+          <div class="show-category__card">
+            <app-show-coefficient [(coefficient)]="category().coefficients[i]" />
+          </div>
+        </li>
+      }
     }
+  </ul>
+
+  <div class="show-category__actions">
     <button
       type="button"
-      mat-flat-button
-      color="primary"
-      class="add-coefficient"
+      mat-stroked-button
+      class="show-category__add-btn"
       (click)="addCoefficient()">
       Добавить коэффициент
     </button>
-  </ul>
-</div>
+  </div>
+</section>

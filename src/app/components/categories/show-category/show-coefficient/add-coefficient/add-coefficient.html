@@ -1,37 +1,74 @@
-<form class = "coeffform" [formGroup]="coeffForm">
-  <mat-form-field appearance="outline" class="new-ingredient__mu">
-    <input
-      matInput
-      formControlName="muAmount"
-      type="number"
-      min="1"
-      inputmode="numeric" />
-    @if (coeffForm.controls['amount'].hasError('required')) {
-      <mat-error>Укажите число</mat-error>
-    }@if (coeffForm.controls['amount'].hasError('min')) {
-      <mat-error>Число должно быть положительным</mat-error>
-  }
-  </mat-form-field>
-  <mat-form-field appearance="outline" class="new-ingredient__mu">
-    <mat-label>Ед. изм.</mat-label>
-    <mat-select formControlName="measureUnitID" placeholder="Выберите единицу" (selectionChange)="onSelectChange($event.value)">
-      @for (mu of freeUnits ; track mu.id) {
-        <mat-option [value]="mu.id">{{ mu.name }}</mat-option>
+<div class="add-coefficient">
+  <h2 class="add-coefficient__title">Добавить коэффициент</h2>
+
+  <form class="add-coefficient__form" [formGroup]="coeffForm" novalidate>
+    <mat-form-field appearance="outline" subscriptSizing="fixed" class="add-coefficient__field">
+      <mat-label>Значение в выбранной единице</mat-label>
+      <input
+        matInput
+        formControlName="muAmount"
+        type="number"
+        min="0.0001"
+        max="10000"
+        step="any"
+        inputmode="decimal" />
+      @if (coeffForm.controls['muAmount'].hasError('required')) {
+        <mat-error>Укажите число</mat-error>
       }
-    </mat-select>
-  </mat-form-field>
-  <mat-form-field appearance="outline" class="new-ingredient__mu">
-    <input
-      matInput
-      formControlName="gAmount"
-      type="number"
-      min="1"
-      inputmode="numeric" />
-    @if (coeffForm.controls['amount'].hasError('required')) {
-      <mat-error>Укажите число</mat-error>
-    }@if (coeffForm.controls['amount'].hasError('min')) {
-    <mat-error>Число должно быть положительным</mat-error>
-  }
-  </mat-form-field>
-  г.
-</form>
+      @if (coeffForm.controls['muAmount'].hasError('min')) {
+        <mat-error>Не меньше 0.0001</mat-error>
+      }
+      @if (coeffForm.controls['muAmount'].hasError('max')) {
+        <mat-error>Не больше 10000</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" subscriptSizing="fixed" class="add-coefficient__field">
+      <mat-label>Единица измерения</mat-label>
+      <mat-select formControlName="measureUnitId" placeholder="Выберите единицу">
+        @for (mu of freeUnits; track mu.id) {
+          <mat-option [value]="mu.id">{{ mu.name }}</mat-option>
+        }
+      </mat-select>
+      @if (coeffForm.controls['measureUnitId'].hasError('required')) {
+        <mat-error>Выберите единицу</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" subscriptSizing="fixed" class="add-coefficient__field">
+      <mat-label>Значение в граммах</mat-label>
+      <input
+        matInput
+        formControlName="gAmount"
+        type="number"
+        min="0.0001"
+        max="10000000"
+        step="any"
+        inputmode="decimal" />
+      @if (coeffForm.controls['gAmount'].hasError('required')) {
+        <mat-error>Укажите число</mat-error>
+      }
+      @if (coeffForm.controls['gAmount'].hasError('min')) {
+        <mat-error>Не меньше 0.0001</mat-error>
+      }
+      @if (coeffForm.controls['gAmount'].hasError('max')) {
+        <mat-error>Не больше 10 000 000</mat-error>
+      }
+    </mat-form-field>
+
+    <div class="add-coefficient__actions">
+      <button type="button" mat-button class="add-coefficient__cancel" (click)="cancel()">
+        Отмена
+      </button>
+      <button
+        type="button"
+        mat-flat-button
+        color="primary"
+        class="add-coefficient__submit"
+        (click)="submit()"
+        [disabled]="coeffForm.invalid">
+        Сохранить
+      </button>
+    </div>
+  </form>
+</div>

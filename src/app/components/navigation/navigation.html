@@ -50,6 +50,14 @@
           <mat-icon>add</mat-icon>
           &nbsp;&nbsp;&nbsp;Добавить рецепт
         </button>
+
+        <button type="button"
+                [routerLink]="['/', DIARY]"
+                class="add-recipe">
+          <mat-icon>menu_book</mat-icon>
+          &nbsp;&nbsp;&nbsp;Дневник питания
+        </button>
+
         <div class="user-info">
           <h3 class="user-name">{{ user.username }}</h3>
         </div>

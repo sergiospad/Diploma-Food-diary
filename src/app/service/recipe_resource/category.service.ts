@@ -22,6 +22,7 @@ export default class CategoryService {
   }
 
   createCategory(category: CategoryCreateDTO):Observable<CategoryShowDTO>{
+    console.dir(category);
     return this.http.put<CategoryShowDTO>(
       this.categoryAPI.builder()
         .points("create")

@@ -22,7 +22,7 @@ export class ShowCoefficient implements OnInit {
   protected fb = inject(FormBuilder);
 
   protected scaledAmount = computed(() =>
-    this.amountSig() / this.coefficient().conversionFactor,
+    this.amountSig() * this.coefficient().conversionFactor,
   );
 
   ngOnInit(): void {

@@ -124,9 +124,9 @@
 }
 
 .search-box {
-  width: 320px;
-  margin-right: 1200px;
-
+  flex: 0 1 320px;
+  width: 100%;
+  max-width: 320px;
 }
 .search-box .mat-mdc-form-field {
   width: 100%;

@@ -20,9 +20,8 @@ import {MatRadioButton, MatRadioGroup} from '@angular/material/radio';
 import {NotificationService} from '../../security/notification-service';
 import {httpErrorMessage} from '../../util/error.service';
 import UserProfileValidator from './profile.validator';
-import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material/dialog';
+import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {ChangePassword} from './change-password/change-password';
-import AddProductComponent from '../add-recipe/recipe-main-info-ingredients-section/add-product/add-product';
 
 @Component({
   selector: 'app-user-profile',

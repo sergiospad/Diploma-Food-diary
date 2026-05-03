@@ -9,4 +9,5 @@ export const EDIT = 'edit';
 export const EDIT_RECIPE = RECIPE + "/" + EDIT;
 export const PROFILE = "profile";
 export const CATEGORY = "category";
+export const DIARY = "diary";
 

@@ -1,0 +1,10 @@
+<div class = "container">
+  <div class = "bmi-column">
+    <div class="bmi-column__diagram">
+      @if(weightRecord().id!==null){
+        <app-bmi-diagram [bmi]="weightRecord().BMI!"></app-bmi-diagram>
+      }
+      <app-add-weight-record></app-add-weight-record>
+    </div>
+  </div>
+</div>

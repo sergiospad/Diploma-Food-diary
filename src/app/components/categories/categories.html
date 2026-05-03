@@ -1,12 +1,31 @@
-<div class="container">
-  <h3>Список категорий</h3>
-    <div class="categories_conteiner">
-      <h5>Категории</h5> <h5>Доступные единицы измерения</h5>
-    </div>
-  <ul>
-    @for(cat of categories; track cat.id){
-      <app-show-category [(category)]="categories[$index]"
-      ></app-show-category>
-    }
-  </ul>
-</div>
+<section class="categories" aria-labelledby="categories-title">
+  <header class="categories__header">
+    <h2 id="categories-title" class="categories__title">Список категорий</h2>
+    <p class="categories__subtitle">
+      Для каждой категории заданы коэффициенты пересчёта дополнительных единиц измерения в граммы.
+    </p>
+  </header>
+
+  @if (loading) {
+    <p class="categories__loading" role="status">Загрузка списка…</p>
+  } @else {
+    <ul class="categories__list" role="list">
+      @for (cat of categories(); track cat.id; let i = $index) {
+        <li class="categories__item" role="listitem">
+          <app-show-category [(category)]="categories()[i]" />
+        </li>
+      } @empty {
+        <li class="categories__empty" role="status">Нет категорий.</li>
+      }
+    </ul>
+  }
+  <div class="categories__toolbar">
+    <button
+      type="button"
+      mat-stroked-button
+      class="categories__add-category"
+      (click)="addCategory()">
+      Добавить категорию
+    </button>
+  </div>
+</section>

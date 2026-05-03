@@ -1,0 +1,24 @@
+.bmi-chart__track {
+  position: relative;
+  height: 10px;
+  border-radius: 999px;
+  background: linear-gradient(
+    to right,
+    #5c6bc0 0%,
+    #43a047 35%,
+    #fdd835 55%,
+    #fb8c00 70%,
+    #e53935 100%
+  );
+}
+.bmi-chart__marker {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid var(--dark);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}

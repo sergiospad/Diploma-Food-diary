@@ -1,6 +1,10 @@
-<div class="container">
-  <form [formGroup]="amountForm">
-    <mat-form-field appearance="outline" subscriptSizing="fixed">
+<div class="show-coefficient">
+  <form class="show-coefficient__form" [formGroup]="amountForm" novalidate>
+    <mat-form-field
+      class="show-coefficient__field"
+      appearance="outline"
+      subscriptSizing="fixed">
+      <mat-label>Количество</mat-label>
       <input
         matInput
         formControlName="amount"
@@ -14,6 +18,11 @@
         <mat-error>Не меньше {{ amountForm.controls['amount'].getError('min').min }}</mat-error>
       }
     </mat-form-field>
-    &ngsp;{{ coefficient().measureUnitName }} &ngsp;=&ngsp;{{scaledAmount()}} г
+
+    <p class="show-coefficient__result" aria-live="polite">
+      <span class="show-coefficient__unit">{{ coefficient().measureUnitName }}</span>
+      <span class="show-coefficient__equals" aria-hidden="true">=</span>
+      <span class="show-coefficient__value">{{ scaledAmount() }} г</span>
+    </p>
   </form>
 </div>

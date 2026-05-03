@@ -3,8 +3,10 @@ import CategoryShowDto from '../../../DTO/entity_dto/recipe-recource/category/ca
 import {ShowCoefficient} from './show-coefficient/show-coefficient';
 import {MatButton} from '@angular/material/button';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
-import {ChangePassword} from '../../user-profile/change-password/change-password';
-import {AddCoefficient} from './show-coefficient/add-coefficient/add-coefficient';
+import {
+  AddCoefficient,
+  AddCoefficientDialogData,
+} from './show-coefficient/add-coefficient/add-coefficient';
 
 @Component({
   selector: 'app-show-category',
@@ -20,9 +22,16 @@ export class ShowCategory {
   dialog = inject(MatDialog);
 
   protected addCoefficient() {
-    const dialogAddProductConfig = new MatDialogConfig();
-    dialogAddProductConfig.width = "900px";
-    dialogAddProductConfig.data.add("categoryID", this.category().id)
-    this.dialog.open(AddCoefficient, dialogAddProductConfig);
+    const cfg = new MatDialogConfig<AddCoefficientDialogData>();
+    cfg.width = '900px';
+    cfg.data = {categoryId: this.category().id};
+    this.dialog
+      .open(AddCoefficient, cfg)
+      .afterClosed()
+      .subscribe((updated) => {
+        if (updated) {
+          this.category.set(updated);
+        }
+      });
   }
 }
