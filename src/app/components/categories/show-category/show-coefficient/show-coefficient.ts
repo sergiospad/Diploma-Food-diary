@@ -1,4 +1,4 @@
-import {Component, computed, inject, input, model, OnInit, signal} from '@angular/core';
+import {Component, computed, inject,  model, OnInit, signal} from '@angular/core';
 import CoefficientShowDTO from '../../../../DTO/entity_dto/recipe-recource/coefficient/coefficient-show.dto';
 import {MatError, MatFormField, MatInput, MatLabel} from '@angular/material/input';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';

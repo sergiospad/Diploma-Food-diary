@@ -1,11 +1,18 @@
-<div class="container">
-  <div class="bmi__title">Индекс массы тела</div>
+<div class="bmi-diagram">
+  <div class="bmi-diagram__header">
+    <span class="bmi-diagram__title">Индекс массы тела</span>
+    <span class="bmi-diagram__value">{{ bmi() | number : '1.1-1' }}</span>
+  </div>
   <div class="bmi-chart" role="img" [attr.aria-label]="'ИМТ ' + bmi()">
     <div class="bmi-chart__track">
       <span class="bmi-chart__marker" [style.left.%]="markerPercent()"></span>
     </div>
     <div class="bmi-chart__labels">
-      <span>16</span><span>18.5</span><span>25</span><span>30</span><span>40</span>
+      <span>16</span>
+      <span>18.5</span>
+      <span>25</span>
+      <span>30</span>
+      <span>40</span>
     </div>
   </div>
 </div>

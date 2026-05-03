@@ -1,3 +1,65 @@
-.bmi-column__diagram{
+:host {
+  display: block;
+}
 
+.weight-panel {
+  color: var(--dark);
+}
+
+.weight-panel__card {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: 1.25rem 1.35rem;
+  border-radius: 12px;
+  background: var(--light);
+  border: 1px solid color-mix(in srgb, var(--dark) 12%, transparent);
+  box-shadow:
+    0 1px 2px color-mix(in srgb, var(--dark) 6%, transparent),
+    0 12px 28px color-mix(in srgb, var(--dark) 8%, transparent);
+}
+
+.weight-panel__main {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.weight-panel__bmi,
+.weight-panel__info {
+  width: 100%;
+  min-width: 0;
+}
+
+.weight-panel__empty {
+  padding: 0.35rem 0 0.15rem;
+  text-align: center;
+}
+
+.weight-panel__empty-title {
+  margin: 0 0 0.35rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.weight-panel__empty-hint {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.45;
+  color: color-mix(in srgb, var(--dark) 72%, transparent);
+  max-width: 26rem;
+  margin-inline: auto;
+}
+
+.weight-panel__footer {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 0.15rem;
+  border-top: 1px solid color-mix(in srgb, var(--dark) 10%, transparent);
+}
+
+.weight-panel__cta {
+  font-weight: 600;
+  letter-spacing: 0.02em;
 }

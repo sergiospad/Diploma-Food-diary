@@ -1,24 +1,37 @@
 import {Component, inject, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import WeightRecordCreateDTO from '../../../../../DTO/entity_dto/diary/weight_record/weight-record-create.dto';
-import WeightRecordService from '../../../../../service/diary/weight-record.service';
-import UserProfileValidator from '../../../../user-profile/profile.validator';
+import WeightRecordCreateDTO from '../../../../DTO/entity_dto/diary/weight_record/weight-record-create.dto';
+import WeightRecordService from '../../../../service/diary/weight-record.service';
+import UserProfileValidator from '../../../user-profile/profile.validator';
+import {MatError, MatFormField, MatInput, MatLabel} from '@angular/material/input';
+import {MatButton} from '@angular/material/button';
 
 export interface WeightRecordDialogData {
-  record: number;
+  record: number|null;
 }
 
 @Component({
   selector: 'app-add-weight-record',
-  imports: [],
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    MatFormField,
+    MatInput,
+    MatLabel,
+    MatButton,
+    MatError
+  ],
   templateUrl: './add-weight-record.html',
   styleUrl: './add-weight-record.css',
 })
 export class AddWeightRecord implements OnInit {
   private readonly weightRecordService = inject(WeightRecordService);
-  private readonly dialogData = inject<WeightRecordDialogData | undefined>(MAT_DIALOG_DATA);
-  private readonly dialogRef = inject(MatDialogRef<AddWeightRecord, WeightRecordDialogData | undefined>);
+  /** Present only when this component is opened with MatDialog; omitted when embedded (e.g. weight-controller). */
+  private readonly dialogData = inject(MAT_DIALOG_DATA, {optional: true}) as
+    | WeightRecordDialogData
+    | undefined;
+  private readonly dialogRef = inject(MatDialogRef<AddWeightRecord>, {optional: true});
   private dates: Date[] = [];
 
   private readonly fb = inject(FormBuilder);
@@ -40,9 +53,6 @@ export class AddWeightRecord implements OnInit {
   }
 
   protected ableToSubmit(): boolean {
-    if (!this.recordForm.valid) {
-      return false;
-    }
     return this.dates.includes(this.recordForm.controls['date'].value);
   }
 

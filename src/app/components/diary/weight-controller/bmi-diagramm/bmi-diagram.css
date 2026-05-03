@@ -1,3 +1,43 @@
+:host {
+  display: block;
+}
+
+.bmi-diagram {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  padding: 0.85rem 0 0.15rem;
+}
+
+.bmi-diagram__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.bmi-diagram__title {
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: color-mix(in srgb, var(--dark) 72%, transparent);
+}
+
+.bmi-diagram__value {
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--dark);
+  line-height: 1;
+}
+
+.bmi-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
 .bmi-chart__track {
   position: relative;
   height: 10px;
@@ -11,6 +51,7 @@
     #e53935 100%
   );
 }
+
 .bmi-chart__marker {
   position: absolute;
   top: 50%;
@@ -18,7 +59,31 @@
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  background: #fff;
+  background: var(--light);
   border: 2px solid var(--dark);
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+.bmi-chart__labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.68rem;
+  font-weight: 500;
+  color: color-mix(in srgb, var(--dark) 58%, transparent);
+  letter-spacing: 0.02em;
+}
+
+.bmi-chart__labels span {
+  width: 2rem;
+  text-align: center;
+}
+
+.bmi-chart__labels span:first-child {
+  text-align: left;
+  width: auto;
+}
+
+.bmi-chart__labels span:last-child {
+  text-align: right;
+  width: auto;
 }

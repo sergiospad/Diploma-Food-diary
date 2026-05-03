@@ -1,8 +1,9 @@
+import {DecimalPipe} from '@angular/common';
 import {Component, computed, input} from '@angular/core';
 
 @Component({
   selector: 'app-bmi-diagram',
-  imports: [],
+  imports: [DecimalPipe],
   templateUrl: './bmi-diagram.html',
   styleUrl: './bmi-diagram.css',
 })

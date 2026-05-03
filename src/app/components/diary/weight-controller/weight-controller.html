@@ -1,10 +1,29 @@
-<div class = "container">
-  <div class = "bmi-column">
-    <div class="bmi-column__diagram">
-      @if(weightRecord().id!==null){
-        <app-bmi-diagram [bmi]="weightRecord().BMI!"></app-bmi-diagram>
-      }
-      <app-add-weight-record></app-add-weight-record>
-    </div>
+<section class="weight-panel">
+  <div class="weight-panel__card">
+    @if (weightRecord().id != null) {
+      <div class="weight-panel__main">
+        @if (weightRecord().BMI != null) {
+          <app-bmi-diagram class="weight-panel__bmi" [bmi]="weightRecord().BMI!"></app-bmi-diagram>
+        }
+        <app-weight-info class="weight-panel__info" [(weightRecord)]="weightRecord"></app-weight-info>
+      </div>
+    } @else {
+      <div class="weight-panel__empty" role="status">
+        <p class="weight-panel__empty-title">Пока нет измерений</p>
+        <p class="weight-panel__empty-hint">
+          Добавьте вес и дату — здесь появится ИМТ и шкала.
+        </p>
+      </div>
+    }
+    <footer class="weight-panel__footer">
+      <button
+        mat-flat-button
+        color="primary"
+        type="button"
+        class="weight-panel__cta"
+        (click)="openRecordForm()">
+        Новое измерение
+      </button>
+    </footer>
   </div>
-</div>
+</section>
