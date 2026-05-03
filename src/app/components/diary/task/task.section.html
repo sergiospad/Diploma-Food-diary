@@ -1,0 +1,11 @@
+<div class="container">
+  @if(currentTask()===null){
+    <button class="add-task" (click)="onClick()">
+      Добавить задачу
+    </button>
+  } @else {
+    <div class="task-panel">
+      <button (click)="onClickArchive()">Архив задач</button>
+    </div>
+  }
+</div>

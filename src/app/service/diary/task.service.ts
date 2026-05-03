@@ -15,6 +15,7 @@ export default class TaskService {
   private readonly taskAPI = new Endpoint('task');
 
   createTask(task: TaskCreateDTO):Observable<CurrentTaskShowDTO>{
+    console.log(task);
     return this.http.put<CurrentTaskShowDTO>(
       this.taskAPI.builder()
         .points("create")

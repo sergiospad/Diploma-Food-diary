@@ -38,34 +38,33 @@
     </div>
   </form>
 
-  @if (weightChart().weightList.length) {
-    <ul class="weight-chart__stats" aria-label="Сводка за период">
-      <li class="weight-chart__stat">
-        <p class="weight-chart__stat-label">Мин.</p>
-        <p class="weight-chart__stat-value">{{ weightChart().minWeight | number : '1.1-1' }} кг</p>
-      </li>
-      <li class="weight-chart__stat">
-        <p class="weight-chart__stat-label">Макс.</p>
-        <p class="weight-chart__stat-value">{{ weightChart().maxWeight | number : '1.1-1' }} кг</p>
-      </li>
-      <li class="weight-chart__stat">
-        <p class="weight-chart__stat-label">Средн.</p>
-        <p class="weight-chart__stat-value">{{ weightChart().avgWeight | number : '1.1-1' }} кг</p>
-      </li>
-      <li class="weight-chart__stat">
-        <p class="weight-chart__stat-label">Изменение</p>
-        <p class="weight-chart__stat-value">
-          {{ weightChart().weightChange >= 0 ? '+' : '' }}{{ weightChart().weightChange | number : '1.1-1' }} кг
-        </p>
-      </li>
-    </ul>
-  }
-
-  @if (weightChart().weightList.length) {
-    <div class="weight-chart__canvas">
-      <canvas baseChart [type]="lineChartType" [data]="lineChartData" [options]="lineChartOptions"></canvas>
-    </div>
-  } @else if (chartHydrated()) {
-    <p class="weight-chart__empty">Нет точек за выбранный интервал — измените даты или период.</p>
+  @if (weightChart(); as wc) {
+    @if (wc.weightList.length) {
+      <ul class="weight-chart__stats" aria-label="Сводка за период">
+        <li class="weight-chart__stat">
+          <p class="weight-chart__stat-label">Мин.</p>
+          <p class="weight-chart__stat-value">{{ wc.minWeight | number : '1.1-1' }} кг</p>
+        </li>
+        <li class="weight-chart__stat">
+          <p class="weight-chart__stat-label">Макс.</p>
+          <p class="weight-chart__stat-value">{{ wc.maxWeight | number : '1.1-1' }} кг</p>
+        </li>
+        <li class="weight-chart__stat">
+          <p class="weight-chart__stat-label">Средн.</p>
+          <p class="weight-chart__stat-value">{{ wc.avgWeight | number : '1.1-1' }} кг</p>
+        </li>
+        <li class="weight-chart__stat">
+          <p class="weight-chart__stat-label">Изменение</p>
+          <p class="weight-chart__stat-value">
+            {{ wc.weightChange >= 0 ? '+' : '' }}{{ wc.weightChange | number : '1.1-1' }} кг
+          </p>
+        </li>
+      </ul>
+      <div class="weight-chart__canvas">
+        <canvas baseChart [type]="lineChartType" [data]="lineChartData" [options]="lineChartOptions"></canvas>
+      </div>
+    } @else if (chartHydrated()) {
+      <p class="weight-chart__empty">Нет точек за выбранный интервал — измените даты или период.</p>
+    }
   }
 </section>

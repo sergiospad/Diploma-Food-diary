@@ -1,0 +1,25 @@
+<div class="container">
+  <form [formGroup]="taskForm" class="weight-chart__filters">
+      <mat-form-field appearance="outline" subscriptSizing="fixed" class="weight-chart__field">
+        <mat-label>Цель задачи</mat-label>
+        <select matNativeControl formControlName="taskTarget" class="weight-chart__native-select">
+          @for (o of targetMap; track o.value) {
+            <option [value]="o.value">{{ o.label }}</option>
+          }
+        </select>
+      </mat-form-field>
+      <mat-form-field appearance="outline" subscriptSizing="fixed" class="weight-chart__field">
+        <mat-label>Целевой вес</mat-label>
+        <input matInput formControlName="targetWeight"/>
+      </mat-form-field>
+      <mat-form-field appearance="outline" subscriptSizing="fixed" class="weight-chart__field">
+        <mat-label>Дата начала</mat-label>
+        <input matInput formControlName="beginningDate" type="date" />
+      </mat-form-field>
+      <mat-form-field appearance="outline" subscriptSizing="fixed" class="weight-chart__field">
+        <mat-label>Запланированный дефицит калорий</mat-label>
+        <input matInput formControlName="caloriesDeficit" />
+      </mat-form-field>
+    <button (click)="onClick()">Подтвердить</button>
+  </form>
+</div>

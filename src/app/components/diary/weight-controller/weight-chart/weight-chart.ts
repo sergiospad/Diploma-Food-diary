@@ -26,61 +26,15 @@ import WeightRecordService from '../../../../service/diary/weight-record.service
 })
 export class WeightChartComponent implements OnInit {
   protected readonly lineChartType = 'line' as const;
-  private readonly weightRecordService = inject(WeightRecordService);
-  protected readonly weightChart = signal<WeightChartDataDTO>({
-    weightList: [],
-    period: 'DAY',
-    minWeight: 0,
-    maxWeight: 0,
-    avgWeight: 0,
-    weightChange: 0,
-    startDate: new Date(),
-    endDate: new Date(),
-  });
-  /** После первого ответа API показываем пустое состояние вместо «тишины». */
+  protected readonly weightChart = signal<WeightChartDataDTO>(this.emptyChartDto());
   protected readonly chartHydrated = signal(false);
 
-  dataForm!: FormGroup;
-  private readonly fb = inject(FormBuilder);
-
-  /** Нативный select без overlay — список не «уезжает» к краю страницы. */
   protected readonly chartPeriodOptions: ReadonlyArray<{value: ChartPeriodType; label: string}> = [
     {value: 'DAY', label: 'День'},
     {value: 'WEEK', label: 'Неделя'},
     {value: 'MONTH', label: 'Месяц'},
     {value: 'YEAR', label: 'Год'},
   ];
-
-  ngOnInit(): void {
-    const endDate = new Date();
-    const startDate = new Date(endDate.getFullYear(), endDate.getMonth() - 1, endDate.getDate());
-    this.dataForm = this.fb.group({
-      chartType: ['DAY' as ChartPeriodType, Validators.required],
-      startDate: new FormControl(
-        startDate.toISOString().slice(0, 10),
-        Validators.required,
-      ),
-      endDate: new FormControl(endDate.toISOString().slice(0, 10), Validators.required),
-    });
-    this.updateChartData();
-  }
-
-  updateChartData(): void {
-    const raw = this.dataForm.getRawValue();
-    const req = {
-      startDate: raw.startDate,
-      endDate: raw.endDate,
-      chartPeriodType: raw.chartType,
-    } as WeightChartRequest;
-    this.weightRecordService.createChart(req).subscribe({
-      next: (data) => {
-        this.weightChart.set(data);
-        this.applyChartDto(data);
-        this.chartHydrated.set(true);
-      },
-      error: () => this.chartHydrated.set(true),
-    });
-  }
 
   protected lineChartData: ChartData<'line'> = {
     labels: [],
@@ -131,26 +85,101 @@ export class WeightChartComponent implements OnInit {
     },
   };
 
-  private parseDate(d: Date | string): Date {
-    return d instanceof Date ? d : new Date(d);
+  dataForm!: FormGroup;
+
+  private readonly weightRecordService = inject(WeightRecordService);
+  private readonly fb = inject(FormBuilder);
+
+  ngOnInit(): void {
+    const today = new Date();
+    const monthAgo = new Date(today.getFullYear(), today.getMonth() - 1, today.getDate());
+    this.dataForm = this.fb.group({
+      chartType: this.fb.nonNullable.control<ChartPeriodType>('DAY', Validators.required),
+      startDate: new FormControl(this.toIsoDateOnly(monthAgo), Validators.required),
+      endDate: new FormControl(this.toIsoDateOnly(today), Validators.required),
+    });
+    this.updateChartData();
   }
 
-  private applyChartDto(dto: WeightChartDataDTO): void {
-    const list = dto.weightList ?? [];
-    if (!list.length) {
-      this.lineChartData = {
-        labels: [],
-        datasets: [{...this.lineChartData.datasets[0], data: []}],
-      };
+  updateChartData(): void {
+    const v = this.dataForm.getRawValue();
+    const request: WeightChartRequest = {
+      startDate: v.startDate,
+      endDate: v.endDate,
+      chartPeriodType: v.chartType,
+    };
+
+    this.weightRecordService.createChart(request).subscribe({
+      next: (response) => {
+        const dto = this.normalizeChartDto(response);
+        this.weightChart.set(dto);
+        this.applyChartDto(dto);
+        this.chartHydrated.set(true);
+      },
+      error: () => {
+        this.weightChart.set(this.emptyChartDto());
+        this.chartHydrated.set(true);
+      },
+    });
+  }
+
+  private emptyChartDto(): WeightChartDataDTO {
+    return {
+      weightList: [],
+      period: 'DAY',
+      minWeight: 0,
+      maxWeight: 0,
+      avgWeight: 0,
+      weightChange: 0,
+      startDate: new Date(),
+      endDate: new Date(),
+    };
+  }
+
+  private normalizeChartDto(
+    data: WeightChartDataDTO | null | undefined,
+  ): WeightChartDataDTO {
+    const defaults = this.emptyChartDto();
+    if (!data) {
+      return defaults;
+    }
+    return {
+      ...defaults,
+      ...data,
+      weightList: data.weightList ?? [],
+    };
+  }
+
+  private toIsoDateOnly(d: Date): string {
+    return d.toISOString().slice(0, 10);
+  }
+
+  private parseDate(value: Date | string): Date {
+    return value instanceof Date ? value : new Date(value);
+  }
+
+  private clearLineChart(): void {
+    this.lineChartData = {
+      labels: [],
+      datasets: [{...this.lineChartData.datasets[0], data: []}],
+    };
+  }
+
+  private applyChartDto(dto: WeightChartDataDTO | null | undefined): void {
+    if (!dto) {
       return;
     }
 
-    const sorted = [...list].sort(
+    const points = dto.weightList ?? [];
+    if (!points.length) {
+      this.clearLineChart();
+      return;
+    }
+
+    const sorted = [...points].sort(
       (a, b) => this.parseDate(a.date).getTime() - this.parseDate(b.date).getTime(),
     );
-    const labels = sorted.map((p) =>
-      this.parseDate(p.date).toLocaleDateString('ru-RU'),
-    );
+    const labels = sorted.map((p) => this.parseDate(p.date).toLocaleDateString('ru-RU'));
     const values = sorted.map((p) => p.weight);
     const pad = 2;
     const yMin = dto.minWeight - pad;
@@ -158,12 +187,7 @@ export class WeightChartComponent implements OnInit {
 
     this.lineChartData = {
       labels,
-      datasets: [
-        {
-          ...this.lineChartData.datasets[0],
-          data: values,
-        },
-      ],
+      datasets: [{...this.lineChartData.datasets[0], data: values}],
     };
 
     this.lineChartOptions = {
