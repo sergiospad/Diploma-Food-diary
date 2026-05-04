@@ -4,6 +4,12 @@ import TaskArchiveShowDTO from '../../../../DTO/entity_dto/diary/task/task-archi
 import {TaskStatus, TaskTarget} from '../../../../DTO/types';
 import TaskService from '../../../../service/diary/task.service';
 
+export const targetLabels: Record<TaskTarget, string> = {
+  W_LOSS: 'Похудение',
+  W_GAIN: 'Набор веса',
+  W_KEEP: 'Поддержание веса',
+};
+
 @Component({
   selector: 'app-task-archives',
   imports: [DatePipe, DecimalPipe],
@@ -15,11 +21,6 @@ export class TaskArchives implements OnInit {
 
   private readonly taskService = inject(TaskService);
 
-  private readonly targetLabels: Record<TaskTarget, string> = {
-    W_LOSS: 'Похудение',
-    W_GAIN: 'Набор веса',
-    W_KEEP: 'Поддержание веса',
-  };
 
   private readonly statusLabels: Record<TaskStatus, string> = {
     PLANNED: 'Запланирована',
@@ -33,7 +34,7 @@ export class TaskArchives implements OnInit {
   }
 
   protected targetLabel(target: TaskTarget): string {
-    return this.targetLabels[target] ?? target;
+    return targetLabels[target] ?? target;
   }
 
   protected statusLabel(status: TaskStatus): string {

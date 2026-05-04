@@ -1,0 +1,43 @@
+<div class="container">
+  <div class="title">
+    Прием пищи
+    Потреблено, ккал
+    Белки, г
+    Жиры, г
+    Углеводы, г
+  </div>
+  <ul>
+    @for (meal of diaryRecord().meals; track $index){
+      <li>
+      {{mealMap.get(meal.mealType)}}
+      {{meal.calories}}
+      {{meal.protein}}
+      {{meal.fat}}
+      {{meal.carbs}}
+      @if(needsAdditional()){
+        <ul>
+        @for(mi of meal.showDTOList; track $index){
+          <li>
+          {{mi.name}}
+          {{mi.productWeight}}
+          {{mi.protein}}
+          {{mi.fat}}
+          {{mi.carbs}}
+          </li>
+        }
+        </ul>
+      }
+      </li>
+    }
+  </ul>
+  <div class="total">
+    Итого
+    {{diaryRecord().total.calories}}
+    {{diaryRecord().total.protein}}
+    {{diaryRecord().total.fat}}
+    {{diaryRecord().total.carbs}}
+  </div>
+  <div class="button">
+    <button (click)="addMeal()">Добавить новый прием пищи</button>
+  </div>
+</div>

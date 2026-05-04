@@ -1,0 +1,22 @@
+<div class="container">
+  <h3>Прием пищи</h3>
+    <form [formGroup]="mealForm">
+      <div class = "meal__params">
+        <mat-form-field appearance="outline" subscriptSizing="fixed" class="add-task__field">
+          <select matNativeControl
+                  formControlName="taskTarget"
+                  (select)="onSelectedMealType($any($event.target).value)"
+                  class="add-task__select">
+            @for (o of mealMap.keys(); track $index) {
+              <option [value]="o">{{ mealMap.get(o) }}</option>
+            }
+          </select>
+        </mat-form-field>
+        <mat-form-field appearance="outline" subscriptSizing="fixed" class="add-task__field">
+          <mat-label>Время приема пищи</mat-label>
+          <input matInput type="time" formControlName="mealTime" />
+        </mat-form-field>
+      </div>
+    </form>
+
+</div>

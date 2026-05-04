@@ -1,13 +1,15 @@
 import {Component, inject, OnInit, signal} from '@angular/core';
 import TaskService from '../../../service/diary/task.service';
 import CurrentTaskShowDTO from '../../../DTO/entity_dto/diary/task/current-task-show.dto';
+import {MatButton} from '@angular/material/button';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {AddTask} from './add-task/add-task';
 import {TaskArchives} from './task-archives/task-archives';
+import {CurrentTask} from './current-task/current-task';
 
 @Component({
   selector: 'app-task',
-  imports: [],
+  imports: [CurrentTask, MatButton],
   templateUrl: './task.section.html',
   styleUrl: './task.section.css',
 })
@@ -19,9 +21,7 @@ export class TaskSection implements OnInit {
 
 
   ngOnInit(): void {
-    console.log(this.currentTask())
-    this.taskService.getCurrentTask()
-      .subscribe(cur=> this.currentTask.set(cur));
+    this.taskService.getCurrentTask().subscribe((cur) => this.currentTask.set(cur));
   }
 
   onClick(){

@@ -1,25 +1,40 @@
-<div class="container">
-  <form [formGroup]="taskForm" class="weight-chart__filters">
-      <mat-form-field appearance="outline" subscriptSizing="fixed" class="weight-chart__field">
+<section class="add-task">
+  <header class="add-task__header">
+    <h2 class="add-task__title">Новая задача</h2>
+    <p class="add-task__subtitle">Укажите цель, вес, дату старта и плановый дефицит калорий</p>
+  </header>
+
+  <form [formGroup]="taskForm" class="add-task__form" (ngSubmit)="onSubmit()">
+    <div class="add-task__fields">
+      <mat-form-field appearance="outline" subscriptSizing="fixed" class="add-task__field">
         <mat-label>Цель задачи</mat-label>
-        <select matNativeControl formControlName="taskTarget" class="weight-chart__native-select">
+        <select matNativeControl formControlName="taskTarget" class="add-task__select">
           @for (o of targetMap; track o.value) {
             <option [value]="o.value">{{ o.label }}</option>
           }
         </select>
       </mat-form-field>
-      <mat-form-field appearance="outline" subscriptSizing="fixed" class="weight-chart__field">
-        <mat-label>Целевой вес</mat-label>
-        <input matInput formControlName="targetWeight"/>
+
+      <mat-form-field appearance="outline" subscriptSizing="fixed" class="add-task__field">
+        <mat-label>Целевой вес, кг</mat-label>
+        <input matInput type="number" formControlName="targetWeight" min="30" max="250" step="0.1" />
       </mat-form-field>
-      <mat-form-field appearance="outline" subscriptSizing="fixed" class="weight-chart__field">
+
+      <mat-form-field appearance="outline" subscriptSizing="fixed" class="add-task__field">
         <mat-label>Дата начала</mat-label>
         <input matInput formControlName="beginningDate" type="date" />
       </mat-form-field>
-      <mat-form-field appearance="outline" subscriptSizing="fixed" class="weight-chart__field">
-        <mat-label>Запланированный дефицит калорий</mat-label>
-        <input matInput formControlName="caloriesDeficit" />
+
+      <mat-form-field appearance="outline" subscriptSizing="fixed" class="add-task__field">
+        <mat-label>Дефицит ккал / сутки</mat-label>
+        <input matInput type="number" formControlName="caloriesDeficit" min="0" max="3000" step="1" />
       </mat-form-field>
-    <button (click)="onClick()">Подтвердить</button>
+    </div>
+
+    <div class="add-task__actions">
+      <button mat-flat-button color="primary" type="submit" class="add-task__submit" [disabled]="taskForm.invalid">
+        Создать задачу
+      </button>
+    </div>
   </form>
-</div>
+</section>
