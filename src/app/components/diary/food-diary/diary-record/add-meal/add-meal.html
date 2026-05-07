@@ -18,5 +18,13 @@
         </mat-form-field>
       </div>
     </form>
+    @if(selectedMeal()!=null){
+      <ul>
+        @for ( mealItem of selectedMeal()?.showDTOList; track $index) {
+          <li>
 
+          </li>
+        }
+      </ul>
+    }
 </div>

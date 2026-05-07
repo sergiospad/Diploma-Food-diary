@@ -16,7 +16,7 @@ import {ImageUploadService} from '../../../image_services/image-upload.service';
   templateUrl: './recipe-main-info-section.html',
   styleUrl: './recipe-main-info-section.css',
 })
-export class RecipeMainInfoSectionComponent {
+export class RecipeMainInfoSection {
 
   private readonly imageUpload = inject(ImageUploadService);
 

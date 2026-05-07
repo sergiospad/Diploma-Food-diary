@@ -16,6 +16,7 @@ export default class ProductService {
   private readonly productAPI = new Endpoint('product');
 
   createProduct(product: ProductCreateDTO):Observable<number>{
+    console.log(product);
     return this.http.put<number>(
       this.productAPI.builder()
         .points("create")

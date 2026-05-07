@@ -11,7 +11,7 @@ import RecipeService from '../../service/recipe.service';
 import {forkJoin, Observable, of} from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
 import {Router} from '@angular/router';
-import {RecipeMainInfoSectionComponent} from './recipe-main-info-section/recipe-main-info-section';
+import {RecipeMainInfoSection} from './recipe-main-info-section/recipe-main-info-section';
 import {
   RecipeMainInfoIngredientsSection
 } from './recipe-main-info-ingredients-section/recipe-main-info-ingredients-section';
@@ -24,7 +24,7 @@ import {TagShowSection} from './tag-show-section/tag-show-section';
     MatButton,
     ReactiveFormsModule,
     FormsModule,
-    RecipeMainInfoSectionComponent,
+    RecipeMainInfoSection,
     RecipeMainInfoIngredientsSection,
     CookingStageSection,
     TagShowSection,

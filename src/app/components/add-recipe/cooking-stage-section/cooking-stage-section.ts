@@ -1,4 +1,4 @@
-import {Component, model} from '@angular/core';
+import {Component, model, output, signal} from '@angular/core';
 import CookingStageCreateView from '../../../DTO/entity_dto/recipe-recource/cooking_stage/cooking-stage-create.view';
 import {AddCookingStage} from './add-cooking-stage/add-cooking-stage';
 import {CookingStageShowSection} from './cooking-stage-show-section/cooking-stage-show-section';
@@ -14,20 +14,19 @@ import {CookingStageShowSection} from './cooking-stage-show-section/cooking-stag
 })
 export class CookingStageSection {
 
-  cookingStages = model<CookingStageCreateView[]>([]);
+  cookingStages = signal<CookingStageCreateView[]>([]);
+  toMainComponentStages = output<CookingStageCreateView[]>();
 
   protected readonly maxCookingStages = 30;
 
   protected addCookingStageToList($event: CookingStageCreateView) {
-    let stages = this.cookingStages();
-    stages.push($event);
-    this.cookingStages.set(stages);
+    this.cookingStages.update(list=> ([...list, $event]))
+    this.toMainComponentStages.emit(this.cookingStages());
   }
 
   protected removeStage(index: number) {
-    let stages = this.cookingStages();
-    stages.splice(index, 1);
-    this.cookingStages.set(stages);
+    this.cookingStages.update(list=> (list.splice(index, 1)));
+    this.toMainComponentStages.emit(this.cookingStages());
   }
 
 }

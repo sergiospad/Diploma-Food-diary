@@ -59,7 +59,7 @@ export default class AddProductComponent implements OnInit {
   }
 
   private formPost(){
-    return{
+    const prod = {
       title: this.productForm.value.title,
       description: this.productForm.value.description,
       categoryId: this.productForm.value.categoryID,
@@ -70,6 +70,8 @@ export default class AddProductComponent implements OnInit {
       isPrivate: false,
 
     } as ProductCreateDTO;
+    console.log(prod);
+    return prod;
   }
 
   submit(){
