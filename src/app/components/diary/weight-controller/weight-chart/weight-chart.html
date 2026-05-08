@@ -24,18 +24,18 @@
         <mat-label>По дату</mat-label>
         <input matInput formControlName="endDate" type="date" />
       </mat-form-field>
-      <div class="weight-chart__submit-cell">
-        <button
-          mat-flat-button
-          color="primary"
-          type="button"
-          class="weight-chart__submit"
-          [disabled]="dataForm.invalid"
-          (click)="updateChartData()">
-          Обновить график
-        </button>
-      </div>
     </div>
+    <div class="weight-chart__submit-cell">
+    <button
+      mat-flat-button
+      color="primary"
+      type="button"
+      class="weight-chart__submit"
+      [disabled]="dataForm.invalid"
+      (click)="updateChartData()">
+      Обновить график
+    </button>
+  </div>
   </form>
 
   @if (weightChart(); as wc) {

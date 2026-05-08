@@ -1,9 +1,8 @@
-import {Component, inject, OnChanges, OnInit, signal, SimpleChanges} from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import DiaryRecordService from '../../../service/diary/diary-record.service';
-import {formatLocalCalendarDate} from '../../../util/calendar-date';
 import DiaryRecordRequest from '../../../DTO/requests/diary-record.request';
 import DiaryRecordShowDTO from '../../../DTO/entity_dto/diary/diary_record/diary-record-show.dto';
-import {DiaryRecord} from './diary-record/diary-record';
+import { DiaryRecord } from './diary-record/diary-record';
 
 @Component({
   selector: 'app-food-diary',
@@ -15,9 +14,11 @@ import {DiaryRecord} from './diary-record/diary-record';
 })
 export class FoodDiary implements OnInit {
   private readonly diaryRecordService = inject(DiaryRecordService);
+
   diaryRecord = signal<DiaryRecordShowDTO>({} as DiaryRecordShowDTO);
-  needsAdditional= signal<boolean>(false);
+  needsAdditional = signal<boolean>(false);
   date = signal<Date>(new Date());
+
   ngOnInit(): void {
     this.changeDate(new Date());
   }
@@ -26,14 +27,14 @@ export class FoodDiary implements OnInit {
     this.date.set(date);
     const req = {
       recordDate: this.date().toString(),
-    }as DiaryRecordRequest;
+    } as DiaryRecordRequest;
 
-    this.diaryRecordService.showDiaryRecord(req)
-      .subscribe(res => this.diaryRecord.set(res));
+    this.diaryRecordService
+      .showDiaryRecord(req)
+      .subscribe((res) => this.diaryRecord.set(res));
   }
 
-
   protected getAdditional() {
-    this.needsAdditional.update(na=>!na);
+    this.needsAdditional.update((na) => !na);
   }
 }

@@ -1,43 +1,43 @@
-<div class="container">
-  <div class="title">
-    Прием пищи
-    Потреблено, ккал
-    Белки, г
-    Жиры, г
-    Углеводы, г
+<div class="diary-record">
+  <div class="diary-record__title">
+    <span>Прием пищи</span>
+    <span>Потреблено, ккал</span>
+    <span>Белки, г</span>
+    <span>Жиры, г</span>
+    <span>Углеводы, г</span>
   </div>
-  <ul>
-    @for (meal of diaryRecord().meals; track $index){
-      <li>
-      {{mealMap.get(meal.mealType)}}
-      {{meal.calories}}
-      {{meal.protein}}
-      {{meal.fat}}
-      {{meal.carbs}}
-      @if(needsAdditional()){
-        <ul>
-        @for(mi of meal.showDTOList; track $index){
-          <li>
-          {{mi.name}}
-          {{mi.productWeight}}
-          {{mi.protein}}
-          {{mi.fat}}
-          {{mi.carbs}}
-          </li>
+  <ul class="diary-record__list">
+    @for (meal of diaryRecord().meals; track $index) {
+      <li class="diary-record__meal">
+        <span class="diary-record__cell diary-record__cell--name">{{ mealMap.get(meal.mealType) }}</span>
+        <span class="diary-record__cell">{{ meal.calories }}</span>
+        <span class="diary-record__cell">{{ meal.protein }}</span>
+        <span class="diary-record__cell">{{ meal.fat }}</span>
+        <span class="diary-record__cell">{{ meal.carbs }}</span>
+        @if (needsAdditional()) {
+          <ul class="diary-record__items">
+            @for (mi of meal.showDTOList; track $index) {
+              <li class="diary-record__item">
+                <span>{{ mi.name }}</span>
+                <span>{{ mi.productWeight }}</span>
+                <span>{{ mi.protein }}</span>
+                <span>{{ mi.fat }}</span>
+                <span>{{ mi.carbs }}</span>
+              </li>
+            }
+          </ul>
         }
-        </ul>
-      }
       </li>
     }
   </ul>
-  <div class="total">
-    Итого
-    {{diaryRecord().total.calories}}
-    {{diaryRecord().total.protein}}
-    {{diaryRecord().total.fat}}
-    {{diaryRecord().total.carbs}}
+  <div class="diary-record__total">
+    <span class="diary-record__cell diary-record__cell--name">Итого</span>
+    <span class="diary-record__cell">{{ diaryRecord().total.calories }}</span>
+    <span class="diary-record__cell">{{ diaryRecord().total.protein }}</span>
+    <span class="diary-record__cell">{{ diaryRecord().total.fat }}</span>
+    <span class="diary-record__cell">{{ diaryRecord().total.carbs }}</span>
   </div>
-  <div class="button">
+  <div class="diary-record__actions">
     <button (click)="addMeal()">Добавить новый прием пищи</button>
   </div>
 </div>

@@ -1,0 +1,19 @@
+:host {
+  display: block;
+}
+
+.container {
+  width: min(1200px, 100%);
+  margin: 0 auto;
+  padding: 1rem;
+  display: grid;
+  gap: 1.25rem;
+  align-items: start;
+}
+
+@media (min-width: 900px) {
+  .container {
+    gap: 1.5rem;
+    padding: 1.25rem;
+  }
+}

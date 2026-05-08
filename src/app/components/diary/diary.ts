@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import {WeightController} from './weight-controller/weight-controller';
-import {TaskSection} from './task/task.section';
-import {FoodDiary} from './food-diary/food-diary';
+import { WeightController } from './weight-controller/weight-controller';
+import { TaskSection } from './task/task.section';
+import { FoodDiary } from './food-diary/food-diary';
 
 @Component({
   selector: 'app-diary',
@@ -14,5 +14,4 @@ import {FoodDiary} from './food-diary/food-diary';
   styleUrl: './diary.css',
 })
 export class DiaryComponent {
-
 }

@@ -1,8 +1,54 @@
-.container{
-  margin: 2rem;
+:host {
+  display: block;
+  color: var(--dark);
 }
 
-.meal__params{
-  display: flex;
-  gap: 3rem;
+.add-meal {
+  display: grid;
+  gap: 0.9rem;
+  padding: 0.25rem 0.1rem 0.4rem;
+}
+
+.add-meal__title {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.add-meal__form {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.meal__params {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem 1rem;
+}
+
+.add-task__field {
+  width: 100%;
+}
+
+.add-meal__items {
+  list-style: none;
+  margin: 0;
+  padding: 0.4rem 0 0;
+  border-top: 1px solid color-mix(in srgb, var(--dark) 10%, transparent);
+  display: grid;
+  gap: 0.45rem;
+}
+
+.add-meal__item {
+  min-height: 2.25rem;
+  border-radius: 8px;
+  border: 1px dashed color-mix(in srgb, var(--dark) 18%, transparent);
+  background: color-mix(in srgb, var(--dark) 4%, var(--light));
+}
+
+@media (max-width: 720px) {
+  .meal__params {
+    grid-template-columns: 1fr;
+  }
 }

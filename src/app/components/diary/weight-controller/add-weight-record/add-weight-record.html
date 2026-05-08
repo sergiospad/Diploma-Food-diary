@@ -17,7 +17,7 @@
       @if (recordForm.controls['date'].hasError('dateRange')) {
         <mat-error>Дата выходит за допустимые пределы</mat-error>
       }
-      @if (!ableToSubmit()) {
+      @if (hasDuplicateMeasurementDate()) {
         <mat-error>В этот день уже есть измерение</mat-error>
       }
     </mat-form-field>
@@ -27,7 +27,7 @@
         color="primary"
         type="button"
         class="add-weight-record__submit"
-        [disabled]="recordForm.invalid || !ableToSubmit()"
+        [disabled]="recordForm.invalid || hasDuplicateMeasurementDate()"
         (click)="submitRecord()">
         Сохранить
       </button>

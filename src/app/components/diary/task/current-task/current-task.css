@@ -81,3 +81,30 @@
   line-height: 1.4;
   color: color-mix(in srgb, var(--dark) 70%, transparent);
 }
+
+.task__cancel {
+  align-self: flex-end;
+  min-height: 2.4rem;
+  padding: 0.5rem 0.9rem;
+  border-radius: 8px;
+  border: 1px solid color-mix(in srgb, #e53935 32%, transparent);
+  background: color-mix(in srgb, #e53935 12%, var(--light));
+  color: color-mix(in srgb, var(--dark) 92%, #000);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 140ms ease, transform 140ms ease;
+}
+
+.task__cancel:hover {
+  background: color-mix(in srgb, #e53935 18%, var(--light));
+}
+
+.task__cancel:active {
+  transform: translateY(1px);
+}
+
+.task__cancel:focus-visible {
+  outline: 2px solid color-mix(in srgb, #e53935 42%, transparent);
+  outline-offset: 2px;
+}

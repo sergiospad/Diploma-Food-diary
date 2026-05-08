@@ -51,6 +51,29 @@
   flex-shrink: 0;
   margin-top: 0.15rem;
   font-weight: 600;
+  min-height: 2.45rem;
+  border-radius: 8px;
+  padding-inline: 0.9rem;
+  letter-spacing: 0.01em;
+  color: var(--dark);
+  background: color-mix(in srgb, var(--accent-light) 18%, var(--light));
+  border: 1px solid color-mix(in srgb, var(--dark) 22%, transparent) !important;
+  box-shadow: 0 1px 2px color-mix(in srgb, var(--dark) 8%, transparent);
+  transition: background-color 140ms ease, transform 140ms ease;
+}
+
+.task-panel__archive:hover {
+  background: color-mix(in srgb, var(--accent-light) 28%, var(--light));
+}
+
+.task-panel__archive:active {
+  transform: translateY(1px);
+}
+
+.task-panel__archive[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
   border-color: color-mix(in srgb, var(--dark) 22%, transparent) !important;
 }
 

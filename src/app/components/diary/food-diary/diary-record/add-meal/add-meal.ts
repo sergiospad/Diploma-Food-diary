@@ -1,16 +1,13 @@
-import {Component, inject, OnInit, signal} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {
-  AddCoefficientDialogData
-} from '../../../../categories/show-category/show-coefficient/add-coefficient/add-coefficient';
-import {AddMealDialogData, mealMap} from '../diary-record';
+import { Component, inject, OnInit, signal } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { AddMealDialogData, mealMap } from '../diary-record';
 import CategoryShowDto from '../../../../../DTO/entity_dto/recipe-recource/category/category-show.dto';
 import MealShowDTO from '../../../../../DTO/entity_dto/diary/meal/meal-show.dto';
-import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import MealCreateDTO from '../../../../../DTO/entity_dto/diary/meal/meal-create.dto';
 import NutritionShowProjection from '../../../../../DTO/entity_dto/nutritional_info/nutrition-show.projection';
-import {MatFormField, MatInput, MatLabel} from '@angular/material/input';
-import {MealType} from '../../../../../DTO/types';
+import { MatFormField, MatInput, MatLabel } from '@angular/material/input';
+import { MealType } from '../../../../../DTO/types';
 
 @Component({
   selector: 'app-add-meal',
@@ -31,9 +28,9 @@ export class AddMeal implements OnInit {
   mealForm!: FormGroup;
   mealItemForm!: FormGroup;
 
-  mealItems= signal<MealCreateDTO[]>([]);
-  selectedMealType = signal<MealType>("BREAKFAST");
-  selectedMeal = signal<MealShowDTO|null>(null);
+  mealItems = signal<MealCreateDTO[]>([]);
+  selectedMealType = signal<MealType>('BREAKFAST');
+  selectedMeal = signal<MealShowDTO | null>(null);
   nutritionInfo = signal<NutritionShowProjection>({} as NutritionShowProjection);
   weight = signal<number>(0);
 
@@ -44,26 +41,25 @@ export class AddMeal implements OnInit {
     this.mealItemForm = this.createMealItemForm();
   }
 
-  createMealItemForm(){
+  createMealItemForm() {
     return this.fb.group({
       mealItemNutrID: new FormControl(null, [Validators.required, Validators.min(1), Validators.max(5000)]),
       mealWeight: new FormControl(null, [Validators.required]),
-    })
+    });
   }
 
-  createMealForm(){
+  createMealForm() {
     return this.fb.group({
       mealType: new FormControl(null, [Validators.required]),
-      mealTime: new FormControl(null, [Validators.required])
-    })
+      mealTime: new FormControl(null, [Validators.required]),
+    });
   }
 
   protected readonly mealMap = mealMap;
 
-
   protected onSelectedMealType(val: MealType) {
     this.selectedMealType.set(val);
-    const meal = this.meals.find(m=> m.mealType === val);
-    this.selectedMeal.set(meal??null);
+    const meal = this.meals.find((m) => m.mealType === val);
+    this.selectedMeal.set(meal ?? null);
   }
 }

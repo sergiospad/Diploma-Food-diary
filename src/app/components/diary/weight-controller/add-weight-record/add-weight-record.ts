@@ -52,8 +52,14 @@ export class AddWeightRecord implements OnInit {
     });
   }
 
-  protected ableToSubmit(): boolean {
-    return this.dates.includes(this.recordForm.controls['date'].value);
+  protected hasDuplicateMeasurementDate(): boolean {
+    const selected = this.recordForm.controls['date'].value;
+    if (!selected) {
+      return false;
+    }
+
+    const selectedDate = this.toDateOnlyIso(selected);
+    return this.dates.some((d) => this.toDateOnlyIso(d) === selectedDate);
   }
 
   protected submitRecord(): void {
@@ -64,5 +70,14 @@ export class AddWeightRecord implements OnInit {
     this.weightRecordService.createRecord(record).subscribe((data) => {
       this.dialogRef?.close(data);
     });
+  }
+
+  private toDateOnlyIso(value: Date | string): string {
+    if (value instanceof Date) {
+      return value.toISOString().slice(0, 10);
+    }
+
+    // Value from <input type="date"> is already in YYYY-MM-DD format.
+    return value;
   }
 }
