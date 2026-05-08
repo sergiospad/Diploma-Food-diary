@@ -73,12 +73,10 @@ public class RecipeController {
         return ResponseEntity.ok(result);
     }
 
-    /**
-     * GET /api/recipe/show?id=1
-     */
-    @GetMapping("/show")
+
+    @GetMapping("/show/{recipeID}")
     @PreAuthorize("permitAll()")
-    public ResponseEntity<RecipeShowDTO> showRecipe(@RequestParam("id") Long recipeID) {
+    public ResponseEntity<RecipeShowDTO> showRecipe(@PathVariable Long recipeID) {
         var result = recipeService.showRecipe(recipeID);
         return ResponseEntity.ok(result);
     }

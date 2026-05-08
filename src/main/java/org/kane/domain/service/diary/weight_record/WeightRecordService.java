@@ -1,6 +1,7 @@
 package org.kane.domain.service.diary.weight_record;
 
 import org.kane.domain.DTO.entityDTO.diary.weight_record.CurrentWeightRecordShowDTO;
+import org.kane.domain.DTO.entityDTO.diary.weight_record.MeasurementDatesDTO;
 import org.kane.domain.DTO.entityDTO.diary.weight_record.WeightRecordCreateDTO;
 import org.kane.domain.DTO.entityDTO.diary.weight_record.WeightRecordShowDTO;
 import org.kane.domain.DTO.entityDTO.diary.weight_record.for_chart.WeightChartDataDTO;
@@ -17,4 +18,6 @@ public interface WeightRecordService {
     CurrentWeightRecordShowDTO createRecord(Principal principal, WeightRecordCreateDTO weightRecordCreateDTO);
 
     WeightChartDataDTO formChart(Principal principal, WeightChartRequest weightChartRequest);
+
+    MeasurementDatesDTO getMeasurementDates(Principal principal);
 }

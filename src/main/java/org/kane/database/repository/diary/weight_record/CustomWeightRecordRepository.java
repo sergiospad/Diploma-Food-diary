@@ -23,4 +23,6 @@ public interface CustomWeightRecordRepository {
     boolean hasAnyData(Long userId, LocalDate startDate, LocalDate endDate);
 
     WeightRecord getLastMeasurement(Long userId);
+
+    List<LocalDate> getMeasurementDates(Long id);
 }

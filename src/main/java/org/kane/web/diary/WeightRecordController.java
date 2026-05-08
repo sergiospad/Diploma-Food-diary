@@ -4,6 +4,7 @@ package org.kane.web.diary;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.kane.domain.DTO.entityDTO.diary.weight_record.CurrentWeightRecordShowDTO;
+import org.kane.domain.DTO.entityDTO.diary.weight_record.MeasurementDatesDTO;
 import org.kane.domain.DTO.entityDTO.diary.weight_record.WeightRecordCreateDTO;
 import org.kane.domain.DTO.entityDTO.diary.weight_record.WeightRecordShowDTO;
 import org.kane.domain.DTO.entityDTO.diary.weight_record.for_chart.WeightChartDataDTO;
@@ -52,6 +53,13 @@ public class WeightRecordController {
     public ResponseEntity<WeightChartDataDTO> createChart(Principal principal,
                                                           @RequestBody WeightChartRequest weightChartRequest){
         var result = weightRecordService.formChart(principal, weightChartRequest);
+        return ResponseEntity.ok().body(result);
+    }
+
+    @GetMapping("/dates")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    public ResponseEntity<MeasurementDatesDTO> getMeasurementDates(Principal principal){
+        var result = weightRecordService.getMeasurementDates(principal);
         return ResponseEntity.ok().body(result);
     }
 }

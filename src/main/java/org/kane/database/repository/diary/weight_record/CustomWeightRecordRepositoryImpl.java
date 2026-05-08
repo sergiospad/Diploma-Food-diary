@@ -17,6 +17,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static org.kane.database.entity.QUser.user;
+import static org.kane.database.entity.diary.QDiaryRecord.diaryRecord;
 import static org.kane.database.entity.diary.QWeightRecord.weightRecord;
 
 @Repository
@@ -127,5 +128,14 @@ public class CustomWeightRecordRepositoryImpl implements CustomWeightRecordRepos
                 .where(user.id.eq(userId))
                 .orderBy(weightRecord.dateOfMeasurement.desc())
                 .fetchFirst();
+    }
+
+    @Override
+    public List<LocalDate> getMeasurementDates(Long id){
+        return queryFactory.select(weightRecord.dateOfMeasurement)
+                .from(weightRecord)
+                .where(weightRecord.user.id.eq(id))
+                .orderBy(weightRecord.dateOfMeasurement.desc())
+                .fetch();
     }
 }

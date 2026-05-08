@@ -5,7 +5,7 @@ logging:
 
 spring:
   liquibase:
-    clear-checksums: true
+    clear-checksums: false
   datasource:
     url: jdbc:postgresql://localhost:5433/food-diary
     username: postgres

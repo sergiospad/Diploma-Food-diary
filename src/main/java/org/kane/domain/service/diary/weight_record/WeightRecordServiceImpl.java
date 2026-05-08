@@ -6,6 +6,7 @@ import org.kane.database.entity.physical_quantity.HumanWeight;
 import org.kane.database.repository.user.UserRepository;
 import org.kane.database.repository.diary.weight_record.WeightRecordRepository;
 import org.kane.domain.DTO.entityDTO.diary.weight_record.CurrentWeightRecordShowDTO;
+import org.kane.domain.DTO.entityDTO.diary.weight_record.MeasurementDatesDTO;
 import org.kane.domain.DTO.entityDTO.diary.weight_record.WeightRecordCreateDTO;
 import org.kane.domain.DTO.entityDTO.diary.weight_record.WeightRecordShowDTO;
 import org.kane.domain.DTO.entityDTO.diary.weight_record.for_chart.WeightChartDataDTO;
@@ -40,8 +41,9 @@ public class WeightRecordServiceImpl implements WeightRecordService {
         var user = userRepository.getCurrentUser(principal);
         CurrentWeightRecordShowDTO rec = weightRecordShowMapper
                 .map(weightRecordRepository.findLastRecordOfUser(user.getId()));
+
         var height = user.getHeight();
-        if(height==null)
+        if(height==null || rec.getMeasure()==null)
             rec.setBMI(null);
         else
             rec.setBMI(rec.getMeasure().value()/(height*height * 0.0001));
@@ -95,5 +97,12 @@ public class WeightRecordServiceImpl implements WeightRecordService {
                 .minWeight(new HumanWeight(minWeight))
                 .avgWeight(new HumanWeight(avgWeight))
                 .build();
+    }
+
+    @Override
+    public MeasurementDatesDTO getMeasurementDates(Principal principal){
+        var userID = userRepository.getCurrentUserId(principal);
+        var list = weightRecordRepository.getMeasurementDates(userID);
+        return new MeasurementDatesDTO(list);
     }
 }

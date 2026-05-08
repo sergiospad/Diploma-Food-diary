@@ -42,4 +42,8 @@ public class ProductWeight {
     public ProductWeight divide(Double coefficient){
         return new ProductWeight(this.value/coefficient);
     }
+
+    public ProductWeight multiply(Double coefficient){
+        return new ProductWeight(this.value*coefficient);
+    }
 }

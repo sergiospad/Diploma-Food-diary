@@ -23,6 +23,7 @@ import org.kane.domain.service.recipe_recource.cooking_stage.CookingStageService
 import org.kane.domain.service.energy_value.EnergyValueService;
 import org.kane.domain.service.recipe_recource.ingredient.IngredientService;
 import org.kane.domain.service.user.UserService;
+import org.kane.exceptions.not_found.ImageNotFoundException;
 import org.kane.exceptions.not_found.RecipeNotFoundException;
 import org.kane.exceptions.not_found.TagNotFoundException;
 import org.springframework.data.domain.Pageable;
@@ -45,8 +46,8 @@ public class RecipeServiceImpl implements RecipeService {
     private final RecipeRepository recipeRepository;
     private final UserRepository userRepository;
     private final CreateRecipeMapper createRecipeMapper;
-    private final ImageModelRepository imageModelRepository;
     private final TagRepository tagRepository;
+    private final ImageModelRepository imageModelRepository;
     private final IngredientService ingredientService;
     private final CookingStageService cookingStageService;
     private final RecipeEditMapper recipeEditMapper;
@@ -60,8 +61,8 @@ public class RecipeServiceImpl implements RecipeService {
         predicate.and(recipe.isPrivate).not();
         if(request.getTags() != null && request.getTags().length > 0 )
             predicate.and(recipe.tags.any().id.in(request.getTags()));
-        if(request.getAuthorId() != null)
-            predicate.and(recipe.author.id.eq(request.getAuthorId()));
+        if(request.getAuthorName() != null)
+            predicate.and(recipe.author.username.eq(request.getAuthorName()));
         if(request.getIsFavoriteOnly()!=null && request.getIsFavoriteOnly()){
             var user = userRepository.getCurrentUser(principal);
             predicate.and(recipe.in(user.getFavouriteRecipes()));
@@ -112,9 +113,8 @@ public class RecipeServiceImpl implements RecipeService {
                 .map(s-> cookingStageService.createCookingStage(s, finalRecipe))
                 .toList();
         Long illustrationId = recipeCreateDTO.getIllustrationID();
-        recipe.setIllustration(illustrationId == null
-                ? null
-                : imageModelRepository.findById(illustrationId).orElse(null));
+        recipe.setIllustration(imageModelRepository.findById(illustrationId)
+                .orElseThrow(()-> new ImageNotFoundException("Illustration not found with id " + illustrationId)));
 
         recipe.setIngredients(ingredients);
         recipe.setCookingStages(stages);

@@ -14,5 +14,5 @@ public class RecipePreviewRequest {
     SortTypeRecipe sortType;
     Boolean isFavoriteOnly;
     Long[] tags;
-    Long authorId;
+    String authorName;
 }

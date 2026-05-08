@@ -58,6 +58,16 @@ class WeightRecordControllerServiceTest extends IntegrationTestServiceBase {
     }
 
     @Test
+    void getCurrentRecord1() {
+        Principal principal = () -> "lisa_cook";
+        var record = weightRecordService.getCurrentRecord(principal);
+        assertThat(record).isNotNull();
+        assertThat(record.getId()).isNull();
+        assertThat(record.getDate()).isNull();
+        assertThat(record.getMeasure()).isNull();
+    }
+
+    @Test
     void createRecord() {
         Principal principal = () -> "john_doe";
         var wrcdto = new WeightRecordCreateDTO(new HumanWeight(80.0), LocalDate.now());
@@ -68,6 +78,7 @@ class WeightRecordControllerServiceTest extends IntegrationTestServiceBase {
         assertThat(record.getMeasure()).isEqualTo(wrcdto.getMeasure());
         assertThat(record.getBMI()).isBetween(18.0, 30.0);
     }
+
 
     @Test
     void formChart() {

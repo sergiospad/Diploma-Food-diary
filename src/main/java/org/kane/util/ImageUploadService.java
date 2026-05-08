@@ -46,7 +46,10 @@ public class ImageUploadService {
 
     @SneakyThrows
     public static void delete(String imagePath) {
-        Files.delete(BUCKET.resolve(imagePath));
+        Path path = Path.of(imagePath).normalize();
+        // saveImage() сохраняет в БД путь уже с корнем "images/..."; повторно BUCKET.resolve даёт images/images/...
+        Path target = path.startsWith(BUCKET) ? path : BUCKET.resolve(path);
+        Files.delete(target);
     }
 
     @SneakyThrows

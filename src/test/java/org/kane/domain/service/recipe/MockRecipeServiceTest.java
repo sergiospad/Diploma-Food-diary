@@ -109,9 +109,9 @@ class MockRecipeServiceTest {
     @Test
     void findPreviews_ShouldApplyAllFilters_WhenMultipleFiltersProvided() {
         Long[] tags = {1L, 2L};
-        Long authorId = 5L;
+        String authorName ="lisa_cook";
         request.setTags(tags);
-        request.setAuthorId(authorId);
+        request.setAuthorName(authorName);
         request.setIsFavoriteOnly(true);
 
         Set<Recipe> favouriteRecipes = new HashSet<>();
@@ -163,8 +163,8 @@ class MockRecipeServiceTest {
     @Test
     void findPreviews_ShouldHandleNullTags_Gracefully() {
 
-        request.setTags(null);  // явно null
-        request.setAuthorId(null);
+        request.setTags(null);
+        request.setAuthorName(null);
         request.setIsFavoriteOnly(false);
 
         when(recipeRepository.findAllPreviewDTOOrderedByNew(any(BooleanBuilder.class), eq(pageable)))

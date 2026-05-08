@@ -10,6 +10,7 @@ public class WeightRecordShowMapper implements Mapper<WeightRecordShowDTO, Curre
     @Override
     public CurrentWeightRecordShowDTO map(WeightRecordShowDTO from) {
         var to = new CurrentWeightRecordShowDTO();
+        if (from == null) return to;
         to.setId(from.getId());
         to.setMeasure(from.getMeasure());
         to.setDate(from.getDate());

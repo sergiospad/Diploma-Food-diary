@@ -46,7 +46,6 @@ public class ImageModelController {
     public ResponseEntity<MessageResponse> updateImage(Principal principal,
                                                        @PathVariable Long id,
                                                        @RequestPart("file") MultipartFile file){
-        System.out.println(file.getSize());
         imageModelService.updateImage(principal, file, id);
         return ResponseEntity.ok(new MessageResponse("Image has been updated successfully"));
     }
