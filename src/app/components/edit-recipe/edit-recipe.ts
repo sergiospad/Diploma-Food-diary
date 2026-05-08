@@ -52,40 +52,54 @@ export class EditRecipeComponent implements OnInit {
           catchError(() => of(data)),
         ),
       ),
-      tap((recipe) => this.recipe.set(recipe)),
+      tap((recipe) => {
+          this.recipe.set(recipe);
+          console.log(recipe);
+        }
+      )
+
     ).subscribe();
   }
 
   protected saveRecipe() {
-    if(this.recipeEdit().titleImage)
-      this.imageService.updateImage(this.recipeEdit().titleImage!, this.recipe().avatarID).subscribe()
-    if(this.recipeEdit().editedStages&&this.recipeEdit().editedStages.length>0)
-      this.recipeEdit().editedStages
-        .filter(stage => stage.image)
-        .forEach(stage=> this.imageService.updateImage(stage.image!, stage.imageID!).subscribe())
+    const edit = this.recipeEdit();
+
+    if (edit.titleImage) {
+      this.imageService.updateImage(edit.titleImage, this.recipe().illustrationID).subscribe();
+    }
+    if (edit.editedStages && edit.editedStages.length > 0) {
+      edit.editedStages
+        .filter((stage) => stage.image && stage.imageID != null)
+        .forEach((stage) => this.imageService.updateImage(stage.image!, stage.imageID!).subscribe());
+    }
 
     const toServer = {
       id: this.recipeId,
-      name: this.recipeEdit().name,
-      summary: this.recipeEdit().summary,
-      cookingTime: this.recipeEdit().cookingTime,
-      addTags: this.recipeEdit().addTags,
-      removeTags: this.recipeEdit().removeTags,
-      isPrivate: this.recipeEdit().isPrivate,
-      editedStages: this.recipeEdit().editedStages?.map(stage=> stage?? stage as RecipeEditDto),
-      editedIngredients: this.recipeEdit().editedIngredients
-      }as RecipeEditDto;
+      name: edit.name,
+      summary: edit.summary,
+      cookingTime: edit.cookingTime,
+      addTags: edit.addTags ?? [],
+      removeTags: edit.removeTags ?? [],
+      isPrivate: edit.isPrivate,
+      editedStages: (edit.editedStages ?? [])
+        .filter((stage) => stage?.id != null)
+        .map((stage) => ({
+          id: stage.id,
+          description: stage.description,
+        })),
+      editedIngredients: edit.editedIngredients ?? [],
+    } as RecipeEditDto;
     console.dir(JSON.stringify(toServer));
     this.recipeService.updateRecipe(toServer).subscribe({
-      error: ()=> {
+      error: () => {
         this.notificationService.showSnackBar("Ошибка");
       },
-      complete:()=>{
+      complete: () => {
         this.route.navigate(['/', RECIPE, this.recipeId.toString()])
           .then(() => globalThis.location.reload());
       }
-    })
-    }
+    });
+  }
 
 
   protected cancel() {

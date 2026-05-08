@@ -32,11 +32,13 @@
       </button>
     }
   </div>
+  <div class = description__container >
   <div class="decription">
     <mat-form-field class="description__input" appearance="outline">
       <mat-label>Описание этапа готовки</mat-label>
-      <input matInput [value]="description()"
-             (input)="description.set($any($event.target).value)"/>
+      <textarea matInput [value]="description()"
+                rows="5"
+             (input)="description.set($any($event.target).value)"></textarea>
     </mat-form-field>
   </div>
   <div class="add-cooking-stage__button">
@@ -47,5 +49,5 @@
             disableRipple>Добавить
     </button>
   </div>
-
+</div>
 </div>

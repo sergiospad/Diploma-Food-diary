@@ -8,7 +8,8 @@
       name="recipeTags"
       placeholder="Выберите теги"
       multiple
-      [ngModel]="recipe().tags"
+      [ngModel]="recipe().tags ?? []"
+      [compareWith]="compareTags"
       (ngModelChange)="onSelectedTagsChange($event)"
     >
       @for (tag of allTags; track tag.id) {
@@ -17,7 +18,7 @@
     </mat-select>
   </mat-form-field>
 
-  @if (recipe().tags.length>0) {
+  @if ((recipe().tags ?? []).length > 0) {
     <div class="edit-tags__chips" aria-label="Выбранные теги">
       @for (tag of recipe().tags; track tag.id) {
         <span class="edit-tags__chip">{{ tag.name }}</span>

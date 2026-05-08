@@ -90,3 +90,8 @@
   max-width: 36rem;
   margin-top: 0;
 }
+
+.blocks__captions__summary textarea{
+  resize: none;
+  height: 200px;
+}

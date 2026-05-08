@@ -36,12 +36,17 @@ export class EditCookingStage implements OnInit {
   cookingStage = signal<CookingStageShowDTO>({} as CookingStageShowDTO);
 
   ngOnInit(): void {
-    this.copyStage = this.copy();
     const stage = this.recipe().cookingStages[this.index()];
     if (!stage) {
       return;
     }
-    this.cookingStage.set(stage);
+    this.cookingStage.set({...stage});
+    this.copyStage = this.copy();
+    this.cookingStageProjection.set({
+      id: stage.id,
+      description: stage.description,
+      imageID: stage.imageId,
+    } as CookingStageEditProjection);
     this.imageModelService.getImage(stage.imageId).pipe(
       switchMap((blob) => this.imageUploadService.convertBlobToDataUrl(blob)),
       tap((url) => this.image.set(url)),
@@ -51,15 +56,23 @@ export class EditCookingStage implements OnInit {
   protected selectImage(event: Event) {
     const input = event.target as HTMLInputElement
     if (input.files?.[0]) {
-      this.cookingStageProjection().image = input.files[0];
-      this.cookingStageProjection().imageID = this.cookingStage().imageId
+      this.cookingStageProjection.update((data) => ({
+        ...data,
+        id: data.id ?? this.cookingStage().id,
+        description: data.description ?? this.cookingStage().description,
+        image: input.files![0],
+        imageID: this.cookingStage().imageId,
+      }));
       this.imageUploadService.convertBlobToDataUrl(input.files[0])
         .then(r => this.image.set(r))
     }
   }
 
   protected onDescriptionChange(value: string) {
-    this.cookingStageProjection().description = value;
+    this.cookingStageProjection.update(data=> (
+      {...data,
+        description: value
+      }))
     this.cookingStage.update(stage => ({
       ...stage,
       description: value
@@ -67,19 +80,27 @@ export class EditCookingStage implements OnInit {
   }
 
   protected addToRecipe() {
+    const projection = this.cookingStageProjection();
+    const normalizedProjection = {
+      ...projection,
+      id: projection.id ?? this.cookingStage().id,
+      description: projection.description ?? this.cookingStage().description,
+      imageID: projection.imageID ?? this.cookingStage().imageId,
+    } as CookingStageEditProjection;
+
     this.recipeEdit.update(rec => ({
       ...rec,
-      editedStages: [...(rec.editedStages ?? []), this.cookingStageProjection()]
+      editedStages: [
+        ...(rec.editedStages ?? []).filter((stage) => stage.id !== normalizedProjection.id),
+        normalizedProjection,
+      ]
     }));
-    console.log(this.index())
-    const list = this.recipe().cookingStages
-      .filter((_, ind)=> ind!=this.index())
-    console.dir(list);
     this.recipe.update(rec=>({
       ...rec,
-      cookingStages: [...list, this.cookingStage()]
+      cookingStages: rec.cookingStages.map((stage, idx) =>
+        idx === this.index() ? this.cookingStage() : stage,
+      )
     }))
-    console.dir(this.recipe().cookingStages)
     this.reset();
   }
 
@@ -93,12 +114,12 @@ export class EditCookingStage implements OnInit {
   }
 
   protected onAbort() {
-    this.cookingStage.set(this.copyStage)
+    this.cookingStage.set({...this.copyStage})
     this.reset();
   }
 
   reset(): void {
-    this.cookingStageProjection.set({}as CookingStageShowDTO);
+    this.cookingStageProjection.set({} as CookingStageEditProjection);
     this.cookingStage.set({} as CookingStageShowDTO);
     this.image.set("");
     this.editIndex.emit(-1);

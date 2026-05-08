@@ -46,14 +46,14 @@
       </div>
     </div>
     <div class="blocks__ingredients">
-      <div class="blocks__ingredients__time">
-        <mat-icon>access_time</mat-icon>
         @if (recipe?.cookingTime) {
-          <div class="blocks__ingredients__time__minutes">{{ recipe?.cookingTime }}
-          мин.
+          <div class="blocks__ingredients__time">
+            <mat-icon>access_time</mat-icon>
+            <div class="blocks__ingredients__time__minutes">{{ recipe?.cookingTime }}
+            мин.
+            </div>
           </div>
         }
-      </div>
       @if (ableToEdit()){
         <button mat-flat-button class="blocks__ingredients__edit-recipe__button" (click)="editRecipe()">
           Редактировать рецепт

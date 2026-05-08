@@ -74,8 +74,7 @@ export default class RecipeService {
   showRecipe(id: number): Observable<RecipeShowDTO>{
     return this.http.get<RecipeShowDTO>(
       this.recipeAPI.builder()
-        .points("show")
-        .addParam("id", id.toString())
+        .points("show", id.toString())
         .build())
   }
 

@@ -36,7 +36,7 @@
             @for (item of (searchSummaryResults$ | async); track item.id) {
               <mat-option [value]="item">
                 <h6>{{ item.name }}</h6>
-                <span [innerHTML]="markWord(item.summary, searchControl.value)"></span>
+                <span [innerHTML]="markWord(item.summary.substring(0, 70), searchControl.value)"></span>
               </mat-option>
             }
           </mat-autocomplete>

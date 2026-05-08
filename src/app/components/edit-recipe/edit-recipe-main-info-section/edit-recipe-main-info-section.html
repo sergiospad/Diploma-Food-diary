@@ -29,7 +29,8 @@
 
   <mat-form-field class="blocks__captions__summary" appearance="outline">
     <mat-label>Краткое описание рецепта</mat-label>
-    <input matInput [value]="recipe().summary"
-           (input)="onSummaryChange($any($event.target).value)"/>
+    <textarea matInput [value]="recipe().summary"
+              rows="5"
+              (input)="onSummaryChange($any($event.target).value)"></textarea>
   </mat-form-field>
 </div>

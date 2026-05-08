@@ -1,6 +1,6 @@
 <form [formGroup]="ingredientForm">
   <div class="new-ingredient">
-    {{ingredient().productName}}
+    <div class="new-ingredient__name">{{ ingredient().productName }}</div>
     <div class = "new-ingredient__amount-and-mu">
       <mat-form-field class="new-ingredient__amount" appearance="outline">
         <mat-label>Количество</mat-label>
@@ -25,14 +25,12 @@
       (click)="submitChanges()">
       Подтвердить
     </button>
-    <div class="new-ingredient__actions">
-      <button
-        class="new-ingredient__button"
-        type="button"
-        mat-flat-button
-        (click)="onAbort()">
-        Отменить
-      </button>
-  </div>
+    <button
+      class="new-ingredient__button new-ingredient__button--ghost"
+      type="button"
+      mat-stroked-button
+      (click)="onAbort()">
+      Отменить
+    </button>
   </div>
 </form>

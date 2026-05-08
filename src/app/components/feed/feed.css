@@ -134,7 +134,8 @@
   border-radius: 0;
   border: none;
   border-top: 1px solid var(--border-color);
-  background: color-mix(in srgb, var(--light) 12%, transparent);
+  background: rgba(var(--light-rgb), 0.78 );
+  backdrop-filter: blur(4px);
 }
 
 .feed__pager-info {

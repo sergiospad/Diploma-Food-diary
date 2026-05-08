@@ -64,7 +64,7 @@ export class FeedComponent implements OnInit {
 
   page = signal<number>(0);
 
-  protected readonly previewPageSize = 12;
+  protected readonly previewPageSize = 9;
 
   protected readonly displayPageNumber = computed(() => this.page() + 1);
 
@@ -171,7 +171,11 @@ export class FeedComponent implements OnInit {
   }
 
   protected addToTags($event: TagDto) {
-    this.tags.update((list) =>([...list, $event]));
+    this.tags.update((list) =>{
+      if(!list.includes($event))
+        return ([...list, $event])
+      return list;
+    });
   }
 
   isFavourite(id: number): boolean {

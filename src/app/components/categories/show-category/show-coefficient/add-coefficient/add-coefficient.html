@@ -41,18 +41,14 @@
         matInput
         formControlName="gAmount"
         type="number"
-        min="0.0001"
-        max="10000000"
+        max="10000"
         step="any"
         inputmode="decimal" />
       @if (coeffForm.controls['gAmount'].hasError('required')) {
         <mat-error>Укажите число</mat-error>
       }
-      @if (coeffForm.controls['gAmount'].hasError('min')) {
-        <mat-error>Не меньше 0.0001</mat-error>
-      }
       @if (coeffForm.controls['gAmount'].hasError('max')) {
-        <mat-error>Не больше 10 000 000</mat-error>
+        <mat-error>Не больше 10 000</mat-error>
       }
     </mat-form-field>
 

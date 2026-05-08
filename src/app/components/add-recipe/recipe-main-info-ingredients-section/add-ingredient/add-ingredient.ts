@@ -35,7 +35,7 @@ export class AddIngredient implements OnInit {
   public ingredientForm!: FormGroup;
   private readonly formBuilder = inject(FormBuilder);
   private readonly productService = inject(ProductService);
-  protected readonly productSearchControl = new FormControl('', { nonNullable: true });
+  protected readonly productSearchControl = new FormControl<string | ProductSearchDTO>('', { nonNullable: true });
   protected productSearchService = new ProductSearchEngineService();
 
   protected chosenProduct?: ProductSearchDTO;
@@ -49,6 +49,9 @@ export class AddIngredient implements OnInit {
 
   ngOnInit(): void {
     this.ingredientForm = this.createIngredientForm();
+    this.productSearchControl.valueChanges.subscribe(() => {
+      this.resetChosenProduct();
+    });
   }
 
   createIngredientForm() {
@@ -60,6 +63,7 @@ export class AddIngredient implements OnInit {
     });
     group.get('measureUnitID')?.disable({ emitEvent: false });
     return group;
+
   }
 
   protected readonly searchProductResults$: Observable<ProductSearchDTO[]> =
@@ -88,7 +92,7 @@ export class AddIngredient implements OnInit {
       });
   }
 
-  protected onProductQueryInput(): void {
+  private resetChosenProduct(): void {
     this.chosenProduct = undefined;
     this.searchMeasureUnitResults = [];
     this.ingredientForm.patchValue({
@@ -123,7 +127,7 @@ export class AddIngredient implements OnInit {
     } as IngredientCreateView;
     this.formedIngredient.emit(ingredient);
     this.ingredientForm = this.createIngredientForm();
-    this.productSearchControl.setValue('', { emitEvent: false });
+    this.productSearchControl.setValue('', { emitEvent: true });
     this.searchMeasureUnitResults = [];
   }
 }

@@ -1,4 +1,4 @@
-import {Component, inject, model, OnInit, signal} from '@angular/core';
+import {Component, inject, model, OnInit} from '@angular/core';
 import {MatFormField, MatLabel} from '@angular/material/input';
 import {MatOption} from '@angular/material/core';
 import {MatSelect} from '@angular/material/select';
@@ -24,29 +24,29 @@ export class EditTags implements OnInit {
   recipe = model.required<RecipeShowDTO>();
   tagService = inject(TagService);
   recipeEdit = model.required<RecipeEditProjection>();
-  tags = signal<TagDto[]>([]);
   allTags :TagDto[] = [];
+  protected readonly compareTags = (a: TagDto | null, b: TagDto | null): boolean =>
+    a?.id === b?.id;
 
   onSelectedTagsChange(next: TagDto[]) {
-    this.recipe.update((r) => ({...r, tags: next}));
+    const normalizedNext = [...next];
+    const prev = [...(this.recipe().tags ?? [])];
+    this.recipe.update((r) => ({...r, tags: normalizedNext}));
 
-    const prev = this.tags();
-    const added = next
+    const added = normalizedNext
       .filter((t) => !prev.some((p) => p.id === t.id))
       .map((t) => t.id);
     const removed = prev
-      .filter((p) => !next.some((t) => t.id === p.id))
+      .filter((p) => !normalizedNext.some((t) => t.id === p.id))
       .map((t) => t.id);
     this.recipeEdit.update((rec) => ({
       ...rec,
       removeTags: [...(rec.removeTags ?? []), ...removed],
       addTags: [...(rec.addTags ?? []), ...added],
     }));
-    this.tags.set(next);
   }
 
   ngOnInit(): void {
-    this.tags.set([...(this.recipe().tags ?? [])]);
     this.tagService.getAllTags().subscribe((tags) => (this.allTags = tags));
   }
 }

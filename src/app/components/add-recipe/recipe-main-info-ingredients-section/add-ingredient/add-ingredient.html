@@ -5,8 +5,7 @@
       <input
         matInput
         [formControl]="productSearchControl"
-        [matAutocomplete]="productSearchAuto"
-        (input)="onProductQueryInput()">
+        [matAutocomplete]="productSearchAuto">
       <mat-autocomplete [displayWith] ="displayProductName"
         #productSearchAuto="matAutocomplete"
                         (optionSelected)="onMeasureUnitSearchSelect($event.option.value)">

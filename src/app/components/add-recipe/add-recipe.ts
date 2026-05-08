@@ -17,6 +17,7 @@ import {
 } from './recipe-main-info-ingredients-section/recipe-main-info-ingredients-section';
 import {CookingStageSection} from './cooking-stage-section/cooking-stage-section';
 import {TagShowSection} from './tag-show-section/tag-show-section';
+import {RECIPE} from '../../util/roots';
 
 @Component({
   selector: 'app-add-recipe',
@@ -77,8 +78,8 @@ class AddRecipeComponent {
     this.submitRecipe()
       .pipe(switchMap((dto) => this.recipeService.createRecipe(dto)))
       .subscribe({
-        next: ()=> {
-          this.router.navigate(['/'])
+        next: (data)=> {
+          this.router.navigate(['/', RECIPE, data.id])
           .then(()=>globalThis.location.reload())
           },
         error: (err) => console.error(err),
@@ -89,11 +90,11 @@ class AddRecipeComponent {
     illustrationID: number,
     stages: CookingStageCreateDTO[],
   ): RecipeCreateDTO {
-    return {
+    const dto = {
       name: this.title!,
       summary: this.summary!,
-      illustrationID,
-      isPrivate: this.isPrivate?? true,
+      illustrationID: illustrationID,
+      isPrivate: this.isPrivate?? false,
       tags: this.selectedTags.map((t) => t.id),
       cookingTime:  this.cookingTime,
       ingredients: (this.ingredients ?? []).map((ing) => ({
@@ -103,6 +104,7 @@ class AddRecipeComponent {
       })),
       stages,
     };
+    return dto;
   }
 
   protected canSubmit(): boolean {

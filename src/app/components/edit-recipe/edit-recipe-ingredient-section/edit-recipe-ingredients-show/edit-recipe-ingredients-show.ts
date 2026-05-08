@@ -6,6 +6,7 @@ import RecipeEditProjection from '../../../../DTO/entity_dto/recipe/recipe-edit-
 import {EditIngredient} from './edit-ingredient/edit-ingredient';
 import IngredientShowDTO from '../../../../DTO/entity_dto/recipe-recource/ingredient/ingredient-show.dto';
 import IngredientEditDTO from '../../../../DTO/entity_dto/recipe-recource/ingredient/ingredient-edit.dto';
+import {DecimalPipe} from '@angular/common';
 
 @Component({
   selector: 'app-edit-recipe-ingredients-show',
@@ -13,6 +14,7 @@ import IngredientEditDTO from '../../../../DTO/entity_dto/recipe-recource/ingred
     MatIcon,
     MatIconButton,
     EditIngredient,
+    DecimalPipe,
   ],
   templateUrl: './edit-recipe-ingredients-show.html',
   styleUrl: './edit-recipe-ingredients-show.css',

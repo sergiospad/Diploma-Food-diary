@@ -55,7 +55,7 @@ export class AddCoefficient implements OnInit {
       measureUnitId: [null as number | null, Validators.required],
       gAmount: [
         1,
-        [Validators.required, Validators.min(0.0001), Validators.max(10_000_000)],
+        [Validators.required, Validators.max(10_000)],
       ],
     });
 

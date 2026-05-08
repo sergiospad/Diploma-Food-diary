@@ -10,6 +10,7 @@ import {MatError, MatFormField, MatInput, MatLabel} from '@angular/material/inpu
 import {MatOption} from '@angular/material/core';
 import {MatSelect} from '@angular/material/select';
 import {MatButton} from '@angular/material/button';
+import {httpErrorMessage} from '../../../../util/error.service';
 
 @Component({
   selector: 'app-add-product',
@@ -78,7 +79,7 @@ export default class AddProductComponent implements OnInit {
     this.productService.createProduct(this.formPost())
       .subscribe({
         next: res => this.notificationService.showSnackBar("Создан новый продукт"),
-        error: ()=> this.notificationService.showSnackBar("Ошибка"),
+        error: (error: unknown)=> this.notificationService.showSnackBar(httpErrorMessage(error, "Ошибка создания продукта")),
         complete: ()=> {
           this.closeDialog()
           globalThis.location.reload();

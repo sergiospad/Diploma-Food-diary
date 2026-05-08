@@ -21,10 +21,15 @@ export default class ProductSearchEngineService{
   private isProductSearchLoading = false;
   private productSearchPending = 0;
 
-  public getSearchResults(productSearchControl:FormControl<string>):Observable<ProductSearchDTO[]>{
+  public getSearchResults(productSearchControl: FormControl<string | ProductSearchDTO>): Observable<ProductSearchDTO[]> {
     return productSearchControl.valueChanges.pipe(
       startWith(productSearchControl.value),
-      map((value) => value.trim()),
+      map((value) => {
+        if (typeof value === 'string') {
+          return value.trim();
+        }
+        return value?.name?.trim() ?? '';
+      }),
       debounceTime(300),
       distinctUntilChanged(),
       switchMap((query) =>

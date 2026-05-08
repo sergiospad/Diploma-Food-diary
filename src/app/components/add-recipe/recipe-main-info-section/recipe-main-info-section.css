@@ -77,3 +77,8 @@
   width: 600px;
   height: 200px;
 }
+
+.blocks__captions__summary textarea {
+  resize: none;
+  height: 200px;
+}
