@@ -21,7 +21,7 @@ export default class RecipeService {
   private readonly http = inject(HttpClient);
   private readonly recipeAPI = new Endpoint('recipe');
 
-  /** Body — фильтры; query — Spring Pageable: page (с нуля), size. */
+
   getAllRecipePreviews(
     recipe: RecipePreviewRequest,
     page: number,

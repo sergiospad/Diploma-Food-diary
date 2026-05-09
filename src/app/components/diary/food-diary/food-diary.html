@@ -13,7 +13,7 @@
         [value]="date()"
         (input)="changeDate($any($event.target).value)">
       <button (click)="getAdditional()">
-        @if (needsAdditional()) {
+        @if (!needsAdditional()) {
           Подробнее
         } @else {
           Скрыть
