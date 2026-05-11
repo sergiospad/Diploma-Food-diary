@@ -42,6 +42,7 @@ export class DiaryRecord {
   protected addMeal() {
     const cfg = new MatDialogConfig<AddMealDialogData>();
     cfg.width = '1200px';
+    cfg.maxWidth = '95vw'
     cfg.data = {
       meals: this.diaryRecord().meals,
       dailyRecordDate: this.diaryRecord().date,
@@ -49,11 +50,11 @@ export class DiaryRecord {
     this.dialog
       .open(AddMeal, cfg)
       .afterClosed()
-      .subscribe((updated: MealShowDTO) => {
+      .subscribe((updated: MealShowDTO[]) => {
         if (updated) {
           this.diaryRecord.update((rec) => ({
             ...rec,
-            meals: [...rec.meals, updated],
+            meals: [...updated],
           }));
         }
       });

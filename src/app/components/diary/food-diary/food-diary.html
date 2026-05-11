@@ -10,7 +10,7 @@
     <div class="diary-container__date">
       <input
         type="date"
-        [value]="date()"
+        [value]="date()|calendarDate"
         (input)="changeDate($any($event.target).value)">
       <button (click)="getAdditional()">
         @if (!needsAdditional()) {

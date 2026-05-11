@@ -6,6 +6,6 @@ import CalorieConsumptionShowDTO from '../sport_activity/calorie-consumption-sho
 export default interface DiaryRecordShowDTO {
   date: CalendarDate;
   meals: MealShowDTO[]
-  total: TotalMealShowDTO;
-  calorieConsumption: CalorieConsumptionShowDTO
+  total?: TotalMealShowDTO;
+  calorieConsumption?: CalorieConsumptionShowDTO
 }

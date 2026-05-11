@@ -148,16 +148,6 @@ export class NavigationComponent implements OnInit {
       shareReplay({bufferSize: 1, refCount: true}),
     );
 
-  protected onSearch(): void {
-    const query = this.searchControl.value.trim();
-    if (!query) {
-      return;
-    }
-    void this.router.navigate(['/', this.FEED_ROOT], {
-      queryParams: { search: query },
-    });
-  }
-
   protected onSearchSelect(recipe: RecipeTitleSearchDTO | RecipeSummarySearchDTO): void {
     void this.router.navigate(['/', RECIPE, recipe.id])
       .then(()=> globalThis.location.reload());

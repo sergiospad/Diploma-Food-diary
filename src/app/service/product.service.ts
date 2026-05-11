@@ -53,8 +53,7 @@ export default class ProductService {
   getNutrition(id: number):Observable<NutritionShowProjection>{
     return this.http.get<NutritionShowProjection>(
       this.productAPI.builder()
-        .points("nutrition")
-        .addParam("id", id.toString())
+        .points("nutrition", id.toString())
         .build());
   }
 }

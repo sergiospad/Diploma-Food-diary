@@ -7,6 +7,7 @@
     <span>Углеводы, г</span>
   </div>
   <ul class="diary-record__list">
+    @if(diaryRecord()){}
     @for (meal of diaryRecord().meals; track $index) {
       <li class="diary-record__meal">
         <span class="diary-record__cell diary-record__cell--name">{{ mealMap.get(meal.mealType) }}</span>
@@ -30,13 +31,15 @@
       </li>
     }
   </ul>
-  <div class="diary-record__total">
-    <span class="diary-record__cell diary-record__cell--name">Итого</span>
-    <span class="diary-record__cell">{{ diaryRecord().total.calories }}</span>
-    <span class="diary-record__cell">{{ diaryRecord().total.protein }}</span>
-    <span class="diary-record__cell">{{ diaryRecord().total.fat }}</span>
-    <span class="diary-record__cell">{{ diaryRecord().total.carbs }}</span>
-  </div>
+  @if(diaryRecord().total){
+    <div class="diary-record__total">
+      <span class="diary-record__cell diary-record__cell--name">Итого</span>
+      <span class="diary-record__cell">{{ diaryRecord().total?.calories }}</span>
+      <span class="diary-record__cell">{{ diaryRecord().total?.protein }}</span>
+      <span class="diary-record__cell">{{ diaryRecord().total?.fat }}</span>
+      <span class="diary-record__cell">{{ diaryRecord().total?.carbs }}</span>
+    </div>
+  }
   <div class="diary-record__actions">
     <button (click)="addMeal()">Добавить новый прием пищи</button>
   </div>
