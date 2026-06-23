@@ -1,0 +1,59 @@
+<div class="container">
+
+  <div class="image">
+    <input
+      type="file"
+      accept="image/*"
+      hidden
+      #fileInput
+      (change)="selectImage($event)">
+    @if (image()) {
+      <div class="image-preview">
+        <img
+          class="illustration-image"
+          [src]="image()"
+          alt="Превью изображения рецепта">
+        <button
+          type="button"
+          class="image-replace"
+          (click)="fileInput.click()"
+          aria-label="Заменить изображение">
+          <span class="image-replace__hint">Заменить</span>
+        </button>
+      </div>
+    } @else {
+      <button
+        type="button"
+        mat-flat-button
+        class="image__button empty-image"
+        (click)="fileInput.click()">
+        <mat-icon>add</mat-icon>
+        <span><br>Добавить изображение этапа готовки</span>
+      </button>
+    }
+  </div>
+  <div class="description">
+    <mat-form-field class="description__input" appearance="outline">
+      <mat-label>Описание этапа готовки</mat-label>
+      <textarea matInput [value]="cookingStage().description"
+                rows="5"
+             (input)="onDescriptionChange($any($event.target).value)"></textarea>
+    </mat-form-field>
+  </div>
+  <div class="add-cooking-stage__button">
+    <button mat-raised-button
+            class="add-cooking-stage__action__button"
+            [disabled]="cookingStage().description===''"
+            (click)="addToRecipe()"
+            disableRipple>Добавить
+    </button>
+    <button mat-raised-button
+            class="add-cooking-stage__action__button"
+            [disabled]="cookingStage().description===''"
+            (click)="onAbort()"
+            disableRipple>Отменить
+    </button>
+  </div>
+
+</div>
+

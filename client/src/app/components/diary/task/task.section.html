@@ -1,0 +1,29 @@
+<section class="task-section">
+  @if (currentTask() === null) {
+    <div class="task-section__empty">
+      <p class="task-section__empty-text">Нет активной задачи по весу</p>
+      <button
+        mat-flat-button
+        color="primary"
+        type="button"
+        class="task-section__cta"
+        (click)="onClick()">
+        Добавить задачу
+      </button>
+    </div>
+  }
+    <div class="task-panel">
+      <button
+        mat-stroked-button
+        type="button"
+        class="task-panel__archive"
+        (click)="onClickArchive()">
+        Архив задач
+      </button>
+      <div class="task-panel__main">
+        <app-current-task
+          [task]="currentTask()"
+          (taskChange)="currentTask.set($event)" />
+      </div>
+    </div>
+</section>

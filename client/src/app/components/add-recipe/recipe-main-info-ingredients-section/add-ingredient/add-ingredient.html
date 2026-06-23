@@ -1,0 +1,53 @@
+<form [formGroup]="ingredientForm">
+  <div class="new-ingredient">
+    <mat-form-field class = "new-ingredient__name" appearance="outline">
+      <mat-label>Название продукта</mat-label>
+      <input
+        matInput
+        [formControl]="productSearchControl"
+        [matAutocomplete]="productSearchAuto">
+      <mat-autocomplete [displayWith] ="displayProductName"
+        #productSearchAuto="matAutocomplete"
+                        (optionSelected)="onMeasureUnitSearchSelect($event.option.value)">
+        @if (getSearchLoading()) {
+          <mat-option disabled>Поиск...</mat-option>
+        }
+        @for (item of (searchProductResults$ | async); track item.id) {
+          <mat-option [value]="item">
+            {{ item.name }}
+          </mat-option>
+        }
+        @if (ingredientForm.get('productID')?.hasError('required')) {
+          <mat-error>Выберите продукт</mat-error>
+        }
+      </mat-autocomplete>
+    </mat-form-field>
+    <div class = "new-ingredient__amount-and-mu">
+      <mat-form-field class="new-ingredient__amount" appearance="outline">
+        <mat-label>Количество</mat-label>
+        <input matInput formControlName="amount"/>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="new-ingredient__mu">
+        <mat-label>Ед. изм.</mat-label>
+        <mat-select formControlName="measureUnitID" placeholder="Выберите единицу">
+          @for (mu of searchMeasureUnitResults ?? []; track mu.id) {
+            <mat-option [value]="mu.id">{{ mu.name }}</mat-option>
+          }
+        </mat-select>
+        @if (ingredientForm.get('measureUnitID')?.invalid && ingredientForm.get('measureUnitID')?.touched) {
+          <mat-error>Выберите единицу измерения</mat-error>
+        }
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="new-ingredient__actions">
+    <button
+      class="new-ingredient__button"
+      type="button"
+      mat-flat-button
+      (click)="addToNewProductCard()">
+      Добавить новый ингредиент
+    </button>
+  </div>
+</form>

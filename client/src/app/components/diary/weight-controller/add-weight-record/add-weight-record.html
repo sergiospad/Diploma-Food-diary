@@ -1,0 +1,36 @@
+<div class="add-weight-record">
+  <h2 class="add-weight-record__title">Новое измерение</h2>
+  <p class="add-weight-record__subtitle">
+    Укажите вес и дату — дубликаты по одному дню недопустимы.
+  </p>
+  <form [formGroup]="recordForm" class="add-weight-record__form">
+    <mat-form-field appearance="outline" class="add-weight-record__field">
+      <mat-label>Вес, кг</mat-label>
+      <input matInput type="number" formControlName="weightRecord" min="30" max="200" step="0.1" />
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="add-weight-record__field">
+      <mat-label>Дата измерения</mat-label>
+      <input matInput formControlName="date" type="date" />
+      @if (recordForm.controls['date'].hasError('notDate')) {
+        <mat-error>Укажите корректную дату</mat-error>
+      }
+      @if (recordForm.controls['date'].hasError('dateRange')) {
+        <mat-error>Дата выходит за допустимые пределы</mat-error>
+      }
+      @if (hasDuplicateMeasurementDate()) {
+        <mat-error>В этот день уже есть измерение</mat-error>
+      }
+    </mat-form-field>
+    <div class="add-weight-record__actions">
+      <button
+        mat-flat-button
+        color="primary"
+        type="button"
+        class="add-weight-record__submit"
+        [disabled]="recordForm.invalid || hasDuplicateMeasurementDate()"
+        (click)="submitRecord()">
+        Сохранить
+      </button>
+    </div>
+  </form>
+</div>

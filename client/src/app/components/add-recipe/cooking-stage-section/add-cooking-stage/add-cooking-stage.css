@@ -1,0 +1,93 @@
+.container{
+
+}
+
+.image {
+  display: block;
+}
+
+.illustration-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+}
+
+.image-preview {
+  position: relative;
+  display: inline-block;
+  width: 600px;
+  height: 400px;
+  vertical-align: top;
+}
+
+.image-replace {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+  background: transparent;
+  transition: background-color 0.2s ease;
+}
+
+.image-replace__hint {
+  position: absolute;
+  left: 50%;
+  bottom: 0.75rem;
+  transform: translateX(-50%);
+  padding: 0.25rem 0.6rem;
+  font-size: 0.85rem;
+  color: var(--light);
+  background: rgba(0, 0, 0, 0.45);
+  border-radius: 2px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+}
+
+.image__button {
+  box-sizing: border-box;
+  gap: 0.5rem;
+  overflow: hidden;
+  border-radius: 0;
+  height: 400px;
+  min-width: 600px;
+}
+
+.description__input {
+  margin-top: 1rem;
+  width: 600px;
+  height: 200px;
+}
+.description__input textarea {
+  resize: none;
+  height: 200px;
+}
+
+.new-action-button{
+  display: flex;
+  justify-content: center;
+}
+
+.add-cooking-stage__action__button {
+  box-sizing: border-box;
+  gap: 0.5rem;
+  overflow: hidden;
+  border-radius: 0;
+  min-width: 600px;
+  /* mat-raised-button → .mat-mdc-raised-button (protected), не filled */
+  --mat-button-protected-container-color: var(--accent-dark);
+  --mat-button-protected-label-text-color: var(--light);
+  --mat-button-protected-state-layer-color: rgba(255, 255, 255, 0.2);
+}
+
+.description__container{
+  display: flex;
+  gap: 3rem;
+  flex-direction: column;
+}
+
+

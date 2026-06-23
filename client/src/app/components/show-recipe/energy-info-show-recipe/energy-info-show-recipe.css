@@ -1,0 +1,47 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.heading {
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--dark);
+}
+
+.energy-select {
+  width: 220px;
+}
+
+.energy-card {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+}
+
+.energy-main {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 260px;
+}
+
+.energy-calories {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.energy-macros {
+  color: color-mix(in srgb, var(--dark) 80%, #fff);
+}
+
+.energy-chart {
+  width: 280px;
+  max-width: 100%;
+}

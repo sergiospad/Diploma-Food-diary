@@ -1,0 +1,33 @@
+<div class="container">
+  <h1 class="new-recipe">Новый рецепт</h1>
+  <div class="blocks">
+    <app-recipe-main-info-section (toMainComponentTitle)="title = $event"
+                                  (toMainComponentSummary)="summary = $event"
+                                  (toMainComponentTitleImageBlob)="titleImageBlob = $event"
+    ></app-recipe-main-info-section>
+
+   <app-recipe-main-info-ingredients-section (toMainComponentCookingTime)="cookingTime = $event"
+                                             (toMainComponentIsPrivate)="isPrivate = $event"
+                                             [ingredients]="ingredients">
+   </app-recipe-main-info-ingredients-section>
+  </div>
+  <div class="divider"></div>
+  <div class="cooking-stages">
+    <app-cooking-stage-section (toMainComponentStages)="cookingStages = $event" >
+    </app-cooking-stage-section>
+  </div>
+  <div class="divider"></div>
+  <app-tag-show-section (toMainComponentSelectedTags)="selectedTags=$event">
+  </app-tag-show-section>
+  <div class="divider"></div>
+  <div class="submit-button">
+    <button
+      mat-flat-button
+      class="submit__active__button"
+      [disabled]="!canSubmit()"
+      (click)="saveRecipe()">
+      Добавить новый рецепт
+    </button>
+  </div>
+
+</div>

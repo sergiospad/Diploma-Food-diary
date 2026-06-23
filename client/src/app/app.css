@@ -1,0 +1,28 @@
+:host{
+  --open-sans: 'Open Sans', sans-serif;
+  --nunito-sans: 'Nunito Sans', sans-serif;
+
+  --accent-light: #FBB731;
+  --accent-dark: #F37335;
+  --border-color: #DEDEDE;
+  --empty-image: rgba(165,165,165, 0.2);
+
+  --dark: #443737;
+  --light: #FFFFFF;
+  --footer-color: #1E2F40;
+  --light-rgb: 255, 255, 255;
+  --dark-rgb: 68, 55, 55;
+
+  --tr: 0.2s;
+}
+
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-main {
+  flex: 1 0 auto;
+  display: block;
+}

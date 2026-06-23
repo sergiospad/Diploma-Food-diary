@@ -1,0 +1,55 @@
+<div class="edit-recipe">
+  <header class="edit-recipe__header">
+    <h1 class="edit-recipe__title">Редактирование рецепта</h1>
+    <p class="edit-recipe__subtitle">Измените данные и сохраните изменения</p>
+  </header>
+
+  <section class="edit-recipe__section edit-recipe__section--main">
+    <div class="edit-recipe__blocks">
+      <app-edit-recipe-main-info-section
+        [(recipe)]="recipe"
+        [(recipeEdit)]="recipeEdit">
+      </app-edit-recipe-main-info-section>
+
+      <app-edit-recipe-ingredient-section
+        [(recipe)]="recipe"
+        [(recipeEdit)]="recipeEdit">
+      </app-edit-recipe-ingredient-section>
+    </div>
+  </section>
+
+  <hr class="edit-recipe__divider" role="presentation" />
+
+  <section class="edit-recipe__section">
+    <app-edit-recipe-cooking-stages
+      [(recipe)]="recipe"
+      [(recipeEdit)]="recipeEdit">
+    </app-edit-recipe-cooking-stages>
+  </section>
+
+  <hr class="edit-recipe__divider" role="presentation" />
+
+  <section class="edit-recipe__section">
+    <app-edit-tags [(recipe)]="recipe" [(recipeEdit)]="recipeEdit">
+    </app-edit-tags>
+  </section>
+
+  <hr class="edit-recipe__divider" role="presentation" />
+
+  <footer class="edit-recipe__actions">
+    <button
+      type="button"
+      mat-flat-button
+      class="edit-recipe__btn edit-recipe__btn--primary"
+      (click)="saveRecipe()">
+      Сохранить
+    </button>
+    <button
+      type="button"
+      mat-stroked-button
+      class="edit-recipe__btn edit-recipe__btn--secondary"
+      (click)="cancel()">
+      Отмена
+    </button>
+  </footer>
+</div>

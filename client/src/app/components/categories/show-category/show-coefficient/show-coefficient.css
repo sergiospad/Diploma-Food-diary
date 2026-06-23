@@ -1,0 +1,46 @@
+:host {
+  display: block;
+}
+
+.show-coefficient__form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0.65rem 1.15rem;
+}
+
+.show-coefficient__field {
+  flex: 0 1 9.5rem;
+  min-width: 7.5rem;
+}
+
+.show-coefficient__field .mat-mdc-form-field {
+  width: 100%;
+}
+
+.show-coefficient__result {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem 0.55rem;
+  font-size: 0.9375rem;
+  line-height: 1.45;
+  color: color-mix(in srgb, var(--dark) 82%, transparent);
+}
+
+.show-coefficient__unit {
+  font-weight: 600;
+  color: var(--dark);
+}
+
+.show-coefficient__equals {
+  font-weight: 500;
+  opacity: 0.65;
+}
+
+.show-coefficient__value {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--dark);
+}

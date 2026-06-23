@@ -1,0 +1,45 @@
+.new-ingredient{
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+
+.new-ingredient__name{
+  width: 400px;
+}
+
+.new-ingredient__amount-and-mu{
+  display: flex;
+  gap: 1rem;
+  flex-direction: row;
+}
+
+.new-ingredient__amount{
+  width: 150px;
+  height: 50px;
+}
+
+.new-ingredient__mu {
+  width: 220px;
+}
+
+/* Визуально «заморожено», пока control disabled (до продукта / до загрузки единиц) */
+.new-ingredient__mu.mat-form-field-disabled,
+.new-ingredient__mu.mat-mdc-form-field-disabled {
+  opacity: 0.55;
+}
+
+.new-ingredient__actions {
+  display: flex;
+  justify-content: start;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.new-ingredient__button {
+  display: block;
+  justify-content: center;
+  --mat-button-filled-container-color: var(--accent-light);
+  border-radius: 0;
+  min-width: 100%;
+}

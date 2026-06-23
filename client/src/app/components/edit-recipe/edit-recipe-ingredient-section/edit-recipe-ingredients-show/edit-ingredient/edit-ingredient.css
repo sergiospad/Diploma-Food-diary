@@ -1,0 +1,47 @@
+.new-ingredient {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.new-ingredient__name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--dark);
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.new-ingredient__amount-and-mu {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: flex-start;
+}
+
+.new-ingredient__amount {
+  flex: 1 1 9rem;
+  min-width: 8rem;
+}
+
+.new-ingredient__mu {
+  flex: 1 1 10rem;
+  min-width: 9rem;
+}
+
+.new-ingredient__actions {
+  margin-top: 0.85rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+.new-ingredient__button {
+  flex: 1 1 9.5rem;
+  min-width: 8.5rem;
+  border-radius: 6px;
+}
+
+.new-ingredient__button--ghost {
+  --mat-outlined-button-label-text-color: var(--dark);
+}

@@ -1,0 +1,44 @@
+.add-meal__items {
+  list-style: none;
+  margin: 0;
+  padding: 0.45rem 0 0;
+  border-top: 1px solid color-mix(in srgb, var(--dark) 10%, transparent);
+  display: grid;
+  gap: 0.45rem;
+}
+
+.add-meal__items-head,
+.add-meal__item,
+.add-meal__items-total,
+.add-meal__totals {
+  display: grid;
+  grid-template-columns: minmax(11rem, 1.5fr) repeat(5, minmax(4.8rem, 1fr));
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.add-meal__items-head {
+  padding: 0 0.45rem 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: color-mix(in srgb, var(--dark) 62%, transparent);
+}
+.add-meal__item {
+  min-height: 2.35rem;
+  padding: 0.55rem 0.6rem;
+  border-radius: 8px;
+  border: 1px dashed color-mix(in srgb, var(--dark) 18%, transparent);
+  background: color-mix(in srgb, var(--dark) 4%, var(--light));
+  font-size: 0.9rem;
+}
+
+.add-meal__totals,
+.add-meal__items-total {
+  padding: 0.55rem 0.6rem;
+  border-radius: 8px;
+  border: 1px solid color-mix(in srgb, var(--accent-light) 35%, transparent);
+  background: color-mix(in srgb, var(--accent-light) 14%, var(--light));
+  font-weight: 600;
+}

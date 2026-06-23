@@ -1,0 +1,17 @@
+<div class="cooking-stages">
+  <span class="heading cooking-stages__title">Этапы готовки</span>
+  <div class="cooking-stages__grid">
+    <app-cooking-stage-show-section [cookingStages]="cookingStages()"
+                                    [canRemove]="true">
+    </app-cooking-stage-show-section>
+    <div class="cooking-stages__add">
+    <app-add-cooking-stage (cookingStage)="addCookingStageToList($event)"></app-add-cooking-stage>
+  </div>
+  </div>
+
+</div>
+@if (cookingStages().length  > maxCookingStages) {
+  <div class="limit" role="alert">
+    Превышен лимит этапов готовки: не больше {{ maxCookingStages }} (сейчас {{ cookingStages().length }}).
+  </div>
+}

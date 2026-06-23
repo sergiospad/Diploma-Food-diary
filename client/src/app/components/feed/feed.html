@@ -1,0 +1,140 @@
+<div
+  class="feed"
+  [class.feed--has-pager]="recipes().length > 0 || page() > 0">
+  <aside class="feed__sidebar">
+    <app-tag-field [tags]="allTags" (selectedTag)="addToTags($event)"></app-tag-field>
+  </aside>
+
+  <main class="feed__main">
+    <section class="feed__filters" aria-label="Фильтры ленты">
+      <div class="feed__filters-row">
+        <div class="feed__favourite">
+          <input
+            class="feed__checkbox"
+            type="checkbox"
+            id="feed-favourite-only"
+            [checked]="needsFavourite()"
+            (change)="needsFavourite.set($any($event.target).checked)" />
+          <label class="feed__label" for="feed-favourite-only">Только избранное</label>
+        </div>
+
+        <div class="feed__sort">
+          <mat-form-field appearance="outline" subscriptSizing="dynamic">
+            <mat-label>Сортировка</mat-label>
+            <mat-select
+              name="feed-sort"
+              [ngModel]="sortType()"
+              (ngModelChange)="sortType.set($event)">
+              @for (t of sortTypeDict.keys(); track t) {
+                <mat-option [value]="t">{{ sortTypeDict.get(t) }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <button
+          type="button"
+          mat-flat-button
+          class="feed__apply"
+          (click)="applyFilters()">
+          Применить
+        </button>
+      </div>
+
+      @if (tags().length) {
+        <div class="feed__chips" aria-label="Выбранные теги">
+          @for (tag of tags(); track tag.id) {
+            <span class="feed__chip">
+              <span class="feed__chip-name">{{ tag.name }}</span>
+              <button
+                type="button"
+                mat-icon-button
+                class="feed__chip-remove"
+                (click)="removeIngredient(tag.id)"
+                [attr.aria-label]="'Убрать тег ' + tag.name">
+                <mat-icon>close</mat-icon>
+              </button>
+            </span>
+          }
+        </div>
+      }
+    </section>
+
+    <section class="feed__recipes" aria-label="Рецепты">
+      <div class="feed__grid">
+        @for (recipe of recipes(); track recipe.id) {
+          <article class="recipe-card">
+            <button
+              type="button"
+              class="recipe-card__hit"
+              (click)="onSelectRecipe(recipe.id)"
+              [attr.aria-label]="'Открыть рецепт: ' + recipe.name"></button>
+            <div class="recipe-card__surface">
+              <div class="recipe-card__media">
+                @if (recipe.image) {
+                  <img
+                    class="recipe-card__image"
+                    [src]="recipe.image"
+                    [alt]="recipe.name"
+                    loading="lazy" />
+                } @else {
+                  <div class="recipe-card__placeholder" aria-hidden="true">
+                    <mat-icon>restaurant</mat-icon>
+                  </div>
+                }
+                <button
+                  type="button"
+                  mat-icon-button
+                  class="recipe-card__like"
+                  [class.recipe-card__like--active]="isFavourite(recipe.id)"
+                  (click)="
+                    $event.stopPropagation();
+                    isFavourite(recipe.id)
+                      ? removeFavourite(recipe.id)
+                      : addFavourite(recipe.id)
+                  "
+                  [attr.aria-label]="
+                    isFavourite(recipe.id)
+                      ? 'Убрать лайк: ' + recipe.name
+                      : 'Лайкнуть: ' + recipe.name
+                  ">
+                  <mat-icon>{{ isFavourite(recipe.id) ? 'thumb_up' : 'thumb_up_off_alt' }}</mat-icon>
+                </button>
+              </div>
+              <div class="recipe-card__body">
+                <h3 class="recipe-card__title">{{ recipe.name }}</h3>
+                <p class="recipe-card__summary">{{ recipe.summary }}</p>
+              </div>
+            </div>
+          </article>
+        }
+      </div>
+    </section>
+
+    @if (recipes().length > 0 || page() > 0) {
+      <nav class="feed__pager" aria-label="Страницы ленты">
+        <button
+          type="button"
+          mat-icon-button
+          class="feed__pager-btn"
+          [disabled]="!canGoPrevPage()"
+          (click)="goToPrevPage()"
+          aria-label="Предыдущая страница">
+          <mat-icon>chevron_left</mat-icon>
+        </button>
+        <span class="feed__pager-info">
+          Страница <strong>{{ displayPageNumber() }}</strong>
+        </span>
+        <button
+          type="button"
+          mat-icon-button
+          class="feed__pager-btn"
+          [disabled]="!canGoNextPage()"
+          (click)="goToNextPage()"
+          aria-label="Следующая страница">
+          <mat-icon>chevron_right</mat-icon>
+        </button>
+      </nav>
+    }
+  </main>
+</div>

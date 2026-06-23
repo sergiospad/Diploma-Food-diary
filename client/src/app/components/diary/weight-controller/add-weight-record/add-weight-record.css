@@ -1,0 +1,60 @@
+:host {
+  display: block;
+  color: var(--dark);
+}
+
+.add-weight-record {
+  padding: 3rem;
+  max-width: 28rem;
+  margin-inline: auto;
+}
+
+.add-weight-record__title {
+  margin: 0 0 0.35rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--dark);
+}
+
+.add-weight-record__subtitle {
+  margin: 0 0 1.1rem;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  color: color-mix(in srgb, var(--dark) 72%, transparent);
+}
+
+.add-weight-record__form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.add-weight-record__field {
+  width: 100%;
+}
+
+.add-weight-record__actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 0.75rem;
+}
+
+.add-weight-record__submit {
+  min-width: 8.5rem;
+  font-weight: 600;
+}
+
+@media (min-width: 520px) {
+  .add-weight-record__form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem 1rem;
+    align-items: start;
+  }
+
+  .add-weight-record__actions {
+    grid-column: 1 / -1;
+    margin-top: 0.35rem;
+  }
+}

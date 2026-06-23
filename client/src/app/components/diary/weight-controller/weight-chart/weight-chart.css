@@ -1,0 +1,195 @@
+:host {
+  display: block;
+  color: var(--dark);
+  /* Единая высота строки полей + кнопки (подгонка под outline MDC ~56px) */
+  --weight-chart-control-h: 3.5rem;
+}
+
+.weight-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.weight-chart__header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.weight-chart__title {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--dark);
+}
+
+.weight-chart__subtitle {
+  margin: 0;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  color: color-mix(in srgb, var(--dark) 68%, transparent);
+}
+
+.weight-chart__filters {
+  display: block;
+}
+
+/* Одна линия: период | даты | кнопка; на узком экране — горизонтальный скролл без переноса */
+.weight-chart__fields {
+  display: grid;
+  grid-template-columns:
+    minmax(10.5rem, 12.5rem)
+    minmax(11rem, 1fr)
+    minmax(11rem, 1fr)
+    auto;
+  align-items: center;
+  column-gap: 0.75rem;
+  row-gap: 0.75rem;
+  min-width: 0;
+}
+
+@media (max-width: 980px) {
+  .weight-chart__fields {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .weight-chart__submit-cell {
+    grid-column: 1 / -1;
+    justify-content: flex-end;
+  }
+}
+
+@media (max-width: 719px) {
+  .weight-chart__fields {
+    grid-template-columns: 1fr;
+  }
+}
+
+.weight-chart__submit-cell {
+  margin-bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+}
+
+.weight-chart__field {
+  width: 100%;
+  min-width: 0;
+}
+
+/* Внутренности mat-form-field — только через ::ng-deep (иначе encapsulation режет селекторы) */
+:host ::ng-deep .weight-chart__field.mat-mdc-form-field {
+  margin-bottom: 0;
+}
+
+:host ::ng-deep .weight-chart__field.mat-mdc-form-field .mat-mdc-text-field-wrapper {
+  min-height: var(--weight-chart-control-h);
+}
+
+:host ::ng-deep .weight-chart__field.mat-mdc-form-field .mat-mdc-form-field-infix {
+  min-height: var(--weight-chart-control-h);
+  padding-top: 0;
+  padding-bottom: 0;
+  display: flex;
+  align-items: center;
+}
+
+:host ::ng-deep .weight-chart__field.mat-mdc-form-field .mdc-text-field--outlined {
+  align-items: center;
+}
+
+:host ::ng-deep .weight-chart__field.mat-mdc-form-field input.mat-mdc-input-element {
+  min-height: calc(var(--weight-chart-control-h) - 0.5rem);
+  box-sizing: border-box;
+}
+
+:host ::ng-deep .weight-chart__field.mat-mdc-form-field select.weight-chart__native-select.mat-mdc-input-element {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: calc(var(--weight-chart-control-h) - 0.5rem);
+  cursor: pointer;
+  color: var(--dark);
+  font: inherit;
+  line-height: 1.35;
+  padding: 0.4rem 2.25rem 0.4rem 0.75rem !important;
+}
+
+.weight-chart__native-select option {
+  padding: 0.45rem 0.85rem;
+  line-height: 1.4;
+}
+
+.weight-chart__submit {
+  flex-shrink: 0;
+  white-space: nowrap;
+  padding: 0.55rem 1.15rem;
+  font-weight: 600;
+}
+
+.weight-chart__actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.weight-chart__stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.65rem 1rem;
+  margin: 0;
+  padding: 0.75rem 0.85rem;
+  list-style: none;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--accent-light) 12%, var(--light));
+  border: 1px solid color-mix(in srgb, var(--accent-light) 45%, transparent);
+}
+
+@media (min-width: 520px) {
+  .weight-chart__stats {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.weight-chart__stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 0;
+}
+
+.weight-chart__stat-label {
+  margin: 0;
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: color-mix(in srgb, var(--dark) 62%, transparent);
+}
+
+.weight-chart__stat-value {
+  margin: 0;
+  font-size: 0.98rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--dark);
+}
+
+.weight-chart__canvas {
+  position: relative;
+  height: min(320px, 52vw);
+  min-height: 220px;
+  padding: 0.35rem 0 0;
+}
+
+.weight-chart__empty {
+  margin: 0;
+  padding: 2rem 1rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: color-mix(in srgb, var(--dark) 65%, transparent);
+  border-radius: 10px;
+  border: 1px dashed color-mix(in srgb, var(--dark) 22%, transparent);
+  background: color-mix(in srgb, var(--dark) 4%, var(--light));
+}

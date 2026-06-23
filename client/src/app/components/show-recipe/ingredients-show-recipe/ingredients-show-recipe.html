@@ -1,0 +1,23 @@
+<div class="ingredients">
+  <div class="ingredients__heading-wrap">
+    <span class="ingredients__heading">Ингредиенты</span>
+  </div>
+  @for (ing of ingredients(); track ing.id) {
+    <div class="ingredient-line">
+      <span class="ingredient-line__name">{{ ing.productName }}</span>
+      <span class="ingredient-line__leader" aria-hidden="true"></span>
+      <div class="ingredient-line__meta">
+        <span class="ingredient-line__amount">{{ ing.amount|number:'1.0-1'}}</span>
+          <mat-select
+            class="ingredient-line__select"
+            [name]="'measure-unit-' + ing.id"
+            [ngModel]="selectedUnitId(ing)"
+            (ngModelChange)="onUnitChange(ing, $event)">
+            @for (u of ing.units; track u.id) {
+              <mat-option [value]="u.id">{{ u.name }}</mat-option>
+            }
+          </mat-select>
+      </div>
+    </div>
+  }
+</div>

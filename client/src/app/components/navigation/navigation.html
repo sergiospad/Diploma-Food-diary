@@ -1,0 +1,107 @@
+<header class="header" id="header-top">
+  <div class="container">
+    <div class="header-wrapper">
+      <a [routerLink]="['/', FEED_ROOT]">
+        <div class="logo"></div>
+
+        <span [routerLink]="['/', FEED_ROOT]" class="logo_span">
+          MealMind
+        </span>
+      </a>
+
+      <span class="spacer"></span>
+
+      <div class="search-box">
+        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+          <mat-icon matPrefix>search</mat-icon>
+          <input
+            matInput
+            [formControl]="searchControl"
+            [matAutocomplete]="recipeAuto"
+            placeholder="Поиск рецептов"
+          />
+          <mat-autocomplete
+            #recipeAuto="matAutocomplete"
+            (optionSelected)="onSearchSelect($event.option.value)"
+          >
+            @if (isSearchLoading) {
+              <mat-option disabled>Поиск...</mat-option>
+            }
+            @for (item of (searchTitleResults$ | async); track item.id) {
+              <mat-option [value]="item">
+                <h6 [innerHTML]="markWord(item.name, searchControl.value)"></h6>
+              </mat-option>
+            }
+            @for (item of (searchSummaryResults$ | async); track item.id) {
+              <mat-option [value]="item">
+                <h6>{{ item.name }}</h6>
+                <span [innerHTML]="markWord(item.summary.substring(0, 70), searchControl.value)"></span>
+              </mat-option>
+            }
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+
+      @if (user!==null) {
+        <button type="button"
+                [routerLink]="['/', ADD_RECIPE]"
+                class="add-recipe">
+          <mat-icon>add</mat-icon>
+          &nbsp;&nbsp;&nbsp;Добавить рецепт
+        </button>
+
+        <button type="button"
+                [routerLink]="['/', DIARY]"
+                class="add-recipe">
+          <mat-icon>menu_book</mat-icon>
+          &nbsp;&nbsp;&nbsp;Дневник питания
+        </button>
+
+        <div class="user-info">
+          <h3 class="user-name">{{ user.username }}</h3>
+        </div>
+      }
+
+      <div class="toolbar-actions">
+        @if (user!==null) {
+          <button type="button"
+                  [matMenuTriggerFor]="menu"
+                  matTooltip="Profile"
+                  class="profile-avatar-button"
+                  aria-label="Profile menu">
+            <img [src]="(avatarUrl | async) ?? stockPic"
+                 [alt]='stockPic'
+                 class="profile-avatar-img">
+          </button>
+        } @else {
+          <button type="button"
+                  matTooltip="Login"
+                  [routerLink]="['/', LOGIN]"
+                  mat-icon-button
+                  class="action-button"
+                  aria-label="Login">
+            <mat-icon>login</mat-icon>
+          </button>
+        }
+      </div>
+
+      <mat-menu #menu="matMenu" class="nav">
+        <button type="button" mat-menu-item routerLink="{{PROFILE}}">
+          <mat-icon>person</mat-icon>
+          <span>Профиль</span>
+        </button>
+        @if (role==="ADMIN"){
+          <button type="button" mat-menu-item routerLink="{{CATEGORY}}">
+            <mat-icon>restaurant</mat-icon>
+            <span>Категории</span>
+          </button>
+        }
+        <mat-divider></mat-divider>
+        <button type="button" mat-menu-item (click)="logout()">
+          <mat-icon>logout</mat-icon>
+          <span>Выйти</span>
+        </button>
+      </mat-menu>
+    </div>
+  </div>
+</header>

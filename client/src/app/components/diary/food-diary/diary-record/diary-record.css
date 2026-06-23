@@ -1,0 +1,179 @@
+:host {
+  display: block;
+  color: var(--dark);
+}
+
+.diary-record {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.diary-record__title,
+.diary-record__meal,
+.diary-record__total,
+.diary-record__item {
+  display: grid;
+  grid-template-columns: minmax(9rem, 1.5fr) repeat(4, minmax(5.25rem, 1fr));
+  gap: 0.55rem;
+  align-items: center;
+}
+
+.diary-record__title {
+  padding: 0 0.25rem 0.4rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: color-mix(in srgb, var(--dark) 62%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--dark) 10%, transparent);
+}
+
+.diary-record__list,
+.diary-record__items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.diary-record__list {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.diary-record__meal {
+  border: 1px solid color-mix(in srgb, var(--dark) 11%, transparent);
+  border-radius: 9px;
+  background: color-mix(in srgb, var(--dark) 3%, var(--light));
+  padding: 0.65rem 0.7rem;
+}
+
+.diary-record__cell {
+  font-size: 0.92rem;
+  line-height: 1.3;
+}
+
+.diary-record__cell--name {
+  font-weight: 600;
+}
+
+.diary-record__items {
+  grid-column: 1 / -1;
+  margin-top: 0.25rem;
+  padding-top: 0.45rem;
+  border-top: 1px dashed color-mix(in srgb, var(--dark) 14%, transparent);
+  display: grid;
+  gap: 0.3rem;
+}
+
+.diary-record__item {
+  font-size: 0.85rem;
+  color: color-mix(in srgb, var(--dark) 80%, transparent);
+}
+
+.diary-record__total {
+  margin-top: 0.25rem;
+  padding: 0.65rem 0.7rem;
+  border-radius: 9px;
+  background: color-mix(in srgb, var(--accent-light) 14%, var(--light));
+  border: 1px solid color-mix(in srgb, var(--accent-light) 35%, transparent);
+  font-weight: 600;
+}
+
+.diary-record__actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 0.35rem;
+}
+
+.diary-record__actions button {
+  min-height: 2.45rem;
+  border-radius: 8px;
+  border: 1px solid color-mix(in srgb, var(--dark) 22%, transparent);
+  background: color-mix(in srgb, var(--accent-light) 22%, var(--light));
+  color: var(--dark);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0.5rem 0.9rem;
+}
+
+.diary-record__actions button:hover {
+  background: color-mix(in srgb, var(--accent-light) 32%, var(--light));
+}
+
+.sports-activity {
+  margin-top: 0.65rem;
+  padding: 0.75rem 0.8rem;
+  border-radius: 9px;
+  border: 1px solid color-mix(in srgb, var(--dark) 12%, transparent);
+  background: color-mix(in srgb, var(--dark) 3%, var(--light));
+  display: grid;
+  gap: 0.6rem;
+}
+
+.sports-activity__total {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.35;
+}
+
+.sports-activity__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.sports-activity__item {
+  display: flex;
+  justify-content: start;
+  gap: 0.65rem;
+  padding: 0.4rem 0.55rem;
+  border-radius: 7px;
+  background: color-mix(in srgb, var(--dark) 2%, var(--light));
+  border: 1px dashed color-mix(in srgb, var(--dark) 14%, transparent);
+  font-size: 0.88rem;
+}
+
+.sports-activity__stats {
+  display: grid;
+  gap: 0.25rem;
+  font-size: 0.88rem;
+}
+
+.sports-activity__actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.sports-activity__actions button {
+  min-height: 2.25rem;
+  border-radius: 8px;
+  border: 1px solid color-mix(in srgb, var(--dark) 22%, transparent);
+  background: color-mix(in srgb, var(--accent-light) 22%, var(--light));
+  color: var(--dark);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0.5rem 0.9rem;
+}
+
+.sports-activity__actions button:hover {
+  background: color-mix(in srgb, var(--accent-light) 32%, var(--light));
+}
+
+@media (max-width: 760px) {
+  .diary-record__title,
+  .diary-record__meal,
+  .diary-record__total,
+  .diary-record__item {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.35rem 0.65rem;
+  }
+
+  .sports-activity__item {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

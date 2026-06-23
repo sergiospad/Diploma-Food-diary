@@ -1,0 +1,27 @@
+:host {
+  display: block;
+}
+
+.cooking-stages {
+  margin-top: 0;
+  max-width: 1240px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: start;
+}
+
+.cooking-stages__title {
+  display: block;
+  margin: 0 0 1.25rem;
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--dark);
+  letter-spacing: 0.01em;
+}
+
+.cooking-stages__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem 1.5rem;
+  align-items: stretch;
+}

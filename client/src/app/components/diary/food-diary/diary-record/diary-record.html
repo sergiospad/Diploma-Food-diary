@@ -1,0 +1,83 @@
+<div class="diary-record">
+  <div class="diary-record__title">
+    <span>Прием пищи</span>
+    <span>Потреблено, ккал</span>
+    <span>Белки, г</span>
+    <span>Жиры, г</span>
+    <span>Углеводы, г</span>
+  </div>
+  <ul class="diary-record__list">
+    @for (meal of diaryRecord().meals; track $index) {
+      <li class="diary-record__meal">
+        <span class="diary-record__cell diary-record__cell--name">{{ mealMap.get(meal.mealType) }}</span>
+        <span class="diary-record__cell">{{ meal.calories | number:'1.0-1' }}</span>
+        <span class="diary-record__cell">{{ meal.proteins | number:'1.0-1' }}</span>
+        <span class="diary-record__cell">{{ meal.fat | number:'1.0-1' }}</span>
+        <span class="diary-record__cell">{{ meal.carbs | number:'1.0-1' }}</span>
+        @if (needsAdditional()) {
+          <ul class="diary-record__items">
+            @for (mi of meal.showDTOList; track $index) {
+              <li class="diary-record__item">
+                <span>{{ mi.name }}</span>
+                <span>{{ mi.productWeight | number:'1.0-1' }}</span>
+                <span>{{ mi.proteins | number:'1.0-1' }}</span>
+                <span>{{ mi.fat | number:'1.0-1' }}</span>
+                <span>{{ mi.carbs | number:'1.0-1' }}</span>
+              </li>
+            }
+          </ul>
+        }
+      </li>
+    }
+  </ul>
+  @if(diaryRecord().total){
+    <div class="diary-record__total">
+      <span class="diary-record__cell diary-record__cell--name">Итого</span>
+      <span class="diary-record__cell">{{ diaryRecord().total?.calories | number:'1.0-1' }}</span>
+      <span class="diary-record__cell">{{ diaryRecord().total?.proteins | number:'1.0-1' }}</span>
+      <span class="diary-record__cell">{{ diaryRecord().total?.fat | number:'1.0-1' }}</span>
+      <span class="diary-record__cell">{{ diaryRecord().total?.carbs | number:'1.0-1' }}</span>
+    </div>
+  }
+  <div class="diary-record__actions">
+    <button (click)="addMeal()">Добавить новый прием пищи</button>
+  </div>
+  @if (diaryRecord()) {
+    <div class="sports-activity">
+      <p class="sports-activity__total">
+        Всего калорий сожжено за счет активностей:
+        <strong>{{ totalActivity() | number: '1.0-1' }}</strong>
+      </p>
+
+      @if (needsAdditional()) {
+        <ul class="sports-activity__list">
+          @for (act of diaryRecord().calorieConsumption?.sportActivityShowDTOList; track $index) {
+            <li class="sports-activity__item">
+              <span>{{ act.name }}</span>
+              <span>{{ act.calories | number: '1.0-1' }}</span>
+            </li>
+          }
+        </ul>
+
+        <div class="sports-activity__stats">
+          <span>
+            Расход калорий в покое:
+            <strong>{{ getPassiveCaloriesCons() | number: '1.0-1' }}</strong>
+          </span>
+          <span>
+            Расход калорий при нагрузке:
+            <strong>{{ getPassiveCaloriesCons() + totalActivity() | number: '1.0-1' }}</strong>
+          </span>
+          <span>
+            @if (getDeficit() > 0) { Дефицит } @else { Профицит } калорий:
+            <strong>{{ Math.abs(getDeficit()) | number: '1.0-1' }}</strong>
+          </span>
+        </div>
+      }
+
+      <div class="sports-activity__actions">
+        <button (click)="addActivity()">Добавить спортивную активность</button>
+      </div>
+    </div>
+  }
+</div>

@@ -1,0 +1,70 @@
+<section class="weight-chart">
+  <header class="weight-chart__header">
+    <h2 class="weight-chart__title">Динамика веса</h2>
+    <p class="weight-chart__subtitle">
+      Выберите период агрегации и интервал дат, затем обновите график.
+    </p>
+  </header>
+
+  <form [formGroup]="dataForm" class="weight-chart__filters">
+    <div class="weight-chart__fields">
+      <mat-form-field appearance="outline" subscriptSizing="fixed" class="weight-chart__field">
+        <mat-label>Период</mat-label>
+        <select matNativeControl formControlName="chartType" class="weight-chart__native-select">
+          @for (o of chartPeriodOptions; track o.value) {
+            <option [value]="o.value">{{ o.label }}</option>
+          }
+        </select>
+      </mat-form-field>
+      <mat-form-field appearance="outline" subscriptSizing="fixed" class="weight-chart__field">
+        <mat-label>С даты</mat-label>
+        <input matInput formControlName="startDate" type="date" />
+      </mat-form-field>
+      <mat-form-field appearance="outline" subscriptSizing="fixed" class="weight-chart__field">
+        <mat-label>По дату</mat-label>
+        <input matInput formControlName="endDate" type="date" />
+      </mat-form-field>
+    </div>
+    <div class="weight-chart__submit-cell">
+    <button
+      mat-flat-button
+      color="primary"
+      type="button"
+      class="weight-chart__submit"
+      [disabled]="dataForm.invalid"
+      (click)="updateChartData()">
+      Обновить график
+    </button>
+  </div>
+  </form>
+
+  @if (weightChart(); as wc) {
+    @if (wc.weightList.length) {
+      <ul class="weight-chart__stats" aria-label="Сводка за период">
+        <li class="weight-chart__stat">
+          <p class="weight-chart__stat-label">Мин.</p>
+          <p class="weight-chart__stat-value">{{ wc.minWeight | number : '1.1-1' }} кг</p>
+        </li>
+        <li class="weight-chart__stat">
+          <p class="weight-chart__stat-label">Макс.</p>
+          <p class="weight-chart__stat-value">{{ wc.maxWeight | number : '1.1-1' }} кг</p>
+        </li>
+        <li class="weight-chart__stat">
+          <p class="weight-chart__stat-label">Средн.</p>
+          <p class="weight-chart__stat-value">{{ wc.avgWeight | number : '1.1-1' }} кг</p>
+        </li>
+        <li class="weight-chart__stat">
+          <p class="weight-chart__stat-label">Изменение</p>
+          <p class="weight-chart__stat-value">
+            {{ wc.weightChange >= 0 ? '+' : '' }}{{ wc.weightChange | number : '1.1-1' }} кг
+          </p>
+        </li>
+      </ul>
+      <div class="weight-chart__canvas">
+        <canvas baseChart [type]="lineChartType" [data]="lineChartData" [options]="lineChartOptions"></canvas>
+      </div>
+    } @else if (chartHydrated()) {
+      <p class="weight-chart__empty">Нет точек за выбранный интервал — измените даты или период.</p>
+    }
+  }
+</section>

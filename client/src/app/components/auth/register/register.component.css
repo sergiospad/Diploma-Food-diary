@@ -1,0 +1,24 @@
+.app-register{
+  text-align:center;
+  margin-top: 3rem;
+}
+
+#controls{
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+  width: 40%;
+}
+
+mat-form-field{
+  width: 20%;
+}
+
+.question{
+  margin-bottom: 1rem;
+}
+
+.submit_button{
+  margin-top: 2rem;
+  width: 20%;
+}

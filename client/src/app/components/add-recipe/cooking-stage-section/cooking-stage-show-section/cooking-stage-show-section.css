@@ -1,0 +1,147 @@
+
+:host {
+  display: contents;
+}
+
+
+.cooking-stage-card {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background: var(--light);
+  overflow: hidden;
+  box-shadow: 0 1px 2px rgba(68, 55, 55, 0.06);
+  transition:
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.cooking-stage-card:hover {
+  border-color: color-mix(in srgb, var(--accent-light) 35%, var(--border-color));
+  box-shadow: 0 4px 14px rgba(68, 55, 55, 0.08);
+}
+
+.cooking-stage-card__remove.mat-mdc-icon-button {
+  position: absolute;
+  top: 0.45rem;
+  right: 0.45rem;
+  z-index: 3;
+  margin: 0;
+  width: 2.125rem;
+  height: 2.125rem;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--dark) 10%, transparent);
+  box-shadow: 0 1px 4px rgba(68, 55, 55, 0.12);
+  backdrop-filter: blur(6px);
+  background-color: rgba(255, 255, 255, 0.88) !important;
+  --mat-icon-button-icon-size: 1.125rem;
+  --mat-icon-button-icon-color: color-mix(in srgb, var(--dark) 48%, transparent);
+  --mat-icon-button-state-layer-color: color-mix(in srgb, var(--dark) 6%, transparent);
+}
+
+.cooking-stage-card__remove.mat-mdc-icon-button:hover {
+  --mat-icon-button-icon-color: #b71c1c;
+  --mat-icon-button-state-layer-color: color-mix(in srgb, #b71c1c 14%, transparent);
+}
+
+.cooking-stage-card__remove mat-icon.mat-icon {
+  font-size: 1.125rem;
+  width: 1.125rem;
+  height: 1.125rem;
+  line-height: 1.125rem;
+}
+
+.cooking-stage-card__index {
+  position: absolute;
+  top: 0.65rem;
+  left: 0.65rem;
+  z-index: 2;
+  min-width: 1.65rem;
+  height: 1.65rem;
+  padding: 0 0.4rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  color: var(--dark);
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid color-mix(in srgb, var(--border-color) 80%, transparent);
+  border-radius: 4px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+.cooking-stage-card__media {
+  position: relative;
+  flex: 0 0 auto;
+  aspect-ratio: 4 / 3;
+  width: 100%;
+  overflow: hidden;
+  background: var(--empty-image);
+}
+
+.cooking-stage-card__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+}
+
+.cooking-stage-card__placeholder {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  height: 100%;
+  padding: 1rem;
+  color: color-mix(in srgb, var(--dark) 42%, transparent);
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.35) 0%, transparent 55%),
+    repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 6px,
+      rgba(68, 55, 55, 0.04) 6px,
+      rgba(68, 55, 55, 0.04) 7px
+    );
+}
+
+.cooking-stage-card__placeholder-icon.mat-icon {
+  width: 2.75rem;
+  height: 2.75rem;
+  font-size: 2.75rem;
+  line-height: 2.75rem;
+  opacity: 0.55;
+}
+
+.cooking-stage-card__placeholder-text {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.cooking-stage-card__body {
+  flex: 1 1 auto;
+  padding: 1rem 1.1rem 1.15rem;
+  min-height: 0;
+}
+
+.cooking-stage-card__description {
+  margin: 0;
+  font-size: 0.98rem;
+  line-height: 1.5;
+  color: var(--dark);
+}
+

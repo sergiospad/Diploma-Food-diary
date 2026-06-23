@@ -1,0 +1,31 @@
+.container{
+  padding: 50px;
+}
+
+.container h2{
+  margin-bottom: 30px;
+}
+
+.add-product{
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.new-product__category {
+  width: 100%;
+}
+
+.form-field-description{
+  height: 200px;
+}
+
+.action-button{
+  text-align: center;
+  border-radius: 0;
+  width: 100%;
+}
+
+.add-cooking-stage__button{
+  justify-content: center;
+}

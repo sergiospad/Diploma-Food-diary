@@ -1,0 +1,19 @@
+<div class="tags">
+  <mat-form-field appearance="outline" class="tags__list">
+    <mat-label>Теги</mat-label>
+    <mat-select
+      name="recipeTags"
+      placeholder="Выберите теги"
+      multiple
+      [(ngModel)]="selectedTags"
+      (ngModelChange)="onSelectedTagsChange($event)">
+      @for (tag of allTags ?? []; track tag.id) {
+        <mat-option [value]="tag">{{ tag.name }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+  @for (tag of selectedTags; track tag.id){
+    <div class = "tags__chip">{{tag.name}}</div>
+  }
+
+</div>

@@ -1,0 +1,28 @@
+<div class="show-coefficient">
+  <form class="show-coefficient__form" [formGroup]="amountForm" novalidate>
+    <mat-form-field
+      class="show-coefficient__field"
+      appearance="outline"
+      subscriptSizing="fixed">
+      <mat-label>Количество</mat-label>
+      <input
+        matInput
+        formControlName="amount"
+        type="number"
+        min="1"
+        inputmode="numeric" />
+      @if (amountForm.controls['amount'].hasError('required')) {
+        <mat-error>Укажите число</mat-error>
+      }
+      @if (amountForm.controls['amount'].hasError('min')) {
+        <mat-error>Не меньше {{ amountForm.controls['amount'].getError('min').min }}</mat-error>
+      }
+    </mat-form-field>
+
+    <p class="show-coefficient__result" aria-live="polite">
+      <span class="show-coefficient__unit">{{ coefficient().measureUnitName }}</span>
+      <span class="show-coefficient__equals" aria-hidden="true">=</span>
+      <span class="show-coefficient__value">{{ scaledAmount() }} г</span>
+    </p>
+  </form>
+</div>

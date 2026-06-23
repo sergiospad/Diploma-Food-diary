@@ -1,0 +1,379 @@
+.feed {
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 1.5rem 2rem;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 1.25rem 1.25rem 2.5rem;
+  color: var(--dark);
+}
+
+.feed.feed--has-pager {
+  padding-bottom: calc(5rem + env(safe-area-inset-bottom, 0px));
+}
+
+.feed__sidebar {
+  flex: 0 0 auto;
+}
+
+.feed__main {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.feed__filters {
+  padding: 1rem 1.15rem;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  background: var(--light);
+  box-shadow: 0 1px 3px rgba(68, 55, 55, 0.06);
+}
+
+.feed__filters-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.25rem;
+}
+
+.feed__favourite {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.feed__checkbox {
+  width: 1.15rem;
+  height: 1.15rem;
+  accent-color: var(--accent-light);
+  cursor: pointer;
+}
+
+.feed__label {
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  user-select: none;
+}
+
+.feed__sort {
+  flex: 1 1 200px;
+  min-width: 12rem;
+  max-width: 22rem;
+}
+
+.feed__sort .mat-mdc-form-field {
+  width: 100%;
+}
+
+.feed__apply {
+  margin-left: auto;
+  border-radius: 6px;
+  font-weight: 600;
+  --mat-button-filled-container-color: var(--accent-dark);
+  --mat-button-filled-label-text-color: var(--light);
+}
+
+.feed__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.65rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid color-mix(in srgb, var(--border-color) 85%, transparent);
+}
+
+.feed__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.15rem;
+  padding: 0.2rem 0.35rem 0.2rem 0.65rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent-light) 28%, white);
+  border: 1px solid color-mix(in srgb, var(--accent-light) 45%, var(--border-color));
+}
+
+.feed__chip-name {
+  font-size: 0.875rem;
+  font-weight: 600;
+  max-width: 12rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.feed__chip-remove.mat-mdc-icon-button {
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  --mat-icon-button-icon-size: 1.1rem;
+}
+
+.feed__recipes {
+  min-width: 0;
+}
+
+.feed__pager {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem 0.75rem;
+  margin-bottom: 80px;
+  padding: 0.65rem 1rem max(0.65rem, env(safe-area-inset-bottom, 0px));
+  border-radius: 0;
+  border: none;
+  border-top: 1px solid var(--border-color);
+  background: rgba(var(--light-rgb), 0.78 );
+  backdrop-filter: blur(4px);
+}
+
+.feed__pager-info {
+  font-size: 0.9375rem;
+  color: color-mix(in srgb, var(--dark) 85%, #fff);
+  min-width: 9rem;
+  text-align: center;
+}
+
+.feed__pager-info strong {
+  font-weight: 700;
+  color: var(--dark);
+}
+
+.feed__pager-btn.mat-mdc-icon-button {
+  --mat-icon-button-icon-color: var(--dark);
+}
+
+.feed__pager-btn.mat-mdc-icon-button[disabled] {
+  opacity: 0.38;
+}
+
+.feed__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(260px, 1fr));
+  gap: 1.25rem 1.35rem;
+  align-items: stretch;
+}
+
+.recipe-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  background: var(--light);
+  box-shadow: 0 2px 10px rgba(68, 55, 55, 0.07);
+  transition:
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.recipe-card:hover {
+  border-color: color-mix(in srgb, var(--accent-light) 40%, var(--border-color));
+  box-shadow: 0 6px 18px rgba(68, 55, 55, 0.1);
+}
+
+/* Клик по карточке → открытие рецепта; лайк выше по pointer-events */
+.recipe-card__hit {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: inherit;
+  background: transparent;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.recipe-card__hit:focus-visible {
+  outline: none;
+}
+
+.recipe-card:focus-within {
+  border-color: color-mix(in srgb, var(--accent-light) 45%, var(--border-color));
+}
+
+.recipe-card__hit:focus-visible ~ .recipe-card__surface {
+  outline: 2px solid var(--accent-dark);
+  outline-offset: -2px;
+}
+
+.recipe-card__surface {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+  pointer-events: none;
+}
+
+.recipe-card__media {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  background: var(--empty-image);
+  overflow: hidden;
+}
+
+.recipe-card__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.recipe-card__placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  color: color-mix(in srgb, var(--dark) 35%, transparent);
+}
+
+.recipe-card__placeholder mat-icon {
+  font-size: 2.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  opacity: 0.5;
+}
+
+.recipe-card__like.mat-mdc-icon-button {
+  position: absolute;
+  bottom: 0.5rem;
+  right: 0.5rem;
+  z-index: 2;
+  pointer-events: auto;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--dark) 12%, transparent);
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 1px 8px rgba(68, 55, 55, 0.18);
+  backdrop-filter: blur(4px);
+  --mat-icon-button-icon-size: 1.3rem;
+  --mat-icon-button-icon-color: color-mix(in srgb, var(--dark) 48%, transparent);
+  --mat-icon-button-state-layer-color: color-mix(in srgb, var(--accent-dark) 12%, transparent);
+}
+
+.recipe-card__like.mat-mdc-icon-button:hover {
+  background: var(--light);
+  --mat-icon-button-icon-color: var(--accent-dark);
+}
+
+.recipe-card__like--active.mat-mdc-icon-button {
+  border-color: color-mix(in srgb, var(--accent-dark) 35%, transparent);
+  background: color-mix(in srgb, var(--accent-light) 22%, white);
+  --mat-icon-button-icon-color: var(--accent-dark);
+}
+
+.recipe-card__like--active.mat-mdc-icon-button:hover {
+  --mat-icon-button-icon-color: color-mix(in srgb, var(--accent-dark) 92%, #000);
+}
+
+.recipe-card__like mat-icon.mat-icon {
+  font-size: 1.3rem;
+  width: 1.3rem;
+  height: 1.3rem;
+  line-height: 1.3rem;
+}
+
+.recipe-card__favourite.mat-mdc-icon-button {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  z-index: 2;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--dark) 12%, transparent);
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 1px 6px rgba(68, 55, 55, 0.15);
+  backdrop-filter: blur(4px);
+  --mat-icon-button-icon-size: 1.35rem;
+  --mat-icon-button-icon-color: color-mix(in srgb, var(--dark) 45%, transparent);
+  --mat-icon-button-state-layer-color: color-mix(in srgb, var(--accent-dark) 14%, transparent);
+}
+
+.recipe-card__favourite.mat-mdc-icon-button:hover {
+  background: var(--light);
+  --mat-icon-button-icon-color: var(--accent-dark);
+}
+
+.recipe-card__favourite--active.mat-mdc-icon-button {
+  --mat-icon-button-icon-color: #c62828;
+}
+
+.recipe-card__favourite--active.mat-mdc-icon-button:hover {
+  --mat-icon-button-icon-color: #b71c1c;
+}
+
+.recipe-card__favourite mat-icon.mat-icon {
+  font-size: 1.35rem;
+  width: 1.35rem;
+  height: 1.35rem;
+  line-height: 1.35rem;
+}
+
+.recipe-card__body {
+  padding: 0.85rem 1rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  flex: 1 1 auto;
+}
+
+.recipe-card__title {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: 0.01em;
+  color: var(--dark);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.recipe-card__summary {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.45;
+  color: color-mix(in srgb, var(--dark) 72%, #fff);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+@media (max-width: 900px) {
+  .feed {
+    flex-direction: column;
+  }
+
+  .feed__sidebar {
+    width: 100%;
+  }
+
+  .feed__apply {
+    margin-left: 0;
+    width: 100%;
+  }
+}

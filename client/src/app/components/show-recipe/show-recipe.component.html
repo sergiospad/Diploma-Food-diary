@@ -1,0 +1,86 @@
+<div class="container">
+  @if (recipe) {
+    <div class="author-card">
+      <div class="author-card__avatar">
+        @if (recipe.avatar) {
+          <img
+            class="author-card__img"
+            [src]="recipe.avatar"
+            [alt]="'Аватар: ' + recipe.authorName"
+            width="72"
+            height="72"
+            loading="lazy" />
+        } @else {
+          <div class="author-card__placeholder" aria-hidden="true">
+            <mat-icon>person</mat-icon>
+          </div>
+        }
+        @if (ableToEdit()) {
+          <button
+            type="button"
+            mat-icon-button
+            class="author-card__action"
+            (click)="goToProfile()"
+            aria-label="Открыть профиль">
+            <mat-icon>restaurant</mat-icon>
+          </button>
+        }
+      </div>
+      <div class="author-card__meta">
+        <span class="author-card__label">Автор</span>
+        <span class="author-card__name">{{ recipe.authorName }}</span>
+      </div>
+    </div>
+  }
+  <h1 class="new-recipe">{{ recipe?.name }}</h1>
+  <div class="blocks">
+    <div class="blocks__captions">
+      <div class="blocks__captions__image-preview">
+        <img
+          class="blocks__captions__title-image"
+          [src]="recipe?.illustration"
+          alt="Превью изображения рецепта">
+        <div class="blocks__captions__summary">
+          {{ recipe?.summary }}
+        </div>
+      </div>
+    </div>
+    <div class="blocks__ingredients">
+        @if (recipe?.cookingTime) {
+          <div class="blocks__ingredients__time">
+            <mat-icon>access_time</mat-icon>
+            <div class="blocks__ingredients__time__minutes">{{ recipe?.cookingTime }}
+            мин.
+            </div>
+          </div>
+        }
+      @if (ableToEdit()){
+        <button mat-flat-button class="blocks__ingredients__edit-recipe__button" (click)="editRecipe()">
+          Редактировать рецепт
+        </button>
+      }
+      <app-ingredients-show-recipe [ingredients]="recipe?.ingredients??[]">
+      </app-ingredients-show-recipe>
+
+      <app-energy-info-show-recipe [energyInfo]="recipe?.energy">
+      </app-energy-info-show-recipe>
+    </div>
+
+  </div>
+  <div class="divider" role="separator" aria-hidden="true"></div>
+    <app-cooking-stages-show-recipe [cookingStages]="recipe?.cookingStages??[]">
+    </app-cooking-stages-show-recipe>
+  @if (recipe) {
+    <div class="recipe__date">Опубликовано: {{ recipe.createdAt | dateFormat }}</div>
+  }
+  <div class="divider" role="separator" aria-hidden="true"></div>
+  <div class="tags">
+    @for (tag of recipe?.tags; track tag.id){
+      <button class = "tags__chip" (click)="onTagClick(tag.id)">{{tag.name}}</button>
+    }
+  </div>
+  <div class="comments">
+    <app-comments-show-recipe [recipeId]="recipeId">
+    </app-comments-show-recipe>
+  </div>
+</div>

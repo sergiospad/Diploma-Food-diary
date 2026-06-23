@@ -1,0 +1,37 @@
+<section class="task-archives">
+  <header class="task-archives__header">
+    <h2 class="task-archives__title">Архив задач</h2>
+    <p class="task-archives__subtitle">Завершённые и остановленные цели по весу</p>
+  </header>
+
+  @if (taskArchives().length) {
+    <ul class="task-archives__list">
+      @for (arch of taskArchives(); track arch.id) {
+        <li class="task-archives__card">
+          <div class="task-archives__row task-archives__row--head">
+            <span class="task-archives__target">{{ targetLabel(arch.currentTarget) }}</span>
+            <span class="task-archives__status" [attr.data-status]="arch.status">
+              {{ statusLabel(arch.status) }}
+            </span>
+          </div>
+          <dl class="task-archives__meta">
+            <div class="task-archives__meta-item">
+              <dt>Дефицит ккал</dt>
+              <dd>{{ arch.caloriesDeficit | number : '1.0-0' }}</dd>
+            </div>
+            <div class="task-archives__meta-item">
+              <dt>Старт</dt>
+              <dd>{{ arch.beginningDate | date : 'dd.MM.yyyy' }}</dd>
+            </div>
+            <div class="task-archives__meta-item">
+              <dt>Окончание</dt>
+              <dd>{{ arch.endingDate | date : 'dd.MM.yyyy' }}</dd>
+            </div>
+          </dl>
+        </li>
+      }
+    </ul>
+  } @else {
+    <p class="task-archives__empty" role="status">В архиве пока нет записей</p>
+  }
+</section>

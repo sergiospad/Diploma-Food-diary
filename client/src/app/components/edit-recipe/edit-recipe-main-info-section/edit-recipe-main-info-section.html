@@ -1,0 +1,36 @@
+<div class="blocks__captions">
+  <mat-form-field class="blocks__captions__title" appearance="outline">
+    <mat-label>Название рецепта</mat-label>
+    <input matInput [value]="recipe().name"
+           (input)="onTitleChange($any($event.target).value)"/>
+  </mat-form-field>
+
+  <div class="blocks__captions__image">
+    <input
+      type="file"
+      accept="image/*"
+      hidden
+      #fileInput
+      (change)="selectImage($event)">
+      <div class="blocks__captions__image-preview">
+        <img
+          class="blocks__captions__title-image"
+          [src]="recipe().illustration"
+          alt="Превью изображения рецепта">
+        <button
+          type="button"
+          class="blocks__captions__image-replace"
+          (click)="fileInput.click()"
+          aria-label="Заменить изображение">
+          <span class="blocks__captions__image-replace__hint">Заменить</span>
+        </button>
+      </div>
+  </div>
+
+  <mat-form-field class="blocks__captions__summary" appearance="outline">
+    <mat-label>Краткое описание рецепта</mat-label>
+    <textarea matInput [value]="recipe().summary"
+              rows="5"
+              (input)="onSummaryChange($any($event.target).value)"></textarea>
+  </mat-form-field>
+</div>

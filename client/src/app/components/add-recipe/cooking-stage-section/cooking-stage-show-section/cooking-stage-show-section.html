@@ -1,0 +1,31 @@
+@for (stage of cookingStages(); track $index) {
+  <article class="cooking-stage-card">
+    <span class="cooking-stage-card__index" [attr.aria-label]="'Шаг ' + ($index + 1)">{{ $index + 1 }}</span>
+    <div class="cooking-stage-card__media">
+      @if (stage.imageURL) {
+        <img
+          class="cooking-stage-card__image"
+          [src]="stage.imageURL"
+          alt="">
+      } @else {
+        <div class="cooking-stage-card__placeholder" aria-hidden="true">
+          <mat-icon class="cooking-stage-card__placeholder-icon">hide_image</mat-icon>
+          <span class="cooking-stage-card__placeholder-text">Без фото</span>
+        </div>
+      }
+    </div>
+    <div class="cooking-stage-card__body">
+      <p class="cooking-stage-card__description">{{ stage.description }}</p>
+    </div>
+    @if (canRemove()) {
+      <button
+        type="button"
+        mat-icon-button
+        class="cooking-stage-card__remove"
+        (click)="removeStage($index)"
+        [attr.aria-label]="'Удалить этап ' + ($index + 1)">
+        <mat-icon>close</mat-icon>
+      </button>
+    }
+  </article>
+}

@@ -1,0 +1,54 @@
+<section class="comments" aria-labelledby="comments-heading">
+  <h2 id="comments-heading" class="comments__title">Комментарии</h2>
+
+  @if (comments.length === 0) {
+    <p class="comments__empty">Пока нет комментариев — напишите первым.</p>
+  } @else {
+    <ul class="comments__list">
+      @for (comment of comments; track comment.id) {
+        <li class="comments__item">
+          <div class="comments__toolbar">
+            <img
+              class="comments__avatar"
+              [src]="comment.userAvatar"
+              [alt]="'Аватар: ' + comment.username"
+              width="32"
+              height="32"
+              loading="lazy">
+            <div class="comments__head">
+              <span class="comments__username">{{ comment.username }}</span>
+              <span class="comments__sep" aria-hidden="true">·</span>
+              <time class="comments__date">
+                {{ comment.createdAt | dateFormat }}
+              </time>
+            </div>
+            @if (canRemoveComment(comment.username)) {
+              <button
+                type="button"
+                mat-icon-button
+                class="comments__remove"
+                (click)="removeComment(comment.id)"
+                [attr.aria-label]="'Удалить комментарий ' + comment.id">
+                <mat-icon>close</mat-icon>
+              </button>
+            }
+          </div>
+          <p class="comments__message">{{ comment.message }}</p>
+          @if (comment.image) {
+            <img
+              class="comments__attachment"
+              [src]="comment.image"
+              alt=""
+              loading="lazy">
+          }
+        </li>
+      }
+    </ul>
+  }
+
+  <app-comments-add-show-recipe
+    class="comments__composer"
+    [recipeID]="recipeId()"
+    (commentOutput)="addToComments($event)">
+  </app-comments-add-show-recipe>
+</section>

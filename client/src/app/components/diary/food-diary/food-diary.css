@@ -1,0 +1,67 @@
+:host {
+  display: block;
+  color: var(--dark);
+}
+
+.container {
+  padding: 1.15rem 1.2rem;
+  border-radius: 12px;
+  background: var(--light);
+  border: 1px solid color-mix(in srgb, var(--dark) 12%, transparent);
+  box-shadow:
+    0 1px 2px color-mix(in srgb, var(--dark) 6%, transparent),
+    0 10px 24px color-mix(in srgb, var(--dark) 7%, transparent);
+}
+
+.container h3 {
+  margin: 0 0 1rem;
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.diary-container {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.diary-container__food {
+  min-width: 0;
+}
+
+.diary-container__date {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.65rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid color-mix(in srgb, var(--dark) 10%, transparent);
+}
+
+.diary-container__date input,
+.diary-container__date button {
+  min-height: 2.45rem;
+  border-radius: 8px;
+  font: inherit;
+}
+
+.diary-container__date input {
+  min-width: 11rem;
+  padding: 0.45rem 0.65rem;
+  border: 1px solid color-mix(in srgb, var(--dark) 18%, transparent);
+  background: var(--light);
+  color: var(--dark);
+}
+
+.diary-container__date button {
+  border: 1px solid color-mix(in srgb, var(--dark) 22%, transparent);
+  background: color-mix(in srgb, var(--accent-light) 20%, var(--light));
+  color: var(--dark);
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0.5rem 0.9rem;
+}
+
+.diary-container__date button:hover {
+  background: color-mix(in srgb, var(--accent-light) 30%, var(--light));
+}

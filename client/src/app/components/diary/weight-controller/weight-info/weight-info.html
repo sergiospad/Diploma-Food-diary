@@ -1,0 +1,18 @@
+<section class="weight-info">
+  <p class="weight-info__eyebrow">Текущее измерение</p>
+  <div class="weight-info__body">
+    <p class="weight-info__measure">
+      @if (weightRecord()?.measure != null) {
+        <span class="weight-info__number">{{ weightRecord()!.measure | number : '1.0-2' }}</span>
+        <span class="weight-info__unit">кг</span>
+      } @else {
+        <span class="weight-info__dash">—</span>
+      }
+    </p>
+    @if (weightRecord()?.date) {
+      <time class="weight-info__date">
+        {{ weightRecord()!.date! | date : 'dd.MM.yyyy' }}
+      </time>
+    }
+  </div>
+</section>

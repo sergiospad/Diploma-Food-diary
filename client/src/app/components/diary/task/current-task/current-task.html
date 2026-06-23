@@ -1,0 +1,42 @@
+@if (task(); as t) {
+  <div class="current-task">
+    <div class="current-task__target">
+      <span class="current-task__title">Текущая задача</span>
+      <span class="current-task__badge">{{ targetLabels[t.taskTarget] }}</span>
+      @if (t.numberOfDays != null) {
+        <span class="current-task__days">{{ t.numberOfDays }} дн.</span>
+      }
+    </div>
+
+    <dl class="current-task__stats">
+      <div class="current-task__stat">
+        <dt>Целевой вес</dt>
+        <dd>{{ t.targetWeight | number : '1.1-1' }} кг</dd>
+      </div>
+      @if (t.currentWeight != null) {
+        <div class="current-task__stat">
+          <dt>Текущий вес</dt>
+          <dd>{{ t.currentWeight | number : '1.1-1' }} кг</dd>
+        </div>
+      }
+      <div class="current-task__stat">
+        <dt>Дефицит ккал</dt>
+        <dd>{{ t.caloriesDeficit | number : '1.0-0' }}</dd>
+      </div>
+    </dl>
+
+    <div class="current-task__progress">
+      @if (showDeterminateWeightBar()) {
+        <mat-progress-bar mode="determinate" [value]="weightProgressPercent()"></mat-progress-bar>
+        <span class="current-task__progress-caption">
+          Прогресс к цели: {{ weightProgressPercent() | number : '1.0-0' }}%
+        </span>
+      } @else {
+        <p class="current-task__progress-hint" role="status">
+          Для полосы прогресса нужны начальный, текущий и целевой вес.
+        </p>
+      }
+    </div>
+    <button type="button" class="task__cancel" (click)="onCancel()">Отменить задачу</button>
+  </div>
+}

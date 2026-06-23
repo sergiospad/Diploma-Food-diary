@@ -1,0 +1,36 @@
+<section class="weight-panel">
+  <div class="weight-panel__stack">
+    <article class="weight-panel__card" aria-labelledby="weight-panel-heading">
+      <h2 id="weight-panel-heading" class="weight-panel__heading visually-hidden">Текущий вес и ИМТ</h2>
+    @if (weightRecord().id != null) {
+      <div class="weight-panel__main">
+        @if (weightRecord().BMI != null) {
+          <app-bmi-diagram class="weight-panel__bmi" [bmi]="weightRecord().BMI!"></app-bmi-diagram>
+        }
+        <app-weight-info class="weight-panel__info" [(weightRecord)]="weightRecord"></app-weight-info>
+      </div>
+    } @else {
+      <div class="weight-panel__empty" role="status">
+        <p class="weight-panel__empty-title">Пока нет измерений</p>
+        <p class="weight-panel__empty-hint">
+          Добавьте вес и дату — здесь появится ИМТ и шкала.
+        </p>
+      </div>
+    }
+    <footer class="weight-panel__footer">
+      <button
+        mat-flat-button
+        color="primary"
+        type="button"
+        class="weight-panel__cta"
+        (click)="openRecordForm()">
+        Новое измерение
+      </button>
+    </footer>
+    </article>
+    <article class="weight-panel__chart-shell" aria-labelledby="weight-chart-heading">
+      <h2 id="weight-chart-heading" class="weight-panel__heading visually-hidden">График веса</h2>
+      <app-weight-chart></app-weight-chart>
+    </article>
+  </div>
+</section>

@@ -1,0 +1,92 @@
+:host {
+  display: block;
+  color: var(--dark);
+}
+
+.add-meal {
+  display: grid;
+  gap: 3rem;
+  padding: 2rem ;
+}
+
+.add-meal__title {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.meal__params {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem 1rem;
+  align-items: start;
+}
+
+.add-task__field {
+  width: 100%;
+}
+
+.add-meal__existing-time {
+  margin: 0;
+  min-height: 3.5rem;
+  display: flex;
+  align-items: center;
+  padding: 0.55rem 0.75rem;
+  border-radius: 8px;
+  border: 1px solid color-mix(in srgb, var(--dark) 12%, transparent);
+  background: color-mix(in srgb, var(--dark) 4%, var(--light));
+  font-size: 0.92rem;
+}
+
+.add-meal__items {
+  list-style: none;
+  margin: 0;
+  padding: 0.45rem 0 0;
+  border-top: 1px solid color-mix(in srgb, var(--dark) 10%, transparent);
+  display: grid;
+  gap: 0.45rem;
+}
+.add-meal__create {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.search-box mat-form-field {
+  width: 100%;
+}
+
+.add-meal__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.6rem;
+}
+
+.add-meal__btn--ghost {
+  color: color-mix(in srgb, var(--dark) 86%, transparent);
+}
+
+.add-meal__btn[disabled] {
+  opacity: 0.55;
+}
+
+@media (max-width: 720px) {
+  .meal__params {
+    grid-template-columns: 1fr;
+  }
+
+  .add-meal__items-head,
+  .add-meal__item,
+  .add-meal__items-total,
+  .add-meal__totals {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .add-meal__actions {
+    justify-content: stretch;
+  }
+
+  .add-meal__btn {
+    flex: 1 1 0;
+  }
+}

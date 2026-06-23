@@ -1,0 +1,28 @@
+<div class="edit-tags">
+  <h2 class="edit-tags__title">Теги</h2>
+  <p class="edit-tags__hint">Выберите один или несколько тегов для рецепта</p>
+
+  <mat-form-field appearance="outline" class="edit-tags__field">
+    <mat-label>Теги</mat-label>
+    <mat-select
+      name="recipeTags"
+      placeholder="Выберите теги"
+      multiple
+      [ngModel]="recipe().tags"
+      [compareWith]="compareTags"
+      (ngModelChange)="onSelectedTagsChange($event)"
+    >
+      @for (tag of allTags; track tag.id) {
+        <mat-option [value]="tag">{{ tag.name }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+
+  @if ((recipe().tags).length > 0) {
+    <div class="edit-tags__chips" aria-label="Выбранные теги">
+      @for (tag of recipe().tags; track tag.id) {
+        <span class="edit-tags__chip">{{ tag.name }}</span>
+      }
+    </div>
+  }
+</div>

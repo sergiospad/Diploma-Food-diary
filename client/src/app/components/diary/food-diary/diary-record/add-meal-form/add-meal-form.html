@@ -1,0 +1,60 @@
+<div class="add-meal">
+  <h3 class="add-meal__title">Прием пищи</h3>
+  <form [formGroup]="mealForm" class="add-meal__form">
+    <div class="meal__params">
+      <mat-form-field appearance="outline" subscriptSizing="fixed" class="add-task__field">
+        <select
+          matNativeControl
+          formControlName="mealType"
+          class="add-task__select">
+          @for (o of mealMap.keys(); track $index) {
+            <option [value]="o">{{ mealMap.get(o) }}</option>
+          }
+        </select>
+      </mat-form-field>
+      @if (selectedMeal() == null) {
+        <mat-form-field appearance="outline" subscriptSizing="fixed" class="add-task__field">
+          <mat-label>Время приема пищи</mat-label>
+          <input matInput type="time" formControlName="mealTime" />
+        </mat-form-field>
+      } @else {
+        <p class="add-meal__existing-time">
+          Время приема: <strong>{{ selectedMeal()?.time }}</strong>
+        </p>
+      }
+    </div>
+  </form>
+  @if (selectedMeal() != null) {
+    <app-show-meal-items [mealItems]="selectedMeal()!.showDTOList"
+                         [total]="selectedMeal()!">
+    </app-show-meal-items>
+  } @else {
+    @if (mealItems().length) {
+      <app-show-meal-items [mealItems]="mealItems()"
+                           [total]="mealItemsTotals()">
+      </app-show-meal-items>
+    }
+    <div class="add-meal__create">
+     <app-add-meal [(mealItems)]="mealItems">
+     </app-add-meal>
+      <div class="add-meal__actions">
+        <button
+          mat-flat-button
+          color="primary"
+          type="button"
+          class="add-meal__btn add-meal__btn--primary"
+          [disabled]="!canSubmit()"
+          (click)="submitMeal()">
+          Сохранить
+        </button>
+        <button
+          mat-stroked-button
+          type="button"
+          class="add-meal__btn add-meal__btn--ghost"
+          (click)="close()">
+          Отмена
+        </button>
+      </div>
+    </div>
+  }
+</div>

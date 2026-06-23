@@ -1,0 +1,35 @@
+<article class="cooking-stage-card">
+  <span class="cooking-stage-card__index" [attr.aria-label]="'Шаг ' + (cookingStage().stageNumber)">{{ cookingStage().stageNumber }}</span>
+  <div class="cooking-stage-card__media">
+    @if (image() && image()!='') {
+      <img
+        class="cooking-stage-card__image"
+        [src]="image()"
+        alt="">
+    } @else {
+      <div class="cooking-stage-card__placeholder" aria-hidden="true">
+        <mat-icon class="cooking-stage-card__placeholder-icon">hide_image</mat-icon>
+        <span class="cooking-stage-card__placeholder-text">Без фото</span>
+      </div>
+    }
+  </div>
+  <div class="cooking-stage-card__body">
+    <p class="cooking-stage-card__description">{{ cookingStage().description }}</p>
+  </div>
+    <button
+      type="button"
+      mat-icon-button
+      class="cooking-stage-card__remove"
+      (click)="removeStage()"
+      [attr.aria-label]="'Удалить этап ' + (cookingStage())">
+      <mat-icon>close</mat-icon>
+    </button>
+  <button
+    type="button"
+    mat-icon-button
+    class="cooking-stage-card__edit"
+    (click)="editStage()"
+    [attr.aria-label]="'Редактировать этап ' + (cookingStage().stageNumber)">
+    <mat-icon>edit</mat-icon>
+  </button>
+</article>

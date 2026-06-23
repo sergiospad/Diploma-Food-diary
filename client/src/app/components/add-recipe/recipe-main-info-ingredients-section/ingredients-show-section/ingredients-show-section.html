@@ -1,0 +1,23 @@
+<div class= "ingredients__heading__container">
+  <span class="blocks__ingredients__heading">Ингредиенты</span>
+</div>
+@for (ing of ingredients(); track $index) {
+  <div class="ingredient-line">
+    <span class="ingredient-line__name">{{ ing.productName }}</span>
+    <span class="ingredient-line__leader" aria-hidden="true"></span>
+    <span class="ingredient-line__meta">
+      {{ ing.amount }} {{ ing.measureUnitName }}
+    </span>
+    @if (canRemove()) {
+      <button
+        type="button"
+        mat-icon-button
+        class="ingredient-line__remove"
+        (click)="removeIngredient($index)"
+        [attr.aria-label]="'Удалить: ' + ing.productName">
+        <mat-icon>close</mat-icon>
+      </button>
+    }
+  </div>
+}
+

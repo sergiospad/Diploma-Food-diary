@@ -1,0 +1,34 @@
+<div class="add-category">
+  <h2 class="add-category__title">Добавить категорию</h2>
+
+  <div class="add-category__body">
+    <mat-form-field
+      class="add-category__field"
+      appearance="outline"
+      subscriptSizing="fixed">
+      <mat-label>Название категории</mat-label>
+      <input
+        matInput
+        type="text"
+        autocomplete="off"
+        maxlength="120"
+        [value]="name()"
+        (input)="onInputName($event)" />
+    </mat-form-field>
+  </div>
+
+  <div class="add-category__actions">
+    <button type="button" mat-button class="add-category__cancel" (click)="cancel()">
+      Отмена
+    </button>
+    <button
+      type="button"
+      mat-flat-button
+      color="primary"
+      class="add-category__submit"
+      [disabled]="!name().trim()"
+      (click)="submitCategory()">
+      Сохранить
+    </button>
+  </div>
+</div>

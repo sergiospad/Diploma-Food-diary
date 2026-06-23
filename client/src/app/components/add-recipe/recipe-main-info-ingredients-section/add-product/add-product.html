@@ -1,0 +1,56 @@
+<div class = "container">
+  <h2 class="add-product__title">Добавить продукт</h2>
+  <form [formGroup]="productForm" class="form-fields">
+    <div class="add-product">
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Название</mat-label>
+        <input matInput formControlName="title">
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="form-field new-product__category">
+        <mat-label>Категория</mat-label>
+        <mat-select
+          formControlName="categoryID"
+          placeholder="Выберите категорию"
+          panelClass="add-product-category-panel">
+          @for (c of categories; track c.id) {
+            <mat-option class= "add-product-category-panel__item" [value]="c.id">{{ c.name }}</mat-option>
+          }
+        </mat-select>
+        @if (productForm.get('categoryID')?.invalid && productForm.get('categoryID')?.touched) {
+          <mat-error>Выберите категорию</mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Количество ккал в 100 г</mat-label>
+        <input matInput formControlName="calories">
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Количество белков в 100 г</mat-label>
+        <input matInput formControlName="proteins">
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Количество жиров в 100 г</mat-label>
+        <input matInput formControlName="fat">
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Количество углеводов в 100 г</mat-label>
+        <input matInput formControlName="carbs">
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="form-field-description">
+        <mat-label>Описание</mat-label>
+        <input matInput formControlName="description">
+      </mat-form-field>
+    </div>
+    <div class="new-action-button">
+      <button type="button"
+              mat-raised-button
+              color="primary"
+              class="action-button submit-button"
+              [disabled]="productForm.invalid"
+              (click)="submit()"
+              disableRipple>Добавить
+      </button>
+    </div>
+  </form>
+</div>
+

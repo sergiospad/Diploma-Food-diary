@@ -1,0 +1,71 @@
+.container {
+  --add-recipe-main-column-max: 1240px;
+
+  margin-top: 30px;
+  margin-left: 30%;
+  width: 1300px;
+  text-align: center;
+  display: inline-block;
+  color: var(--dark);
+}
+
+
+.new-recipe{
+  text-align: center;
+  margin: 0 0 1rem;
+  font-size: clamp(1.75rem, 2.5vw, 2.25rem);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+}
+
+
+.blocks {
+  margin-top: 2rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 4rem;
+}
+
+
+
+.divider {
+  margin-top: 2rem;
+  margin-left: 0;
+  margin-right: auto;
+  max-width: var(--add-recipe-main-column-max);
+  border: 1px solid var(--border-color);
+}
+
+.submit-button {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+/* Сообщение о превышении лимита этапов */
+.limit {
+  box-sizing: border-box;
+  margin-top: 1rem;
+  max-width: var(--add-recipe-main-column-max, 1240px);
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0.85rem 1.1rem;
+  border-radius: 6px;
+  border: 1px solid color-mix(in srgb, #c62828 35%, var(--border-color, #dedede));
+  background: color-mix(in srgb, #ffebee 55%, var(--light, #fff));
+  color: var(--dark, #443737);
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.45;
+  text-align: start;
+  box-shadow: 0 1px 2px rgba(68, 55, 55, 0.06);
+}
+
+.submit__active__button {
+  box-sizing: border-box;
+  gap: 0.5rem;
+  overflow: hidden;
+  border-radius: 0;
+  min-width:  30%;
+  --mat-button-filled-container-color: var(--accent-dark);
+}

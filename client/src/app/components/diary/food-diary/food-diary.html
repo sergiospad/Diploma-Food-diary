@@ -1,0 +1,24 @@
+<div class="container">
+  <h3>Дневник питания</h3>
+  <div class="diary-container">
+    <div class="diary-container__food">
+      <app-diary-record
+        [(diaryRecord)]="diaryRecord"
+        [needsAdditional]="needsAdditional()">
+      </app-diary-record>
+    </div>
+    <div class="diary-container__date">
+      <input
+        type="date"
+        [value]="date()|calendarDate"
+        (input)="changeDate($any($event.target).value)">
+      <button (click)="getAdditional()">
+        @if (!needsAdditional()) {
+          Подробнее
+        } @else {
+          Скрыть
+        }
+      </button>
+    </div>
+  </div>
+</div>
