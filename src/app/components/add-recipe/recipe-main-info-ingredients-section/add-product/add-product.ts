@@ -65,7 +65,7 @@ export default class AddProductComponent implements OnInit {
       description: this.productForm.value.description,
       categoryId: this.productForm.value.categoryID,
       calories: Number.parseFloat(this.productForm.value.calories),
-      protein: Number.parseFloat(this.productForm.value.proteins),
+      proteins: Number.parseFloat(this.productForm.value.proteins),
       fat: Number.parseFloat(this.productForm.value.fat),
       carbs: Number.parseFloat(this.productForm.value.carbs),
       isPrivate: false,

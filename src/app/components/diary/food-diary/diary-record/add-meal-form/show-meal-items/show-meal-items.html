@@ -1,0 +1,27 @@
+<ul class="add-meal__items add-meal__items--draft">
+  <div class="add-meal__items-head">
+    <span>Продукт</span>
+    <span>Потребленный вес, г</span>
+    <span>Потреблено, ккал</span>
+    <span>Белки, г</span>
+    <span>Жиры, г</span>
+    <span>Углеводы, г</span>
+  </div>
+  @for (item of mealItems(); track $index) {
+    <li class="add-meal__item">
+      <span>{{ names()[$index] }}</span>
+      <span>{{ weights()[$index] }}</span>
+      <span>{{ item.calories }}</span>
+      <span>{{ item.proteins }}</span>
+      <span>{{ item.fat }}</span>
+      <span>{{ item.carbs }}</span>
+    </li>
+  }
+</ul>
+<div class="add-meal__totals">
+  <span>Итого:</span>
+  <span>{{total().calories }}</span>
+  <span>{{ total().proteins }}</span>
+  <span>{{ total().fat }}</span>
+  <span>{{ total().carbs }}</span>
+</div>

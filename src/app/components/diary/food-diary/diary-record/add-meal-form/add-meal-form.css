@@ -16,11 +16,6 @@
   letter-spacing: -0.02em;
 }
 
-.add-meal__form {
-  display: grid;
-  gap: 0.75rem;
-}
-
 .meal__params {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -52,43 +47,6 @@
   display: grid;
   gap: 0.45rem;
 }
-
-.add-meal__items-head,
-.add-meal__item,
-.add-meal__items-total,
-.add-meal__totals {
-  display: grid;
-  grid-template-columns: minmax(11rem, 1.5fr) repeat(5, minmax(4.8rem, 1fr));
-  gap: 0.5rem;
-  align-items: center;
-}
-
-.add-meal__items-head {
-  padding: 0 0.45rem 0.35rem;
-  font-size: 0.72rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: color-mix(in srgb, var(--dark) 62%, transparent);
-}
-
-.add-meal__item {
-  min-height: 2.35rem;
-  padding: 0.55rem 0.6rem;
-  border-radius: 8px;
-  border: 1px dashed color-mix(in srgb, var(--dark) 18%, transparent);
-  background: color-mix(in srgb, var(--dark) 4%, var(--light));
-  font-size: 0.9rem;
-}
-
-.add-meal__items-total {
-  padding: 0.55rem 0.6rem;
-  border-radius: 8px;
-  border: 1px solid color-mix(in srgb, var(--accent-light) 35%, transparent);
-  background: color-mix(in srgb, var(--accent-light) 14%, var(--light));
-  font-weight: 600;
-}
-
 .add-meal__create {
   display: grid;
   gap: 0.75rem;
@@ -98,32 +56,10 @@
   width: 100%;
 }
 
-.add-meal__totals {
-  padding: 0.55rem 0.6rem;
-  border-radius: 8px;
-  border: 1px solid color-mix(in srgb, var(--accent-light) 35%, transparent);
-  background: color-mix(in srgb, var(--accent-light) 14%, var(--light));
-  font-weight: 600;
-}
-
 .add-meal__actions {
   display: flex;
   justify-content: flex-end;
   gap: 0.6rem;
-}
-
-.add-meal__btn {
-  min-height: 2.35rem;
-  border-radius: 8px;
-  padding: 0.48rem 0.9rem;
-  font: inherit;
-  font-weight: 600;
-}
-
-.add-meal__btn--primary {}
-
-.add-meal__btn--secondary {
-  justify-self: start;
 }
 
 .add-meal__btn--ghost {

@@ -1,0 +1,52 @@
+:host {
+  display: block;
+  color: var(--dark);
+}
+
+.add-activity {
+  display: grid;
+  gap: 1rem;
+  padding: 1.25rem;
+}
+
+.add-activity__title {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.add-activity__form {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.add-activity__field {
+  width: 100%;
+}
+
+.add-activity__actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.add-activity__actions button {
+  min-height: 2.3rem;
+  border-radius: 8px;
+  border: 1px solid color-mix(in srgb, var(--dark) 22%, transparent);
+  background: color-mix(in srgb, var(--accent-light) 22%, var(--light));
+  color: var(--dark);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0.45rem 0.9rem;
+}
+
+.add-activity__actions button:hover {
+  background: color-mix(in srgb, var(--accent-light) 32%, var(--light));
+}
+
+.add-activity__actions button[disabled] {
+  opacity: 0.55;
+  cursor: default;
+}

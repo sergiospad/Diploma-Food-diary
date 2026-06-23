@@ -98,7 +98,7 @@ export class EnergyInfoShowRecipe {
       return;
     }
     this.baseNutrition.calories = info.calories * coeff;
-    this.baseNutrition.protein = info.protein * coeff;
+    this.baseNutrition.proteins = info.protein * coeff;
     this.baseNutrition.fat = info.fat * coeff;
     this.baseNutrition.carbs = info.carbs * coeff;
     this.setChartData();
@@ -110,7 +110,7 @@ export class EnergyInfoShowRecipe {
       datasets: [
         {
           data: [
-            this.baseNutrition.protein,
+            this.baseNutrition.proteins,
             this.baseNutrition.fat,
             this.baseNutrition.carbs,
           ],

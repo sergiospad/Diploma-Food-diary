@@ -1,0 +1,31 @@
+.add-meal__form {
+  display: grid;
+  gap: 0.75rem;
+}
+.add-meal__btn {
+  min-height: 2.35rem;
+  border-radius: 8px;
+  padding: 0.48rem 0.9rem;
+  font: inherit;
+  font-weight: 600;
+}
+
+.add-meal__btn--primary {}
+
+.add-meal__btn--secondary {
+  justify-self: start;
+}
+.search-box {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  width: 100%;
+}
+
+.search-box__product{
+  width:560px;
+  height:50px
+}
+.search-box__weight{
+  width:300px;
+}

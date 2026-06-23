@@ -101,6 +101,68 @@
   background: color-mix(in srgb, var(--accent-light) 32%, var(--light));
 }
 
+.sports-activity {
+  margin-top: 0.65rem;
+  padding: 0.75rem 0.8rem;
+  border-radius: 9px;
+  border: 1px solid color-mix(in srgb, var(--dark) 12%, transparent);
+  background: color-mix(in srgb, var(--dark) 3%, var(--light));
+  display: grid;
+  gap: 0.6rem;
+}
+
+.sports-activity__total {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.35;
+}
+
+.sports-activity__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.sports-activity__item {
+  display: flex;
+  justify-content: start;
+  gap: 0.65rem;
+  padding: 0.4rem 0.55rem;
+  border-radius: 7px;
+  background: color-mix(in srgb, var(--dark) 2%, var(--light));
+  border: 1px dashed color-mix(in srgb, var(--dark) 14%, transparent);
+  font-size: 0.88rem;
+}
+
+.sports-activity__stats {
+  display: grid;
+  gap: 0.25rem;
+  font-size: 0.88rem;
+}
+
+.sports-activity__actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.sports-activity__actions button {
+  min-height: 2.25rem;
+  border-radius: 8px;
+  border: 1px solid color-mix(in srgb, var(--dark) 22%, transparent);
+  background: color-mix(in srgb, var(--accent-light) 22%, var(--light));
+  color: var(--dark);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0.5rem 0.9rem;
+}
+
+.sports-activity__actions button:hover {
+  background: color-mix(in srgb, var(--accent-light) 32%, var(--light));
+}
+
 @media (max-width: 760px) {
   .diary-record__title,
   .diary-record__meal,
@@ -108,5 +170,10 @@
   .diary-record__item {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.35rem 0.65rem;
+  }
+
+  .sports-activity__item {
+    align-items: flex-start;
+    flex-direction: column;
   }
 }
