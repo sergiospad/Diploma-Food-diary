@@ -59,12 +59,10 @@ public class ProductController {
         return ResponseEntity.ok(result);
     }
 
-    /**
-     * GET /api/product/nutrition?id=1
-     */
-    @GetMapping("/nutrition")
+
+    @GetMapping("/nutrition/{id}")
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-    public ResponseEntity<NutritionShowProjection> getNutrition(@RequestParam("id") Long id){
+    public ResponseEntity<NutritionShowProjection> getNutrition(@PathVariable Long id){
         var result = productService.getNutritionShowProjection(id);
         return ResponseEntity.ok(result);
     }

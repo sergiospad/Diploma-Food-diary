@@ -13,4 +13,6 @@ public interface CustomDiaryRecordRepository {
     DiaryRecord getDiaryRecordByRecordDate(LocalDate recordDate, Long userID);
 
     AutocalcAndIDProjection getIDAndAutocalc(LocalDate recordDate, Long userID);
+
+    Boolean diaryRecordExists(LocalDate recordDate, Long userID);
 }

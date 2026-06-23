@@ -9,6 +9,7 @@ import com.querydsl.jpa.impl.JPAQuery;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.search.mapper.orm.Search;
+import org.hibernate.search.util.common.SearchException;
 import org.jspecify.annotations.NonNull;
 import org.kane.database.entity.Recipe;
 import org.kane.domain.DTO.entityDTO.recipe.RecipePreShowProjection;
@@ -30,6 +31,7 @@ import static org.kane.database.entity.QUser.user;
 @RequiredArgsConstructor
 public class CustomRecipeRepositoryImpl implements CustomRecipeRepository {
     private final EntityManager em;
+    private volatile boolean recipeReindexAttempted;
 
     @Override
     public Page<RecipePreviewDTO> findAllPreviewDTOOrderedByNew(BooleanBuilder predicate, Pageable pageable) {
@@ -74,24 +76,53 @@ public class CustomRecipeRepositoryImpl implements CustomRecipeRepository {
 
     @Override
     public List<RecipeSummarySearchDTO> findSummaryDTOByItem(String searchItem) {
-        return Search.session(em).search(Recipe.class)
-                .where(f->f.match()
-                        .field("summary")
-                        .matching(searchItem)
-                        .fuzzy(2))
-                .fetchHits(5)
-                .stream()
-                .filter(r-> !r.getIsPrivate())
-                .map(recipe -> new RecipeSummarySearchDTO(
-                        recipe.getId(),
-                        recipe.getName(),
-                        recipe.getSummary()))
-                .toList();
+        List<RecipeSummarySearchDTO> searchHits;
+        for (int i = 0; i<3; i++){
+            searchHits = findSummaryWithHibernateSearch(searchItem);
+            if (searchHits.isEmpty())
+                reindexRecipesIfNeeded();
+            else return searchHits;
+        }
+        return new JPAQuery<RecipeSummarySearchDTO>(em)
+                .select(Projections.constructor(RecipeSummarySearchDTO.class,
+                        recipe.id,
+                        recipe.name,
+                        recipe.summary))
+                .from(recipe)
+                .where(
+                        recipe.summary.containsIgnoreCase(searchItem)
+                                .or(recipe.summary.containsIgnoreCase(searchItem))
+                                .and(recipe.isPrivate.isNull().or(recipe.isPrivate.isFalse()))
+                )
+                .limit(5)
+                .fetch();
     }
 
 
     @Override
     public List<RecipeTitleSearchDTO> findTitleDTOByItem(String searchItem) {
+        List<RecipeTitleSearchDTO> searchHits;
+        for (int i = 0; i<3; i++){
+            searchHits = findTitleWithHibernateSearch(searchItem);
+            if (searchHits.isEmpty())
+                reindexRecipesIfNeeded();
+            else return searchHits;
+        }
+        return new JPAQuery<RecipeTitleSearchDTO>(em)
+                .select(Projections.constructor(RecipeTitleSearchDTO.class,
+                        recipe.id,
+                        recipe.name))
+                .from(recipe)
+                .where(
+                        recipe.name.containsIgnoreCase(searchItem)
+                                .or(recipe.name.containsIgnoreCase(searchItem))
+                                .and(recipe.isPrivate.isNull().or(recipe.isPrivate.isFalse()))
+                )
+                .limit(5)
+                .fetch();
+    }
+
+    private List<RecipeTitleSearchDTO> findTitleWithHibernateSearch(String searchItem) {
         return Search.session(em).search(Recipe.class)
                 .where(f->f.match()
                         .field("name")
@@ -99,12 +130,37 @@ public class CustomRecipeRepositoryImpl implements CustomRecipeRepository {
                         .fuzzy(2)
                 ).fetchHits(5)
                 .stream()
-                .filter(r-> !r.getIsPrivate())
-                .map(
-                        rec-> new RecipeTitleSearchDTO(
-                                rec.getId(),
-                                rec.getName()))
+                .filter(r -> !Boolean.TRUE.equals(r.getIsPrivate()))
+                .map(rec -> new RecipeTitleSearchDTO(rec.getId(), rec.getName()))
                 .toList();
+    }
+
+    private List<RecipeSummarySearchDTO> findSummaryWithHibernateSearch(String searchItem) {
+        return Search.session(em).search(Recipe.class)
+                .where(f->f.match()
+                        .field("summary")
+                        .matching(searchItem)
+                        .fuzzy(2))
+                .fetchHits(5)
+                .stream()
+                .filter(r -> !Boolean.TRUE.equals(r.getIsPrivate()))
+                .map(rec -> new RecipeSummarySearchDTO(rec.getId(), rec.getName(), rec.getSummary()))
+                .toList();
+    }
+
+    private synchronized void reindexRecipesIfNeeded() {
+        if (recipeReindexAttempted) {
+            return;
+        }
+        try {
+            Search.session(em).massIndexer(Recipe.class).startAndWait();
+            recipeReindexAttempted = true;
+        } catch (InterruptedException ex) {
+            Thread.currentThread().interrupt();
+            throw new IllegalStateException("Interrupted while rebuilding recipe search index", ex);
+        } catch (SearchException ex) {
+            // Keep fallback path available if index cannot be rebuilt right now.
+        }
     }
 
 
@@ -142,4 +198,5 @@ public class CustomRecipeRepositoryImpl implements CustomRecipeRepository {
                 .where(recipe.id.in(recipesID).and(user.id.eq(userID)))
                 .fetch();
     }
+
 }

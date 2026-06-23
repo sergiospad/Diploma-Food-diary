@@ -13,15 +13,28 @@ import org.kane.database.enum_types.NutritionType;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class NutritionShowProjection {
     private Long ID;
-    private NutritionType type;
     private String name;
     private Calories calories;
     private Protein protein;
     private Fat fat;
     private Carbs carbs;
+    private NutritionType type;
 
+    public NutritionShowProjection(Long ID,
+                                   String name,
+                                   Calories calories,
+                                   Protein protein,
+                                   Fat fat,
+                                   Carbs carbs,
+                                   NutritionalInfo nutritionalInfo) {
+        this.ID = ID;
+        this.name = name;
+        this.calories = calories;
+        this.protein = protein;
+        this.fat = fat;
+        this.carbs = carbs;
+        this.type = NutritionType.valueOf(nutritionalInfo.getDiscriminator());
+    }
 }

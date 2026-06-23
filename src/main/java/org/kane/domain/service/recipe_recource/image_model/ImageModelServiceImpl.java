@@ -52,7 +52,9 @@ public class ImageModelServiceImpl implements ImageModelService {
         var userId = userRepository.getCurrentUserId(principal);
         var imageModel = imageModelRepository.findById(id)
                 .orElseThrow(()-> new ImageNotFoundException(ERROR_MES));
-        delete(imageModel.getUrl().toString());
+        if(!imageModel.getUrl().getFileName().toString().matches(DEFAULT_USER_AVATAR_PATH.getFileName().toString()))
+            delete(imageModel.getUrl().toString());
+
         imageModel.setUrl(saveImage(file, userId, imageModel.getImageType().toString()));
         imageModelRepository.save(imageModel);
     }

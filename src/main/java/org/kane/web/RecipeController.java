@@ -10,7 +10,6 @@ import org.kane.domain.DTO.response.MessageResponse;
 import org.kane.domain.service.recipe.RecipeService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +34,7 @@ public class RecipeController {
     public ResponseEntity<List<RecipePreviewDTO>> getAllRecipePreviews(
             Principal principal,
             @RequestBody RecipePreviewRequest recipePreviewRequest,
-            @PageableDefault(size = 12) Pageable pageable) {
+            @PageableDefault(size = 9) Pageable pageable) {
         return ResponseEntity.ok(recipeService.findPreviews(principal, recipePreviewRequest, pageable));
     }
 
@@ -50,7 +49,7 @@ public class RecipeController {
     }
 
     /**
-     * GET /api/recipe/search/title?searchItem=it
+     * GET /api/recipe/search/title?titleSearch=it
      */
     @GetMapping("/search/title")
     @PreAuthorize("permitAll()")
@@ -87,10 +86,7 @@ public class RecipeController {
         return ResponseEntity.ok(recipeService.getAuthorOfRecipe(recipeID));
     }
 
-    /**
-     * POST /api/recipe/favourites — тело JSON (список id рецептов).
-     * GET с {@link RequestBody} не используем: у многих клиентов тело GET отбрасывается, preflight/CORS и кэши иначе ведут себя.
-     */
+
     @PostMapping(value = "/favourites")
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ResponseEntity<FavouriteRecipeDTO> getFavourites(

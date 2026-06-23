@@ -49,4 +49,11 @@ public class MealItemShowDTO extends NutritionalInfoDTO {
             this.nutritionType = NutritionType.valueOf(discriminator);
         }
     }
+
+    public void multiply(Double coefficient){
+       getCalories().multiply(coefficient);
+       getProteins().multiply(coefficient);
+       getFat().multiply(coefficient);
+       getCarbs().multiply(coefficient);
+    }
 }

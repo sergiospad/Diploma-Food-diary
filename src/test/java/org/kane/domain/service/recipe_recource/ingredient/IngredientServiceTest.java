@@ -86,28 +86,28 @@ class IngredientServiceTest extends IntegrationTestServiceBase {
         var ingrEdit = IngredientEditDTO.builder()
                 .id(1L)
                 .measureUnitID(2L)
-                .amount(400.0)
+                .amount(2.0)
                 .build();
         var ingr = ingredientService.updateIngredient(ingrEdit);
         assertThat(ingr).isNotNull();
         assertThat(ingr.getId()).isEqualTo(ingrEdit.getId());
         assertThat(ingr.getProduct().getId()).isEqualTo(1L);
         assertThat(ingr.getSpecMeasureUnit().getId()).as("Measure Unit").isEqualTo(ingrEdit.getMeasureUnitID());
-        assertThat(ingr.getWeight().getValue()).isEqualTo(2.0);
+        assertThat(ingr.getWeight().getValue()).isEqualTo(400.0);
     }
     @Test
     void updateIngredien4() {
         var ingrEdit = IngredientEditDTO.builder()
                 .id(1L)
                 .measureUnitID(2L)
-                .amount(400.0)
+                .amount(2.0)
                 .build();
         var ingr = ingredientService.updateIngredient(ingrEdit);
         assertThat(ingr).isNotNull();
         assertThat(ingr.getId()).isEqualTo(1L);
         assertThat(ingr.getProduct().getId()).isEqualTo(1L);
         assertThat(ingr.getSpecMeasureUnit().getId()).isEqualTo(2L);
-        assertThat(ingr.getWeight().getValue()).isEqualTo(2.0);
+        assertThat(ingr.getWeight().getValue()).isEqualTo(400.0);
     }
 
 
@@ -130,7 +130,7 @@ class IngredientServiceTest extends IntegrationTestServiceBase {
         assertThat(list.stream().map(IngredientShowDTO::getId).toList()).hasSize(3).containsAll(List.of(1L, 2L, 3L));
         assertThat(list.stream().map(IngredientShowDTO::getProductName).toList())
                 .containsExactly("Куриная грудка", "Рис белый","Овсяная каша");
-        assertThat(list.stream().map(IngredientShowDTO::getAmount).toList()).containsExactly(200.0, 10000.0, 10000.0);
+        assertThat(list.stream().map(IngredientShowDTO::getAmount).toList()).containsExactly(200.0, 1.0, 1.0);
         assertThat(list.get(0).getUnits()).hasSize(2);
         assertThat(list.get(1).getUnits()).hasSize(2);
 
@@ -145,6 +145,6 @@ class IngredientServiceTest extends IntegrationTestServiceBase {
         var ing =  ingredientService.toggleMeasureUnit(ch);
         assertThat(ing).isNotNull();
         assertThat(ing.getId()).isEqualTo(1L);
-        assertThat(ing.getAmount()).isEqualTo(40000.0);
+        assertThat(ing.getAmount()).isEqualTo(1.0);
     }
 }

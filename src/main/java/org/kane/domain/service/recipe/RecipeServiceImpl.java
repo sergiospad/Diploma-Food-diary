@@ -16,6 +16,7 @@ import org.kane.domain.DTO.entityDTO.recipe_recource.FavouriteRecipeDTO;
 import org.kane.domain.DTO.request.EnergyValueRequest;
 import org.kane.domain.DTO.request.FavouritesRequest;
 import org.kane.domain.DTO.request.RecipePreviewRequest;
+import org.kane.domain.mappers.EnergyValueMapper;
 import org.kane.domain.mappers.recipe.CreateRecipeMapper;
 import org.kane.domain.mappers.recipe.PreShowToShowMapper;
 import org.kane.domain.mappers.recipe.RecipeEditMapper;
@@ -54,6 +55,7 @@ public class RecipeServiceImpl implements RecipeService {
     private final PreShowToShowMapper preShowToShowMapper;
     private final EnergyValueService energyValueService;
     private final UserService userService;
+    private final EnergyValueMapper energyValueMapper;
 
     @Override
     public List<RecipePreviewDTO> findPreviews(Principal principal, RecipePreviewRequest request, Pageable pageable) {
@@ -113,6 +115,12 @@ public class RecipeServiceImpl implements RecipeService {
                 .map(s-> cookingStageService.createCookingStage(s, finalRecipe))
                 .toList();
         Long illustrationId = recipeCreateDTO.getIllustrationID();
+        var req = EnergyValueRequest.builder()
+                .recipeID(recipe.getId())
+                .caloricityType(CaloricityType.PER_HUNDRED)
+                .build();
+        var energy = energyValueService.calculateEnergyValue(req);
+        recipe = energyValueMapper.copyMap(energy, recipe);
         recipe.setIllustration(imageModelRepository.findById(illustrationId)
                 .orElseThrow(()-> new ImageNotFoundException("Illustration not found with id " + illustrationId)));
 

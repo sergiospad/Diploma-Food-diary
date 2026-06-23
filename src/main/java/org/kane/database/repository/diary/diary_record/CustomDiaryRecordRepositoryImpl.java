@@ -1,24 +1,15 @@
 package org.kane.database.repository.diary.diary_record;
 
-import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.kane.database.entity.diary.DiaryRecord;
 import org.kane.domain.DTO.entityDTO.diary.daily_record.AutocalcAndIDProjection;
-import org.kane.domain.DTO.entityDTO.diary.meal.MealProjection;
-import org.kane.domain.DTO.entityDTO.diary.meal_item.MealItemShowDTO;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 
 import static org.kane.database.entity.diary.QDiaryRecord.diaryRecord;
-import static org.kane.database.entity.diary.QMeal.meal;
-import static org.kane.database.entity.diary.QMealItem.mealItem;
 
 @Repository
 @RequiredArgsConstructor
@@ -45,5 +36,14 @@ public class CustomDiaryRecordRepositoryImpl implements CustomDiaryRecordReposit
                 .where(diaryRecord.recordDate.eq(recordDate)
                         .and(diaryRecord.user.id.eq(userID)))
                 .fetchOne();
+    }
+
+    @Override
+    public Boolean diaryRecordExists(LocalDate recordDate, Long userID){
+        return queryFactory.select(diaryRecord)
+                .from(diaryRecord)
+                .where(diaryRecord.recordDate.eq(recordDate)
+                        .and(diaryRecord.user.id.eq(userID)))
+                .fetchOne()!=null;
     }
 }

@@ -68,7 +68,7 @@ class RecipeServiceTest extends IntegrationTestServiceBase {
                 .build();
         var icdto = IngredientCreateDTO.builder()
                 .productID(8L)
-                .amount(200.0)
+                .amount(1.0)
                 .measureUnitID(1L)
                 .build();
         var stage = CookingStageCreateDTO.builder()
@@ -105,7 +105,7 @@ class RecipeServiceTest extends IntegrationTestServiceBase {
         var editedIngredients = IngredientEditDTO.builder()
                 .id(1L)
                 .productID(10L)
-                .amount(200.0)
+                .amount(1.0)
                 .measureUnitID(5L)
                 .build();
         recipeEditDTO.setEditedIngredients(List.of(editedIngredients));
@@ -118,7 +118,7 @@ class RecipeServiceTest extends IntegrationTestServiceBase {
         assertThat(editedRecipe.getTags().stream().map(TagDTO::getId).toList()).containsExactlyInAnyOrder(3L, 4L, 5L);
         var ingredient = editedRecipe.getIngredients().stream().filter(i -> Objects.equals(i.getId(), editedIngredients.getId())).findFirst().orElseThrow();
         assertThat(ingredient.getId()).isEqualTo(editedIngredients.getId());
-        assertThat(ingredient.getAmount()).isEqualTo(200.0);
+        assertThat(ingredient.getAmount()).isEqualTo(1.0);
         assertThat(ingredient.getUnits().getFirst().getId()).isEqualTo(5L);
         var stage = editedRecipe.getCookingStages().stream().filter(i -> Objects.equals(i.getId(), editedStage.getId())).findFirst().orElseThrow();
         assertThat(stage.getId()).isEqualTo(editedStage.getId());

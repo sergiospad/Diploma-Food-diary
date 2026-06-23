@@ -51,10 +51,10 @@ public class DiaryRecordServiceImpl implements DiaryRecordService {
     @Override
     public DiaryRecordShowDTO showDiaryRecord(Principal principal, DiaryRecordRequest diaryRecordRequest){
         var userID = userRepository.getCurrentUserId(principal);
-        var map = mealRepository.getShowDTOMap(diaryRecordRequest.getRecordDate(), userID);
-        if (map.isEmpty())
-            createDiaryRecord(principal, diaryRecordRequest);
 
+        if (Boolean.FALSE.equals(diaryRecordRepository.diaryRecordExists(diaryRecordRequest.getRecordDate(), userID)))
+            createDiaryRecord(principal, diaryRecordRequest);
+        var map = mealRepository.getShowDTOMap(diaryRecordRequest.getRecordDate(), userID);
         List<MealShowDTO> meals = new ArrayList<>();
         for(Map.Entry<MealProjection, List<MealItemShowDTO>> mapEntry : map.entrySet())
             meals.add(mealService.getMealShowDTO(mapEntry));

@@ -34,9 +34,4 @@ public class Ingredient {
     @JoinColumn(name = "recipe_id")
     private Recipe recipe;
 
-
-    public void addRecipe(Recipe recipe) {
-        this.recipe = recipe;
-        this.recipe.getIngredients().add(this);
-    }
 }

@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
-import org.kane.database.entity.physical_quantity.nutrients.Calories;
 
 @Data
 @AllArgsConstructor
@@ -13,13 +11,9 @@ public class ProductWeight {
 
     private Double value;
 
-    public static ProductWeight calculateWeight(Double amount, Double coefficient){
-        return new ProductWeight(amount/coefficient);
-    }
-
     @JsonCreator
-    public static Calories fromValue(Double value) {
-        return new Calories(value);
+    public static ProductWeight fromValue(Double value) {
+        return new ProductWeight(value);
     }
 
     @JsonValue

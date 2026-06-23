@@ -33,7 +33,7 @@ public class IngredientServiceImpl implements IngredientService{
         var product = productRepository.findById(ingredientCreateDTO.getProductID())
                 .orElseThrow(()-> new NoSuchProductException("product not found"));
         var coeff = coefficientRepository.getCoefficientByProductID(ingredientCreateDTO.getProductID(), ingredientCreateDTO.getMeasureUnitID());
-        ProductWeight pw = new ProductWeight(ingredientCreateDTO.getAmount()).divide(coeff);
+        ProductWeight pw = new ProductWeight(ingredientCreateDTO.getAmount()).multiply(coeff);
         MeasureUnit mu = measureUnitRepository.findById(ingredientCreateDTO.getMeasureUnitID())
                 .orElseThrow(()->new MeasureUnitNotFound("measure unit not found"));
         return ingredientRepository.save(Ingredient.builder()
@@ -67,7 +67,7 @@ public class IngredientServiceImpl implements IngredientService{
 
     private ProductWeight recalculateWeight(Ingredient ingredient, Double amount) {
         var coeff = coefficientRepository.getCoefficientByProductID(ingredient.getProduct().getId(),ingredient.getSpecMeasureUnit().getId());
-        return ProductWeight.calculateWeight(amount, coeff);
+        return new ProductWeight(amount).multiply(coeff);
     }
 
 
@@ -87,10 +87,16 @@ public class IngredientServiceImpl implements IngredientService{
     private IngredientShowDTO preShowToShowMap(IngredientPreShowProjection ingredientPreShowDTO){
         var coeff = coefficientRepository.getCoefficientByProductID(ingredientPreShowDTO.getProductID(), ingredientPreShowDTO.getMeasureUnitID());
         var mes = measureUnitRepository.findAllByIngredientID(ingredientPreShowDTO.getId());
+        var specMes = mes.stream()
+                .filter(m->m.getId().equals(ingredientPreShowDTO.getMeasureUnitID()))
+                .findFirst()
+                .orElseThrow(()-> new MeasureUnitNotFound("measure unit not found"));
+        mes.remove(specMes);
+        mes.addFirst(specMes);
         return IngredientShowDTO.builder()
                 .id(ingredientPreShowDTO.getId())
                 .productName(ingredientPreShowDTO.getProductName())
-                .amount(ingredientPreShowDTO.getAmount().calculateAmount(coeff))
+                .amount(ingredientPreShowDTO.getAmount().divide(coeff).getValue())
                 .units(mes)
                 .build();
     }

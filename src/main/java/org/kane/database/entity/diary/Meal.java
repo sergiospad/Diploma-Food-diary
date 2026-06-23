@@ -45,9 +45,4 @@ public class Meal {
     @JoinColumn(name = "diary_record_id")
     private DiaryRecord dailyRecord;
 
-    public void addDailyRecord(DiaryRecord dailyRecord) {
-        this.dailyRecord = dailyRecord;
-        this.dailyRecord.getMeals().add(this);
-    }
-
 }

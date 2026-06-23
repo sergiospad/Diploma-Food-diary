@@ -4,12 +4,10 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.*;
-import org.kane.database.converter.PathConverter;
 import org.kane.database.entity.recipe_recource.*;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
 
-import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -80,24 +78,5 @@ public class Recipe extends NutritionalInfo {
     @Column
     private Short cookingTime;
 
-    public void addComment(Comment comment) {
-        this.comments.add(comment);
-    }
-
-    public void addTag(Tag tag) {
-        this.tags.add(tag);
-    }
-
-    public void removeTag(Tag tag) {
-        this.tags.remove(tag);
-    }
-
-    public void addCookingStage(CookingStage cookingStage) {
-        this.cookingStages.add(cookingStage);
-    }
-
-    public void addIngredient(Ingredient ingredient) {
-        this.ingredients.add(ingredient);
-    }
 
 }

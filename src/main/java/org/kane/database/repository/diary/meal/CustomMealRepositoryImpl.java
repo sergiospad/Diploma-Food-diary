@@ -69,15 +69,10 @@ public class CustomMealRepositoryImpl implements CustomMealRepository {
                     row.get(mealItem.nutritionalInfo.calories),
                     row.get(mealItem.nutritionalInfo.protein),
                     row.get(mealItem.nutritionalInfo.fat),
-                    row.get(mealItem.nutritionalInfo.carbs));
-            String disc = row.get(mealItem.nutritionalInfo.discriminator);
-            if (disc != null) {
-                mealItemShowDTO.setNutritionType(NutritionType.valueOf(disc));
-            }
-            mealItemShowDTO.getCalories().multiply(coeff);
-            mealItemShowDTO.getProteins().multiply(coeff);
-            mealItemShowDTO.getFat().multiply(coeff);
-            mealItemShowDTO.getCarbs().multiply(coeff);
+                    row.get(mealItem.nutritionalInfo.carbs),
+                    row.get(mealItem.nutritionalInfo.discriminator));
+
+            mealItemShowDTO.multiply(coeff);
             mealMap.computeIfAbsent(mealProjection, k -> new ArrayList<>());
             mealMap.get(mealProjection).add(mealItemShowDTO);
         }
@@ -111,15 +106,9 @@ public class CustomMealRepositoryImpl implements CustomMealRepository {
                     row.get(mealItem.nutritionalInfo.calories),
                     row.get(mealItem.nutritionalInfo.protein),
                     row.get(mealItem.nutritionalInfo.fat),
-                    row.get(mealItem.nutritionalInfo.carbs));
-            String disc = row.get(mealItem.nutritionalInfo.discriminator);
-            if (disc != null) {
-                mealItemShowDTO.setNutritionType(NutritionType.valueOf(disc));
-            }
-            mealItemShowDTO.getCalories().multiply(coeff);
-            mealItemShowDTO.getProteins().multiply(coeff);
-            mealItemShowDTO.getFat().multiply(coeff);
-            mealItemShowDTO.getCarbs().multiply(coeff);
+                    row.get(mealItem.nutritionalInfo.carbs),
+                    row.get(mealItem.nutritionalInfo.discriminator));
+            mealItemShowDTO.multiply(coeff);
             result.add(mealItemShowDTO);
         }
         return result;

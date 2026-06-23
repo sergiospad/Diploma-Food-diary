@@ -6,7 +6,10 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.search.mapper.orm.Search;
+import org.hibernate.search.util.common.SearchException;
 import org.kane.database.entity.Product;
+import org.kane.database.entity.Recipe;
+import org.kane.domain.DTO.entityDTO.recipe.RecipeTitleSearchDTO;
 import org.kane.domain.DTO.entityDTO.recipe_recource.MeasureUnitDTO;
 import org.kane.domain.DTO.entityDTO.nutritional_info.NutritionShowProjection;
 import org.kane.domain.DTO.entityDTO.product.ProductSearchDTO;
@@ -25,9 +28,43 @@ import static org.kane.database.entity.recipe_recource.QMeasureUnit.measureUnit;
 public class CustomProductRepositoryImpl implements CustomProductRepository {
     private final EntityManager em;
     private final JPAQueryFactory queryFactory;
+    private volatile boolean productReindexAttempted;
+
 
     @Override
     public List<ProductSearchDTO> findSearchDTO(String searchItem) {
+        List<ProductSearchDTO> searchHits;
+        for (int i = 0; i<3; i++){
+            searchHits = findProductWithHibernateSearch(searchItem);
+            if (searchHits.isEmpty())
+                reindexRecipesIfNeeded();
+            else return searchHits;
+        }
+        return new JPAQuery<ProductSearchDTO>(em)
+                .select(Projections.constructor(ProductSearchDTO.class,
+                        product.id,
+                        product.name
+                        )).from(product)
+                .where(product.name.eq(searchItem))
+                .fetch();
+    }
+
+    private synchronized void reindexRecipesIfNeeded() {
+        if (productReindexAttempted) {
+            return;
+        }
+        try {
+            Search.session(em).massIndexer(Product.class).startAndWait();
+            productReindexAttempted = true;
+        } catch (InterruptedException ex) {
+            Thread.currentThread().interrupt();
+            throw new IllegalStateException("Interrupted while rebuilding recipe search index", ex);
+        } catch (SearchException ex) {
+            // Keep fallback path available if index cannot be rebuilt right now.
+        }
+    }
+
+    private List<ProductSearchDTO> findProductWithHibernateSearch(String searchItem) {
         return Search.session(em).search(Product.class)
                 .where(f->f.match()
                         .field("name")

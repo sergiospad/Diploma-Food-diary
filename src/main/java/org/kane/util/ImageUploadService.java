@@ -25,7 +25,7 @@ public class ImageUploadService {
         }
     }
 
-    private static final String DEFAULT_USER_AVATAR_FILE = "307ce493-b254-4b2d-8ba4-d12c080d6651.png";
+    private static final String DEFAULT_USER_AVATAR_FILE = "blue-circle-with-white-user_78370-4707.jpg";
 
     public static final Path DEFAULT_USER_AVATAR_PATH = BUCKET
             .resolve(ImagePrefix.USER.toString())
@@ -34,7 +34,7 @@ public class ImageUploadService {
 
     @SneakyThrows
     public static Optional<byte[]> get(Path imagePath){
-//        Path fullPath = BUCKET.resolve(imagePath.toString());
+
         return Files.exists(imagePath)?
                 Optional.of(Files.readAllBytes(imagePath))
                 :Optional.empty();
@@ -47,7 +47,6 @@ public class ImageUploadService {
     @SneakyThrows
     public static void delete(String imagePath) {
         Path path = Path.of(imagePath).normalize();
-        // saveImage() сохраняет в БД путь уже с корнем "images/..."; повторно BUCKET.resolve даёт images/images/...
         Path target = path.startsWith(BUCKET) ? path : BUCKET.resolve(path);
         Files.delete(target);
     }

@@ -69,7 +69,6 @@ class ImageModelServiceTest extends IntegrationTestServiceBase {
         Path onDisk = Path.of("images", "integration", "901.bin");
         Files.createDirectories(onDisk.getParent());
         Files.write(onDisk, new byte[]{11, 22, 33});
-
         byte[] bytes = imageModelService.getImage(901L);
 
         assertThat(bytes).containsExactly(11, 22, 33);
