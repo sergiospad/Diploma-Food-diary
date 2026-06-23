@@ -1,0 +1,55 @@
+HELP.md
+.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+### VS Code ###
+.vscode/
+/images/
+/Recipe/_5c.cfe
+/Recipe/_5c.cfs
+/Recipe/_5c.si
+/Recipe/_5d.cfe
+/Recipe/_5d.cfs
+/Recipe/_5d.si
+/Recipe/_5e.cfe
+/Recipe/_5e.cfs
+/Recipe/_5e.si
+/Recipe/_5f.cfe
+/Recipe/_5f.cfs
+/Recipe/_5f.si
+/src/test/resources/sql/recipe/cleanup-repository-test.sql
+/Product/segments_2p
+/Recipe/segments_42
+/Product/write.lock
+/Recipe/write.lock

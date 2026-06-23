@@ -1,0 +1,202 @@
+package org.kane.domain.service.recipe;
+
+import com.querydsl.core.BooleanBuilder;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.kane.database.entity.Recipe;
+import org.kane.database.entity.recipe_recource.Tag;
+import org.kane.database.enum_types.CaloricityType;
+import org.kane.database.enum_types.SortTypeRecipe;
+import org.kane.database.repository.recipe_recource.image_model.ImageModelRepository;
+import org.kane.database.repository.recipe.RecipeRepository;
+import org.kane.database.repository.recipe_recource.tag.TagRepository;
+import org.kane.database.repository.user.UserRepository;
+import org.kane.domain.DTO.entityDTO.recipe.*;
+import org.kane.domain.DTO.entityDTO.recipe_recource.FavouriteRecipeDTO;
+import org.kane.domain.DTO.request.EnergyValueRequest;
+import org.kane.domain.DTO.request.FavouritesRequest;
+import org.kane.domain.DTO.request.RecipePreviewRequest;
+import org.kane.domain.mappers.EnergyValueMapper;
+import org.kane.domain.mappers.recipe.CreateRecipeMapper;
+import org.kane.domain.mappers.recipe.PreShowToShowMapper;
+import org.kane.domain.mappers.recipe.RecipeEditMapper;
+import org.kane.domain.service.recipe_recource.cooking_stage.CookingStageService;
+import org.kane.domain.service.energy_value.EnergyValueService;
+import org.kane.domain.service.recipe_recource.ingredient.IngredientService;
+import org.kane.domain.service.user.UserService;
+import org.kane.exceptions.not_found.ImageNotFoundException;
+import org.kane.exceptions.not_found.RecipeNotFoundException;
+import org.kane.exceptions.not_found.TagNotFoundException;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.security.Principal;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static org.kane.database.entity.QRecipe.recipe;
+
+@Slf4j
+@Service
+@RequiredArgsConstructor
+@Transactional(readOnly = true)
+public class RecipeServiceImpl implements RecipeService {
+    private final RecipeRepository recipeRepository;
+    private final UserRepository userRepository;
+    private final CreateRecipeMapper createRecipeMapper;
+    private final TagRepository tagRepository;
+    private final ImageModelRepository imageModelRepository;
+    private final IngredientService ingredientService;
+    private final CookingStageService cookingStageService;
+    private final RecipeEditMapper recipeEditMapper;
+    private final PreShowToShowMapper preShowToShowMapper;
+    private final EnergyValueService energyValueService;
+    private final UserService userService;
+    private final EnergyValueMapper energyValueMapper;
+
+    @Override
+    public List<RecipePreviewDTO> findPreviews(Principal principal, RecipePreviewRequest request, Pageable pageable) {
+        BooleanBuilder predicate = new BooleanBuilder();
+        predicate.and(recipe.isPrivate).not();
+        if(request.getTags() != null && request.getTags().length > 0 )
+            predicate.and(recipe.tags.any().id.in(request.getTags()));
+        if(request.getAuthorName() != null)
+            predicate.and(recipe.author.username.eq(request.getAuthorName()));
+        if(request.getIsFavoriteOnly()!=null && request.getIsFavoriteOnly()){
+            var user = userRepository.getCurrentUser(principal);
+            predicate.and(recipe.in(user.getFavouriteRecipes()));
+        }
+        if (request.getSortType() == SortTypeRecipe.OLDER) {
+            return recipeRepository.findAllPreviewDTOOrderedByOlder(predicate, pageable).getContent();
+        }
+        if (request.getSortType() == SortTypeRecipe.POPULAR) {
+            return recipeRepository.findAllPreviewDTOOrderedByPopular(predicate, pageable).getContent();
+        }
+        return recipeRepository.findAllPreviewDTOOrderedByNew(predicate, pageable).getContent();
+    }
+
+    @Override
+    public List<RecipeSummarySearchDTO> searchBySummary(String searchItem) {
+        return recipeRepository.findSummaryDTOByItem(searchItem);
+    }
+
+    @Override
+    public FavouriteRecipeDTO getFavourites(Principal principal, FavouritesRequest request){
+        var userID = userRepository.getCurrentUserId(principal);
+        var list = recipeRepository.checkForFavourites(userID, request.getFavourite());
+        return FavouriteRecipeDTO.builder().recipes(list).build();
+    }
+
+    @Override
+    public List<RecipeTitleSearchDTO> searchByTitle(String searchItem) {
+        return recipeRepository.findTitleDTOByItem(searchItem);
+    }
+
+    @Override
+    @Transactional
+    public RecipeShowDTO createRecipe(Principal principal, RecipeCreateDTO recipeCreateDTO) {
+        var user = userRepository.getCurrentUser(principal);
+        Recipe recipe = createRecipeMapper.map(recipeCreateDTO);
+        var tags = recipeCreateDTO.getTags().stream()
+                .map(tag->  tagRepository.findById(tag)
+                        .orElseThrow(()-> new TagNotFoundException("Tag not found with id " + tag)))
+                .toList();
+        recipe.setAuthor(user);
+        recipe.setTags(tags);
+        recipe = recipeRepository.save(recipe);
+        Recipe finalRecipe = recipe;
+        var ingredients = recipeCreateDTO.getIngredients().stream()
+                .map(i-> ingredientService.createIngredient(i, finalRecipe))
+                .toList();
+        var stages = recipeCreateDTO.getStages().stream()
+                .map(s-> cookingStageService.createCookingStage(s, finalRecipe))
+                .toList();
+        Long illustrationId = recipeCreateDTO.getIllustrationID();
+        var req = EnergyValueRequest.builder()
+                .recipeID(recipe.getId())
+                .caloricityType(CaloricityType.PER_HUNDRED)
+                .build();
+        var energy = energyValueService.calculateEnergyValue(req);
+        recipe = energyValueMapper.copyMap(energy, recipe);
+        recipe.setIllustration(imageModelRepository.findById(illustrationId)
+                .orElseThrow(()-> new ImageNotFoundException("Illustration not found with id " + illustrationId)));
+
+        recipe.setIngredients(ingredients);
+        recipe.setCookingStages(stages);
+
+        return fromPreShowToShow(recipeRepository.getRecipePreShowProjByID(recipe.getId()));
+    }
+
+    @Override
+    @Transactional
+    public RecipeShowDTO updateRecipe(RecipeEditDTO recipeEditDTO) {
+        var recipe = recipeRepository.findById(recipeEditDTO.getId())
+                .map(r-> recipeEditMapper.copyMap(recipeEditDTO, r))
+                .orElseThrow(()->new RecipeNotFoundException("recipe not found"));
+
+        var currentTagIds = recipe.getTags().stream().map(Tag::getId).toList();
+        Set<Long> removeTagIds = Stream.ofNullable(recipeEditDTO.getRemoveTags())
+                .flatMap(List::stream)
+                .collect(Collectors.toSet());
+        Stream<Long> addTagStream = Stream.ofNullable(recipeEditDTO.getAddTags()).flatMap(List::stream);
+
+        var tags = Stream.concat(currentTagIds.stream(), addTagStream)
+                .distinct()
+                .filter(t -> !removeTagIds.contains(t))
+                .toList();
+
+        recipe.setTags(tagRepository.findAllTagsByListId(tags));
+        recipe = recipeRepository.save(recipe);
+        Stream.ofNullable(recipeEditDTO.getEditedIngredients())
+                .flatMap(List::stream)
+                .forEach(ingredientService::updateIngredient);
+        Stream.ofNullable(recipeEditDTO.getEditedStages())
+                .flatMap(List::stream)
+                .forEach(cookingStageService::editCookingStage);
+
+
+        return fromPreShowToShow(recipeRepository.getRecipePreShowProjByID(recipe.getId()));
+    }
+
+    private RecipeShowDTO fromPreShowToShow(RecipePreShowProjection projection){
+        var energyRequest = new EnergyValueRequest(projection.getId(), CaloricityType.PER_HUNDRED);
+        var recipe = preShowToShowMapper.map(projection);
+        recipe.setTags(tagRepository.findAllTagsOfRecipe(projection.getId()));
+        recipe.setIngredients(ingredientService.getShowIngredients(projection.getId()));
+        recipe.setEnergy(energyValueService.calculateEnergyValue(energyRequest));
+        recipe.setCookingStages(cookingStageService.getAllShowDTOByRecipeID(projection.getId()));
+        return recipe;
+    }
+
+    @Override
+    public RecipeShowDTO showRecipe(Long recipeID){
+        return fromPreShowToShow(recipeRepository.getRecipePreShowProjByID(recipeID));
+    }
+
+    @Override
+    public Long getAuthorOfRecipe(Long recipeID){
+        return recipeRepository.getAuthorIDByRecipeID(recipeID);
+    }
+
+    @Transactional
+    @Override
+    public void toggleFavourite(Principal principal, Long recipeID){
+        var user = userRepository.getCurrentUser(principal);
+        var recipes = user.getFavouriteRecipes();
+        var recipe = recipeRepository.findById(recipeID)
+                .orElseThrow(()-> new RecipeNotFoundException("recipe not found with id " + recipeID));
+        boolean match =recipes.stream()
+                .anyMatch(rec -> rec.getId().equals(recipeID));
+        if(match) recipes.remove(recipe);
+        else recipes.add(recipe);
+        user.setFavouriteRecipes(recipes);
+        userRepository.save(user);
+    }
+
+
+
+
+}

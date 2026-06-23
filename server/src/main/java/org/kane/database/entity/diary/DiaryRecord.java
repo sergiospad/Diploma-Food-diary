@@ -1,0 +1,47 @@
+package org.kane.database.entity.diary;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.persistence.*;
+import lombok.*;
+import org.kane.database.entity.User;
+
+import java.time.LocalDate;
+import java.util.List;
+
+@Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Table(name = "daily_diary_record")
+@ToString(of={"id", "recordDate", "autoCalculation"})
+public class DiaryRecord {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "UTC")
+    @Column(updatable = false)
+    private LocalDate recordDate;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="user_id")
+    private User user;
+
+    @Column(name= "auto_calculation")
+    private Boolean autoCalculation;
+
+    @OneToMany(
+            cascade = CascadeType.REFRESH,
+            fetch = FetchType.LAZY,
+            mappedBy = "dailyRecord"
+    )
+    private List<Meal> meals;
+
+    @OneToMany(
+            cascade = CascadeType.REFRESH,
+            fetch = FetchType.LAZY,
+            mappedBy = "diaryRecord"
+    )
+    List<SportsActivity> activities;
+}

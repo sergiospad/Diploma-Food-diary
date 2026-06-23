@@ -1,0 +1,8 @@
+package org.kane.database.repository.recipe_recource.tag;
+
+import org.kane.database.entity.recipe_recource.Tag;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface TagRepository extends JpaRepository<Tag, Long>, CustomTagRepository {
+
+}

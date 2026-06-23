@@ -1,0 +1,59 @@
+package org.kane.domain.service.recipe_recource.comment;
+
+import lombok.RequiredArgsConstructor;
+import org.kane.database.entity.recipe_recource.Comment;
+import org.kane.database.entity.recipe_recource.ImageModel;
+import org.kane.database.repository.recipe_recource.comment.CommentRepository;
+import org.kane.database.repository.recipe_recource.image_model.ImageModelRepository;
+import org.kane.database.repository.recipe.RecipeRepository;
+import org.kane.database.repository.user.UserRepository;
+import org.kane.domain.DTO.entityDTO.recipe_recource.comment.CommentCreateDTO;
+import org.kane.domain.DTO.entityDTO.recipe_recource.comment.CommentShowDTO;
+import org.kane.domain.mappers.coefficient.CommentMapperShow;
+import org.kane.exceptions.not_found.RecipeNotFoundException;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.security.Principal;
+import java.util.List;
+import java.util.Optional;
+
+@Service
+@RequiredArgsConstructor
+public class CommentServiceImpl implements CommentService {
+
+    private final CommentRepository commentRepository;
+    private final UserRepository userRepository;
+    private final RecipeRepository recipeRepository;
+    private final ImageModelRepository imageModelRepository;
+    private final CommentMapperShow commentMapperShow;
+
+    @Transactional
+    @Override
+    public CommentShowDTO createComment(Principal principal, CommentCreateDTO commentCreateDTO){
+        var user = userRepository.getCurrentUser(principal);
+        var recipe = recipeRepository.findById(commentCreateDTO.getRecipeID())
+                .orElseThrow(() -> new RecipeNotFoundException("Recipe not found"));
+        ImageModel image = Optional.ofNullable(commentCreateDTO.getImageID())
+                .flatMap(imageModelRepository::findById)
+                .orElse(null);
+        var comment = Comment.builder()
+                .image(image)
+                .message(commentCreateDTO.getMessage())
+                .commentator(user)
+                .recipe(recipe)
+                .build();
+        comment =  commentRepository.save(comment);
+        return commentMapperShow.map(comment);
+    }
+
+    @Override
+    public void deleteComment(Principal principal, Long id){
+        commentRepository.deleteById(id);
+    }
+
+    @Override
+    public List<CommentShowDTO> getByRecipeID(Long recipeID){
+        return commentRepository.getAllShowDTOFromRecipeID(recipeID);
+    }
+}
